@@ -1,6 +1,19 @@
-import 'package:flutter/painting.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class BrandColors {
+  static final ThemeData theme = ThemeData(
+    appBarTheme: const AppBarTheme(
+      backgroundColor: Light,
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarBrightness: Brightness.light,
+      ),
+      foregroundColor: Dark,
+      iconTheme: IconThemeData(color: Dark),
+      toolbarTextStyle: TextStyle(color: Dark),
+    ),
+  );
+
   static const Map<int, Color> PrimarySwatch = {
     50: Color.fromRGBO(250, 90, 0, 0.1),
     100: Color.fromRGBO(250, 90, 0, 0.2),

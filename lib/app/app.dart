@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import '../config/app_config.dart';
 import '../app/routes.dart';
 
+import 'theme.dart';
+
 class App extends StatelessWidget {
   static Routes routes = Routes();
   final GlobalKey<NavigatorState> navigatorKey;
@@ -20,7 +22,7 @@ class App extends StatelessWidget {
       navigatorKey: navigatorKey,
       onGenerateRoute: routes.onGenerateRoute,
       initialRoute: routes.defaultModule?.routeName,
-      theme: ThemeData(fontFamily: 'FiraSans'),
+      theme: BrandColors.theme,
     );
   }
 

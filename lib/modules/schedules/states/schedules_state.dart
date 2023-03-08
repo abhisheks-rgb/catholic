@@ -1,4 +1,6 @@
 import 'package:butter/butter.dart';
+import 'package:flutter/services.dart';
+import 'dart:convert';
 
 import '../models/schedules_model.dart';
 
@@ -19,11 +21,16 @@ class SchedulesState extends BasePageState<SchedulesModel> {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is SchedulesState && runtimeType == other.runtimeType;
+        other is SchedulesState &&
+            runtimeType == other.runtimeType &&
+            model == other.model;
   }
 
   @override
-  int get hashCode => this.hashCode;
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        model,
+      ]);
 
   @override
   SchedulesState fromStore() => SchedulesState.build(
@@ -33,5 +40,20 @@ class SchedulesState extends BasePageState<SchedulesModel> {
                 ),
           ), (m) {
         // Load all your model's handlers here
+        m.loadData = () async {
+          dispatchModel<SchedulesModel>(SchedulesModel(), (m) {
+            m.loading = true;
+          });
+          await Future.delayed(const Duration(seconds: 3), () async {
+            final String response =
+                await rootBundle.loadString('assets/data/parish.json');
+            final data = await json.decode(response);
+
+            dispatchModel<SchedulesModel>(SchedulesModel(), (m) {
+              m.items = data['parishes'];
+              m.loading = false;
+            });
+          });
+        };
       });
 }

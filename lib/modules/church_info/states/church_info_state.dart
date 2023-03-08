@@ -1,17 +1,17 @@
 import 'package:butter/butter.dart';
 
-import '../models/welcome_model.dart';
+import '../models/church_info_model.dart';
 
-class WelcomeState extends BasePageState<WelcomeModel> {
-  WelcomeState();
+class ChurchInfoState extends BasePageState<ChurchInfoModel> {
+  ChurchInfoState();
 
-  WelcomeModel? model;
+  ChurchInfoModel? model;
 
   // This constructor form is not properly enforced. Which means, if you do not
   // follow this, no errors will be produced in butter. However, this allows you to
   // properly fillup your models with valid function handlers after being read
   // from the store and before it is being fed to the page.
-  WelcomeState.build(this.model, void Function(WelcomeModel m) f)
+  ChurchInfoState.build(this.model, void Function(ChurchInfoModel m) f)
       : super.build(model!, f);
 
   // Make sure to properly define this function. Otherwise, your reducers
@@ -19,7 +19,7 @@ class WelcomeState extends BasePageState<WelcomeModel> {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is WelcomeState && runtimeType == other.runtimeType;
+        other is ChurchInfoState && runtimeType == other.runtimeType;
   }
 
   @override
@@ -27,9 +27,9 @@ class WelcomeState extends BasePageState<WelcomeModel> {
   int get hashCode => hashCode;
 
   @override
-  WelcomeState fromStore() => WelcomeState.build(
-          read<WelcomeModel>(
-            WelcomeModel(
+  ChurchInfoState fromStore() => ChurchInfoState.build(
+          read<ChurchInfoModel>(
+            ChurchInfoModel(
                 // Initialize your models here in case it is not available in the store yet
                 ),
           ), (m) {

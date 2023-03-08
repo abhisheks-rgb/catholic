@@ -46,14 +46,13 @@ class WelcomePage extends BaseStatelessPageView {
       body: SafeArea(
         child: Container(
             decoration: const BoxDecoration(
-              // color: Color(0x00fffcf5),
               color: Color.fromRGBO(255, 252, 245, 1),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: 280,
+                  height: 275,
                   decoration: const BoxDecoration(
                     color: Color(0xffffffff),
                     boxShadow: [
@@ -71,7 +70,7 @@ class WelcomePage extends BaseStatelessPageView {
                         top: 0,
                         child: Align(
                           child: SizedBox(
-                            height: 280,
+                            height: 275,
                             child: Image.asset(
                               assetPath('welcome_bg.png'),
                               fit: BoxFit.cover,
@@ -85,7 +84,7 @@ class WelcomePage extends BaseStatelessPageView {
                         child: Align(
                           child: SizedBox(
                             width: 391,
-                            height: 280,
+                            height: 275,
                             child: Container(
                               decoration: const BoxDecoration(
                                 gradient: LinearGradient(
@@ -108,7 +107,7 @@ class WelcomePage extends BaseStatelessPageView {
                         child: Align(
                           child: SizedBox(
                             width: 391,
-                            height: 280,
+                            height: 275,
                             child: Container(
                               decoration: const BoxDecoration(
                                 gradient: LinearGradient(
@@ -126,14 +125,14 @@ class WelcomePage extends BaseStatelessPageView {
                         ),
                       ),
                       Positioned(
-                        right: 79,
-                        top: 59,
+                        right: 71,
+                        top: 16,
                         child: SizedBox(
                           width: 32,
                           height: 32,
                           child: Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(10),
                               color: Colors.white,
                             ),
                             child: Image.asset(
@@ -146,35 +145,19 @@ class WelcomePage extends BaseStatelessPageView {
                       ),
                       Positioned(
                         right: 27,
-                        top: 59,
+                        top: 16,
                         child: SizedBox(
                           width: 32,
                           height: 32,
                           child: Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(10),
                               color: Colors.white,
                             ),
                             child: Image.asset(
                               assetPath('user_icon.png'),
                               width: 32,
                               height: 32,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        right: 76,
-                        top: 55,
-                        child: Align(
-                          child: SizedBox(
-                            width: 13,
-                            height: 13,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(6.5),
-                                color: const Color(0xfff70916),
-                              ),
                             ),
                           ),
                         ),
@@ -191,7 +174,7 @@ class WelcomePage extends BaseStatelessPageView {
                               'Welcome Oscar, ',
                               style: TextStyle(
                                 fontSize: 28,
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w500,
                                 color: Color(0xff041a51),
                               ),
                             ),
@@ -206,10 +189,10 @@ class WelcomePage extends BaseStatelessPageView {
                             width: 287,
                             height: 48,
                             child: Text(
-                              '"THE STEADFAST LOVE OF THE LORD NEVER CEASES...” - LAM 3: 22',
+                              '“The steadfast love of the LORD never ceases...” - Lam 3: 22',
                               style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
                                 color: Color(0xff041a51),
                               ),
                             ),
@@ -218,15 +201,15 @@ class WelcomePage extends BaseStatelessPageView {
                       ),
                       Positioned(
                         left: 30.2822113037,
-                        top: 54.6252441406,
+                        top: 16,
                         child: Align(
                           child: SizedBox(
                             width: 54,
                             height: 54,
                             child: Image.asset(
                               assetPath('logo.png'),
-                              width: 54,
-                              height: 54,
+                              width: 24,
+                              height: 24,
                             ),
                           ),
                         ),
@@ -234,17 +217,7 @@ class WelcomePage extends BaseStatelessPageView {
                     ],
                   ),
                 ),
-                const SizedBox(height: 24),
-                Container(
-                  margin:
-                      const EdgeInsets.only(left: 24, right: 24, bottom: 18),
-                  child: const Text('Explore',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xff041a51),
-                      )),
-                ),
+                const SizedBox(height: 15),
                 Expanded(
                     child: MasonryGridView.count(
                   itemCount: exploreItems.length,
@@ -259,7 +232,8 @@ class WelcomePage extends BaseStatelessPageView {
                           model?.showPage('/_/${exploreItems[index]['route']}');
                         },
                         child: Container(
-                          padding: const EdgeInsets.all(20),
+                          height: 118,
+                          padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             color: const Color(0xffffffff),
                             borderRadius: BorderRadius.circular(10),
@@ -277,7 +251,7 @@ class WelcomePage extends BaseStatelessPageView {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
                                 width: 40,
                                 height: 40,
                                 child: Image.asset(
@@ -290,7 +264,7 @@ class WelcomePage extends BaseStatelessPageView {
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   fontSize: 14,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w400,
                                   color: Color(0xff041a51),
                                 ),
                               ),
