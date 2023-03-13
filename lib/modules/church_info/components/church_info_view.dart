@@ -1,6 +1,6 @@
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import '../models/church_info_model.dart';
 
@@ -109,11 +109,12 @@ class ChurchInfoView extends BaseStatelessPageView {
                           showAlert(context);
                         },
                         child: Row(
-                          children: [
-                            const Expanded(
+                          children: const [
+                            Expanded(
                               child: Text(
                                 'Church\'s Name',
                                 style: TextStyle(
+                                  color: Color.fromRGBO(4, 26, 82, 1),
                                   fontWeight: FontWeight.w500,
                                   fontSize: 18,
                                 ),
@@ -122,8 +123,10 @@ class ChurchInfoView extends BaseStatelessPageView {
                             SizedBox(
                               width: 20,
                               height: 20,
-                              child: Image.asset(
-                                assetPath('chevron-down-solid.png'),
+                              child: Icon(
+                                Entypo.chevron_down,
+                                color: Color.fromRGBO(4, 26, 82, 1),
+                                size: 20,
                               ),
                             ),
                           ],
@@ -148,29 +151,34 @@ class ChurchInfoView extends BaseStatelessPageView {
                       const SizedBox(height: 16),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: const [
                           SizedBox(
                             width: 20,
                             height: 20,
-                            child: Image.asset(
-                              assetPath('map-pin-solid.png'),
+                            child: Icon(
+                              MaterialCommunityIcons.map_marker,
+                              color: Color.fromRGBO(130, 141, 168, 1),
+                              size: 20,
                             ),
                           ),
-                          const SizedBox(width: 10),
-                          const Expanded(
+                          SizedBox(width: 10),
+                          Expanded(
                             child: Text(
                               '24 Highland Road Singapore 549115',
                               style: TextStyle(
+                                color: Color.fromRGBO(4, 26, 82, 1),
                                 fontSize: 16,
                               ),
                             ),
                           ),
-                          const SizedBox(width: 10),
+                          SizedBox(width: 10),
                           SizedBox(
                             width: 24,
                             height: 24,
-                            child: Image.asset(
-                              assetPath('directions.png'),
+                            child: Icon(
+                              MaterialCommunityIcons.directions,
+                              color: Color.fromRGBO(12, 72, 224, 1),
+                              size: 24,
                             ),
                           ),
                         ],
@@ -178,16 +186,18 @@ class ChurchInfoView extends BaseStatelessPageView {
                       const SizedBox(height: 16),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: const [
                           SizedBox(
                             width: 20,
                             height: 20,
-                            child: Image.asset(
-                              assetPath('phone-solid.png'),
+                            child: Icon(
+                              FontAwesome.phone,
+                              color: Color.fromRGBO(130, 141, 168, 1),
+                              size: 20,
                             ),
                           ),
-                          const SizedBox(width: 10),
-                          const Expanded(
+                          SizedBox(width: 10),
+                          Expanded(
                             child: Text(
                               '+65 1234 5678',
                               style: TextStyle(
@@ -236,16 +246,18 @@ class ChurchInfoView extends BaseStatelessPageView {
                       const SizedBox(height: 16),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: const [
                           SizedBox(
                             width: 20,
                             height: 20,
-                            child: Image.asset(
-                              assetPath('envelope-solid.png'),
+                            child: Icon(
+                              FontAwesome.envelope,
+                              color: Color.fromRGBO(130,141,168,1),
+                              size: 20,
                             ),
                           ),
-                          const SizedBox(width: 10),
-                          const Expanded(
+                          SizedBox(width: 10),
+                          Expanded(
                             child: Text(
                               'church@info.sg',
                               style: TextStyle(
@@ -296,16 +308,18 @@ class ChurchInfoView extends BaseStatelessPageView {
                             flex: 1,
                             child: Center(
                               child: Column(
-                                children: [
+                                children: const [
                                   SizedBox(
                                     width: 24,
                                     height: 24,
-                                    child: Image.asset(
-                                      assetPath('images/facebook.png')
+                                    child: Icon(
+                                      MaterialCommunityIcons.facebook,
+                                      color: Color.fromRGBO(24, 119, 242, 1),
+                                      size: 24,
                                     ),
                                   ),
-                                  const SizedBox(height: 8),
-                                  const Text(
+                                  SizedBox(height: 8),
+                                  Text(
                                     'Facebook',
                                     style: TextStyle(
                                       color: Color.fromRGBO(4, 26, 82, 0.5),
@@ -344,16 +358,18 @@ class ChurchInfoView extends BaseStatelessPageView {
                             flex: 1,
                             child: Center(
                               child: Column(
-                                children: [
+                                children: const [
                                   SizedBox(
                                     width: 24,
                                     height: 24,
-                                    child: Image.asset(
-                                      assetPath('images/twitter.png')
+                                    child: Icon(
+                                      Entypo.twitter,
+                                      color: Color.fromRGBO(29, 161, 242, 1),
+                                      size: 24,
                                     ),
                                   ),
-                                  const SizedBox(height: 8),
-                                  const Text(
+                                  SizedBox(height: 8),
+                                  Text(
                                     'Twitter',
                                     style: TextStyle(
                                       color: Color.fromRGBO(4, 26, 82, 0.5),
@@ -368,16 +384,18 @@ class ChurchInfoView extends BaseStatelessPageView {
                             flex: 1,
                             child: Center(
                               child: Column(
-                                children: [
+                                children: const [
                                   SizedBox(
                                     width: 24,
                                     height: 24,
-                                    child: Image.asset(
-                                      assetPath('images/telegram.png')
+                                    child: Icon(
+                                      FontAwesome.telegram,
+                                      color: Color.fromRGBO(38, 166, 230, 1),
+                                      size: 24,
                                     ),
                                   ),
-                                  const SizedBox(height: 8),
-                                  const Text(
+                                  SizedBox(height: 8),
+                                  Text(
                                     'Telegram',
                                     style: TextStyle(
                                       color: Color.fromRGBO(4, 26, 82, 0.5),
@@ -416,6 +434,7 @@ class ChurchInfoView extends BaseStatelessPageView {
                         child: Text(
                           'Church Bulletin',
                           style: TextStyle(
+                            color: Color.fromRGBO(4, 26, 82, 1),
                             fontSize: 16,
                           ),
                         ),
@@ -446,6 +465,7 @@ class ChurchInfoView extends BaseStatelessPageView {
                         child: Text(
                           'Schedules',
                           style: TextStyle(
+                            color: Color.fromRGBO(4, 26, 82, 1),
                             fontSize: 16,
                           ),
                         ),
@@ -483,6 +503,7 @@ class ChurchInfoView extends BaseStatelessPageView {
                       child: Text(
                         'Select Church',
                         style: TextStyle(
+                          color: Color.fromRGBO(4, 26, 82, 1),
                           fontWeight: FontWeight.w500,
                           fontSize: 18,
                         ),
@@ -495,11 +516,13 @@ class ChurchInfoView extends BaseStatelessPageView {
                         Navigator.pop(context);
                       },
                       shape: const CircleBorder(),
-                      child: SizedBox(
+                      child: const SizedBox(
                         width: 24,
                         height: 24,
-                        child: Image.asset(
-                          assetPath('xmark-circle-solid.png'),
+                        child: Icon(
+                          MaterialCommunityIcons.close_circle,
+                          color: Color.fromRGBO(130,141,168,1),
+                          size: 24,
                         ),
                       ),
                     ),
@@ -518,6 +541,7 @@ class ChurchInfoView extends BaseStatelessPageView {
                 const Text(
                   'Church Name',
                   style: TextStyle(
+                    color: Color.fromRGBO(4, 26, 82, 1),
                     fontSize: 16,
                   ),
                 ),
@@ -525,6 +549,7 @@ class ChurchInfoView extends BaseStatelessPageView {
                 const Text(
                   'Church Name',
                   style: TextStyle(
+                    color: Color.fromRGBO(4, 26, 82, 1),
                     fontSize: 16,
                   ),
                 ),
@@ -532,21 +557,21 @@ class ChurchInfoView extends BaseStatelessPageView {
                 const Text(
                   'Church Name',
                   style: TextStyle(
-                    fontSize: 16,
+                    color: Color.fromRGBO(4, 26, 82, 1),
                   ),
                 ),
                 const SizedBox(height: 10),
                 const Text(
                   'Church Name',
                   style: TextStyle(
-                    fontSize: 16,
+                    color: Color.fromRGBO(4, 26, 82, 1),
                   ),
                 ),
                 const SizedBox(height: 10),
                 const Text(
                   'Church Name',
                   style: TextStyle(
-                    fontSize: 16,
+                    color: Color.fromRGBO(4, 26, 82, 1),
                   ),
                 ),
                 const SizedBox(height: 18),
@@ -562,21 +587,21 @@ class ChurchInfoView extends BaseStatelessPageView {
                 const Text(
                   'Church Name',
                   style: TextStyle(
-                    fontSize: 16,
+                    color: Color.fromRGBO(4, 26, 82, 1),
                   ),
                 ),
                 const SizedBox(height: 10),
                 const Text(
                   'Church Name',
                   style: TextStyle(
-                    fontSize: 16,
+                    color: Color.fromRGBO(4, 26, 82, 1),
                   ),
                 ),
                 const SizedBox(height: 10),
                 const Text(
                   'Church Name',
                   style: TextStyle(
-                    fontSize: 16,
+                    color: Color.fromRGBO(4, 26, 82, 1),
                   ),
                 ),
                 const SizedBox(height: 18),
@@ -592,77 +617,77 @@ class ChurchInfoView extends BaseStatelessPageView {
                 const Text(
                   'Church Name',
                   style: TextStyle(
-                    fontSize: 16,
+                    color: Color.fromRGBO(4, 26, 82, 1),
                   ),
                 ),
                 const SizedBox(height: 10),
                 const Text(
                   'Church Name',
                   style: TextStyle(
-                    fontSize: 16,
+                    color: Color.fromRGBO(4, 26, 82, 1),
                   ),
                 ),
                 const SizedBox(height: 10),
                 const Text(
                   'Church Name',
                   style: TextStyle(
-                    fontSize: 16,
+                    color: Color.fromRGBO(4, 26, 82, 1),
                   ),
                 ),
                 const SizedBox(height: 10),
                 const Text(
                   'Church Name',
                   style: TextStyle(
-                    fontSize: 16,
+                    color: Color.fromRGBO(4, 26, 82, 1),
                   ),
                 ),
                 const SizedBox(height: 10),
                 const Text(
                   'Church Name',
                   style: TextStyle(
-                    fontSize: 16,
+                    color: Color.fromRGBO(4, 26, 82, 1),
                   ),
                 ),
                 const SizedBox(height: 10),
                 const Text(
                   'Church Name',
                   style: TextStyle(
-                    fontSize: 16,
+                    color: Color.fromRGBO(4, 26, 82, 1),
                   ),
                 ),
                 const SizedBox(height: 10),
                 const Text(
                   'Church Name',
                   style: TextStyle(
-                    fontSize: 16,
+                    color: Color.fromRGBO(4, 26, 82, 1),
                   ),
                 ),
                 const SizedBox(height: 10),
                 const Text(
                   'Church Name',
                   style: TextStyle(
-                    fontSize: 16,
+                    color: Color.fromRGBO(4, 26, 82, 1),
                   ),
                 ),
                 const SizedBox(height: 10),
                 const Text(
                   'Church Name',
                   style: TextStyle(
-                    fontSize: 16,
+                    color: Color.fromRGBO(4, 26, 82, 1),
                   ),
                 ),
                 const SizedBox(height: 10),
                 const Text(
                   'Church Name',
                   style: TextStyle(
-                    fontSize: 16,
+                    color: Color.fromRGBO(4, 26, 82, 1),
                   ),
                 ),
                 const SizedBox(height: 10),
                 const Text(
                   'Church Name',
                   style: TextStyle(
-                    fontSize: 16,
+                    color: Color.fromRGBO(4, 26, 82, 1),
                   ),
                 ),
               ],
