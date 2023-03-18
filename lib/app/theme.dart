@@ -12,6 +12,7 @@ class BrandColors {
       iconTheme: IconThemeData(color: Dark),
       toolbarTextStyle: TextStyle(color: Dark),
     ),
+    fontFamily: 'FiraSans',
   );
 
   static const Map<int, Color> PrimarySwatch = {

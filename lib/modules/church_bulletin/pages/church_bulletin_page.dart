@@ -1,22 +1,71 @@
+import 'dart:async';
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:cloud_functions/cloud_functions.dart';
+import 'package:intl/intl.dart';
+
 import '../models/church_bulletin_model.dart';
 
-class ChurchBulletinPage extends BaseStatelessPageView {
+class ChurchBulletinPage extends BaseStatefulPageView {
   final ChurchBulletinModel? model;
 
   ChurchBulletinPage({Key? key, this.model}) : super();
 
   @override
-  Widget build(BuildContext context) {
-    const List<String> list = <String>['My Parish'];
+  FutureOr<bool> beforeLoad(BuildContext context) async {
+    super.beforeLoad(context);
 
+    model!.loadData();
+
+    return true;
+  }
+
+  @override
+  Widget build(BuildContext context, {bool loading = false}) =>
+      _BulletinPage(model!);
+}
+
+class _BulletinPage extends StatefulWidget {
+  final ChurchBulletinModel model;
+
+  const _BulletinPage(this.model);
+
+  @override
+  // ignore: no_logic_in_create_state
+  State<StatefulWidget> createState() => _BulletinPageState(model);
+}
+
+class _BulletinPageState extends State<_BulletinPage> {
+  final ChurchBulletinModel model;
+  String? _selectedParishValue = "";
+  List? _bulletinItems;
+  final PdfViewerController pdfViewerController = PdfViewerController();
+  var controllers = <String, PdfViewerController>{};
+
+  _BulletinPageState(this.model);
+
+  @override
+  void initState() {
+    super.initState();
+
+    _selectedParishValue = "Cathedral of the Good Shepherd";
+    _getBulletin('cathedral');
+  }
+
+  @override
+  void dispose() {
+    pdfViewerController.dispose(); // Dispose of the controller object
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Bulletin'),
+        title: const Text('Church Bulletin'),
         leading: GestureDetector(
           child: const Icon(
             Icons.arrow_back_ios,
@@ -28,174 +77,262 @@ class ChurchBulletinPage extends BaseStatelessPageView {
         ),
       ),
       body: Container(
+        decoration: const BoxDecoration(
+          color: Color.fromRGBO(255, 252, 245, 1),
+        ),
         width: double.infinity,
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            InputDecorator(
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.zero))),
-              child: DropdownButtonHideUnderline(
-                  child: DropdownButton(
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      isExpanded: true,
-                      isDense: true,
-                      menuMaxHeight: 40,
-                      value: list.first,
-                      items: list.map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (String? value) {})),
-            ),
-            Expanded(
-              child: ListView.separated(
-                shrinkWrap: true,
-                itemCount: 6,
-                separatorBuilder: (context, index) {
-                  return const SizedBox(height: 16);
-                },
-                itemBuilder: (BuildContext context, int index) {
-                  return SizedBox(
+        child: widget.model.loading && widget.model.items!.isEmpty
+            ? const Center(child: CircularProgressIndicator())
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 64,
                     width: double.infinity,
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                    decoration: BoxDecoration(
+                      color: const Color.fromRGBO(255, 255, 255, 1),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromRGBO(208, 185, 133, 0.15),
+                          offset: Offset(0, 8),
+                          blurRadius: 16,
+                        ),
+                        BoxShadow(
+                          color: Color.fromRGBO(208, 185, 133, 0.05),
+                          offset: Offset(0, 4),
+                          blurRadius: 8,
+                        ),
+                      ],
+                    ),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          height: 60,
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black)),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: const [
-                                    Text(
-                                      "My Parish",
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                    Icon(
-                                      FontAwesome.share_square_o,
-                                      color: Colors.black,
-                                      size: 24,
-                                    ),
-                                  ]),
-                              const Text(
-                                "Posted • Sun, 12 Feb 2023",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(fontSize: 14),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          height: 449,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black),
-                            color: const Color.fromRGBO(204, 204, 204, 1),
-                          ),
-                          child: SfPdfViewer.network(
-                            'https://firebasestorage.googleapis.com/v0/b/mycatholicsgapp-dev.appspot.com/o/bulletin%2F2%2Fpublic%2Fpdf%2F2302281537_2302171100_Bulletin%2020230219%20(w%20links).pdf?alt=media&token=3ab00d3d-432c-4a07-b3c7-cdb2b637b874',
-                            onDocumentLoaded:
-                                (PdfDocumentLoadedDetails details) {
-                              print(details.document.pages.count);
-                            },
-                          ),
-                        ),
-                        Container(
-                          height: 35,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                  child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    width: 48,
-                                    alignment: Alignment.center,
-                                    padding: const EdgeInsets.all(0),
-                                    decoration: const BoxDecoration(
-                                      border: Border(
-                                          right: BorderSide(
-                                              color: Colors.black, width: 1)),
-                                    ),
-                                    child: const Text(
-                                      'Prev',
-                                    ),
-                                  ),
-                                  // ignore: avoid_unnecessary_containers
-                                  Container(
-                                    child: const Text(
-                                      'Page 1 / 2',
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 48,
-                                    alignment: Alignment.center,
-                                    padding: const EdgeInsets.all(0),
-                                    decoration: const BoxDecoration(
-                                      border: Border(
-                                          left: BorderSide(
-                                              color: Colors.black, width: 1),
-                                          right: BorderSide(
-                                              color: Colors.black, width: 1)),
-                                    ),
-                                    child: const Text(
-                                      'Next',
-                                    ),
-                                  ),
-                                ],
-                              )),
-                              SizedBox(
-                                width: 64,
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width: 32,
-                                      alignment: Alignment.center,
-                                      child: const Icon(
-                                        FontAwesome.download,
-                                        color: Colors.black,
-                                        size: 24,
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 32,
-                                      alignment: Alignment.center,
-                                      child: const Icon(
-                                        Ionicons.expand,
-                                        color: Colors.black,
-                                        size: 24,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
+                      children: [
+                        InputDecorator(
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius: BorderRadius.all(Radius.zero))),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              icon: const Icon(Icons.keyboard_arrow_down),
+                              elevation: 16,
+                              isDense: true,
+                              isExpanded: true,
+                              value: _selectedParishValue,
+                              hint: const Text('Select parish'),
+                              items: [
+                                ...?widget.model.items?.map((value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value['name'].toString(),
+                                    child: Text(value['name'],
+                                        style: const TextStyle(fontSize: 16)),
+                                  );
+                                }).toList()
+                              ],
+                              onChanged: (value) async {
+                                var parish =
+                                    widget.model.items?.firstWhere((element) {
+                                  return element['name'] == value;
+                                });
+
+                                _getBulletin(parish['link']);
+                                setState(() {
+                                  _selectedParishValue = value.toString();
+                                });
+                              },
+                            ),
                           ),
                         ),
                       ],
                     ),
-                  );
-                },
+                  ),
+                  const SizedBox(height: 16),
+                  Expanded(
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: _bulletinItems?.length ?? 0,
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(height: 16);
+                      },
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: const Color.fromRGBO(255, 255, 255, 1),
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color.fromRGBO(208, 185, 133, 0.15),
+                                offset: Offset(0, 8),
+                                blurRadius: 16,
+                              ),
+                              BoxShadow(
+                                color: Color.fromRGBO(208, 185, 133, 0.05),
+                                offset: Offset(0, 4),
+                                blurRadius: 8,
+                              ),
+                            ],
+                          ),
+                          padding: const EdgeInsets.all(20),
+                          width: double.infinity,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                height: 60,
+                                padding: const EdgeInsets.all(8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            _selectedParishValue!,
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500,
+                                              color:
+                                                  Color.fromRGBO(4, 26, 82, 1),
+                                            ),
+                                          ),
+                                        ]),
+                                    Text(
+                                      DateFormat('E, d MMM yyyy').format(
+                                          DateTime.fromMillisecondsSinceEpoch(
+                                              _bulletinItems![index]['created'],
+                                              isUtc: true)),
+                                      textAlign: TextAlign.left,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Color.fromRGBO(4, 26, 82, 1),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                height: 449,
+                                // height: 50,
+                                decoration: const BoxDecoration(
+                                  color: Color.fromRGBO(204, 204, 204, 1),
+                                ),
+                                child: SfPdfViewer.network(
+                                  _bulletinItems![index]['filelink'],
+                                  controller:
+                                      controllers[_bulletinItems![index]['id']],
+                                  canShowPaginationDialog: false,
+                                  canShowScrollHead: false,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 35,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                        child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          width: 48,
+                                          alignment: Alignment.center,
+                                          padding: const EdgeInsets.all(0),
+                                          child: GestureDetector(
+                                            child: const Icon(
+                                              Icons.arrow_back_ios,
+                                              color: Colors.black,
+                                            ),
+                                            onTap: () {
+                                              controllers[_bulletinItems![index]
+                                                      ['id']]
+                                                  ?.previousPage();
+                                            },
+                                          ),
+                                        ),
+                                        // ignore: avoid_unnecessary_containers
+                                        Container(
+                                          child: Text(
+                                            'Page 1 / ${controllers[_bulletinItems![index]['id']]?.pageCount}',
+                                          ),
+                                        ),
+                                        Container(
+                                          width: 48,
+                                          alignment: Alignment.center,
+                                          padding: const EdgeInsets.all(0),
+                                          child: GestureDetector(
+                                            child: const Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: Colors.black,
+                                            ),
+                                            onTap: () {
+                                              controllers[_bulletinItems![index]
+                                                      ['id']]
+                                                  ?.nextPage();
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+                                    SizedBox(
+                                      width: 32,
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 32,
+                                            alignment: Alignment.center,
+                                            child: const Icon(
+                                              MaterialIcons.fullscreen,
+                                              color: Colors.black,
+                                              size: 24,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                ],
               ),
-            )
-          ],
-        ),
       ),
     );
+  }
+
+  void _getBulletin(String parishlink) async {
+    setState(() {
+      // pdfViewerController.dispose();
+      controllers = {};
+    });
+    final result = await FirebaseFunctions.instanceFor(region: 'asia-east2')
+        .httpsCallable('bulletin')
+        .call(
+      {
+        "input": parishlink,
+      },
+    );
+
+    final response = result.data;
+
+    List bulletinList = response['results']['items'] ?? [];
+    bulletinList.map((item) {
+      controllers[item['id']] = PdfViewerController();
+    }).toList();
+
+    setState(() {
+      _bulletinItems = response['results']['items'] ?? [];
+    });
   }
 }

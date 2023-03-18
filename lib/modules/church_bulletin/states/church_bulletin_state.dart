@@ -1,4 +1,6 @@
 import 'package:butter/butter.dart';
+import 'package:flutter/services.dart';
+import 'dart:convert';
 
 import '../models/church_bulletin_model.dart';
 
@@ -34,5 +36,20 @@ class ChurchBulletinState extends BasePageState<ChurchBulletinModel> {
                 ),
           ), (m) {
         // Load all your model's handlers here
+        m.loadData = () async {
+          dispatchModel<ChurchBulletinModel>(ChurchBulletinModel(), (m) {
+            m.loading = true;
+          });
+          await Future.delayed(const Duration(seconds: 3), () async {
+            final String response =
+                await rootBundle.loadString('assets/data/parish.json');
+            final data = await json.decode(response);
+
+            dispatchModel<ChurchBulletinModel>(ChurchBulletinModel(), (m) {
+              m.items = data['parishes'];
+              m.loading = false;
+            });
+          });
+        };
       });
 }
