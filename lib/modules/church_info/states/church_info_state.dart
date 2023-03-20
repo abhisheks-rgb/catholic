@@ -1,5 +1,8 @@
 import 'package:butter/butter.dart';
+import 'package:flutter/services.dart';
+import 'dart:convert';
 
+import '../actions/list_church_info_action.dart';
 import '../models/church_info_model.dart';
 
 class ChurchInfoState extends BasePageState<ChurchInfoModel> {
@@ -19,12 +22,16 @@ class ChurchInfoState extends BasePageState<ChurchInfoModel> {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is ChurchInfoState && runtimeType == other.runtimeType;
+        other is ChurchInfoState &&
+            runtimeType == other.runtimeType &&
+            model == other.model;
   }
 
   @override
-  // ignore: recursive_getters
-  int get hashCode => hashCode;
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        model,
+      ]);
 
   @override
   ChurchInfoState fromStore() => ChurchInfoState.build(
@@ -37,5 +44,30 @@ class ChurchInfoState extends BasePageState<ChurchInfoModel> {
         m.showPage = (route) async {
           pushNamed(route);
         };
+        m.loadData = () async {
+          dispatchModel<ChurchInfoModel>(ChurchInfoModel(), (m) {
+            m.loading = true;
+          });
+          await Future.delayed(const Duration(seconds: 3), () async {
+            final String response =
+                await rootBundle.loadString('assets/data/parish.json');
+            final data = await json.decode(response);
+
+            dispatchModel<ChurchInfoModel>(ChurchInfoModel(), (m) {
+              m.items = data['parishes'];
+              m.loading = false;
+            });
+          });
+        };
+        m.fetchChurchInfo = ({orgId}) async {
+          await dispatchAction(ListChurchInfoAction(orgId: orgId));
+          final model = read<ChurchInfoModel>(ChurchInfoModel());
+          if (model.error != null) {
+            throw model.error!;
+          }
+          return model.churchInfos;
+        };
+        m.setChurchId = (churchId) async =>
+            dispatchModel(ChurchInfoModel(), (dynamic m) => m.setChurchId = churchId);
       });
 }
