@@ -46,6 +46,7 @@ dependencies:
   intl: ^0.17.0
   syncfusion_flutter_pdfviewer: ^20.4.52
   hexcolor: ^3.0.1
+  url_launcher: ^6.1.10
 
 dev_dependencies:
   flutter_test:
