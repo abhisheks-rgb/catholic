@@ -18,9 +18,12 @@ class ChurchInfoPage extends BaseStatefulPageView {
   FutureOr<bool> beforeLoad(BuildContext context) async {
     await super.beforeLoad(context);
 
+    model!.loadData();
+    model!.fetchChurchInfo();
+
     return true;
   }
 
   @override
-  Widget build(BuildContext context, {bool loading = false}) => ChurchInfoView();
+  Widget build(BuildContext context, {bool loading = false}) => ChurchInfoView(model!);
 }
