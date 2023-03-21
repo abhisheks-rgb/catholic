@@ -28,8 +28,8 @@ echo '{
 	"storageBucket": "$BUCKET_NAME",
 	"iosClientId": "$IOS_CLIENT_ID",
 	"iosBundleId": "$IOS_BUNDLE_ID"
-}' > assets/firebase_config.json
+}' > $CI_WORKSPACE/assets/firebase_config.json
 
-cat assets/firebase_config.json
+cat $CI_WORKSPACE/assets/firebase_config.json
 
 exit 0
