@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # The default execution directory of this script is the ci_scripts directory.
-cd $CI_WORKSPACE/packages/client
+cd $CI_WORKSPACE
 
 # Install Flutter using git.
 git clone --depth 1 --single-branch https://github.com/flutter/flutter.git -b 3.7.7 $HOME/flutter
