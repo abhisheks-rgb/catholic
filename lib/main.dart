@@ -1,13 +1,11 @@
 import 'package:butter/butter.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:firebase_core/firebase_core.dart';
-
-import '../../firebase_options.dart';
 
 import 'app/app.dart';
-
 import 'app/persistor.dart' as p;
+import 'firebase_options.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
