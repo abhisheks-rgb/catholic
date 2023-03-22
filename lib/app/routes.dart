@@ -6,6 +6,7 @@ import '../modules/schedules/schedules.dart';
 import '../modules/church_bulletin/church_bulletin.dart';
 import '../modules/church_info/church_info.dart';
 import '../modules/offertory/offertory.dart';
+import '../modules/scripture/scripture.dart';
 
 class Routes extends BaseRoutes {
   Routes()
@@ -17,6 +18,7 @@ class Routes extends BaseRoutes {
             ChurchBulletin(),
             ChurchInfo(),
             Offertory(),
+            Scripture(),
           ],
         );
 }

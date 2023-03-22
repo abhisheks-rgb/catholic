@@ -55,7 +55,7 @@ class _WelcomePageState extends State<WelcomePage> {
       {
         'title': 'Scripture Reflection',
         'icon': '002-pray.png',
-        'route': 'schedules'
+        'route': 'scripture'
       },
       {
         'title': 'Mass Schedules',
