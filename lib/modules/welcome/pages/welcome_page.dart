@@ -71,7 +71,7 @@ class _WelcomePageState extends State<WelcomePage> {
       {
         'title': 'Offertory & Giving',
         'icon': '004-greeting-card.png',
-        'route': 'schedules'
+        'route': 'offertory'
       },
     ];
 

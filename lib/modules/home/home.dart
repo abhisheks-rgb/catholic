@@ -6,6 +6,7 @@ import '../welcome/welcome.dart';
 import '../schedules/schedules.dart';
 import '../church_bulletin/church_bulletin.dart';
 import '../church_info/church_info.dart';
+import '../offertory/offertory.dart';
 
 class Home extends BaseModule {
   Home()
@@ -24,6 +25,7 @@ class Home extends BaseModule {
             '/_/schedules': Schedules(),
             '/_/church_bulletin': ChurchBulletin(),
             '/_/church_info': ChurchInfo(),
+            '/_/offertory': Offertory(),
           },
         );
 }
