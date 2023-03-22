@@ -35,7 +35,7 @@ class ListChurchInfoAction extends BaseAction {
           {
             "input": orgId != null
               ? '$orgId'
-              : churchId != null
+              : churchId != null && churchId! > 0
                 ? '$churchId'
                 : '2',
           },

@@ -4,10 +4,9 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/church_info_model.dart';
-
 import '../../../utils/asset_path.dart';
 
-class ChurchInfoView extends BaseStatelessPageView {
+class ChurchInfoView extends BaseStatefulPageView {
   final ChurchInfoModel? model;
   final List<Map> _infos;
 
@@ -15,6 +14,22 @@ class ChurchInfoView extends BaseStatelessPageView {
       : _infos = List.generate(
             model?.churchInfos?.length ?? 0, (index) => model?.churchInfos![index] as Map),
         super();
+
+  @override
+  State<BaseStatefulPageView> createState() => _ChurchInfoViewState();
+}
+
+class _ChurchInfoViewState extends State<ChurchInfoView> {
+  @override
+  void dispose() {
+    super.dispose();
+
+    delayedResetChurchId();
+  }
+
+  void delayedResetChurchId() async {
+    await widget.model!.setChurchId(churchId: 0);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +109,7 @@ class ChurchInfoView extends BaseStatelessPageView {
             //     ),
             //   ),
             // ),
-            model?.loading == true
+            widget.model?.loading == true
               ? Container(
                   height: MediaQuery.of(context).size.height * 0.74,
                   margin: const EdgeInsets.only(top: 16),
@@ -126,7 +141,7 @@ class ChurchInfoView extends BaseStatelessPageView {
                           children: [
                             Expanded(
                               child: Text(
-                                _infos.isNotEmpty ? _infos[0]['orgName'] : '---',
+                                widget._infos.isNotEmpty ? widget._infos[0]['orgName'] : '---',
                                 style: const TextStyle(
                                   color: Color.fromRGBO(4, 26, 82, 1),
                                   fontWeight: FontWeight.w500,
@@ -160,9 +175,9 @@ class ChurchInfoView extends BaseStatelessPageView {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: const Color.fromRGBO(219, 228, 251, 1),
-                          image: _infos.isNotEmpty
+                          image: widget._infos.isNotEmpty
                             ? DecorationImage(
-                                image: NetworkImage(_infos[0]['logoUrl']),
+                                image: NetworkImage(widget._infos[0]['logoUrl']),
                                 fit: BoxFit.contain,
                               )
                             : null,
@@ -184,7 +199,7 @@ class ChurchInfoView extends BaseStatelessPageView {
                           const SizedBox(width: 10),
                           Expanded(
                             child: Text(
-                              _infos.isNotEmpty ? _infos[0]['address'] : '---',
+                              widget._infos.isNotEmpty ? widget._infos[0]['address'] : '---',
                               style: const TextStyle(
                                 color: Color.fromRGBO(4, 26, 82, 1),
                                 fontSize: 16,
@@ -208,7 +223,7 @@ class ChurchInfoView extends BaseStatelessPageView {
                         constraints: const BoxConstraints(),
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         onPressed: () {
-                          final orgTel = _infos.isNotEmpty ? _infos[0]['orgTel1'] : '';
+                          final orgTel = widget._infos.isNotEmpty ? widget._infos[0]['orgTel1'] : '';
                           final uri = Uri.parse('tel:$orgTel');
                           urlLauncher(uri,'tel');
                         },
@@ -227,7 +242,7 @@ class ChurchInfoView extends BaseStatelessPageView {
                             const SizedBox(width: 10),
                             Expanded(
                               child: Text(
-                                _infos.isNotEmpty ? _infos[0]['orgTel1'] : '---',
+                                widget._infos.isNotEmpty ? widget._infos[0]['orgTel1'] : '---',
                                 style: const TextStyle(
                                   color: Color.fromRGBO(12, 72, 224, 1),
                                   fontWeight: FontWeight.w500,
@@ -254,8 +269,8 @@ class ChurchInfoView extends BaseStatelessPageView {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                _infos.isNotEmpty
-                                    ? '${_infos[0]['priestsalutation']} ${_infos[0]['priestname']}'
+                                widget._infos.isNotEmpty
+                                    ? '${widget._infos[0]['priestsalutation']} ${widget._infos[0]['priestname']}'
                                     : '---',
                                   style: const TextStyle(
                                     color: Color.fromRGBO(12, 72, 224, 1),
@@ -265,11 +280,12 @@ class ChurchInfoView extends BaseStatelessPageView {
                                 ),
                               const SizedBox(height: 8),
                               const Text(
-                                  'See all priest',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(12, 72, 224, 1),
-                                  ),
+                                'See all priest',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(12, 72, 224, 1),
+                                  fontSize: 14,
                                 ),
+                              ),
                             ],
                           ),
                         ],
@@ -279,7 +295,7 @@ class ChurchInfoView extends BaseStatelessPageView {
                         constraints: const BoxConstraints(),
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         onPressed: () {
-                          final orgEmail = _infos.isNotEmpty ? _infos[0]['orgEmail'] : '';
+                          final orgEmail = widget._infos.isNotEmpty ? widget._infos[0]['orgEmail'] : '';
                           final uri = Uri.parse('mailTo:$orgEmail');
                           urlLauncher(uri,'email');
                         },
@@ -298,7 +314,7 @@ class ChurchInfoView extends BaseStatelessPageView {
                             const SizedBox(width: 10),
                             Expanded(
                               child: Text(
-                                _infos.isNotEmpty ? _infos[0]['orgEmail'] : '---',
+                                widget._infos.isNotEmpty ? widget._infos[0]['orgEmail'] : '---',
                                 style: const TextStyle(
                                   color: Color.fromRGBO(12, 72, 224, 1),
                                   fontWeight: FontWeight.w500,
@@ -314,7 +330,7 @@ class ChurchInfoView extends BaseStatelessPageView {
                         constraints: const BoxConstraints(),
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         onPressed: () {
-                          final orgWebsite = _infos.isNotEmpty ? _infos[0]['orgWebsite'] : '';
+                          final orgWebsite = widget._infos.isNotEmpty ? widget._infos[0]['orgWebsite'] : '';
                           final uri = Uri.parse('$orgWebsite');
                           urlLauncher(uri,'web');
                         },
@@ -331,7 +347,7 @@ class ChurchInfoView extends BaseStatelessPageView {
                             const SizedBox(width: 10),
                             Expanded(
                               child: Text(
-                                _infos.isNotEmpty ? _infos[0]['orgWebsite'] : '---',
+                                widget._infos.isNotEmpty ? widget._infos[0]['orgWebsite'] : '---',
                                 style: const TextStyle(
                                   color: Color.fromRGBO(12, 72, 224, 1),
                                   fontWeight: FontWeight.w500,
@@ -359,7 +375,7 @@ class ChurchInfoView extends BaseStatelessPageView {
                               constraints: const BoxConstraints(),
                               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                               onPressed: () {
-                                final orgFacebook = _infos.isNotEmpty ? _infos[0]['orgFacebook'] : '';
+                                final orgFacebook = widget._infos.isNotEmpty ? widget._infos[0]['orgFacebook'] : '';
                                 final uri = Uri.parse('$orgFacebook');
                                 urlLauncher(uri,'web');
                               },
@@ -619,12 +635,12 @@ class ChurchInfoView extends BaseStatelessPageView {
         child: ListView.separated(
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
-          itemCount: model!.items!.length,
+          itemCount: widget.model!.items!.length,
           separatorBuilder: (BuildContext context, int index) {
             return const SizedBox(height: 17);
           },
           itemBuilder: (context, index) {
-            if (index == model!.items!.length -1) {
+            if (index == widget.model!.items!.length -1) {
               return Container(
                 padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
                 child: Column(
@@ -634,11 +650,11 @@ class ChurchInfoView extends BaseStatelessPageView {
                       constraints: const BoxConstraints(),
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       onPressed: () {
-                        model!.fetchChurchInfo(orgId: index + 1);
+                        widget.model!.fetchChurchInfo(orgId: index + 1);
                         Navigator.pop(context);
                       },
                       child: Text(
-                        model!.items![index]['completename'] ?? '',
+                        widget.model!.items![index]['completename'] ?? '',
                         style: const TextStyle(
                           color: Color.fromRGBO(4, 26, 82, 1),
                           fontSize: 16,
@@ -659,11 +675,11 @@ class ChurchInfoView extends BaseStatelessPageView {
                   constraints: const BoxConstraints(),
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   onPressed: () {
-                    model!.fetchChurchInfo(orgId: index + 1);
+                    widget.model!.fetchChurchInfo(orgId: index + 1);
                     Navigator.pop(context);
                   },
                   child: Text(
-                    model!.items![index]['completename'] ?? '',
+                    widget.model!.items![index]['completename'] ?? '',
                     style: const TextStyle(
                       color: Color.fromRGBO(4, 26, 82, 1),
                       fontSize: 16,

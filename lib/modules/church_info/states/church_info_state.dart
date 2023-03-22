@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 
 import '../actions/list_church_info_action.dart';
+import '../actions/set_church_id_action.dart';
 import '../models/church_info_model.dart';
 
 class ChurchInfoState extends BasePageState<ChurchInfoModel> {
@@ -67,7 +68,13 @@ class ChurchInfoState extends BasePageState<ChurchInfoModel> {
           }
           return model.churchInfos;
         };
-        m.setChurchId = (churchId) async =>
-            dispatchModel(ChurchInfoModel(), (dynamic m) => m.setChurchId = churchId);
+        m.setChurchId = ({churchId}) async {
+          await dispatchAction(SetChurchIdAction(churchId: churchId));
+          final model = read<ChurchInfoModel>(ChurchInfoModel());
+          if (model.error != null) {
+            throw model.error!;
+          }
+          return model.churchId;
+        };
       });
 }

@@ -19,7 +19,7 @@ class ChurchInfoModel extends BaseUIModel<ChurchInfoModel> {
   });
 
   late Future<List<Object>?> Function({int? orgId}) fetchChurchInfo;
-  late Future<void> Function(int? churchId) setChurchId;
+  late Function({int? churchId}) setChurchId;
 
   @override
   String get $key => '/church_info';
