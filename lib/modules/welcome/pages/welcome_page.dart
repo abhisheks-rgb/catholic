@@ -85,6 +85,7 @@ class _WelcomePageState extends State<WelcomePage> {
             pinned: true,
             floating: true,
             snap: true,
+            leading: Container(),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
