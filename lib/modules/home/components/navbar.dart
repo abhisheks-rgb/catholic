@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/home_model.dart';
 
+import '../../../app/app.dart';
 import '../../../utils/asset_path.dart';
 
 class Navbar extends StatelessWidget {
@@ -60,7 +61,7 @@ class Navbar extends StatelessWidget {
             label: 'Events',
           ),
         ],
-        currentIndex: _getIndex(),
+        currentIndex: _getIndex(context),
         unselectedItemColor: const Color.fromRGBO(205, 209, 220, 1),
         selectedItemColor: const Color.fromRGBO(4, 26, 82, 1),
         selectedLabelStyle: const TextStyle(
@@ -71,6 +72,18 @@ class Navbar extends StatelessWidget {
 
   void _onItemTapped(int index, BuildContext context) {
     switch (index) {
+      case 1:
+        model!.selectMenuItem!(
+          context: context,
+          route: '/_/pray',
+        );
+        break;
+      case 2:
+        model!.selectMenuItem!(
+          context: context,
+          route: '/_/info',
+        );
+        break;
       default:
         model!.selectMenuItem!(
           context: context,
@@ -79,7 +92,7 @@ class Navbar extends StatelessWidget {
     }
   }
 
-  int _getIndex() {
+  int _getIndex(BuildContext context) {
     return 0;
   }
 }

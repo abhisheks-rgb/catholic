@@ -222,7 +222,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                             _schedules!.isNotEmpty &&
                             !isLoadingSchedules
                         ? Container(
-                            height: 35,
+                            height: 40,
                             width: double.infinity,
                             margin: const EdgeInsets.fromLTRB(0, 16, 0, 16),
                             child: ListView.separated(
@@ -242,7 +242,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                         RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(18.0),
+                                            BorderRadius.circular(32.0),
                                       ),
                                     ),
                                   ),
@@ -675,6 +675,8 @@ class _SchedulesPageState extends State<_SchedulesPage> {
     final response = result.data;
 
     List itemList = response['results']['items'] ?? [];
+    List schedTypeList = response['results']['type'] ?? [];
+    schedTypeList.sort((a, b) => a.compareTo(b));
     var newMap = groupBy(itemList, (obj) {
       var k = DateFormat('yyyyMMdd').format(
           DateTime.fromMillisecondsSinceEpoch(obj['date'], isUtc: true));
@@ -683,14 +685,14 @@ class _SchedulesPageState extends State<_SchedulesPage> {
     });
 
     newMap.forEach((key, value) {
-      value.sort((a, b) => DateTime.fromMillisecondsSinceEpoch(b["start"],
+      value.sort((a, b) => DateTime.fromMillisecondsSinceEpoch(a["start"],
               isUtc: true)
           .compareTo(
-              DateTime.fromMillisecondsSinceEpoch(a["start"], isUtc: true)));
+              DateTime.fromMillisecondsSinceEpoch(b["start"], isUtc: true)));
     });
 
     setState(() {
-      _schedTypes = ['All Types', ...response['results']['type']];
+      _schedTypes = ['All Types', ...schedTypeList];
       _schedules = Map.fromEntries(
           newMap.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key)));
       isLoadingSchedules = false;

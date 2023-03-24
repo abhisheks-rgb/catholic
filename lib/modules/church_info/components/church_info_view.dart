@@ -11,8 +11,8 @@ class ChurchInfoView extends BaseStatefulPageView {
   final List<Map> _infos;
 
   ChurchInfoView(this.model, {Key? key})
-      : _infos = List.generate(
-            model?.churchInfos?.length ?? 0, (index) => model?.churchInfos![index] as Map),
+      : _infos = List.generate(model?.churchInfos?.length ?? 0,
+            (index) => model?.churchInfos![index] as Map),
         super();
 
   @override
@@ -43,7 +43,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
             color: Colors.black,
           ),
           onTap: () {
-            Navigator.of(context).maybePop();
+            Navigator.of(context).pop();
           },
         ),
       ),
@@ -110,477 +110,511 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
             //   ),
             // ),
             widget.model?.loading == true
-              ? Container(
-                  height: MediaQuery.of(context).size.height * 0.74,
-                  margin: const EdgeInsets.only(top: 16),
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                )
-              :
-            Column(
-              children: [
-                const SizedBox(height: 16),
-                Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                  ),
-                  child: Column(
+                ? Container(
+                    height: MediaQuery.of(context).size.height * 0.74,
+                    margin: const EdgeInsets.only(top: 16),
+                    child: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  )
+                : Column(
                     children: [
-                      RawMaterialButton(
-                        constraints: const BoxConstraints(),
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        onPressed: () async {
-                          showAlert(context);
-                        },
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                widget._infos.isNotEmpty ? widget._infos[0]['orgName'] : '---',
-                                style: const TextStyle(
-                                  color: Color.fromRGBO(4, 26, 82, 1),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: Icon(
-                                Entypo.chevron_down,
-                                color: Color.fromRGBO(4, 26, 82, 1),
-                                size: 20,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      const Divider(
-                        height: 1,
-                        thickness: 1,
-                        indent: 0,
-                        endIndent: 0,
-                        color: Color.fromRGBO(4, 26, 82, 0.1),
-                      ),
                       const SizedBox(height: 16),
                       Container(
-                        height: 120,
+                        width: double.infinity,
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 24),
+                        padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: const Color.fromRGBO(219, 228, 251, 1),
-                          image: widget._infos.isNotEmpty
-                            ? DecorationImage(
-                                image: NetworkImage(widget._infos[0]['logoUrl']),
-                                fit: BoxFit.contain,
-                              )
-                            : null,
+                          color: Colors.white,
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: Icon(
-                              MaterialCommunityIcons.map_marker,
-                              color: Color.fromRGBO(130, 141, 168, 1),
-                              size: 20,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                              widget._infos.isNotEmpty ? widget._infos[0]['address'] : '---',
-                              style: const TextStyle(
-                                color: Color.fromRGBO(4, 26, 82, 1),
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          const SizedBox(
-                            width: 24,
-                            height: 24,
-                            child: Icon(
-                              MaterialCommunityIcons.directions,
-                              color: Color.fromRGBO(12, 72, 224, 1),
-                              size: 24,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      RawMaterialButton(
-                        constraints: const BoxConstraints(),
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        onPressed: () {
-                          final orgTel = widget._infos.isNotEmpty ? widget._infos[0]['orgTel1'] : '';
-                          final uri = Uri.parse('tel:$orgTel');
-                          urlLauncher(uri,'tel');
-                        },
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Column(
                           children: [
-                            const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: Icon(
-                                FontAwesome.phone,
-                                color: Color.fromRGBO(130, 141, 168, 1),
-                                size: 20,
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: Text(
-                                widget._infos.isNotEmpty ? widget._infos[0]['orgTel1'] : '---',
-                                style: const TextStyle(
-                                  color: Color.fromRGBO(12, 72, 224, 1),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: Image.asset(
-                              assetPath('priest.png'),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                widget._infos.isNotEmpty
-                                    ? '${widget._infos[0]['priestsalutation']} ${widget._infos[0]['priestname']}'
-                                    : '---',
-                                  style: const TextStyle(
-                                    color: Color.fromRGBO(12, 72, 224, 1),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              const SizedBox(height: 8),
-                              const Text(
-                                'See all priest',
-                                style: TextStyle(
-                                  color: Color.fromRGBO(12, 72, 224, 1),
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      RawMaterialButton(
-                        constraints: const BoxConstraints(),
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        onPressed: () {
-                          final orgEmail = widget._infos.isNotEmpty ? widget._infos[0]['orgEmail'] : '';
-                          final uri = Uri.parse('mailTo:$orgEmail');
-                          urlLauncher(uri,'email');
-                        },
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: Icon(
-                                FontAwesome.envelope,
-                                color: Color.fromRGBO(130,141,168,1),
-                                size: 20,
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: Text(
-                                widget._infos.isNotEmpty ? widget._infos[0]['orgEmail'] : '---',
-                                style: const TextStyle(
-                                  color: Color.fromRGBO(12, 72, 224, 1),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      RawMaterialButton(
-                        constraints: const BoxConstraints(),
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        onPressed: () {
-                          final orgWebsite = widget._infos.isNotEmpty ? widget._infos[0]['orgWebsite'] : '';
-                          final uri = Uri.parse('$orgWebsite');
-                          urlLauncher(uri,'web');
-                        },
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: Image.asset(
-                                assetPath('globe.png'),
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: Text(
-                                widget._infos.isNotEmpty ? widget._infos[0]['orgWebsite'] : '---',
-                                style: const TextStyle(
-                                  color: Color.fromRGBO(12, 72, 224, 1),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      const Divider(
-                        height: 1,
-                        thickness: 1,
-                        indent: 0,
-                        endIndent: 0,
-                        color: Color.fromRGBO(4, 26, 82, 0.1),
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: RawMaterialButton(
+                            RawMaterialButton(
                               constraints: const BoxConstraints(),
-                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              onPressed: () {
-                                final orgFacebook = widget._infos.isNotEmpty ? widget._infos[0]['orgFacebook'] : '';
-                                final uri = Uri.parse('$orgFacebook');
-                                urlLauncher(uri,'web');
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              onPressed: () async {
+                                showAlert(context);
                               },
-                              child: Center(
-                                child: Column(
-                                  children: const [
-                                    SizedBox(
-                                      width: 24,
-                                      height: 24,
-                                      child: Icon(
-                                        MaterialCommunityIcons.facebook,
-                                        color: Color.fromRGBO(24, 119, 242, 1),
-                                        size: 24,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      widget._infos.isNotEmpty
+                                          ? widget._infos[0]['orgName']
+                                          : '---',
+                                      style: const TextStyle(
+                                        color: Color.fromRGBO(4, 26, 82, 1),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18,
                                       ),
                                     ),
-                                    SizedBox(height: 8),
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: Icon(
+                                      Entypo.chevron_down,
+                                      color: Color.fromRGBO(4, 26, 82, 1),
+                                      size: 20,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            const Divider(
+                              height: 1,
+                              thickness: 1,
+                              indent: 0,
+                              endIndent: 0,
+                              color: Color.fromRGBO(4, 26, 82, 0.1),
+                            ),
+                            const SizedBox(height: 16),
+                            Container(
+                              height: 120,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: const Color.fromRGBO(219, 228, 251, 1),
+                                image: widget._infos.isNotEmpty
+                                    ? DecorationImage(
+                                        image: NetworkImage(
+                                            widget._infos[0]['logoUrl']),
+                                        fit: BoxFit.contain,
+                                      )
+                                    : null,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: Icon(
+                                    MaterialCommunityIcons.map_marker,
+                                    color: Color.fromRGBO(130, 141, 168, 1),
+                                    size: 20,
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(
+                                    widget._infos.isNotEmpty
+                                        ? widget._infos[0]['address']
+                                        : '---',
+                                    style: const TextStyle(
+                                      color: Color.fromRGBO(4, 26, 82, 1),
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                const SizedBox(
+                                  width: 24,
+                                  height: 24,
+                                  child: Icon(
+                                    MaterialCommunityIcons.directions,
+                                    color: Color.fromRGBO(12, 72, 224, 1),
+                                    size: 24,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+                            RawMaterialButton(
+                              constraints: const BoxConstraints(),
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              onPressed: () {
+                                final orgTel = widget._infos.isNotEmpty
+                                    ? widget._infos[0]['orgTel1']
+                                    : '';
+                                final uri = Uri.parse('tel:$orgTel');
+                                urlLauncher(uri, 'tel');
+                              },
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: Icon(
+                                      FontAwesome.phone,
+                                      color: Color.fromRGBO(130, 141, 168, 1),
+                                      size: 20,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: Text(
+                                      widget._infos.isNotEmpty
+                                          ? widget._infos[0]['orgTel1']
+                                          : '---',
+                                      style: const TextStyle(
+                                        color: Color.fromRGBO(12, 72, 224, 1),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: Image.asset(
+                                    assetPath('priest.png'),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
                                     Text(
-                                      'Facebook',
+                                      widget._infos.isNotEmpty
+                                          ? '${widget._infos[0]['priestsalutation']} ${widget._infos[0]['priestname']}'
+                                          : '---',
+                                      style: const TextStyle(
+                                        color: Color.fromRGBO(12, 72, 224, 1),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    const Text(
+                                      'See all priest',
                                       style: TextStyle(
-                                        color: Color.fromRGBO(4, 26, 82, 0.5),
-                                        fontSize: 12,
+                                        color: Color.fromRGBO(12, 72, 224, 1),
+                                        fontSize: 14,
                                       ),
                                     ),
                                   ],
                                 ),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+                            RawMaterialButton(
+                              constraints: const BoxConstraints(),
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              onPressed: () {
+                                final orgEmail = widget._infos.isNotEmpty
+                                    ? widget._infos[0]['orgEmail']
+                                    : '';
+                                final uri = Uri.parse('mailTo:$orgEmail');
+                                urlLauncher(uri, 'email');
+                              },
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: Icon(
+                                      FontAwesome.envelope,
+                                      color: Color.fromRGBO(130, 141, 168, 1),
+                                      size: 20,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: Text(
+                                      widget._infos.isNotEmpty
+                                          ? widget._infos[0]['orgEmail']
+                                          : '---',
+                                      style: const TextStyle(
+                                        color: Color.fromRGBO(12, 72, 224, 1),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Center(
-                              child: Column(
+                            const SizedBox(height: 16),
+                            RawMaterialButton(
+                              constraints: const BoxConstraints(),
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              onPressed: () {
+                                final orgWebsite = widget._infos.isNotEmpty
+                                    ? widget._infos[0]['orgWebsite']
+                                    : '';
+                                final uri = Uri.parse('$orgWebsite');
+                                urlLauncher(uri, 'web');
+                              },
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(
-                                    width: 24,
-                                    height: 24,
+                                    width: 20,
+                                    height: 20,
                                     child: Image.asset(
-                                      assetPath('images/instagram-alt.png')
+                                      assetPath('globe.png'),
                                     ),
                                   ),
-                                  const SizedBox(height: 8),
-                                  const Text(
-                                    'Instagram',
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(4, 26, 82, 0.5),
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Center(
-                              child: Column(
-                                children: const [
-                                  SizedBox(
-                                    width: 24,
-                                    height: 24,
-                                    child: Icon(
-                                      Entypo.twitter,
-                                      color: Color.fromRGBO(29, 161, 242, 1),
-                                      size: 24,
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                  Text(
-                                    'Twitter',
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(4, 26, 82, 0.5),
-                                      fontSize: 12,
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: Text(
+                                      widget._infos.isNotEmpty
+                                          ? widget._infos[0]['orgWebsite']
+                                          : '---',
+                                      style: const TextStyle(
+                                        color: Color.fromRGBO(12, 72, 224, 1),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Center(
-                              child: Column(
-                                children: const [
-                                  SizedBox(
-                                    width: 24,
-                                    height: 24,
-                                    child: Icon(
-                                      FontAwesome.telegram,
-                                      color: Color.fromRGBO(38, 166, 230, 1),
-                                      size: 24,
+                            const SizedBox(height: 16),
+                            const Divider(
+                              height: 1,
+                              thickness: 1,
+                              indent: 0,
+                              endIndent: 0,
+                              color: Color.fromRGBO(4, 26, 82, 0.1),
+                            ),
+                            const SizedBox(height: 16),
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: RawMaterialButton(
+                                    constraints: const BoxConstraints(),
+                                    materialTapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    onPressed: () {
+                                      final orgFacebook =
+                                          widget._infos.isNotEmpty
+                                              ? widget._infos[0]['orgFacebook']
+                                              : '';
+                                      final uri = Uri.parse('$orgFacebook');
+                                      urlLauncher(uri, 'web');
+                                    },
+                                    child: Center(
+                                      child: Column(
+                                        children: const [
+                                          SizedBox(
+                                            width: 24,
+                                            height: 24,
+                                            child: Icon(
+                                              MaterialCommunityIcons.facebook,
+                                              color: Color.fromRGBO(
+                                                  24, 119, 242, 1),
+                                              size: 24,
+                                            ),
+                                          ),
+                                          SizedBox(height: 8),
+                                          Text(
+                                            'Facebook',
+                                            style: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  4, 26, 82, 0.5),
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                  SizedBox(height: 8),
-                                  Text(
-                                    'Telegram',
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(4, 26, 82, 0.5),
-                                      fontSize: 12,
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: Center(
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          width: 24,
+                                          height: 24,
+                                          child: Image.asset(assetPath(
+                                              'images/instagram-alt.png')),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        const Text(
+                                          'Instagram',
+                                          style: TextStyle(
+                                            color:
+                                                Color.fromRGBO(4, 26, 82, 0.5),
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: Center(
+                                    child: Column(
+                                      children: const [
+                                        SizedBox(
+                                          width: 24,
+                                          height: 24,
+                                          child: Icon(
+                                            Entypo.twitter,
+                                            color:
+                                                Color.fromRGBO(29, 161, 242, 1),
+                                            size: 24,
+                                          ),
+                                        ),
+                                        SizedBox(height: 8),
+                                        Text(
+                                          'Twitter',
+                                          style: TextStyle(
+                                            color:
+                                                Color.fromRGBO(4, 26, 82, 0.5),
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: Center(
+                                    child: Column(
+                                      children: const [
+                                        SizedBox(
+                                          width: 24,
+                                          height: 24,
+                                          child: Icon(
+                                            FontAwesome.telegram,
+                                            color:
+                                                Color.fromRGBO(38, 166, 230, 1),
+                                            size: 24,
+                                          ),
+                                        ),
+                                        SizedBox(height: 8),
+                                        Text(
+                                          'Telegram',
+                                          style: TextStyle(
+                                            color:
+                                                Color.fromRGBO(4, 26, 82, 0.5),
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 24),
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 40,
+                              height: 40,
+                              decoration: const BoxDecoration(
+                                color: Color.fromRGBO(219, 228, 251, 1),
                               ),
                             ),
-                          ),
-                        ],
+                            const SizedBox(width: 8),
+                            const Expanded(
+                              child: Text(
+                                'Church Bulletin',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(4, 26, 82, 1),
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                  ),
-                  child: Row(
-                    children: [
+                      const SizedBox(height: 8),
                       Container(
-                        width: 40,
-                        height: 40,
-                        decoration: const BoxDecoration(
-                          color: Color.fromRGBO(219, 228, 251, 1),
+                        width: double.infinity,
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 24),
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 40,
+                              height: 40,
+                              decoration: const BoxDecoration(
+                                color: Color.fromRGBO(219, 228, 251, 1),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            const Expanded(
+                              child: Text(
+                                'Schedules',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(4, 26, 82, 1),
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      const Expanded(
-                        child: Text(
-                          'Church Bulletin',
-                          style: TextStyle(
-                            color: Color.fromRGBO(4, 26, 82, 1),
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                  ),
-                  child: Row(
-                    children: [
+                      const SizedBox(height: 8),
                       Container(
-                        width: 40,
-                        height: 40,
-                        decoration: const BoxDecoration(
-                          color: Color.fromRGBO(219, 228, 251, 1),
+                        width: double.infinity,
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 24),
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 40,
+                              height: 40,
+                              decoration: const BoxDecoration(
+                                color: Color.fromRGBO(219, 228, 251, 1),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            const Expanded(
+                              child: Text(
+                                'Offertory and Giving',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(4, 26, 82, 1),
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      const Expanded(
-                        child: Text(
-                          'Schedules',
-                          style: TextStyle(
-                            color: Color.fromRGBO(4, 26, 82, 1),
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
+                      const SizedBox(height: 8),
                     ],
                   ),
-                ),
-                const SizedBox(height: 8),
-                Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: const BoxDecoration(
-                          color: Color.fromRGBO(219, 228, 251, 1),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      const Expanded(
-                        child: Text(
-                          'Offertory and Giving',
-                          style: TextStyle(
-                            color: Color.fromRGBO(4, 26, 82, 1),
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 8),
-              ],
-            ),
           ],
         ),
       ),
@@ -588,65 +622,93 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
   }
 
   void showAlert(BuildContext context) => showDialog(
-    context: context,
-    builder: (BuildContext context) => AlertDialog(
-      contentPadding: const EdgeInsets.all(0),
-      title: Column(
-        children: [
-          Row(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          contentPadding: const EdgeInsets.all(0),
+          title: Column(
             children: [
-              const Expanded(
-                child: Text(
-                  'Select Church',
-                  style: TextStyle(
-                    color: Color.fromRGBO(4, 26, 82, 1),
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18,
+              Row(
+                children: [
+                  const Expanded(
+                    child: Text(
+                      'Select Church',
+                      style: TextStyle(
+                        color: Color.fromRGBO(4, 26, 82, 1),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              RawMaterialButton(
-                constraints: const BoxConstraints(),
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                shape: const CircleBorder(),
-                child: const SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: Icon(
-                    MaterialCommunityIcons.close_circle,
-                    color: Color.fromRGBO(130,141,168,1),
-                    size: 24,
+                  RawMaterialButton(
+                    constraints: const BoxConstraints(),
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    shape: const CircleBorder(),
+                    child: const SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: Icon(
+                        MaterialCommunityIcons.close_circle,
+                        color: Color.fromRGBO(130, 141, 168, 1),
+                        size: 24,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
+              const SizedBox(height: 20),
             ],
           ),
-          const SizedBox(height: 20),
-        ],
-      ),
-      content: Container(
-        constraints: const BoxConstraints(
-          maxWidth: 600,
-          maxHeight: 600,
-        ),
-        child: ListView.separated(
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          itemCount: widget.model!.items!.length,
-          separatorBuilder: (BuildContext context, int index) {
-            return const SizedBox(height: 17);
-          },
-          itemBuilder: (context, index) {
-            if (index == widget.model!.items!.length -1) {
-              return Container(
-                padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    RawMaterialButton(
+          content: Container(
+            constraints: const BoxConstraints(
+              maxWidth: 600,
+              maxHeight: 600,
+            ),
+            child: ListView.separated(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: widget.model!.items!.length,
+              separatorBuilder: (BuildContext context, int index) {
+                return const SizedBox(height: 17);
+              },
+              itemBuilder: (context, index) {
+                if (index == widget.model!.items!.length - 1) {
+                  return Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        RawMaterialButton(
+                          constraints: const BoxConstraints(),
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          onPressed: () {
+                            widget.model!.fetchChurchInfo(orgId: index + 1);
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            widget.model!.items![index]['completename'] ?? '',
+                            style: const TextStyle(
+                              color: Color.fromRGBO(4, 26, 82, 1),
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 17),
+                      ],
+                    ),
+                  );
+                }
+
+                return Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: RawMaterialButton(
                       constraints: const BoxConstraints(),
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       onPressed: () {
@@ -661,38 +723,13 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 17),
-                  ],
-                ),
-              );
-            }
-
-            return Container(
-              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: RawMaterialButton(
-                  constraints: const BoxConstraints(),
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  onPressed: () {
-                    widget.model!.fetchChurchInfo(orgId: index + 1);
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    widget.model!.items![index]['completename'] ?? '',
-                    style: const TextStyle(
-                      color: Color.fromRGBO(4, 26, 82, 1),
-                      fontSize: 16,
-                    ),
                   ),
-                ),
-              ),
-            );
-          },
+                );
+              },
+            ),
+          ),
         ),
-      ),
-    ),
-  );
+      );
 
   void urlLauncher(Uri uri, String source) async {
     if (source == 'web') {
@@ -702,14 +739,14 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
           mode: LaunchMode.externalApplication,
         );
       } else {
-          throw 'Could not launch $uri';
-      } 
+        throw 'Could not launch $uri';
+      }
     } else {
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri);
       } else {
-          throw 'Could not launch $uri';
-      } 
+        throw 'Could not launch $uri';
+      }
     }
   }
 }

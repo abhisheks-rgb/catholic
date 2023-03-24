@@ -22,21 +22,22 @@ class _WelcomePageState extends State<WelcomePage> {
   void initState() {
     super.initState();
 
-    _scrollController = ScrollController()..addListener(() {
-      if (_isAppBarExpanded) {
-        if (shouldDisplay != true) {
-          setState(() {
-            shouldDisplay = true;
-          });
+    _scrollController = ScrollController()
+      ..addListener(() {
+        if (_isAppBarExpanded) {
+          if (shouldDisplay != true) {
+            setState(() {
+              shouldDisplay = true;
+            });
+          }
+        } else {
+          if (shouldDisplay != false) {
+            setState(() {
+              shouldDisplay = false;
+            });
+          }
         }
-      } else {
-        if (shouldDisplay != false) {
-          setState(() {
-            shouldDisplay = false;
-          });
-        }
-      }
-    });
+      });
   }
 
   bool get _isAppBarExpanded {
@@ -50,7 +51,7 @@ class _WelcomePageState extends State<WelcomePage> {
       {
         'title': 'Mass Readings',
         'icon': 'mass_readings_icon.png',
-        'route': 'schedules'
+        'route': 'mass_readings'
       },
       {
         'title': 'Scripture Reflection',
@@ -65,9 +66,13 @@ class _WelcomePageState extends State<WelcomePage> {
       {
         'title': 'Church Bulletin',
         'icon': '001-dove.png',
-        'route': 'schedules'
+        'route': 'church_bulletin',
       },
-      {'title': 'Church Info', 'icon': '001-dove.png', 'route': 'church_info'},
+      {
+        'title': 'Church Info',
+        'icon': '001-dove.png',
+        'route': 'church_info',
+      },
       {
         'title': 'Offertory & Giving',
         'icon': '004-greeting-card.png',
@@ -91,16 +96,16 @@ class _WelcomePageState extends State<WelcomePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 shouldDisplay
-                  ? SizedBox(
-                      width: 54,
-                      height: 54,
-                      child: Image.asset(
-                        assetPath('logo.png'),
-                        width: 24,
-                        height: 24,
-                      ),
-                    )
-                  : Container(),
+                    ? SizedBox(
+                        width: 54,
+                        height: 54,
+                        child: Image.asset(
+                          assetPath('logo.png'),
+                          width: 24,
+                          height: 24,
+                        ),
+                      )
+                    : Container(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -128,8 +133,8 @@ class _WelcomePageState extends State<WelcomePage> {
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white,
                         ),
-                      child: Image.asset(
-                        assetPath('user_icon.png'),
+                        child: Image.asset(
+                          assetPath('user_icon.png'),
                           width: 32,
                           height: 32,
                         ),
@@ -152,120 +157,120 @@ class _WelcomePageState extends State<WelcomePage> {
                   ],
                 ),
                 child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        child: Align(
-                          child: SizedBox(
-                            height: 275,
-                            child: Image.asset(
-                              assetPath('welcome_bg.png'),
-                              fit: BoxFit.cover,
-                            ),
+                  children: [
+                    Positioned(
+                      left: 0,
+                      top: 0,
+                      child: Align(
+                        child: SizedBox(
+                          height: 275,
+                          child: Image.asset(
+                            assetPath('welcome_bg.png'),
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        child: Align(
-                          child: SizedBox(
-                            width: 391,
-                            height: 275,
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment(0.957, -1.211),
-                                  end: Alignment(0.515, 1),
-                                  colors: <Color>[
-                                    Color(0x51ffffff),
-                                    Color(0xffffffff)
-                                  ],
-                                  stops: <double>[0, 1],
-                                ),
+                    ),
+                    Positioned(
+                      left: 0,
+                      top: 0,
+                      child: Align(
+                        child: SizedBox(
+                          width: 391,
+                          height: 275,
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment(0.957, -1.211),
+                                end: Alignment(0.515, 1),
+                                colors: <Color>[
+                                  Color(0x51ffffff),
+                                  Color(0xffffffff)
+                                ],
+                                stops: <double>[0, 1],
                               ),
                             ),
                           ),
                         ),
                       ),
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        child: Align(
-                          child: SizedBox(
-                            width: 391,
-                            height: 275,
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment(1, -1),
-                                  end: Alignment(-1, 1),
-                                  colors: <Color>[
-                                    Color(0xff174dd4),
-                                    Color(0x00ffffff)
-                                  ],
-                                  stops: <double>[0, 1],
-                                ),
+                    ),
+                    Positioned(
+                      left: 0,
+                      top: 0,
+                      child: Align(
+                        child: SizedBox(
+                          width: 391,
+                          height: 275,
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment(1, -1),
+                                end: Alignment(-1, 1),
+                                colors: <Color>[
+                                  Color(0xff174dd4),
+                                  Color(0x00ffffff)
+                                ],
+                                stops: <double>[0, 1],
                               ),
                             ),
                           ),
                         ),
                       ),
-                      const Positioned(
-                        // welcomeoscarHYf (127:100)
-                        left: 24,
-                        top: 132,
-                        child: Align(
-                          child: SizedBox(
-                            width: 206,
-                            height: 34,
-                            child: Text(
-                              'Welcome Oscar, ',
-                              style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xff041a51),
-                              ),
+                    ),
+                    const Positioned(
+                      // welcomeoscarHYf (127:100)
+                      left: 24,
+                      top: 132,
+                      child: Align(
+                        child: SizedBox(
+                          width: 206,
+                          height: 34,
+                          child: Text(
+                            'Welcome Oscar, ',
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xff041a51),
                             ),
                           ),
                         ),
                       ),
-                      const Positioned(
-                        left: 24,
-                        top: 193,
-                        child: Align(
-                          child: SizedBox(
-                            width: 287,
-                            height: 48,
-                            child: Text(
-                              '“The steadfast love of the LORD never ceases...” - Lam 3: 22',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xff041a51),
-                              ),
+                    ),
+                    const Positioned(
+                      left: 24,
+                      top: 193,
+                      child: Align(
+                        child: SizedBox(
+                          width: 287,
+                          height: 48,
+                          child: Text(
+                            '“The steadfast love of the LORD never ceases...” - Lam 3: 22',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xff041a51),
                             ),
                           ),
                         ),
                       ),
-                      Positioned(
-                        left: 30.2822113037,
-                        top: 16,
-                        child: Align(
-                          child: SizedBox(
-                            width: 54,
-                            height: 54,
-                            child: Image.asset(
-                              assetPath('logo.png'),
-                              width: 24,
-                              height: 24,
-                            ),
+                    ),
+                    Positioned(
+                      left: 30.2822113037,
+                      top: 16,
+                      child: Align(
+                        child: SizedBox(
+                          width: 54,
+                          height: 54,
+                          child: Image.asset(
+                            assetPath('logo.png'),
+                            width: 24,
+                            height: 24,
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -281,7 +286,8 @@ class _WelcomePageState extends State<WelcomePage> {
               delegate: SliverChildBuilderDelegate((_, int index) {
                 return InkWell(
                   onTap: () {
-                    widget.model?.showPage('/_/${exploreItems[index]['route']}');
+                    widget.model
+                        ?.showPage('/_/${exploreItems[index]['route']}');
                   },
                   child: Container(
                     height: 118,
