@@ -11,6 +11,8 @@ import '../modules/offertory/offertory.dart';
 import '../modules/scripture/scripture.dart';
 import '../modules/priest_info/priest_info.dart';
 import '../modules/mass_readings/mass_readings.dart';
+import '../modules/login/login.dart';
+import '../modules/profile/profile.dart';
 
 class Routes extends BaseRoutes {
   Routes()
@@ -27,6 +29,8 @@ class Routes extends BaseRoutes {
             Scripture(),
             PriestInfo(),
             MassReadings(),
+            Login(),
+            Profile(),
           ],
         );
 }

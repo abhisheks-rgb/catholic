@@ -125,18 +125,25 @@ class _WelcomePageState extends State<WelcomePage> {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    SizedBox(
-                      width: 32,
-                      height: 32,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                        ),
-                        child: Image.asset(
-                          assetPath('user_icon.png'),
-                          width: 32,
-                          height: 32,
+                    RawMaterialButton(
+                      constraints: const BoxConstraints(),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      onPressed: () {
+                        widget.model?.showPage('/_/profile');
+                      },
+                      child: SizedBox(
+                        width: 32,
+                        height: 32,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                          ),
+                          child: Image.asset(
+                            assetPath('user_icon.png'),
+                            width: 32,
+                            height: 32,
+                          ),
                         ),
                       ),
                     ),
