@@ -36,7 +36,14 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Church Info'),
+        title: const Text(
+          'Church Info',
+          style: TextStyle(
+            color: Color.fromRGBO(4, 26, 82, 1),
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+          ),
+        ),
         leading: GestureDetector(
           child: const Icon(
             Icons.arrow_back_ios,

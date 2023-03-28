@@ -18,7 +18,14 @@ class ScriptureDetailsView extends BaseStatelessPageView {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Scripture Reflection'),
+        title: const Text(
+          'Scripture Reflection',
+          style: TextStyle(
+            color: Color.fromRGBO(4, 26, 82, 1),
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+          ),
+        ),
         elevation: 0,
         leading: GestureDetector(
           child: const Icon(

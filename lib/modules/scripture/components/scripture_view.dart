@@ -2,7 +2,6 @@ import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 
 import '../models/scripture_model.dart';
-import '../../../utils/asset_path.dart';
 
 class ScriptureView extends BaseStatelessPageView {
   final ScriptureModel? model;
@@ -42,7 +41,14 @@ class ScriptureView extends BaseStatelessPageView {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Scripture Reflections'),
+        title: const Text(
+          'Scripture Reflections',
+          style: TextStyle(
+            color: Color.fromRGBO(4, 26, 82, 1),
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+          ),
+        ),
         elevation: 0,
         leading: GestureDetector(
           child: const Icon(

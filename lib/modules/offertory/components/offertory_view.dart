@@ -32,7 +32,14 @@ class _OffertoryViewState extends State<OffertoryView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Offertory & Giving'),
+        title: const Text(
+          'Offertory & Giving',
+          style: TextStyle(
+            color: Color.fromRGBO(4, 26, 82, 1),
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+          ),
+        ),
         leading: GestureDetector(
           child: const Icon(
             Icons.arrow_back_ios,

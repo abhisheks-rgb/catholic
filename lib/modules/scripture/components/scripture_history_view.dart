@@ -18,7 +18,14 @@ class ScriptureHistoryView extends BaseStatelessPageView {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('View History'),
+        title: const Text(
+          'View History',
+          style: TextStyle(
+            color: Color.fromRGBO(4, 26, 82, 1),
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+          ),
+        ),
         elevation: 0,
         leading: GestureDetector(
           child: const Icon(
