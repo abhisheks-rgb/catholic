@@ -6,6 +6,7 @@ import 'package:cloud_functions/cloud_functions.dart';
 import "package:collection/collection.dart";
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:intl/intl.dart';
+import 'package:dotted_line/dotted_line.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../models/schedules_model.dart';
@@ -222,7 +223,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                             _schedules!.isNotEmpty &&
                             !isLoadingSchedules
                         ? Container(
-                            height: 40,
+                            height: 45,
                             width: double.infinity,
                             margin: const EdgeInsets.fromLTRB(0, 16, 0, 16),
                             child: ListView.separated(
@@ -231,47 +232,66 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                               itemBuilder: (BuildContext context, int index) {
                                 bool isSelected =
                                     _schedTypes![index] == _selectedSchedType;
-                                return ElevatedButton(
-                                  style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(
-                                        isSelected
-                                            ? const Color.fromRGBO(4, 26, 82, 1)
-                                            : const Color.fromRGBO(
-                                                255, 255, 255, 1)),
-                                    shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(32.0),
+                                return Container(
+                                  margin: const EdgeInsets.only(bottom: 5),
+                                  decoration: const BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color:
+                                            Color.fromRGBO(208, 185, 133, 0.15),
+                                        offset: Offset(0, 8),
+                                        blurRadius: 16,
                                       ),
-                                    ),
+                                      BoxShadow(
+                                        color:
+                                            Color.fromRGBO(208, 185, 133, 0.05),
+                                        offset: Offset(0, 4),
+                                        blurRadius: 8,
+                                      ),
+                                    ],
                                   ),
-                                  onPressed: () {
-                                    final filtered =
-                                        _schedules?.map((key, value) {
-                                      final filteredSched = value.where((p) {
-                                        return p['type'] == _schedTypes![index];
-                                      }).toList();
+                                  child: TextButton(
+                                    style: ButtonStyle(
+                                        foregroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                isSelected
+                                                    ? const Color.fromRGBO(
+                                                        255, 255, 255, 1)
+                                                    : const Color.fromRGBO(
+                                                        4, 26, 82, 0.7)),
+                                        backgroundColor:
+                                            MaterialStateProperty.all(isSelected
+                                                ? const Color.fromRGBO(
+                                                    4, 26, 82, 1)
+                                                : const Color.fromRGBO(
+                                                    255, 255, 255, 1)),
+                                        shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(32.0),
+                                        ))),
+                                    onPressed: () {
+                                      final filtered =
+                                          _schedules?.map((key, value) {
+                                        final filteredSched = value.where((p) {
+                                          return p['type'] ==
+                                              _schedTypes![index];
+                                        }).toList();
 
-                                      return MapEntry(key, filteredSched);
-                                    });
+                                        return MapEntry(key, filteredSched);
+                                      });
 
-                                    filtered?.removeWhere(
-                                        (key, value) => value.isEmpty);
+                                      filtered?.removeWhere(
+                                          (key, value) => value.isEmpty);
 
-                                    setState(() {
-                                      _filteredSchedules = filtered;
-                                      _selectedSchedType = _schedTypes![index];
-                                    });
-                                  },
-                                  child: Text(
-                                    _schedTypes![index],
-                                    style: TextStyle(
-                                        color: isSelected
-                                            ? const Color.fromRGBO(
-                                                255, 255, 255, 1)
-                                            : const Color.fromRGBO(
-                                                4, 26, 82, 0.7)),
+                                      setState(() {
+                                        _filteredSchedules = filtered;
+                                        _selectedSchedType =
+                                            _schedTypes![index];
+                                      });
+                                    },
+                                    child: Text(_schedTypes![index]),
                                   ),
                                 );
                               },
@@ -326,11 +346,22 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
-                                                    Text(dateSchedText),
-                                                    Text(DateFormat(
-                                                            'E, d MMM yyyy')
-                                                        .format(DateTime.parse(
-                                                            key))),
+                                                    Text(
+                                                      dateSchedText,
+                                                      style: const TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              4, 26, 82, 1)),
+                                                    ),
+                                                    Text(
+                                                      DateFormat(
+                                                              'E, d MMM yyyy')
+                                                          .format(
+                                                              DateTime.parse(
+                                                                  key)),
+                                                      style: const TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              4, 26, 82, 1)),
+                                                    ),
                                                   ]),
                                               const SizedBox(height: 8),
                                             ],
@@ -454,8 +485,12 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                                                           'smcp')
                                                                 ],
                                                                 fontSize: 16)),
-                                                        const SizedBox(
-                                                            height: 8),
+                                                        SizedBox(
+                                                            height:
+                                                                _selectedParishValue ==
+                                                                        "all"
+                                                                    ? 8
+                                                                    : 0),
                                                         _selectedParishValue ==
                                                                 "all"
                                                             ? Text(
@@ -476,22 +511,35 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                                                 ),
                                                               )
                                                             : const SizedBox(),
+                                                        data?[key][index]
+                                                                    ['notes'] !=
+                                                                ""
+                                                            ? Container(
+                                                                margin: const EdgeInsets
+                                                                        .fromLTRB(
+                                                                    0,
+                                                                    8,
+                                                                    0,
+                                                                    12),
+                                                                child:
+                                                                    const DottedLine(),
+                                                              )
+                                                            : const SizedBox(),
                                                         Text(
                                                           data?[key][index]
-                                                                  ['notes']
-                                                              .toUpperCase(),
+                                                              ['notes'],
                                                           style:
                                                               const TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    12,
-                                                                    72,
-                                                                    224,
-                                                                    1),
-                                                          ),
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          4,
+                                                                          26,
+                                                                          82,
+                                                                          1)),
                                                         )
                                                       ],
                                                     ),
