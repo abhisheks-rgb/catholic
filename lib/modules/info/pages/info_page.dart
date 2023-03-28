@@ -1,6 +1,7 @@
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 import '../models/info_model.dart';
 
@@ -28,8 +29,16 @@ class _InfoPage extends StatefulWidget {
 
 class _InfoPageState extends State<_InfoPage> {
   final InfoModel model;
+  Map? _qoute;
 
   _InfoPageState(this.model);
+
+  @override
+  void initState() {
+    super.initState();
+
+    _getQoute();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -162,17 +171,16 @@ class _InfoPageState extends State<_InfoPage> {
                         ),
                       ),
                     ),
-                    const Positioned(
+                    Positioned(
                       // welcomeoscarHYf (127:100)
                       left: 24,
                       top: 71,
                       child: Align(
                         child: SizedBox(
-                          width: 206,
                           height: 34,
                           child: Text(
-                            'Banner content goes here',
-                            style: TextStyle(
+                            _qoute?['title'] ?? "",
+                            style: const TextStyle(
                               fontSize: 28,
                               fontWeight: FontWeight.w500,
                               color: Color(0xff041a51),
@@ -181,7 +189,7 @@ class _InfoPageState extends State<_InfoPage> {
                         ),
                       ),
                     ),
-                    const Positioned(
+                    Positioned(
                       left: 24,
                       top: 124,
                       child: Align(
@@ -189,8 +197,8 @@ class _InfoPageState extends State<_InfoPage> {
                           width: 287,
                           height: 48,
                           child: Text(
-                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras arcu est, condimentum ',
-                            style: TextStyle(
+                            _qoute?['content'] ?? "",
+                            style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
                               color: Color(0xff041a51),
@@ -262,5 +270,23 @@ class _InfoPageState extends State<_InfoPage> {
         ),
       ),
     );
+  }
+
+  void _getQoute() async {
+    final result = await FirebaseFunctions.instanceFor(region: 'asia-east2')
+        .httpsCallable("quote")
+        .call({});
+
+    final response = result.data;
+
+    List itemList = response['results']['items'];
+
+    var infoQoute = itemList.firstWhere((element) {
+      return element['type'] == 'info';
+    });
+
+    setState(() {
+      _qoute = infoQoute;
+    });
   }
 }

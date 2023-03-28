@@ -40,6 +40,12 @@ class Navbar extends StatelessWidget {
               height: 24,
               width: 24,
             ),
+            activeIcon: Image.asset(
+              assetPath('pray.png'),
+              color: const Color.fromRGBO(4, 26, 82, 1),
+              height: 24,
+              width: 24,
+            ),
             label: 'Pray',
           ),
           BottomNavigationBarItem(
@@ -49,12 +55,24 @@ class Navbar extends StatelessWidget {
               height: 24,
               width: 24,
             ),
+            activeIcon: Image.asset(
+              assetPath('book.png'),
+              color: const Color.fromRGBO(4, 26, 82, 1),
+              height: 24,
+              width: 24,
+            ),
             label: 'Info',
           ),
           BottomNavigationBarItem(
             icon: Image.asset(
               assetPath('events.png'),
               color: const Color.fromRGBO(205, 209, 220, 1),
+              height: 24,
+              width: 24,
+            ),
+            activeIcon: Image.asset(
+              assetPath('events.png'),
+              color: const Color.fromRGBO(4, 26, 82, 1),
               height: 24,
               width: 24,
             ),
@@ -93,6 +111,20 @@ class Navbar extends StatelessWidget {
   }
 
   int _getIndex(BuildContext context) {
-    return 0;
+    var route = App.getRouteName(context);
+    switch (route) {
+      case '/_/pray':
+      case '/_/mass_readings':
+      case '/_/scripture':
+        return 1;
+      case '/_/info':
+      case '/_/schedules':
+      case '/_/church_info':
+      case '/_/priest_info':
+      case '/_/offertory':
+        return 2;
+      default:
+        return 0;
+    }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 import '../models/pray_model.dart';
 
@@ -28,8 +29,16 @@ class _PrayPage extends StatefulWidget {
 
 class _PrayPageState extends State<_PrayPage> {
   final PrayModel model;
+  Map? _istoday;
 
   _PrayPageState(this.model);
+
+  @override
+  void initState() {
+    super.initState();
+
+    _getisToday();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +104,7 @@ class _PrayPageState extends State<_PrayPage> {
                         child: SizedBox(
                           height: 226,
                           child: Image.asset(
-                            assetPath('info_banner.png'),
+                            assetPath('pray_banner.png'),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -147,35 +156,33 @@ class _PrayPageState extends State<_PrayPage> {
                         ),
                       ),
                     ),
-                    const Positioned(
+                    Positioned(
                       // welcomeoscarHYf (127:100)
                       left: 24,
                       top: 71,
                       child: Align(
                         child: SizedBox(
-                          width: 206,
                           height: 34,
                           child: Text(
-                            'Banner content goes here',
-                            style: TextStyle(
-                              fontSize: 28,
+                            _istoday?['title'] ?? "",
+                            style: const TextStyle(
+                              fontSize: 20,
                               fontWeight: FontWeight.w500,
-                              color: Color(0xff041a51),
+                              color: Color.fromRGBO(4, 26, 82, 1),
                             ),
                           ),
                         ),
                       ),
                     ),
-                    const Positioned(
+                    Positioned(
                       left: 24,
                       top: 124,
                       child: Align(
                         child: SizedBox(
-                          width: 287,
                           height: 48,
                           child: Text(
-                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras arcu est, condimentum ',
-                            style: TextStyle(
+                            _istoday?['content'] ?? "",
+                            style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
                               color: Color(0xff041a51),
@@ -247,5 +254,19 @@ class _PrayPageState extends State<_PrayPage> {
         ),
       ),
     );
+  }
+
+  void _getisToday() async {
+    final result = await FirebaseFunctions.instanceFor(region: 'asia-east2')
+        .httpsCallable("todayis")
+        .call({});
+
+    final response = result.data;
+
+    List itemList = response['results']['items'];
+
+    setState(() {
+      _istoday = itemList[0];
+    });
   }
 }
