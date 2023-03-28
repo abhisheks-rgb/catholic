@@ -1,11 +1,13 @@
 import 'package:butter/butter.dart';
 import 'package:flutter/widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeModel extends BaseUIModel<HomeModel> {
   String? error;
   bool initialized;
   bool loading;
   String? title;
+  User? user;
 
   late Future<void> Function(BuildContext context) initialize;
   void Function({
@@ -24,6 +26,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
     this.initialized = false,
     this.loading = false,
     this.title = '',
+    this.user,
   });
 
   @override
@@ -35,6 +38,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
         initialized: initialized,
         loading: loading,
         title: title,
+        user: user,
       );
 
   @override
@@ -43,6 +47,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
         initialized,
         loading,
         title,
+        user,
       ]);
 
   //
@@ -56,5 +61,6 @@ class HomeModel extends BaseUIModel<HomeModel> {
           error == other.error &&
           initialized == other.initialized &&
           loading == other.loading &&
-          title == other.title;
+          title == other.title &&
+          user == other.user;
 }

@@ -1,0 +1,262 @@
+import 'package:butter/butter.dart';
+import 'package:flutter/material.dart';
+
+import '../models/login_model.dart';
+
+class LoginView extends BaseStatefulPageView {
+  final LoginModel? model;
+
+  LoginView(this.model) : super();
+
+  @override
+  State<BaseStatefulPageView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
+  final formKey = GlobalKey<FormState>();
+  List<Map<String, dynamic>> items = [
+    {
+      'label': 'EMAIL',
+      'hintText': 'name@email.com',
+      'error': 'Enter a valid email',
+      'regex': RegExp(r''),
+    },
+    {
+      'label': 'PASSWORD',
+      'hintText': 'Password',
+      'error': 'Enter a valid password',
+      'regex': RegExp(r''),
+    },
+  ];
+  final loginEmail = TextEditingController();
+  final loginPassword = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          'Login',
+          style: TextStyle(
+            color: Color.fromRGBO(4, 26, 82, 1),
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+          ),
+        ),
+        leading: Container(),
+        // leading: GestureDetector(
+        //   child: const Icon(
+        //     Icons.arrow_back_ios,
+        //     color: Colors.black,
+        //   ),
+        //   onTap: () {
+        //     Navigator.of(context).maybePop();
+        //   },
+        // ),
+      ),
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            // Positioned(
+            //   top: 0,
+            //   left: 0,
+            //   child: Align(
+            //     child: SizedBox(
+            //       height: 275,
+            //       child: Image.asset(
+            //         assetPath('welcome_bg.png'),
+            //         fit: BoxFit.cover,
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // Positioned(
+            //   left: 0,
+            //   top: 0,
+            //   child: Align(
+            //     child: SizedBox(
+            //       width: 391,
+            //       height: 275,
+            //       child: Container(
+            //         decoration: const BoxDecoration(
+            //           gradient: LinearGradient(
+            //             begin: Alignment(0.957, -1.211),
+            //             end: Alignment(0.515, 1),
+            //             colors: <Color>[
+            //               Color(0x51ffffff),
+            //               Color(0xffffffff)
+            //             ],
+            //             stops: <double>[0, 1],
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // Positioned(
+            //   left: 0,
+            //   top: 0,
+            //   child: Align(
+            //     child: SizedBox(
+            //       width: 391,
+            //       height: 275,
+            //       child: Container(
+            //         decoration: const BoxDecoration(
+            //           gradient: LinearGradient(
+            //             begin: Alignment(1, -1),
+            //             end: Alignment(-1, 1),
+            //             colors: <Color>[
+            //               Color(0xff174dd4),
+            //               Color(0x00ffffff)
+            //             ],
+            //             stops: <double>[0, 1],
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    '“For I was hungry and you gave me food, I was thirsty and you gave me drink, I was a stranger and you welcomed me” - Matthew 25:35',
+                    style: TextStyle(
+                      color:  Color.fromRGBO(4, 26, 82, 1),
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  Form(
+                    key: formKey,
+                    child: Column(
+                      children: items.map<Widget>((element) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              element['label'] ?? '',
+                              style: const TextStyle(
+                                color: Color.fromRGBO(4, 26, 82, 0.5),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            TextFormField(
+                              controller: element['label'] == 'EMAIL'
+                                ? loginEmail
+                                : loginPassword,
+                              decoration: InputDecoration(
+                                hintText: element['hintText'] ?? '',
+                                border: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value!.isEmpty) { // || !element['regex'].hasMatch(value)
+                                  return element['error'] ?? '';
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
+                            const SizedBox(height: 16),
+                          ],
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: RawMaterialButton(
+                      constraints: const BoxConstraints(),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      onPressed: () {
+                      },
+                      child: const Text(
+                        'Forgot Password',
+                        style: TextStyle(
+                          color: Color.fromRGBO(12, 72, 224, 1),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.21),
+                  Material(
+                    shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(10)),
+                    color: const Color.fromRGBO(12, 72, 224, 1),
+                    clipBehavior: Clip.antiAlias,
+                    child: MaterialButton(
+                      minWidth: double.infinity,
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          widget.model?.login(loginEmail.text, loginPassword.text);
+                        }
+                      },
+                      child: const Text(
+                        'Login',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'No Account Yet?',
+                        style: TextStyle(
+                          color: Color.fromRGBO(4, 26, 82, 0.5),
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      RawMaterialButton(
+                        constraints: const BoxConstraints(),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: () {
+                        },
+                        child: const Text(
+                          'Signup here.',
+                          style: TextStyle(
+                            color: Color.fromRGBO(12, 72, 224, 1),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            widget.model?.loading == false || widget.model?.loading == null
+              ? Container()
+              :
+            Container(
+              height: MediaQuery.of(context).size.height * 0.74,
+              margin: const EdgeInsets.only(top: 16),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.5),
+              ),
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

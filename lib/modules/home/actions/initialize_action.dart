@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:butter/butter.dart';
 import 'package:flutter/widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../config/app_config.dart';
 import 'select_menu_item_action.dart';
@@ -23,9 +24,11 @@ class InitializeAction extends BaseAction {
     Butter.d('InitializeAction::reduce');
 
     String? error;
+    User? user;
     await dispatchModel<HomeModel>(HomeModel(), (m) {
       m.error = error;
       m.loading = true;
+      user = m.user;
     });
 
     try {
@@ -36,6 +39,10 @@ class InitializeAction extends BaseAction {
         replaceCurrent: true,
         route: AppConfig.initRoute,
       ));
+
+      if (user == null) {
+        pushNamed('/_/login');
+      }
     } catch (e) {
       Butter.e(e.toString());
       throw 'Unable to load resources properly!';
