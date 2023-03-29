@@ -81,6 +81,7 @@ flutter:
     - assets/
     - assets/fonts/google_fonts/
     - assets/images/
+    - assets/menu_item/
     - assets/data/parish.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
