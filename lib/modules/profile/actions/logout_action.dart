@@ -22,6 +22,8 @@ class LogoutAction extends BaseAction {
 
     User? user;
 
+    await FirebaseAuth.instance.signOut();
+
     await dispatchModel<HomeModel>(HomeModel(), (m) {
       m.user = user;
     });

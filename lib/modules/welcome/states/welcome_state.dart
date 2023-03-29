@@ -1,6 +1,8 @@
 import 'package:butter/butter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/welcome_model.dart';
+import '../../home/models/home_model.dart';
 
 class WelcomeState extends BasePageState<WelcomeModel> {
   WelcomeState();
@@ -35,7 +37,25 @@ class WelcomeState extends BasePageState<WelcomeModel> {
           ), (m) {
         // Load all your model's handlers here
         m.showPage = (route) async {
-          pushNamed(route);
+          String newRoute = route;
+
+          if (route == '/_/profile') {
+            User? user;
+
+            await dispatchModel<HomeModel>(HomeModel(), (m) {
+              user = m.user;
+            });
+
+            if (user == null) {
+              user = FirebaseAuth.instance.currentUser;
+
+              if (user == null) {
+                newRoute = '/_/login';
+              }
+            }
+          }
+
+          pushNamed(newRoute);
         };
       });
 }

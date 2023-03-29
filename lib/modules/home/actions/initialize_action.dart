@@ -41,7 +41,14 @@ class InitializeAction extends BaseAction {
       ));
 
       if (user == null) {
-        pushNamed('/_/login');
+        user = FirebaseAuth.instance.currentUser;
+        if (user == null) {
+          Butter.d('InitializeAction::reduce::not_logged_in');
+        } else {
+          Butter.d('InitializeAction::reduce::is_logged_in');
+        }
+      } else {
+        Butter.d('InitializeAction::reduce::is_logged_in');
       }
     } catch (e) {
       Butter.e(e.toString());
@@ -53,6 +60,7 @@ class InitializeAction extends BaseAction {
       m.error = error;
       m.loading = false;
       m.initialized = true;
+      m.user = user;
     });
   }
 }
