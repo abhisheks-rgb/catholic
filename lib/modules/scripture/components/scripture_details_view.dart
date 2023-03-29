@@ -49,16 +49,19 @@ class ScriptureDetailsView extends BaseStatelessPageView {
       SingleChildScrollView(
         child: Container(
           width: double.infinity,
-          margin: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+          margin: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                _item['contentTitle'],
-                style: const TextStyle(
-                  color: Color.fromRGBO(4, 26, 82, 1),
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+                child:Text(
+                  _item['contentTitle'],
+                  style: const TextStyle(
+                    color: Color.fromRGBO(4, 26, 82, 1),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                  ),
                 ),
               ),
               const SizedBox(height: 24),
@@ -79,6 +82,17 @@ class ScriptureDetailsView extends BaseStatelessPageView {
                   'body': Style(
                     color: const Color.fromRGBO(4, 26, 82, 1),
                     fontSize: FontSize(16),
+                    textAlign: TextAlign.left,
+                  ),
+                  'div': Style(
+                    color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontSize: FontSize(16),
+                    textAlign: TextAlign.left,
+                  ),
+                  'p': Style(
+                    color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontSize: FontSize(16),
+                    textAlign: TextAlign.left,
                   ),
                 },
               ),
