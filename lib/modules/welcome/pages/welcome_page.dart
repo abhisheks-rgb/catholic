@@ -50,32 +50,32 @@ class _WelcomePageState extends State<WelcomePage> {
     List<dynamic> exploreItems = <dynamic>[
       {
         'title': 'Mass Readings',
-        'icon': 'mass_readings_icon.png',
+        'icon': 'Mass_Reading.png',
         'route': 'mass_readings'
       },
       {
         'title': 'Scripture Reflection',
-        'icon': '002-pray.png',
+        'icon': 'Scripture_Reflections.png',
         'route': 'scripture'
       },
       {
         'title': 'Mass Schedules',
-        'icon': '004-greeting-card.png',
+        'icon': 'Mass_Schedules.png',
         'route': 'schedules'
       },
       {
         'title': 'Church Bulletin',
-        'icon': '001-dove.png',
+        'icon': 'Church_Bulletin.png',
         'route': 'church_bulletin',
       },
       {
         'title': 'Church Info',
-        'icon': '001-dove.png',
+        'icon': 'Church_Info.png',
         'route': 'church_info',
       },
       {
         'title': 'Offertory & Giving',
-        'icon': '004-greeting-card.png',
+        'icon': 'Offertory_Giving.png',
         'route': 'offertory'
       },
     ];
@@ -173,7 +173,7 @@ class _WelcomePageState extends State<WelcomePage> {
                           height: 275,
                           child: Image.asset(
                             assetPath('welcome_bg.png'),
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ),
@@ -186,15 +186,15 @@ class _WelcomePageState extends State<WelcomePage> {
                           width: 391,
                           height: 275,
                           child: Container(
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               gradient: LinearGradient(
-                                begin: Alignment(0.957, -1.211),
-                                end: Alignment(0.515, 1),
+                                begin: const Alignment(0.957, -1.211),
+                                end: const Alignment(0.515, 1),
                                 colors: <Color>[
-                                  Color(0x51ffffff),
-                                  Color(0xffffffff)
+                                  const Color(0x51ffffff),
+                                  const Color(0xffffffff).withOpacity(0.9)
                                 ],
-                                stops: <double>[0, 1],
+                                stops: const <double>[0, 1],
                               ),
                             ),
                           ),
@@ -214,8 +214,8 @@ class _WelcomePageState extends State<WelcomePage> {
                                 begin: Alignment(1, -1),
                                 end: Alignment(-1, 1),
                                 colors: <Color>[
-                                  Color(0xff174dd4),
-                                  Color(0x00ffffff)
+                                  Color.fromRGBO(24, 77, 212, 0.5),
+                                  Color.fromRGBO(255, 255, 255, 0)
                                 ],
                                 stops: <double>[0, 1],
                               ),
@@ -282,13 +282,12 @@ class _WelcomePageState extends State<WelcomePage> {
             ),
           ),
           SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
             sliver: SliverGrid(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
-                childAspectRatio: 1.25,
               ),
               delegate: SliverChildBuilderDelegate((_, int index) {
                 return InkWell(
@@ -297,7 +296,7 @@ class _WelcomePageState extends State<WelcomePage> {
                         ?.showPage('/_/${exploreItems[index]['route']}');
                   },
                   child: Container(
-                    height: 118,
+                    height: 185,
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: const Color(0xffffffff),
@@ -317,10 +316,11 @@ class _WelcomePageState extends State<WelcomePage> {
                         children: [
                           Container(
                             margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                            width: 40,
-                            height: 40,
+                            width: 74,
+                            height: 100,
                             child: Image.asset(
-                              assetPath(exploreItems[index]['icon']),
+                              assetPath(
+                                  'menu_item/${exploreItems[index]['icon']}'),
                               fit: BoxFit.cover,
                             ),
                           ),

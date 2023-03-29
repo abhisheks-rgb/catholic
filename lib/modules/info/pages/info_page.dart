@@ -45,28 +45,28 @@ class _InfoPageState extends State<_InfoPage> {
     List<dynamic> exploreItems = <dynamic>[
       {
         'title': 'Mass Schedules',
-        'icon': '004-greeting-card.png',
+        'icon': 'Mass_Schedules.png',
         'route': 'schedules'
       },
       {
         'title': 'Church Bulletin',
-        'icon': '001-dove.png',
+        'icon': 'Church_Bulletin.png',
         'route': 'church_bulletin',
       },
       {
         'title': 'Church Info',
-        'icon': '001-dove.png',
+        'icon': 'Church_Info.png',
         'route': 'church_info',
       },
       {
         'title': 'Priest Info',
-        'icon': '001-dove.png',
+        'icon': 'Church_Info.png',
         'route': 'priest_info',
       },
       {
         'title': 'Offertory & Giving',
-        'icon': '004-greeting-card.png',
-        'route': 'schedules'
+        'icon': 'Offertory_Giving.png',
+        'route': 'offertory'
       },
     ];
     return Scaffold(
@@ -133,15 +133,15 @@ class _InfoPageState extends State<_InfoPage> {
                           width: 391,
                           height: 226,
                           child: Container(
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               gradient: LinearGradient(
-                                begin: Alignment(0.957, -1.211),
-                                end: Alignment(0.515, 1),
+                                begin: const Alignment(0.957, -1.211),
+                                end: const Alignment(0.515, 1),
                                 colors: <Color>[
-                                  Color(0x51ffffff),
-                                  Color(0xffffffff)
+                                  const Color(0x51ffffff),
+                                  const Color(0xffffffff).withOpacity(0.9)
                                 ],
-                                stops: <double>[0, 1],
+                                stops: const <double>[0, 1],
                               ),
                             ),
                           ),
@@ -161,8 +161,8 @@ class _InfoPageState extends State<_InfoPage> {
                                 begin: Alignment(1, -1),
                                 end: Alignment(-1, 1),
                                 colors: <Color>[
-                                  Color(0xff174dd4),
-                                  Color(0x00ffffff)
+                                  Color.fromRGBO(24, 77, 212, 0.5),
+                                  Color.fromRGBO(255, 255, 255, 0)
                                 ],
                                 stops: <double>[0, 1],
                               ),
@@ -243,19 +243,19 @@ class _InfoPageState extends State<_InfoPage> {
                           children: [
                             Container(
                               margin: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                              width: 56,
+                              width: 42,
                               height: 56,
-                              color: const Color.fromRGBO(219, 228, 251, 1),
-                              // child: Image.asset(
-                              //   assetPath(exploreItems[index]['icon']),
-                              //   fit: BoxFit.cover,
-                              // ),
+                              child: Image.asset(
+                                assetPath(
+                                    'menu_item/${exploreItems[index]['icon']}'),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                             Text(
                               exploreItems[index]['title'],
                               textAlign: TextAlign.center,
                               style: const TextStyle(
-                                fontSize: 14,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xff041a51),
                               ),
