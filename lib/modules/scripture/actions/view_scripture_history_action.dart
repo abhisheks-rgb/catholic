@@ -6,9 +6,13 @@ import '../models/scripture_history_model.dart';
 import '../models/scripture_model.dart';
 
 class ViewScriptureHistoryAction extends BaseAction {
-  final int index;
+  final String authorname;
+  final List<Object?> data;
 
-  ViewScriptureHistoryAction(this.index);
+  ViewScriptureHistoryAction(
+    this.authorname,
+    this.data
+  );
 
   // Make sure to strictly follow the guidelines found here:
   // https://pub.dev/packages/async_redux/#async-reducer
@@ -26,19 +30,11 @@ class ViewScriptureHistoryAction extends BaseAction {
     });
 
     List<Object> records = [];
-    String authorName = '';
     
     try {
-      final model = read<ScriptureModel>(ScriptureModel());
-      final item = model.items![index] as Map;
-
-      List<Object?> result = item['data'];
-
-      records = result.map((e) {
+      records = data.map((e) {
         return e as Object;
       }).toList();
-
-      authorName = item['authorname'];
     } catch (e, stacktrace) {
       Butter.e(e.toString());
       Butter.e(stacktrace.toString());
@@ -62,7 +58,7 @@ class ViewScriptureHistoryAction extends BaseAction {
         m.error = error;
         m.loading = false;
         m.items = records;
-        m.authorName = authorName;
+        m.authorName = authorname;
       });
     });
 

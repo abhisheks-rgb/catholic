@@ -12,7 +12,7 @@ class ScriptureModel extends BaseUIModel<ScriptureModel> {
     this.loading,
   });
 
-  Future<void> Function(int? id)? viewHistory;
+  Future<void> Function(String authorname, List<Object?> data)? viewHistory;
   Future<void> Function(Map<Object?, Object?>? scripture)? viewScriptureDetails;
 
   late Future<List<Object>?> Function({String? quantity}) fetchReflections;

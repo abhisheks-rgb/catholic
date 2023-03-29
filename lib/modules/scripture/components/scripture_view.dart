@@ -133,7 +133,6 @@ class ScriptureView extends BaseStatelessPageView {
             Column(
               children: _items.map<Widget>((element) {
                 final data = element['data'] as List;
-                final index = _items.indexWhere((item) => item['authorname'] == element['authorname']);
                 return Column(
                   children: [
                     const SizedBox(height: 16),
@@ -180,7 +179,7 @@ class ScriptureView extends BaseStatelessPageView {
                                   constraints: const BoxConstraints(),
                                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                   onPressed: () async {
-                                    await model?.viewHistory?.call(index);
+                                    await model?.viewHistory?.call(element['authorname'], element['data']);
                                   },
                                   child: const Align(
                                     alignment: Alignment.topLeft,
