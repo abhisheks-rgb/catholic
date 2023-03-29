@@ -1,5 +1,6 @@
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../models/login_model.dart';
 
@@ -124,10 +125,21 @@ class _LoginViewState extends State<LoginView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    '“For I was hungry and you gave me food, I was thirsty and you gave me drink, I was a stranger and you welcomed me” - Matthew 25:35',
+                    '“For I was hungry and you gave me food, I was thirsty and you gave me drink, I was a stranger and you welcomed me”',
                     style: TextStyle(
                       color:  Color.fromRGBO(4, 26, 82, 1),
                       fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  const Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      '- Matthew 25:35',
+                      style: TextStyle(
+                        color:  Color.fromRGBO(4, 26, 82, 1),
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 14),
@@ -150,6 +162,9 @@ class _LoginViewState extends State<LoginView> {
                               controller: element['label'] == 'EMAIL'
                                 ? loginEmail
                                 : loginPassword,
+                              obscureText: element['label'] == 'EMAIL'
+                                ? false
+                                : true,
                               decoration: InputDecoration(
                                 hintText: element['hintText'] ?? '',
                                 border: const OutlineInputBorder(
@@ -170,24 +185,7 @@ class _LoginViewState extends State<LoginView> {
                       }).toList(),
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: RawMaterialButton(
-                      constraints: const BoxConstraints(),
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      onPressed: () {
-                      },
-                      child: const Text(
-                        'Forgot Password',
-                        style: TextStyle(
-                          color: Color.fromRGBO(12, 72, 224, 1),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.21),
+                  const SizedBox(height: 8),
                   Material(
                     shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(10)),
                     color: const Color.fromRGBO(12, 72, 224, 1),
@@ -209,7 +207,7 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -226,6 +224,9 @@ class _LoginViewState extends State<LoginView> {
                         constraints: const BoxConstraints(),
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         onPressed: () {
+                          const registerWebSIte = 'https://mycatholic.sg/register';
+                          final uri = Uri.parse(registerWebSIte);
+                          urlLauncher(uri);
                         },
                         child: const Text(
                           'Signup here.',
@@ -237,6 +238,27 @@ class _LoginViewState extends State<LoginView> {
                         ),
                       ),
                     ],
+                  ),
+                  const SizedBox(height: 16),
+                  Align(
+                    alignment: Alignment.center,
+                    child: RawMaterialButton(
+                      constraints: const BoxConstraints(),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      onPressed: () {
+                        const registerWebSIte = 'https://mycatholic.sg/forgot';
+                        final uri = Uri.parse(registerWebSIte);
+                        urlLauncher(uri);
+                      },
+                      child: const Text(
+                        'Forgot Password',
+                        style: TextStyle(
+                          color: Color.fromRGBO(12, 72, 224, 1),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -258,5 +280,16 @@ class _LoginViewState extends State<LoginView> {
         ),
       ),
     );
+  }
+
+  void urlLauncher(Uri uri) async {
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(
+        uri,
+        mode: LaunchMode.externalApplication,
+      );
+    } else {
+        throw 'Could not launch $uri';
+    }
   }
 }
