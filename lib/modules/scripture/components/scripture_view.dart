@@ -15,19 +15,19 @@ class ScriptureView extends BaseStatelessPageView {
               switch(item['authorname']) {
                 case 'William SC Goh':
                   item['order'] = 0;
-                  item['authorname'] = 'Archbp William SC Goh';
+                  item['authorname'] = 'Cardinal William SC Goh';
                   break;
                 case 'Adrian Danker':
                   item['order'] = 1;
-                  item['authorname'] = 'Fr Adrian Danker';
+                  item['authorname'] = 'Rev Fr Adrian Danker';
                   break;
                 case 'Luke Fong':
                   item['order'] = 2;
-                  item['authorname'] = 'Fr Luke Fong';
+                  item['authorname'] = 'Rev Fr Luke Fong';
                   break;
                 case 'Stephen Yim':
                   item['order'] = 3;
-                  item['authorname'] = 'Fr Stephen Yim';
+                  item['authorname'] = 'Rev Fr Stephen Yim';
                   break;
                 default:
               }
