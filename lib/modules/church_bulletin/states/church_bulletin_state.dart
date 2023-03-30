@@ -21,12 +21,16 @@ class ChurchBulletinState extends BasePageState<ChurchBulletinModel> {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is ChurchBulletinState && runtimeType == other.runtimeType;
+        other is ChurchBulletinState &&
+            runtimeType == other.runtimeType &&
+            model == other.model;
   }
 
   @override
-  // ignore: recursive_getters
-  int get hashCode => hashCode;
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        model,
+      ]);
 
   @override
   ChurchBulletinState fromStore() => ChurchBulletinState.build(
@@ -49,6 +53,11 @@ class ChurchBulletinState extends BasePageState<ChurchBulletinModel> {
               m.items = data['parishes'];
               m.loading = false;
             });
+          });
+        };
+        m.setChurchName = ({churchName}) async {
+          return dispatchModel<ChurchBulletinModel>(ChurchBulletinModel(), (m) {
+            m.churchName = churchName;
           });
         };
       });
