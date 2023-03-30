@@ -1,5 +1,6 @@
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -179,35 +180,54 @@ class _OffertoryViewState extends State<OffertoryView> {
                       ? Container()
                       :
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  widget._infos[0]['uen'],
+                          RawMaterialButton(
+                            constraints: const BoxConstraints(),
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            onPressed: () async {
+                              await Clipboard.setData(
+                                ClipboardData(text: widget._infos[0]['uen']),
+                              ).then((_){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("UEN copied to your clipboard"),
+                                  ),
+                                );
+                              });
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        widget._infos[0]['uen'],
+                                        style: const TextStyle(
+                                          color: Color.fromRGBO(233, 40, 35, 1),
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 16,
+                                      height: 16,
+                                      child: Image.asset(
+                                        assetPath('square-on-square-solid.png')
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  widget._infos[0]['uenlabel'],
                                   style: const TextStyle(
-                                    color: Color.fromRGBO(233, 40, 35, 1),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
+                                    color: Color.fromRGBO(4, 26, 82, 0.5),
+                                    fontSize: 14,
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 16,
-                                height: 16,
-                                child: Image.asset(
-                                  assetPath('square-on-square-solid.png')
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            widget._infos[0]['uenlabel'],
-                            style: const TextStyle(
-                              color: Color.fromRGBO(4, 26, 82, 0.5),
-                              fontSize: 14,
+                              ],
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -483,6 +503,9 @@ class _OffertoryViewState extends State<OffertoryView> {
   void showAlert(BuildContext context) => showDialog(
     context: context,
     builder: (BuildContext context) => AlertDialog(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      ),
       contentPadding: const EdgeInsets.all(0),
       title: Column(
         children: [
