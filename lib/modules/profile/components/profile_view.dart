@@ -37,36 +37,54 @@ class ProfileView extends BaseStatelessPageView {
           ),
         ),
         actions: [
+          // RawMaterialButton(
+          //   constraints: const BoxConstraints(),
+          //   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          //   onPressed: () {
+          //   },
+          //   child: Container(
+          //     width: 40,
+          //     decoration: const BoxDecoration(
+          //       color: Colors.transparent,
+          //     ),
+          //     child: const Align(
+          //       alignment: Alignment.center,
+          //       child: SizedBox(
+          //         width: 20,
+          //         height: 20,
+          //         child: Icon(
+          //           Octicons.bell_fill,
+          //           color: Color.fromRGBO(130, 141, 168, 1),
+          //           size: 20,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          const SizedBox(width: 4),
           RawMaterialButton(
             constraints: const BoxConstraints(),
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             onPressed: () {
             },
-            child: const SizedBox(
-              width: 20,
-              height: 20,
-              child: Icon(
-                Octicons.bell_fill,
-                color: Color.fromRGBO(130, 141, 168, 1),
-                size: 20,
+            child: Container(
+              width: 40,
+              decoration: const BoxDecoration(
+                color: Colors.transparent,
+              ),
+              child: Align(
+                alignment: Alignment.center,
+                child: SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: Image.asset(
+                    assetPath('user-active-solid.png'),
+                  ),
+                ),
               ),
             ),
           ),
-          const SizedBox(width: 24),
-          RawMaterialButton(
-            constraints: const BoxConstraints(),
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            onPressed: () {
-            },
-            child: SizedBox(
-              width: 20,
-              height: 20,
-              child: Image.asset(
-                assetPath('user-active-solid.png'),
-              ),
-            ),
-          ),
-          const SizedBox(width: 24),
+          const SizedBox(width: 14),
         ],
       ),
       body: SingleChildScrollView(
