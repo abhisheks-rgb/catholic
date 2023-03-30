@@ -55,5 +55,10 @@ class SchedulesState extends BasePageState<SchedulesModel> {
             });
           });
         };
+        m.setChurchName = ({churchName}) async {
+          return dispatchModel<SchedulesModel>(SchedulesModel(), (m) {
+            m.churchName = churchName;
+          });
+        };
       });
 }

@@ -49,6 +49,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
   Map? _schedules;
   Map? _filteredSchedules;
   List? _schedTypes;
+  Timer? myTimer;
 
   _SchedulesPageState(this.model);
 
@@ -56,8 +57,55 @@ class _SchedulesPageState extends State<_SchedulesPage> {
   void initState() {
     super.initState();
 
-    _selectedParishValue = "Cathedral of the Good Shepherd";
-    _getSchedules('cathedral');
+    _selectedParishValue = 'Cathedral of the Good Shepherd';
+
+    if (widget.model.churchName == null || widget.model.churchName == '') {
+      _getSchedules('cathedral');
+    } else {
+      startTimer();
+    }
+  }
+
+  void startTimer() async {
+    int x = 0;
+
+    await Future.delayed(const Duration(seconds: 1), () async {
+      myTimer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+        if (widget.model.churchName != null || widget.model.churchName != '') {
+          if (widget.model.items!.isNotEmpty) {
+            x += 1;
+
+            var parish =
+              widget.model.items?.firstWhere((element) {
+                return element['name'] == widget.model.churchName;
+              });
+
+            _getSchedules(parish['link']);
+            
+            setState(() {
+              _selectedParishValue = widget.model.churchName;
+            });
+          }
+        } else {
+          x += 1;
+        }
+
+        if (x > 0) {
+          timer.cancel();
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    myTimer?.cancel();
+    delayedResetChurchName();
+  }
+
+  void delayedResetChurchName() async {
+    await widget.model.setChurchName(churchName: '');
   }
 
   @override
@@ -79,7 +127,8 @@ class _SchedulesPageState extends State<_SchedulesPage> {
             size: 24,
           ),
           onTap: () {
-            Navigator.of(context).popAndPushNamed('/_/welcome');
+            // Navigator.of(context).popAndPushNamed('/_/welcome');
+            Navigator.of(context).maybePop();
           },
         ),
       ),

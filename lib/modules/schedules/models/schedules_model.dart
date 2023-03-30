@@ -4,11 +4,15 @@ class SchedulesModel extends BaseUIModel<SchedulesModel> {
   late void Function() loadData;
   bool loading;
   List<dynamic>? items;
+  String? churchName;
 
   SchedulesModel({
     this.loading = false,
     this.items,
+    this.churchName,
   });
+
+  late Function({String? churchName}) setChurchName;
 
   @override
   String get $key => '/schedules';
@@ -17,12 +21,14 @@ class SchedulesModel extends BaseUIModel<SchedulesModel> {
   SchedulesModel clone() => SchedulesModel(
         loading: loading,
         items: items ?? [],
+        churchName: churchName,
       );
 
   @override
   int get hashCode => Object.hashAll([
         items,
         loading,
+        churchName,
       ]);
 
   @override
@@ -31,5 +37,6 @@ class SchedulesModel extends BaseUIModel<SchedulesModel> {
       other is SchedulesModel &&
           runtimeType == other.runtimeType &&
           loading == other.loading &&
-          items == other.items;
+          items == other.items &&
+          churchName == other.churchName;
 }
