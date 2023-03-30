@@ -22,6 +22,7 @@ class ListChurchInfoAction extends BaseAction {
         ChurchInfoModel(), (m) {
       m.error = error;
       m.loading = true;
+      m.churchInfos = [];
       churchId = m.churchId;
     });
 

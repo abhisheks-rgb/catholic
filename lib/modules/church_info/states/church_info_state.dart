@@ -5,6 +5,9 @@ import 'dart:convert';
 import '../actions/list_church_info_action.dart';
 import '../actions/set_church_id_action.dart';
 import '../models/church_info_model.dart';
+import '../../church_bulletin/models/church_bulletin_model.dart';
+import '../../offertory/models/offertory_model.dart';
+import '../../schedules/models/schedules_model.dart';
 
 class ChurchInfoState extends BasePageState<ChurchInfoModel> {
   ChurchInfoState();
@@ -42,14 +45,33 @@ class ChurchInfoState extends BasePageState<ChurchInfoModel> {
                 ),
           ), (m) {
         // Load all your model's handlers here
-        m.showPage = (route) async {
+        m.showPage = (route, churchName) async {
+          switch(route) {
+            case '/_/church_bulletin':
+              dispatchModel<ChurchBulletinModel>(ChurchBulletinModel(), (m) {
+                m.churchName = churchName;
+              });
+              break;
+            case '/_/schedules':
+              dispatchModel<SchedulesModel>(SchedulesModel(), (m) {
+                m.churchName = churchName;
+              });
+              break;
+            case '/_/offertory':
+              dispatchModel<OffertoryModel>(OffertoryModel(), (m) {
+                m.churchName = churchName;
+              });
+              break;
+            default:
+          }
+
           pushNamed(route);
         };
         m.loadData = () async {
           dispatchModel<ChurchInfoModel>(ChurchInfoModel(), (m) {
             m.loading = true;
           });
-          await Future.delayed(const Duration(seconds: 3), () async {
+          await Future.delayed(const Duration(seconds: 1), () async {
             final String response =
                 await rootBundle.loadString('assets/data/parish.json');
             final data = await json.decode(response);

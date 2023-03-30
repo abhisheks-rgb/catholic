@@ -1,7 +1,7 @@
 import 'package:butter/butter.dart';
 
 class ChurchInfoModel extends BaseUIModel<ChurchInfoModel> {
-  late void Function(String route) showPage;
+  late void Function(String route, String? churchName) showPage;
   late void Function() loadData;
   List<dynamic>? items;
   //
