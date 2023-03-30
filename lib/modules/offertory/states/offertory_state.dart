@@ -46,7 +46,7 @@ class OffertoryState extends BasePageState<OffertoryModel> {
           dispatchModel<OffertoryModel>(OffertoryModel(), (m) {
             m.loading = true;
           });
-          await Future.delayed(const Duration(seconds: 3), () async {
+          await Future.delayed(const Duration(seconds: 1), () async {
             final String response =
                 await rootBundle.loadString('assets/data/parish.json');
             final data = await json.decode(response);
@@ -66,5 +66,10 @@ class OffertoryState extends BasePageState<OffertoryModel> {
           return model.offertories;
         };
         m.navigateTo = (churchId, route) => dispatchAction(NavigateToAction(churchId: churchId, route: route));
+        m.setChurchName = ({churchName}) async {
+          return dispatchModel<OffertoryModel>(OffertoryModel(), (m) {
+            m.churchName = churchName;
+          });
+        };
       });
 }

@@ -7,16 +7,19 @@ class OffertoryModel extends BaseUIModel<OffertoryModel> {
   String? error;
   bool? loading;
   List<Object>? offertories;
+  String? churchName;
 
   OffertoryModel({
     this.items,
     this.error,
     this.loading,
     this.offertories,
+    this.churchName,
   });
 
   late Future<List<Object>?> Function({int? charityId}) fetchOffertory;
   Future<void> Function(int? churchId, String route)? navigateTo;
+  late Function({String? churchName}) setChurchName;
 
   @override
   String get $key => '/offertory';
@@ -27,6 +30,7 @@ class OffertoryModel extends BaseUIModel<OffertoryModel> {
     error: error,
     loading: loading,
     offertories: offertories == null ? [] : List.unmodifiable(offertories!),
+    churchName: churchName,
   );
 
   @override
@@ -35,6 +39,7 @@ class OffertoryModel extends BaseUIModel<OffertoryModel> {
     error,
     loading,
     offertories,
+    churchName,
   ]);
 
   @override
@@ -45,5 +50,6 @@ class OffertoryModel extends BaseUIModel<OffertoryModel> {
         items == other.items &&
         error == other.error &&
         loading == other.loading &&
-        offertories == other.offertories;
+        offertories == other.offertories &&
+        churchName == other.churchName;
 }

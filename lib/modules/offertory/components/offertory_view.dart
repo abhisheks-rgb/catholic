@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,10 +23,54 @@ class OffertoryView extends BaseStatefulPageView {
 
 class _OffertoryViewState extends State<OffertoryView> {
   int currentParishId = 1;
+  Timer? myTimer;
 
   @override
   void initState() {
     super.initState();
+
+    if (widget.model!.churchName != null && widget.model!.churchName != '') {
+      startTimer();
+    }
+  }
+
+  void startTimer() async {
+    int x = 0;
+
+    Future.delayed(const Duration(seconds: 1), () async {
+      myTimer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+        if (widget.model!.churchName != null && widget.model!.churchName != '') {
+          if (widget.model!.items!.isNotEmpty) {
+            x += 1;
+
+            final index = widget.model!.items!.indexWhere((item) => item['name'] == widget.model!.churchName);
+
+            if (!index.isNaN) {
+              setState(() {
+                currentParishId = index;
+              });
+            }
+          }
+        } else {
+          x += 1;
+        }
+
+        if (x > 0) {
+          timer.cancel();
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    myTimer?.cancel();
+    delayedResetChurchName();
+  }
+
+  void delayedResetChurchName() async {
+    await widget.model!.setChurchName(churchName: '');
   }
 
   @override
