@@ -75,13 +75,12 @@ class _SchedulesPageState extends State<_SchedulesPage> {
           if (widget.model.items!.isNotEmpty) {
             x += 1;
 
-            var parish =
-              widget.model.items?.firstWhere((element) {
-                return element['name'] == widget.model.churchName;
-              });
+            var parish = widget.model.items?.firstWhere((element) {
+              return element['name'] == widget.model.churchName;
+            });
 
             _getSchedules(parish['link']);
-            
+
             setState(() {
               _selectedParishValue = widget.model.churchName;
             });
@@ -145,9 +144,11 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                     Container(
-                      height: 114,
+                      height: _selectedParishValue == 'all' ? 64 : 114,
                       width: double.infinity,
-                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                      padding: _selectedParishValue == 'all'
+                          ? const EdgeInsets.fromLTRB(20, 0, 20, 0)
+                          : const EdgeInsets.fromLTRB(20, 0, 20, 20),
                       decoration: BoxDecoration(
                         color: const Color.fromRGBO(255, 255, 255, 1),
                         borderRadius: BorderRadius.circular(10),
@@ -212,59 +213,69 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                               ),
                             ),
                           ),
-                          const Divider(
-                            height: 1,
-                            thickness: 1,
-                            color: Color.fromRGBO(4, 26, 82, 0.1),
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .popAndPushNamed('/_/church_info');
-                                },
-                                child: const Text('Church Info',
-                                    style: TextStyle(
-                                        letterSpacing: 0.1,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        color: Color.fromRGBO(12, 72, 224, 1))),
-                              ),
-                              const Spacer(flex: 1),
-                              RichText(
-                                text: TextSpan(
-                                  text: '',
-                                  style: DefaultTextStyle.of(context).style,
-                                  children: const <TextSpan>[
-                                    TextSpan(
-                                        style: TextStyle(
-                                            letterSpacing: 0.1,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                            color:
-                                                Color.fromRGBO(12, 72, 224, 1)),
-                                        children: [
+                          _selectedParishValue == 'all'
+                              ? const SizedBox()
+                              : const Divider(
+                                  height: 1,
+                                  thickness: 1,
+                                  color: Color.fromRGBO(4, 26, 82, 0.1),
+                                ),
+                          _selectedParishValue == 'all'
+                              ? const SizedBox()
+                              : const SizedBox(height: 10),
+                          _selectedParishValue == 'all'
+                              ? const SizedBox()
+                              : Row(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.of(context)
+                                            .popAndPushNamed('/_/church_info');
+                                      },
+                                      child: const Text('Church Info',
+                                          style: TextStyle(
+                                              letterSpacing: 0.1,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                              color: Color.fromRGBO(
+                                                  12, 72, 224, 1))),
+                                    ),
+                                    const Spacer(flex: 1),
+                                    RichText(
+                                      text: TextSpan(
+                                        text: '',
+                                        style:
+                                            DefaultTextStyle.of(context).style,
+                                        children: const <TextSpan>[
                                           TextSpan(
-                                            text: 'Directions ',
-                                          ),
-                                          WidgetSpan(
-                                            child: Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 1.0),
-                                              child: Icon(Icons.directions,
-                                                  size: 18,
+                                              style: TextStyle(
+                                                  letterSpacing: 0.1,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
                                                   color: Color.fromRGBO(
                                                       12, 72, 224, 1)),
-                                            ),
-                                          ),
-                                        ]),
+                                              children: [
+                                                TextSpan(
+                                                  text: 'Directions ',
+                                                ),
+                                                WidgetSpan(
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 1.0),
+                                                    child: Icon(
+                                                        Icons.directions,
+                                                        size: 18,
+                                                        color: Color.fromRGBO(
+                                                            12, 72, 224, 1)),
+                                                  ),
+                                                ),
+                                              ]),
+                                        ],
+                                      ),
+                                    ),
                                   ],
-                                ),
-                              ),
-                            ],
-                          )
+                                )
                         ],
                       ),
                     ),
@@ -402,8 +413,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                                               4, 26, 82, 1)),
                                                     ),
                                                     Text(
-                                                      DateFormat(
-                                                              'E, d MMM yyyy')
+                                                      DateFormat('d MMM yyyy')
                                                           .format(
                                                               DateTime.parse(
                                                                   key)),
@@ -444,7 +454,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                                     width: double.infinity,
                                                     padding:
                                                         const EdgeInsets.all(
-                                                            20),
+                                                            15),
                                                     decoration: BoxDecoration(
                                                       borderRadius:
                                                           BorderRadius.circular(
