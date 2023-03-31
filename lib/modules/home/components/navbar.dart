@@ -17,6 +17,7 @@ class Navbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Image.asset(
