@@ -224,39 +224,56 @@ class _WelcomePageState extends State<WelcomePage> {
                         ),
                       ),
                     ),
-                    const Positioned(
-                      // welcomeoscarHYf (127:100)
-                      left: 24,
-                      top: 132,
-                      child: Align(
-                        child: SizedBox(
-                          width: 206,
-                          height: 34,
-                          child: Text(
-                            'Welcome Oscar, ',
-                            style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xff041a51),
-                            ),
+                    Positioned(
+                      left: 0,
+                      bottom: 79,
+                      child: Container(
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 24,
                           ),
-                        ),
-                      ),
+                          width: MediaQuery.of(context).size.width - 48,
+                          height: 68,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: const [
+                              Text(
+                                'Peace,',
+                                style: TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color.fromRGBO(4, 26, 82, 1),
+                                ),
+                              ),
+                              Text(
+                                'Oscar Dela Hoya Hatton y...',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color.fromRGBO(4, 26, 82, 1),
+                                ),
+                              ),
+                            ],
+                          )),
                     ),
-                    const Positioned(
-                      left: 24,
-                      top: 193,
-                      child: Align(
-                        child: SizedBox(
-                          width: 287,
-                          height: 48,
-                          child: Text(
-                            '“The steadfast love of the LORD never ceases...” - Lam 3: 22',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Color(0xff041a51),
-                            ),
+                    Positioned(
+                      left: 0,
+                      bottom: 0,
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 20),
+                        width: MediaQuery.of(context).size.width - 48,
+                        height: 38,
+                        child: const Text(
+                          '“The steadfast love of the LORD never ceases...” - Lam 3: 22',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xff041a51),
                           ),
                         ),
                       ),
