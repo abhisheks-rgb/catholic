@@ -172,38 +172,41 @@ class _InfoPageState extends State<_InfoPage> {
                       ),
                     ),
                     Positioned(
-                      // welcomeoscarHYf (127:100)
-                      left: 24,
-                      top: 71,
-                      child: Align(
-                        child: SizedBox(
-                          height: 34,
-                          child: Text(
-                            _qoute?['title'] ?? "",
-                            style: const TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xff041a51),
-                            ),
+                      left: 0,
+                      bottom: 79,
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                        ),
+                        width: MediaQuery.of(context).size.width - 48,
+                        height: 34,
+                        child: Text(
+                          _qoute?['title'] ?? "",
+                          style: const TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w500,
+                            color: Color.fromRGBO(4, 26, 82, 1),
                           ),
                         ),
                       ),
                     ),
                     Positioned(
-                      left: 24,
-                      top: 124,
-                      child: Align(
-                        child: SizedBox(
-                          width: 287,
-                          height: 48,
-                          child: Text(
-                            _qoute?['content'] ?? "",
-                            style: const TextStyle(
-                              fontSize: 14,
+                      left: 0,
+                      bottom: 0,
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 21),
+                        width: MediaQuery.of(context).size.width - 48,
+                        height: 38,
+                        child: Text(
+                          _qoute?['content'] ?? "",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontSize: 16,
                               fontWeight: FontWeight.w400,
-                              color: Color(0xff041a51),
-                            ),
-                          ),
+                              color: Color.fromRGBO(4, 26, 82, 0.5),
+                              letterSpacing: 0.1),
                         ),
                       ),
                     ),

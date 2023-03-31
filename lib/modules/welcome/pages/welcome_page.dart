@@ -238,23 +238,23 @@ class _WelcomePageState extends State<WelcomePage> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: const [
                               Text(
-                                'Peace,',
+                                'Peace be with you!',
                                 style: TextStyle(
                                   fontSize: 28,
                                   fontWeight: FontWeight.w500,
                                   color: Color.fromRGBO(4, 26, 82, 1),
                                 ),
                               ),
-                              Text(
-                                'Oscar Dela Hoya Hatton y...',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color.fromRGBO(4, 26, 82, 1),
-                                ),
-                              ),
+                              // Text(
+                              //   'Oscar Dela Hoya Hatton y...',
+                              //   maxLines: 1,
+                              //   overflow: TextOverflow.ellipsis,
+                              //   style: TextStyle(
+                              //     fontSize: 28,
+                              //     fontWeight: FontWeight.w500,
+                              //     color: Color.fromRGBO(4, 26, 82, 1),
+                              //   ),
+                              // ),
                             ],
                           )),
                     ),

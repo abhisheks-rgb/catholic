@@ -158,13 +158,19 @@ class _PrayPageState extends State<_PrayPage> {
                     ),
                     Positioned(
                       // welcomeoscarHYf (127:100)
-                      left: 24,
-                      top: 71,
-                      child: Align(
+                      left: 0,
+                      bottom: 79,
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 20),
+                        width: MediaQuery.of(context).size.width - 48,
+                        height: 38,
                         child: SizedBox(
                           height: 34,
                           child: Text(
                             _istoday?['title'] ?? "",
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w500,
