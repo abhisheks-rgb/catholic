@@ -221,24 +221,23 @@ class _OffertoryViewState extends State<OffertoryView> {
                         color: Color.fromRGBO(4, 26, 82, 0.1),
                       ),
                       const SizedBox(height: 16),
-                      widget._infos.isEmpty
-                      ? Container()
-                      :
                       Column(
                         children: [
                           RawMaterialButton(
                             constraints: const BoxConstraints(),
                             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             onPressed: () async {
-                              await Clipboard.setData(
-                                ClipboardData(text: widget._infos[0]['uen']),
-                              ).then((_){
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text("UEN copied to your clipboard"),
-                                  ),
-                                );
-                              });
+                              if (widget.model!.items!.isNotEmpty) {
+                                await Clipboard.setData(
+                                  ClipboardData(text: widget.model!.items![currentParishId]['uen']),
+                                ).then((_){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text("UEN copied to your clipboard"),
+                                    ),
+                                  );
+                                });
+                              }
                             },
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,7 +246,9 @@ class _OffertoryViewState extends State<OffertoryView> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        widget._infos[0]['uen'],
+                                        widget.model!.items!.isNotEmpty
+                                          ? widget.model!.items![currentParishId]['uen']
+                                          : '---',
                                         style: const TextStyle(
                                           color: Color.fromRGBO(233, 40, 35, 1),
                                           fontWeight: FontWeight.w500,
@@ -265,9 +266,9 @@ class _OffertoryViewState extends State<OffertoryView> {
                                   ],
                                 ),
                                 const SizedBox(height: 4),
-                                Text(
-                                  widget._infos[0]['uenlabel'],
-                                  style: const TextStyle(
+                                const Text(
+                                  'PayNow UEN',
+                                  style: TextStyle(
                                     color: Color.fromRGBO(4, 26, 82, 0.5),
                                     fontSize: 14,
                                   ),
