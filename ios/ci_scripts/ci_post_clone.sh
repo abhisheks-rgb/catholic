@@ -20,16 +20,4 @@ brew install cocoapods
 # Install CocoaPods dependencies.
 cd ios && pod install # run `pod install` in the `ios` directory.
 
-echo '{
-	"apiKey": "$API_KEY",
-	"appId": "$APP_ID",
-	"messagingSenderId": "$SENDER_ID",
-	"projectId": "$PROJ_ID",
-	"storageBucket": "$BUCKET_NAME",
-	"iosClientId": "$IOS_CLIENT_ID",
-	"iosBundleId": "$IOS_BUNDLE_ID"
-}' > $CI_WORKSPACE/assets/firebase_config.json
-
-cat $CI_WORKSPACE/assets/firebase_config.json
-
 exit 0
