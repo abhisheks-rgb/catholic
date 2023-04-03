@@ -57,9 +57,12 @@ class HomePage extends BaseStatefulPageView {
     return SafeArea(
       child: Scaffold(
         body: Container(child: module),
-        bottomNavigationBar: Navbar(
-          model: model,
-          routeName: App.getRouteName(context),
+        bottomNavigationBar: SizedBox(
+          height: 82,
+          child: Navbar(
+            model: model,
+            routeName: App.getRouteName(context),
+          ),
         ),
       ),
     );

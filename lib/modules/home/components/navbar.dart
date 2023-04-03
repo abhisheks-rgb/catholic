@@ -20,63 +20,79 @@ class Navbar extends StatelessWidget {
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Image.asset(
-              assetPath('home.png'),
-              color: const Color.fromRGBO(205, 209, 220, 1),
-              height: 24,
-              width: 24,
-            ),
-            activeIcon: Image.asset(
-              assetPath('home.png'),
-              color: const Color.fromRGBO(4, 26, 82, 1),
-              height: 24,
-              width: 24,
-            ),
+            icon: Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Image.asset(
+                  assetPath('home.png'),
+                  color: const Color.fromRGBO(205, 209, 220, 1),
+                  height: 22,
+                  width: 22,
+                )),
+            activeIcon: Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Image.asset(
+                  assetPath('home.png'),
+                  color: const Color.fromRGBO(4, 26, 82, 1),
+                  height: 22,
+                  width: 22,
+                )),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Image.asset(
-              assetPath('pray.png'),
-              color: const Color.fromRGBO(205, 209, 220, 1),
-              height: 24,
-              width: 24,
-            ),
-            activeIcon: Image.asset(
-              assetPath('pray.png'),
-              color: const Color.fromRGBO(4, 26, 82, 1),
-              height: 24,
-              width: 24,
-            ),
+            icon: Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Image.asset(
+                  assetPath('pray.png'),
+                  color: const Color.fromRGBO(205, 209, 220, 1),
+                  height: 22,
+                  width: 22,
+                )),
+            activeIcon: Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Image.asset(
+                  assetPath('pray.png'),
+                  color: const Color.fromRGBO(4, 26, 82, 1),
+                  height: 22,
+                  width: 22,
+                )),
             label: 'Pray',
           ),
           BottomNavigationBarItem(
-            icon: Image.asset(
-              assetPath('book.png'),
-              color: const Color.fromRGBO(205, 209, 220, 1),
-              height: 24,
-              width: 24,
-            ),
-            activeIcon: Image.asset(
-              assetPath('book.png'),
-              color: const Color.fromRGBO(4, 26, 82, 1),
-              height: 24,
-              width: 24,
-            ),
+            icon: Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Image.asset(
+                  assetPath('book.png'),
+                  color: const Color.fromRGBO(205, 209, 220, 1),
+                  height: 22,
+                  width: 22,
+                )),
+            activeIcon: Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Image.asset(
+                  assetPath('book.png'),
+                  color: const Color.fromRGBO(4, 26, 82, 1),
+                  height: 22,
+                  width: 22,
+                )),
             label: 'Info',
           ),
           BottomNavigationBarItem(
-            icon: Image.asset(
-              assetPath('events.png'),
-              color: const Color.fromRGBO(205, 209, 220, 1),
-              height: 24,
-              width: 24,
-            ),
-            activeIcon: Image.asset(
-              assetPath('events.png'),
-              color: const Color.fromRGBO(4, 26, 82, 1),
-              height: 24,
-              width: 24,
-            ),
+            icon: Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Image.asset(
+                  assetPath('events.png'),
+                  color: const Color.fromRGBO(205, 209, 220, 1),
+                  height: 22,
+                  width: 22,
+                )),
+            activeIcon: Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Image.asset(
+                  assetPath('events.png'),
+                  color: const Color.fromRGBO(4, 26, 82, 1),
+                  height: 22,
+                  width: 22,
+                )),
             label: 'Events',
           ),
         ],
