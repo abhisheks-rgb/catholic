@@ -150,12 +150,18 @@ class _PriestInfoPageState extends State<_PriestInfoPage> {
                             itemBuilder: (BuildContext context, int index) {
                               print(
                                   'dsafadsf ${_priestsItems?[index]} ${_priestsItems?[index]['churchid']}');
-                              var priestParish =
-                                  widget.model.items?.firstWhere((element) {
-                                return element['_id'].toString() ==
-                                    _priestsItems?[index]['churchid']
-                                        .toString();
-                              });
+                              // ignore: prefer_typing_uninitialized_variables
+                              var priestParish;
+
+                              if (_priestsItems?[index]['churchid'] != null &&
+                                  _priestsItems?[index]['churchid'] != "") {
+                                priestParish =
+                                    widget.model.items?.firstWhere((element) {
+                                  return element['_id'].toString() ==
+                                      _priestsItems?[index]['churchid']
+                                          .toString();
+                                });
+                              }
 
                               return Container(
                                 height: 91,
@@ -181,7 +187,7 @@ class _PriestInfoPageState extends State<_PriestInfoPage> {
                                 width: double.infinity,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
                                       margin: const EdgeInsets.fromLTRB(
@@ -194,6 +200,10 @@ class _PriestInfoPageState extends State<_PriestInfoPage> {
                                       ),
                                     ),
                                     Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           _priestsItems?[index]['name'],
@@ -205,15 +215,21 @@ class _PriestInfoPageState extends State<_PriestInfoPage> {
                                           ),
                                         ),
                                         const SizedBox(height: 8),
-                                        Text(
-                                          priestParish['name'],
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            color: Color(0xff041a51),
-                                          ),
-                                        ),
+                                        _priestsItems?[index]['churchid'] !=
+                                                    null &&
+                                                _priestsItems?[index]
+                                                        ['churchid'] !=
+                                                    ""
+                                            ? Text(
+                                                priestParish['name'],
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Color(0xff041a51),
+                                                ),
+                                              )
+                                            : const SizedBox(),
                                       ],
                                     )
                                   ],
