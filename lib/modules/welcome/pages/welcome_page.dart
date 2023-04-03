@@ -109,21 +109,21 @@ class _WelcomePageState extends State<WelcomePage> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      width: 32,
-                      height: 32,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                        ),
-                        child: Image.asset(
-                          assetPath('notif_icon.png'),
-                          width: 32,
-                          height: 32,
-                        ),
-                      ),
-                    ),
+                    // SizedBox(
+                    //   width: 32,
+                    //   height: 32,
+                    //   child: Container(
+                    //     decoration: BoxDecoration(
+                    //       borderRadius: BorderRadius.circular(10),
+                    //       color: Colors.white,
+                    //     ),
+                    //     child: Image.asset(
+                    //       assetPath('notif_icon.png'),
+                    //       width: 32,
+                    //       height: 32,
+                    //     ),
+                    //   ),
+                    // ),
                     const SizedBox(width: 10),
                     RawMaterialButton(
                       constraints: const BoxConstraints(),
