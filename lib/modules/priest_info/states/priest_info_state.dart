@@ -2,6 +2,7 @@ import 'package:butter/butter.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 
+import '../actions/list_priest_info_action.dart';
 import '../models/priest_info_model.dart';
 
 class PriestInfoState extends BasePageState<PriestInfoModel> {
@@ -21,12 +22,16 @@ class PriestInfoState extends BasePageState<PriestInfoModel> {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is PriestInfoState && runtimeType == other.runtimeType;
+        other is PriestInfoState &&
+            runtimeType == other.runtimeType &&
+            model == other.model;
   }
 
   @override
-  // ignore: recursive_getters
-  int get hashCode => hashCode;
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        model,
+      ]);
 
   @override
   PriestInfoState fromStore() => PriestInfoState.build(
@@ -49,6 +54,19 @@ class PriestInfoState extends BasePageState<PriestInfoModel> {
               m.items = data['parishes'];
               m.loading = false;
             });
+          });
+        };
+        m.fetchPriests = ({name}) async {
+          await dispatchAction(ListPriestInfoAction(name: name));
+          final model = read<PriestInfoModel>(PriestInfoModel());
+          if (model.error != null) {
+            throw model.error!;
+          }
+          return model.priests;
+        };
+        m.setPriestName = ({priestName}) async {
+          return dispatchModel<PriestInfoModel>(PriestInfoModel(), (m) {
+            m.priestName = priestName;
           });
         };
       });
