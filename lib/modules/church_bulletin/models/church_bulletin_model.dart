@@ -13,6 +13,7 @@ class ChurchBulletinModel extends BaseUIModel<ChurchBulletinModel> {
   });
 
   late Function({String? churchName}) setChurchName;
+  late Function({bool? isFullScreen}) setIsFullScreen;
 
   @override
   String get $key => '/church_bulletin';

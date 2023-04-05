@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 
 import '../models/church_bulletin_model.dart';
+import '../../home/models/home_model.dart';
 
 class ChurchBulletinState extends BasePageState<ChurchBulletinModel> {
   ChurchBulletinState();
@@ -58,6 +59,11 @@ class ChurchBulletinState extends BasePageState<ChurchBulletinModel> {
         m.setChurchName = ({churchName}) async {
           return dispatchModel<ChurchBulletinModel>(ChurchBulletinModel(), (m) {
             m.churchName = churchName;
+          });
+        };
+        m.setIsFullScreen = ({isFullScreen}) async {
+          return dispatchModel<HomeModel>(HomeModel(), (m) {
+            m.isFullScreen = isFullScreen!;
           });
         };
       });
