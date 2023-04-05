@@ -44,6 +44,9 @@ class _BulletinPageState extends State<_BulletinPage> {
   final PdfViewerController pdfViewerController = PdfViewerController();
   var controllers = <String, PdfViewerController>{};
   Timer? myTimer;
+  bool isFullScreen = false;
+  int? fullScreenPdfIndex;
+  int fullScreenPageNumber = 0;
 
   _BulletinPageState(this.model);
 
@@ -97,15 +100,20 @@ class _BulletinPageState extends State<_BulletinPage> {
     pdfViewerController.dispose(); // Dispose of the controller object
     super.dispose();
     myTimer?.cancel();
-    delayedResetChurchName();
+    delayedReset();
   }
 
-  void delayedResetChurchName() async {
+  void delayedReset() async {
     await widget.model.setChurchName(churchName: '');
+    await widget.model.setIsFullScreen(isFullScreen: false);
   }
 
   @override
   Widget build(BuildContext context) {
+    if (isFullScreen && _bulletinItems!.isNotEmpty) {
+      return _renderFullScreen();
+    }
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -225,35 +233,48 @@ class _BulletinPageState extends State<_BulletinPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Container(
-                                height: 60,
+                                height: _bulletinItems![index]['description'] == null ? 60 : 77,
                                 padding: const EdgeInsets.all(8),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            _selectedParishValue!,
-                                            style: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500,
-                                              color:
-                                                  Color.fromRGBO(4, 26, 82, 1),
-                                            ),
-                                          ),
-                                        ]),
                                     Text(
-                                      DateFormat('E, d MMM yyyy').format(
+                                      // _selectedParishValue!,
+                                      _bulletinItems![index]['title'],
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color.fromRGBO(4, 26, 82, 1),
+                                      ),
+                                    ),
+                                    _bulletinItems![index]['description'] == null
+                                      ? Container()
+                                      :
+                                    Column(
+                                      children: [
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          _bulletinItems![index]['description'].isNotEmpty
+                                            ? _bulletinItems![index]['description'].isNotEmpty
+                                            : '',
+                                          style: const TextStyle(
+                                            color: Color.fromRGBO(4, 26, 82, 0.5),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Posted • ${DateFormat('E, d MMM yyyy').format(
                                           DateTime.fromMillisecondsSinceEpoch(
                                               _bulletinItems![index]['created'],
-                                              isUtc: true)),
+                                              isUtc: true))}',
                                       textAlign: TextAlign.left,
                                       style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        color: Color.fromRGBO(4, 26, 82, 1),
+                                        fontSize: 12,
+                                        // fontWeight: FontWeight.w400,
+                                        color: Color.fromRGBO(4, 26, 82, 0.5),
                                       ),
                                     ),
                                   ],
@@ -324,22 +345,36 @@ class _BulletinPageState extends State<_BulletinPage> {
                                         ),
                                       ],
                                     )),
-                                    SizedBox(
-                                      width: 32,
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            width: 32,
-                                            alignment: Alignment.center,
-                                            child: const Icon(
-                                              MaterialIcons.fullscreen,
-                                              color: Colors.black,
-                                              size: 24,
+                                    RawMaterialButton(
+                                      constraints: const BoxConstraints(),
+                                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                      onPressed: () async {
+                                        if (!isFullScreen) {
+                                          setState(() {
+                                            fullScreenPdfIndex = index;
+                                            isFullScreen = true;
+                                          });
+
+                                          await widget.model.setIsFullScreen(isFullScreen: true);
+                                        }
+                                      },
+                                      child: SizedBox(
+                                        width: 32,
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: 32,
+                                              alignment: Alignment.center,
+                                              child: const Icon(
+                                                MaterialIcons.fullscreen,
+                                                color: Colors.black,
+                                                size: 24,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -378,5 +413,256 @@ class _BulletinPageState extends State<_BulletinPage> {
     setState(() {
       _bulletinItems = response['results']['items'] ?? [];
     });
+  }
+
+  Widget _renderFullScreen() {
+    // for (var e in _bulletinItems![fullScreenPdfIndex!].keys) {
+    //   Butter.d('$e: ${_bulletinItems![fullScreenPdfIndex!][e]}');
+    // }
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Stack(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.18,
+              padding: const EdgeInsets.all(20),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.18,
+                padding: const EdgeInsets.all(20),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.67,
+                padding: const EdgeInsets.all(0),
+                child: SfPdfViewer.network(
+                  _bulletinItems![fullScreenPdfIndex!]['filelink'],
+                  controller: pdfViewerController,
+                  canShowPaginationDialog: false,
+                  canShowScrollHead: false,
+                  onDocumentLoaded: (PdfDocumentLoadedDetails details) {
+                    setState(() {
+                      fullScreenPageNumber = pdfViewerController.pageNumber;
+                    });
+                  },
+                  onPageChanged: (PdfPageChangedDetails details) {
+                    setState(() {
+                      fullScreenPageNumber = details.newPageNumber;
+                    });
+                  },
+                ),
+              ),
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.18,
+              padding: const EdgeInsets.all(20),
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: [
+                    0,
+                    0.1,
+                    1,
+                  ],
+                  colors: [
+                    Colors.black,
+                    Colors.black87,
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      GestureDetector(
+                        child: const Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
+                        ),
+                        onTap: () async {
+                          if (isFullScreen) {
+                            setState(() {
+                              fullScreenPdfIndex = null;
+                              isFullScreen = false;
+                              fullScreenPageNumber = 0;
+                            });
+
+                            await widget.model.setIsFullScreen(isFullScreen: false);
+                          }
+                        },
+                      ),
+                      Expanded(
+                        child: Text(
+                          // _selectedParishValue!,
+                          _bulletinItems![fullScreenPdfIndex!]['title'],
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  _bulletinItems![fullScreenPdfIndex!]['description'] == null
+                    ? Container()
+                    :
+                  Text(
+                    _bulletinItems![fullScreenPdfIndex!]['description'].isNotEmpty
+                      ? _bulletinItems![fullScreenPdfIndex!]['description']
+                      : '',
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Posted • ${DateFormat('E, d MMM yyyy').format(
+                      DateTime.fromMillisecondsSinceEpoch(
+                        _bulletinItems![fullScreenPdfIndex!]['created'],
+                          isUtc: true))}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.18,
+                padding: const EdgeInsets.all(20),
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [
+                      0,
+                      0.9,
+                      1,
+                    ],
+                    colors: [
+                      Colors.transparent,
+                      Colors.black87,
+                      Colors.black,
+                    ],
+                  ),
+                ),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Column(
+                    children: [
+                      const Spacer(),
+                      Row(
+                        children: [
+                          RawMaterialButton(
+                            constraints: const BoxConstraints(),
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            shape: const CircleBorder(),
+                            onPressed: () {
+                              pdfViewerController.previousPage();
+                              setState(() {
+                                fullScreenPageNumber = pdfViewerController.pageNumber;
+                              });
+                            },
+                            child: const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Page $fullScreenPageNumber / ${pdfViewerController.pageCount}',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ),
+                          RawMaterialButton(
+                            constraints: const BoxConstraints(),
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            shape: const CircleBorder(),
+                            onPressed: () {
+                              pdfViewerController.nextPage();
+                              setState(() {
+                                fullScreenPageNumber = pdfViewerController.pageNumber;
+                              });
+                            },
+                            child: const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: Icon(
+                                Icons.arrow_forward_ios,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          RawMaterialButton(
+                            constraints: const BoxConstraints(),
+                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            onPressed: () async {
+                              if (isFullScreen) {
+                                setState(() {
+                                  fullScreenPdfIndex = null;
+                                  isFullScreen = false;
+                                  fullScreenPageNumber = 0;
+                                });
+
+                                await widget.model.setIsFullScreen(isFullScreen: false);
+                              }
+                            },
+                            child: const SizedBox(
+                              width: 26,
+                              height: 26,
+                              child: Icon(
+                                MaterialIcons.fullscreen_exit,
+                                color: Colors.white,
+                                size: 26,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
