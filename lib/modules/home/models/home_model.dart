@@ -8,6 +8,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
   bool loading;
   String? title;
   User? user;
+  bool isFullScreen;
 
   late Future<void> Function(BuildContext context) initialize;
   void Function({
@@ -27,6 +28,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
     this.loading = false,
     this.title = '',
     this.user,
+    this.isFullScreen = false,
   });
 
   @override
@@ -39,6 +41,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
         loading: loading,
         title: title,
         user: user,
+        isFullScreen: isFullScreen,
       );
 
   @override
@@ -48,6 +51,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
         loading,
         title,
         user,
+        isFullScreen,
       ]);
 
   //
@@ -62,5 +66,6 @@ class HomeModel extends BaseUIModel<HomeModel> {
           initialized == other.initialized &&
           loading == other.loading &&
           title == other.title &&
-          user == other.user;
+          user == other.user &&
+          isFullScreen == other.isFullScreen;
 }

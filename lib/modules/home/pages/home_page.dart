@@ -58,8 +58,13 @@ class HomePage extends BaseStatefulPageView {
       child: Scaffold(
         body: Container(child: module),
         bottomNavigationBar: SizedBox(
-          height: 82,
-          child: Navbar(
+          height: model!.isFullScreen ? 0 : 82,
+          child: model!.isFullScreen
+            ? Container(
+              width: MediaQuery.of(context).size.width,
+            )
+            :
+          Navbar(
             model: model,
             routeName: App.getRouteName(context),
           ),
