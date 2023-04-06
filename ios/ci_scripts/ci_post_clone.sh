@@ -30,6 +30,4 @@ echo "{
 	\"iosBundleId\": \"$IOS_BUNDLE_ID\"
 }" > $CI_WORKSPACE/assets/firebase_config.json
 
-cat $CI_WORKSPACE/assets/firebase_config.json
-
 exit 0
