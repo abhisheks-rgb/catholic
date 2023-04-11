@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/church_info_model.dart';
@@ -274,41 +276,72 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                               ),
                             ),
                             const SizedBox(height: 16),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: Icon(
-                                    MaterialCommunityIcons.map_marker,
-                                    color: Color.fromRGBO(130, 141, 168, 1),
-                                    size: 20,
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: Text(
-                                    widget._infos.isNotEmpty
-                                        ? widget._infos[0]['address']
-                                        : '---',
-                                    style: const TextStyle(
-                                      color: Color.fromRGBO(4, 26, 82, 1),
-                                      fontSize: 16,
+                            RawMaterialButton(
+                              constraints: const BoxConstraints(),
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              onPressed: () async {
+                                if (widget._infos.isNotEmpty) {
+                                  final intRegex = RegExp(r'\d+$');
+                                  final query = widget._infos[0]['address'].trim();
+                                  final result = intRegex.firstMatch(query)!;
+                                  final postalCode = result[0];
+                                  final url = Uri.parse('https://developers.onemap.sg/commonapi/search?searchVal=$postalCode&returnGeom=Y&getAddrDetails=Y');
+                                  final response = await http.get(url);
+                                  final decodedResponse = json.decode(response.body);
+                                  final matches = List<dynamic>.from(decodedResponse['results']);
+                                  final filteredMatches = matches.where((loc) => loc['POSTAL'] == postalCode);
+                                  final loc = filteredMatches.isNotEmpty ? filteredMatches.first : null;
+                  
+                                  if (loc != null) {
+                                    final googleMaps = 'https://www.google.com/maps/search/?api=1&query=${loc['LATITUDE']},${loc['LONGITUDE']}';
+                                    final uri = Uri.parse(googleMaps);
+                                    urlLauncher(uri, 'web');
+                                  } else if (mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text("Cannot find parish"),
+                                      ),
+                                    );
+                                  }
+                                }
+                              },
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: Icon(
+                                      MaterialCommunityIcons.map_marker,
+                                      color: Color.fromRGBO(130, 141, 168, 1),
+                                      size: 20,
                                     ),
                                   ),
-                                ),
-                                const SizedBox(width: 10),
-                                const SizedBox(
-                                  width: 24,
-                                  height: 24,
-                                  child: Icon(
-                                    MaterialCommunityIcons.directions,
-                                    color: Color.fromRGBO(12, 72, 224, 1),
-                                    size: 24,
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: Text(
+                                      widget._infos.isNotEmpty
+                                          ? widget._infos[0]['address']
+                                          : '---',
+                                      style: const TextStyle(
+                                        color: Color.fromRGBO(4, 26, 82, 1),
+                                        fontSize: 16,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  const SizedBox(width: 10),
+                                  const SizedBox(
+                                    width: 24,
+                                    height: 24,
+                                    child: Icon(
+                                      MaterialCommunityIcons.directions,
+                                      color: Color.fromRGBO(12, 72, 224, 1),
+                                      size: 24,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                             const SizedBox(height: 16),
                             RawMaterialButton(
@@ -774,7 +807,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
               shrinkWrap: true,
               itemCount: widget.model!.items!.length,
               separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(height: 10);
+                return const SizedBox(height: 16);
               },
               itemBuilder: (context, index) {
                 if (index == widget.model!.items!.length - 1) {
@@ -805,7 +838,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 16),
                       ],
                     ),
                   );
