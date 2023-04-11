@@ -50,7 +50,28 @@ class ScriptureView extends BaseStatelessPageView {
                       child: CircularProgressIndicator(),
                     ),
                   )
-                : Container(
+                : _items.isEmpty && model?.loading == false
+                  ? Container(
+                      width: double.infinity,
+                      height: MediaQuery.of(context).size.height * 0.77,
+                      margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 28),
+                      decoration: const BoxDecoration(
+                        color: Colors.transparent,
+                      ),
+                      child: const Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Could not retrieve Scripture Reflections at this time.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color.fromRGBO(4, 26, 82, 0.5),
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    )
+                  :
+                Container(
                     width: double.infinity,
                     // height: 210,
                     padding:
@@ -67,9 +88,15 @@ class ScriptureView extends BaseStatelessPageView {
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: _items.isEmpty
+                        ? []
+                        :
+                      [
                         const SizedBox(height: 40),
                         Text(
+                          _items.isEmpty
+                            ? '---'
+                            :
                           _items[0]['data'][0]['contentTitle'] ?? '---',
                           style: const TextStyle(
                             color: Color.fromRGBO(4, 26, 82, 1),
@@ -79,6 +106,9 @@ class ScriptureView extends BaseStatelessPageView {
                         ),
                         const SizedBox(height: 16),
                         Text(
+                          _items.isEmpty
+                            ? '---'
+                            :
                           _items[0]['data'][0]['content'] ?? '---',
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
@@ -93,8 +123,10 @@ class ScriptureView extends BaseStatelessPageView {
                           materialTapTargetSize:
                               MaterialTapTargetSize.shrinkWrap,
                           onPressed: () async {
-                            await model?.viewScriptureDetails
-                                ?.call(_items[0]['data'][0]);
+                            if (_items.isNotEmpty) {
+                              await model?.viewScriptureDetails
+                                  ?.call(_items[0]['data'][0]);
+                            }
                           },
                           child: const Text(
                             'Read More',
