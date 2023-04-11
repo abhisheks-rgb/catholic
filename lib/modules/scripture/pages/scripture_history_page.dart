@@ -22,7 +22,7 @@ class ScriptureHistoryPage extends BaseStatefulPageView {
   @override
   get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
         hasAppBar: true,
-        title: 'View History',
+        title: 'View All',
       ));
 
   @override
