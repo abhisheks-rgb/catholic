@@ -194,6 +194,27 @@ class _BulletinPageState extends State<_BulletinPage> {
                     ),
                   ),
                   const SizedBox(height: 16),
+                  _bulletinItems!.isEmpty && widget.model.loading == false
+                    ? Container(
+                        width: double.infinity,
+                        height: MediaQuery.of(context).size.height * 0.64,
+                        margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 28),
+                        decoration: const BoxDecoration(
+                          color: Colors.transparent,
+                        ),
+                        child: const Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Sorry, this church doesn\'t have any bulletins posted.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color.fromRGBO(4, 26, 82, 0.5),
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      )
+                    :
                   Expanded(
                     child: ListView.separated(
                       shrinkWrap: true,
@@ -277,6 +298,9 @@ class _BulletinPageState extends State<_BulletinPage> {
                                   ],
                                 ),
                               ),
+                              index > 1
+                                ? Container()
+                                :
                               Container(
                                 height: 449,
                                 // height: 50,
@@ -297,6 +321,9 @@ class _BulletinPageState extends State<_BulletinPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
+                                    index > 1
+                                      ? const Spacer()
+                                      :
                                     Expanded(
                                         child: Row(
                                       mainAxisAlignment:
