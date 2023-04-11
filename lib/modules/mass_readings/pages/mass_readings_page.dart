@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 import '../models/mass_readings_model.dart';
+import '../../../../utils/page_specs.dart';
 
 class MassReadingsPage extends BaseStatefulPageView {
   final MassReadingsModel? model;
@@ -19,6 +20,12 @@ class MassReadingsPage extends BaseStatefulPageView {
 
     return true;
   }
+
+  @override
+  get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
+        hasAppBar: true,
+        title: 'Mass Readings',
+      ));
 
   @override
   Widget build(BuildContext context, {bool loading = false}) =>
@@ -123,19 +130,6 @@ class _MassReadingsPageState extends State<_MassReadingsPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Mass Readings'),
-        leading: GestureDetector(
-          child: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-          ),
-          onTap: () {
-            Navigator.of(context).maybePop();
-          },
-        ),
-      ),
       body: Container(
         decoration: const BoxDecoration(
           color: Color.fromRGBO(255, 252, 245, 1),

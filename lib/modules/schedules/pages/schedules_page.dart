@@ -8,14 +8,16 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 import '../models/schedules_model.dart';
 import '../../../utils/asset_path.dart';
+import '../../../../utils/page_specs.dart';
 
 class SchedulesPage extends BaseStatefulPageView {
   final SchedulesModel? model;
 
-  SchedulesPage({Key? key, this.model}) : super();
+  SchedulesPage({Key? key, this.model}) : super(animationDelay: 0);
 
   @override
   FutureOr<bool> beforeLoad(BuildContext context) async {
@@ -25,6 +27,12 @@ class SchedulesPage extends BaseStatefulPageView {
 
     return true;
   }
+
+  @override
+  get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
+        hasAppBar: true,
+        title: 'Mass Schedule',
+      ));
 
   @override
   Widget build(BuildContext context, {bool loading = false}) =>
@@ -110,498 +118,419 @@ class _SchedulesPageState extends State<_SchedulesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'Mass Schedule',
-          style: TextStyle(
-            fontSize: 16,
-            color: Color.fromRGBO(4, 26, 82, 1),
-          ),
-        ),
-        leading: GestureDetector(
-          child: const Icon(
-            Icons.arrow_back_ios,
-            color: Color.fromRGBO(4, 26, 82, 1),
-            size: 24,
-          ),
-          onTap: () {
-            Navigator.of(context).maybePop();
-          },
-        ),
-      ),
       body: Container(
         decoration: const BoxDecoration(
           color: Color.fromRGBO(255, 252, 245, 1),
         ),
         width: double.infinity,
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-        child: widget.model.loading && widget.model.items!.isEmpty
-            ? const Center(child: CircularProgressIndicator())
-            : Column(
+        child:
+            // widget.model.loading && widget.model.items!.isEmpty
+            //     ? const Center(child: CircularProgressIndicator())
+            //     :
+            Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                    Container(
-                      // height: _selectedParishValue == 'all' ? 62 : 114,
-                      width: double.infinity,
-                      padding: _selectedParishValue == 'all'
-                          ? const EdgeInsets.fromLTRB(20, 20, 20, 0)
-                          : const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                      decoration: BoxDecoration(
-                        color: const Color.fromRGBO(255, 255, 255, 1),
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color.fromRGBO(208, 185, 133, 0.15),
-                            offset: Offset(0, 8),
-                            blurRadius: 16,
-                          ),
-                          BoxShadow(
-                            color: Color.fromRGBO(208, 185, 133, 0.05),
-                            offset: Offset(0, 4),
-                            blurRadius: 8,
-                          ),
-                        ],
-                      ),
-                      child: Column(
+              Container(
+                // height: _selectedParishValue == 'all' ? 62 : 114,
+                width: double.infinity,
+                padding: _selectedParishValue == 'all'
+                    ? const EdgeInsets.fromLTRB(20, 20, 20, 0)
+                    : const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                decoration: BoxDecoration(
+                  color: const Color.fromRGBO(255, 255, 255, 1),
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color.fromRGBO(208, 185, 133, 0.15),
+                      offset: Offset(0, 8),
+                      blurRadius: 16,
+                    ),
+                    BoxShadow(
+                      color: Color.fromRGBO(208, 185, 133, 0.05),
+                      offset: Offset(0, 4),
+                      blurRadius: 8,
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    RawMaterialButton(
+                      constraints: const BoxConstraints(),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      onPressed: () async {
+                        showAlert(context);
+                      },
+                      child: Row(
                         children: [
-                          RawMaterialButton(
-                            constraints: const BoxConstraints(),
-                            materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
-                            onPressed: () async {
-                              showAlert(context);
-                            },
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    _selectedParishValue != null
-                                        ? _getChurchName(_selectedParishValue)
-                                        : "",
-                                    style: const TextStyle(
-                                      color: Color.fromRGBO(4, 26, 82, 1),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: Icon(
-                                    Entypo.chevron_down,
-                                    color: Color.fromRGBO(4, 26, 82, 1),
-                                    size: 20,
-                                  ),
-                                ),
-                              ],
+                          Expanded(
+                            child: Text(
+                              _selectedParishValue != null
+                                  ? _getChurchName(_selectedParishValue)
+                                  : "",
+                              style: const TextStyle(
+                                color: Color.fromRGBO(4, 26, 82, 1),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                              ),
                             ),
                           ),
-                          const SizedBox(height: 20),
-                          _selectedParishValue == 'all'
-                              ? const SizedBox()
-                              : const Divider(
-                                  height: 1,
-                                  thickness: 1,
-                                  color: Color.fromRGBO(4, 26, 82, 0.1),
-                                ),
-                          _selectedParishValue == 'all'
-                              ? const SizedBox()
-                              : const SizedBox(height: 10),
-                          _selectedParishValue == 'all'
-                              ? const SizedBox()
-                              : Row(
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        Navigator.of(context)
-                                            .popAndPushNamed('/_/church_info');
-                                      },
-                                      child: const Text('Church Info',
-                                          style: TextStyle(
-                                              letterSpacing: 0.1,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                              color: Color.fromRGBO(
-                                                  12, 72, 224, 1))),
-                                    ),
-                                    const Spacer(flex: 1),
-                                    RichText(
-                                      text: TextSpan(
-                                        text: '',
-                                        style:
-                                            DefaultTextStyle.of(context).style,
-                                        children: const <TextSpan>[
-                                          TextSpan(
-                                              style: TextStyle(
-                                                  letterSpacing: 0.1,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Color.fromRGBO(
-                                                      12, 72, 224, 1)),
-                                              children: [
-                                                TextSpan(
-                                                  text: 'Directions ',
-                                                ),
-                                                WidgetSpan(
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 1.0),
-                                                    child: Icon(
-                                                        Icons.directions,
-                                                        size: 18,
-                                                        color: Color.fromRGBO(
-                                                            12, 72, 224, 1)),
-                                                  ),
-                                                ),
-                                              ]),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                )
+                          const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: Icon(
+                              Entypo.chevron_down,
+                              color: Color.fromRGBO(4, 26, 82, 1),
+                              size: 20,
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                    _schedules != null &&
-                            _schedules!.isNotEmpty &&
-                            !isLoadingSchedules
-                        ? Container(
-                            height: 45,
-                            width: double.infinity,
-                            margin: const EdgeInsets.fromLTRB(0, 16, 0, 16),
-                            child: ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: _schedTypes?.length ?? 0,
-                              itemBuilder: (BuildContext context, int index) {
-                                bool isSelected =
-                                    _schedTypes![index] == _selectedSchedType;
-                                return Container(
-                                  margin: const EdgeInsets.only(bottom: 5),
-                                  decoration: const BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color:
-                                            Color.fromRGBO(208, 185, 133, 0.15),
-                                        offset: Offset(0, 8),
-                                        blurRadius: 16,
-                                      ),
-                                      BoxShadow(
-                                        color:
-                                            Color.fromRGBO(208, 185, 133, 0.05),
-                                        offset: Offset(0, 4),
-                                        blurRadius: 8,
-                                      ),
-                                    ],
-                                  ),
-                                  child: TextButton(
-                                    style: ButtonStyle(
-                                        padding: MaterialStateProperty.all<EdgeInsets>(
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 10.5)),
-                                        foregroundColor:
-                                            MaterialStateProperty.all<Color>(isSelected
-                                                ? const Color.fromRGBO(
-                                                    255, 255, 255, 1)
-                                                : const Color.fromRGBO(
-                                                    4, 26, 82, 0.7)),
-                                        backgroundColor: MaterialStateProperty.all(isSelected
-                                            ? const Color.fromRGBO(4, 26, 82, 1)
-                                            : const Color.fromRGBO(
-                                                255, 255, 255, 1)),
-                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                            RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(32.0),
-                                        ))),
-                                    onPressed: () {
-                                      final filtered =
-                                          _schedules?.map((key, value) {
-                                        final filteredSched = value.where((p) {
-                                          return p['type'] ==
-                                              _schedTypes![index];
-                                        }).toList();
-
-                                        return MapEntry(key, filteredSched);
-                                      });
-
-                                      filtered?.removeWhere(
-                                          (key, value) => value.isEmpty);
-
-                                      setState(() {
-                                        _filteredSchedules = filtered;
-                                        _selectedSchedType =
-                                            _schedTypes![index];
-                                      });
-                                    },
-                                    child: Text(_schedTypes![index]),
-                                  ),
-                                );
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) =>
-                                      const SizedBox(
-                                width: 8,
-                              ),
-                            ))
-                        : const SizedBox(),
-                    isLoadingSchedules
-                        ? Container(
-                            margin: const EdgeInsets.only(top: 16),
-                            child: const Center(
-                                child: CircularProgressIndicator()))
-                        : Expanded(
-                            child: ListView.separated(
-                                shrinkWrap: true,
-                                itemCount: _selectedSchedType == 'All Types'
-                                    ? (_schedules?.length ?? 0)
-                                    : (_filteredSchedules?.length ?? 0),
-                                separatorBuilder: (context, index) {
-                                  return const SizedBox(height: 24);
+                    const SizedBox(height: 20),
+                    _selectedParishValue == 'all'
+                        ? const SizedBox()
+                        : const Divider(
+                            height: 1,
+                            thickness: 1,
+                            color: Color.fromRGBO(4, 26, 82, 0.1),
+                          ),
+                    _selectedParishValue == 'all'
+                        ? const SizedBox()
+                        : const SizedBox(height: 10),
+                    _selectedParishValue == 'all'
+                        ? const SizedBox()
+                        : Row(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .popAndPushNamed('/_/church_info');
                                 },
-                                itemBuilder: (BuildContext context, int index) {
-                                  var data = _selectedSchedType == 'All Types'
-                                      ? _schedules
-                                      : _filteredSchedules;
-
-                                  String key = data?.keys.elementAt(index);
-
-                                  String dateSchedText = DateFormat('EEEE')
-                                      .format(DateTime.parse(key))
-                                      .toUpperCase();
-
-                                  if (isToday(DateTime.parse(key))) {
-                                    dateSchedText = 'TODAY';
-                                  } else if (isTomorrow(DateTime.parse(key))) {
-                                    dateSchedText = 'TOMORROW';
-                                  }
-
-                                  return SizedBox(
-                                      width: double.infinity,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Column(
-                                            children: [
-                                              Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      dateSchedText,
-                                                      style: const TextStyle(
-                                                          color: Color.fromRGBO(
-                                                              4, 26, 82, 1)),
-                                                    ),
-                                                    Text(
-                                                      DateFormat('d MMM yyyy')
-                                                          .format(
-                                                              DateTime.parse(
-                                                                  key)),
-                                                      style: const TextStyle(
-                                                          color: Color.fromRGBO(
-                                                              4, 26, 82, 1)),
-                                                    ),
-                                                  ]),
-                                              const SizedBox(height: 8),
-                                            ],
+                                child: const Text('Church Info',
+                                    style: TextStyle(
+                                        letterSpacing: 0.1,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color.fromRGBO(12, 72, 224, 1))),
+                              ),
+                              const Spacer(flex: 1),
+                              RichText(
+                                text: TextSpan(
+                                  text: '',
+                                  style: DefaultTextStyle.of(context).style,
+                                  children: const <TextSpan>[
+                                    TextSpan(
+                                        style: TextStyle(
+                                            letterSpacing: 0.1,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            color:
+                                                Color.fromRGBO(12, 72, 224, 1)),
+                                        children: [
+                                          TextSpan(
+                                            text: 'Directions ',
                                           ),
-                                          ListView.separated(
-                                              reverse:
-                                                  _selectedParishValue == 'all'
-                                                      ? true
-                                                      : false,
-                                              itemCount: data?[key].length,
-                                              separatorBuilder:
-                                                  (context, index) {
-                                                return const SizedBox(
-                                                    height: 8);
-                                              },
-                                              physics:
-                                                  const ClampingScrollPhysics(),
-                                              shrinkWrap: true,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                var schedParish = widget
-                                                    .model.items
-                                                    ?.firstWhere((element) {
-                                                  return element['_id'] ==
-                                                      data?[key][index]
-                                                          ['parish'];
-                                                });
-                                                return InkWell(
-                                                  child: Container(
-                                                    width: double.infinity,
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            15),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color:
-                                                          const Color.fromRGBO(
-                                                              255, 255, 255, 1),
-                                                      boxShadow: const [
-                                                        BoxShadow(
-                                                          color: Color.fromRGBO(
-                                                              208,
-                                                              185,
-                                                              133,
-                                                              0.15),
-                                                          offset: Offset(0, 8),
-                                                          blurRadius: 16,
-                                                        ),
-                                                        BoxShadow(
-                                                          color: Color.fromRGBO(
-                                                              208,
-                                                              185,
-                                                              133,
-                                                              0.05),
-                                                          offset: Offset(0, 4),
-                                                          blurRadius: 8,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                          WidgetSpan(
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 1.0),
+                                              child: Icon(Icons.directions,
+                                                  size: 18,
+                                                  color: Color.fromRGBO(
+                                                      12, 72, 224, 1)),
+                                            ),
+                                          ),
+                                        ]),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )
+                  ],
+                ),
+              ),
+              _schedules != null &&
+                      _schedules!.isNotEmpty &&
+                      !isLoadingSchedules
+                  ? Container(
+                      height: 45,
+                      width: double.infinity,
+                      margin: const EdgeInsets.fromLTRB(0, 16, 0, 16),
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: _schedTypes?.length ?? 0,
+                        itemBuilder: (BuildContext context, int index) {
+                          bool isSelected =
+                              _schedTypes![index] == _selectedSchedType;
+                          return Container(
+                            margin: const EdgeInsets.only(bottom: 5),
+                            decoration: const BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromRGBO(208, 185, 133, 0.15),
+                                  offset: Offset(0, 8),
+                                  blurRadius: 16,
+                                ),
+                                BoxShadow(
+                                  color: Color.fromRGBO(208, 185, 133, 0.05),
+                                  offset: Offset(0, 4),
+                                  blurRadius: 8,
+                                ),
+                              ],
+                            ),
+                            child: TextButton(
+                              style: ButtonStyle(
+                                  padding: MaterialStateProperty.all<EdgeInsets>(
+                                      const EdgeInsets.symmetric(
+                                          horizontal: 10.5)),
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(isSelected
+                                          ? const Color.fromRGBO(
+                                              255, 255, 255, 1)
+                                          : const Color.fromRGBO(
+                                              4, 26, 82, 0.7)),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      isSelected
+                                          ? const Color.fromRGBO(4, 26, 82, 1)
+                                          : const Color.fromRGBO(
+                                              255, 255, 255, 1)),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(32.0),
+                                  ))),
+                              onPressed: () {
+                                final filtered = _schedules?.map((key, value) {
+                                  final filteredSched = value.where((p) {
+                                    return p['type'] == _schedTypes![index];
+                                  }).toList();
+
+                                  return MapEntry(key, filteredSched);
+                                });
+
+                                filtered?.removeWhere(
+                                    (key, value) => value.isEmpty);
+
+                                setState(() {
+                                  _filteredSchedules = filtered;
+                                  _selectedSchedType = _schedTypes![index];
+                                });
+                              },
+                              child: Text(_schedTypes![index]),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) =>
+                            const SizedBox(
+                          width: 8,
+                        ),
+                      ))
+                  : const SizedBox(),
+              isLoadingSchedules
+                  ? Container(
+                      margin: const EdgeInsets.only(top: 16),
+                      child: const Center(child: CircularProgressIndicator()))
+                  : Expanded(
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          itemCount: _selectedSchedType == 'All Types'
+                              ? (_schedules?.length ?? 0)
+                              : (_filteredSchedules?.length ?? 0),
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(height: 24);
+                          },
+                          itemBuilder: (BuildContext context, int index) {
+                            var data = _selectedSchedType == 'All Types'
+                                ? _schedules
+                                : _filteredSchedules;
+
+                            String key = data?.keys.elementAt(index);
+
+                            String dateSchedText = DateFormat('EEEE')
+                                .format(DateTime.parse(key))
+                                .toUpperCase();
+
+                            if (isToday(DateTime.parse(key))) {
+                              dateSchedText = 'TODAY';
+                            } else if (isTomorrow(DateTime.parse(key))) {
+                              dateSchedText = 'TOMORROW';
+                            }
+
+                            return SizedBox(
+                                width: double.infinity,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Column(
+                                      children: [
+                                        Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                dateSchedText,
+                                                style: const TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        4, 26, 82, 1)),
+                                              ),
+                                              Text(
+                                                DateFormat('d MMM yyyy').format(
+                                                    DateTime.parse(key)),
+                                                style: const TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        4, 26, 82, 1)),
+                                              ),
+                                            ]),
+                                        const SizedBox(height: 8),
+                                      ],
+                                    ),
+                                    ListView.separated(
+                                        reverse: _selectedParishValue == 'all'
+                                            ? true
+                                            : false,
+                                        itemCount: data?[key].length,
+                                        separatorBuilder: (context, index) {
+                                          return const SizedBox(height: 8);
+                                        },
+                                        physics: const ClampingScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          var schedParish = widget.model.items
+                                              ?.firstWhere((element) {
+                                            return element['_id'] ==
+                                                data?[key][index]['parish'];
+                                          });
+                                          return InkWell(
+                                            child: Container(
+                                              width: double.infinity,
+                                              padding: const EdgeInsets.all(15),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: const Color.fromRGBO(
+                                                    255, 255, 255, 1),
+                                                boxShadow: const [
+                                                  BoxShadow(
+                                                    color: Color.fromRGBO(
+                                                        208, 185, 133, 0.15),
+                                                    offset: Offset(0, 8),
+                                                    blurRadius: 16,
+                                                  ),
+                                                  BoxShadow(
+                                                    color: Color.fromRGBO(
+                                                        208, 185, 133, 0.05),
+                                                    offset: Offset(0, 4),
+                                                    blurRadius: 8,
+                                                  ),
+                                                ],
+                                              ),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
                                                       children: [
-                                                        Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Text(
-                                                                '${data?[key][index]['title']}',
-                                                                style:
-                                                                    const TextStyle(
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          4,
-                                                                          26,
-                                                                          82,
-                                                                          1),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontSize: 20,
-                                                                ),
-                                                              ),
-                                                              _scheduleChip(
-                                                                  data?[key][
-                                                                          index]
-                                                                      ['type'],
-                                                                  data?[key][
-                                                                          index]
-                                                                      [
-                                                                      'abbrev'],
-                                                                  data?[key][
-                                                                          index]
-                                                                      [
-                                                                      'colorEvento'],
-                                                                  data?[key][
-                                                                          index]
-                                                                      ['color'],
-                                                                  false),
-                                                            ]),
                                                         Text(
-                                                            '${data?[key][index]['lang'].toUpperCase()} • ${data?[key][index]['location'].toUpperCase()}',
-                                                            style: const TextStyle(
-                                                                letterSpacing:
-                                                                    0.1,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                color: Color
-                                                                    .fromRGBO(
-                                                                        4,
-                                                                        26,
-                                                                        82,
-                                                                        1),
-                                                                fontFeatures: <
-                                                                    FontFeature>[
-                                                                  FontFeature
-                                                                      .enable(
-                                                                          'smcp')
-                                                                ],
-                                                                fontSize: 16)),
-                                                        SizedBox(
-                                                            height:
-                                                                _selectedParishValue ==
-                                                                        "all"
-                                                                    ? 8
-                                                                    : 0),
-                                                        _selectedParishValue ==
-                                                                "all"
-                                                            ? Text(
-                                                                schedParish[
-                                                                    'name'],
-                                                                style:
-                                                                    const TextStyle(
-                                                                  fontSize: 16,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          12,
-                                                                          72,
-                                                                          224,
-                                                                          1),
-                                                                ),
-                                                              )
-                                                            : const SizedBox(),
-                                                        data?[key][index]
-                                                                    ['notes'] !=
-                                                                ""
-                                                            ? Container(
-                                                                margin: const EdgeInsets
-                                                                        .fromLTRB(
-                                                                    0,
-                                                                    8,
-                                                                    0,
-                                                                    12),
-                                                                child:
-                                                                    const DottedLine(),
-                                                              )
-                                                            : const SizedBox(),
-                                                        Text(
-                                                          data?[key][index]
-                                                              ['notes'],
+                                                          '${data?[key][index]['title']}',
                                                           style:
                                                               const TextStyle(
-                                                                  fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          4,
-                                                                          26,
-                                                                          82,
-                                                                          1)),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    4,
+                                                                    26,
+                                                                    82,
+                                                                    1),
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize: 20,
+                                                          ),
+                                                        ),
+                                                        _scheduleChip(
+                                                            data?[key][index]
+                                                                ['type'],
+                                                            data?[key][index]
+                                                                ['abbrev'],
+                                                            data?[key][index]
+                                                                ['colorEvento'],
+                                                            data?[key][index]
+                                                                ['color'],
+                                                            false),
+                                                      ]),
+                                                  Text(
+                                                      '${data?[key][index]['lang'].toUpperCase()} • ${data?[key][index]['location'].toUpperCase()}',
+                                                      style: const TextStyle(
+                                                          letterSpacing: 0.1,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Color.fromRGBO(
+                                                              4, 26, 82, 1),
+                                                          fontFeatures: <
+                                                              FontFeature>[
+                                                            FontFeature.enable(
+                                                                'smcp')
+                                                          ],
+                                                          fontSize: 16)),
+                                                  SizedBox(
+                                                      height:
+                                                          _selectedParishValue ==
+                                                                  "all"
+                                                              ? 8
+                                                              : 0),
+                                                  _selectedParishValue == "all"
+                                                      ? Text(
+                                                          schedParish['name'],
+                                                          style:
+                                                              const TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    12,
+                                                                    72,
+                                                                    224,
+                                                                    1),
+                                                          ),
                                                         )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  onTap: () {
-                                                    _showPopup(context,
-                                                        data?[key][index]);
-                                                  },
-                                                );
-                                              }),
-                                        ],
-                                      ));
-                                }))
-                  ]),
+                                                      : const SizedBox(),
+                                                  data?[key][index]['notes'] !=
+                                                          ""
+                                                      ? Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .fromLTRB(
+                                                                  0, 8, 0, 12),
+                                                          child:
+                                                              const DottedLine(),
+                                                        )
+                                                      : const SizedBox(),
+                                                  Text(
+                                                    data?[key][index]['notes'],
+                                                    style: const TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: Color.fromRGBO(
+                                                            4, 26, 82, 1)),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              _showPopup(
+                                                  context, data?[key][index]);
+                                            },
+                                          );
+                                        }),
+                                  ],
+                                ));
+                          }))
+            ]),
       ),
     );
   }
@@ -936,6 +865,12 @@ class _SchedulesPageState extends State<_SchedulesPage> {
       isLoadingSchedules = true;
       _selectedSchedType = 'All Types';
     });
+
+    if (parishlink == 'all') {
+      await FirebaseAnalytics.instance.logEvent(
+        name: "view_sched",
+      );
+    }
     final result = await FirebaseFunctions.instanceFor(region: 'asia-east2')
         .httpsCallable('schedule')
         .call(

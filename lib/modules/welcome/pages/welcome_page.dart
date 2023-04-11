@@ -4,11 +4,17 @@ import 'package:flutter/material.dart';
 import '../models/welcome_model.dart';
 
 import '../../../utils/asset_path.dart';
+import '../../../../utils/page_specs.dart';
 
 class WelcomePage extends BaseStatefulPageView {
   final WelcomeModel? model;
 
   WelcomePage({Key? key, this.model}) : super();
+
+  @override
+  get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
+        hasAppBar: false,
+      ));
 
   @override
   State<BaseStatefulPageView> createState() => _WelcomePageState();

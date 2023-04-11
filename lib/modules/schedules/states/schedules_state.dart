@@ -44,7 +44,7 @@ class SchedulesState extends BasePageState<SchedulesModel> {
           dispatchModel<SchedulesModel>(SchedulesModel(), (m) {
             m.loading = true;
           });
-          await Future.delayed(const Duration(seconds: 1), () async {
+          await Future.delayed(const Duration(milliseconds: 30), () async {
             final String response =
                 await rootBundle.loadString('assets/data/parish.json');
             final data = await json.decode(response);

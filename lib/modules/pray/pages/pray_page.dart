@@ -6,11 +6,18 @@ import 'package:cloud_functions/cloud_functions.dart';
 import '../models/pray_model.dart';
 
 import '../../../utils/asset_path.dart';
+import '../../../../utils/page_specs.dart';
 
 class PrayPage extends BaseStatefulPageView {
   final PrayModel? model;
 
-  PrayPage({Key? key, this.model}) : super();
+  PrayPage({Key? key, this.model}) : super(animationDelay: 0);
+
+  @override
+  get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
+        hasAppBar: true,
+        title: 'Pray',
+      ));
 
   @override
   Widget build(BuildContext context, {bool loading = false}) =>
@@ -55,26 +62,6 @@ class _PrayPageState extends State<_PrayPage> {
       },
     ];
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'Pray',
-          style: TextStyle(
-            fontSize: 16,
-            color: Color.fromRGBO(4, 26, 82, 1),
-          ),
-        ),
-        leading: GestureDetector(
-          child: const Icon(
-            Icons.arrow_back_ios,
-            color: Color.fromRGBO(4, 26, 82, 1),
-            size: 24,
-          ),
-          onTap: () {
-            Navigator.of(context).popAndPushNamed('/_/welcome');
-          },
-        ),
-      ),
       body: SafeArea(
         child: Container(
           decoration: const BoxDecoration(

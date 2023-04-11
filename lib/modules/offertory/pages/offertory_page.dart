@@ -2,12 +2,10 @@ import 'dart:async';
 
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import '../components/offertory_view.dart';
 import '../models/offertory_model.dart';
-
-// import '../../../utils/asset_path.dart';
+import '../../../../utils/page_specs.dart';
 
 class OffertoryPage extends BaseStatefulPageView {
   final OffertoryModel? model;
@@ -25,5 +23,12 @@ class OffertoryPage extends BaseStatefulPageView {
   }
 
   @override
-  Widget build(BuildContext context, {bool loading = false}) => OffertoryView(model!);
+  get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
+        hasAppBar: true,
+        title: 'Offertory & Giving',
+      ));
+
+  @override
+  Widget build(BuildContext context, {bool loading = false}) =>
+      OffertoryView(model!);
 }

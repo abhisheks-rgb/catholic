@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../components/priest_info_view.dart';
 import '../models/priest_info_model.dart';
+import '../../../../utils/page_specs.dart';
 
 // import '../../../utils/asset_path.dart';
 
@@ -25,5 +26,12 @@ class PriestInfoPage extends BaseStatefulPageView {
   }
 
   @override
-  Widget build(BuildContext context, {bool loading = false}) => PriestInfoView(model!);
+  get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
+        hasAppBar: true,
+        title: 'Priest Info',
+      ));
+
+  @override
+  Widget build(BuildContext context, {bool loading = false}) =>
+      PriestInfoView(model!);
 }

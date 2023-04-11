@@ -10,7 +10,11 @@ class BrandColors {
       ),
       foregroundColor: Dark,
       iconTheme: IconThemeData(color: Dark),
-      toolbarTextStyle: TextStyle(color: Dark),
+      titleTextStyle: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        color: Color.fromRGBO(4, 26, 82, 1),
+      ),
     ),
     fontFamily: 'FiraSans',
   );

@@ -7,8 +7,6 @@ import 'app/app.dart';
 import 'app/persistor.dart' as p;
 import 'firebase_options.dart';
 
-final navigatorKey = GlobalKey<NavigatorState>();
-
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../components/scripture_history_view.dart';
 import '../models/scripture_history_model.dart';
+import '../../../../utils/page_specs.dart';
 
 class ScriptureHistoryPage extends BaseStatefulPageView {
   final ScriptureHistoryModel? model;
@@ -19,5 +20,12 @@ class ScriptureHistoryPage extends BaseStatefulPageView {
   }
 
   @override
-  Widget build(BuildContext context, {bool loading = false}) => ScriptureHistoryView(model!);
+  get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
+        hasAppBar: true,
+        title: 'View History',
+      ));
+
+  @override
+  Widget build(BuildContext context, {bool loading = false}) =>
+      ScriptureHistoryView(model!);
 }

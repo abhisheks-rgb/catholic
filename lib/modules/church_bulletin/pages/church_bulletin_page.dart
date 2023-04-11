@@ -7,6 +7,7 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:intl/intl.dart';
 
 import '../models/church_bulletin_model.dart';
+import '../../../../utils/page_specs.dart';
 
 class ChurchBulletinPage extends BaseStatefulPageView {
   final ChurchBulletinModel? model;
@@ -21,6 +22,12 @@ class ChurchBulletinPage extends BaseStatefulPageView {
 
     return true;
   }
+
+  @override
+  get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
+        hasAppBar: true,
+        title: 'Church Bulletin',
+      ));
 
   @override
   Widget build(BuildContext context, {bool loading = false}) =>
@@ -56,7 +63,6 @@ class _BulletinPageState extends State<_BulletinPage> {
 
     _selectedParishValue = 'Cathedral of the Good Shepherd';
 
-
     if (widget.model.churchName == null || widget.model.churchName == '') {
       _getBulletin('cathedral');
     } else {
@@ -73,13 +79,12 @@ class _BulletinPageState extends State<_BulletinPage> {
           if (widget.model.items!.isNotEmpty) {
             x += 1;
 
-            var parish =
-              widget.model.items?.firstWhere((element) {
-                return element['name'] == widget.model.churchName;
-              });
+            var parish = widget.model.items?.firstWhere((element) {
+              return element['name'] == widget.model.churchName;
+            });
 
             _getBulletin(parish['link']);
-            
+
             setState(() {
               _selectedParishValue = widget.model.churchName;
             });
@@ -115,19 +120,6 @@ class _BulletinPageState extends State<_BulletinPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Church Bulletin'),
-        leading: GestureDetector(
-          child: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-          ),
-          onTap: () {
-            Navigator.of(context).maybePop();
-          },
-        ),
-      ),
       body: Container(
         decoration: const BoxDecoration(
           color: Color.fromRGBO(255, 252, 245, 1),
@@ -233,7 +225,10 @@ class _BulletinPageState extends State<_BulletinPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Container(
-                                height: _bulletinItems![index]['description'] == null ? 60 : 77,
+                                height: _bulletinItems![index]['description'] ==
+                                        null
+                                    ? 60
+                                    : 77,
                                 padding: const EdgeInsets.all(8),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -248,28 +243,30 @@ class _BulletinPageState extends State<_BulletinPage> {
                                         color: Color.fromRGBO(4, 26, 82, 1),
                                       ),
                                     ),
-                                    _bulletinItems![index]['description'] == null
-                                      ? Container()
-                                      :
-                                    Column(
-                                      children: [
-                                        const SizedBox(height: 4),
-                                        Text(
-                                          _bulletinItems![index]['description'].isNotEmpty
-                                            ? _bulletinItems![index]['description'].isNotEmpty
-                                            : '',
-                                          style: const TextStyle(
-                                            color: Color.fromRGBO(4, 26, 82, 0.5),
+                                    _bulletinItems![index]['description'] ==
+                                            null
+                                        ? Container()
+                                        : Column(
+                                            children: [
+                                              const SizedBox(height: 4),
+                                              Text(
+                                                _bulletinItems![index]
+                                                            ['description']
+                                                        .isNotEmpty
+                                                    ? _bulletinItems![index]
+                                                            ['description']
+                                                        .isNotEmpty
+                                                    : '',
+                                                style: const TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      4, 26, 82, 0.5),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                      ],
-                                    ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      'Posted • ${DateFormat('E, d MMM yyyy').format(
-                                          DateTime.fromMillisecondsSinceEpoch(
-                                              _bulletinItems![index]['created'],
-                                              isUtc: true))}',
+                                      'Posted • ${DateFormat('E, d MMM yyyy').format(DateTime.fromMillisecondsSinceEpoch(_bulletinItems![index]['created'], isUtc: true))}',
                                       textAlign: TextAlign.left,
                                       style: const TextStyle(
                                         fontSize: 12,
@@ -347,7 +344,8 @@ class _BulletinPageState extends State<_BulletinPage> {
                                     )),
                                     RawMaterialButton(
                                       constraints: const BoxConstraints(),
-                                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                      materialTapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
                                       onPressed: () async {
                                         if (!isFullScreen) {
                                           setState(() {
@@ -355,7 +353,8 @@ class _BulletinPageState extends State<_BulletinPage> {
                                             isFullScreen = true;
                                           });
 
-                                          await widget.model.setIsFullScreen(isFullScreen: true);
+                                          await widget.model.setIsFullScreen(
+                                              isFullScreen: true);
                                         }
                                       },
                                       child: SizedBox(
@@ -504,7 +503,8 @@ class _BulletinPageState extends State<_BulletinPage> {
                               fullScreenPageNumber = 0;
                             });
 
-                            await widget.model.setIsFullScreen(isFullScreen: false);
+                            await widget.model
+                                .setIsFullScreen(isFullScreen: false);
                           }
                         },
                       ),
@@ -523,22 +523,20 @@ class _BulletinPageState extends State<_BulletinPage> {
                   ),
                   const SizedBox(height: 4),
                   _bulletinItems![fullScreenPdfIndex!]['description'] == null
-                    ? Container()
-                    :
-                  Text(
-                    _bulletinItems![fullScreenPdfIndex!]['description'].isNotEmpty
-                      ? _bulletinItems![fullScreenPdfIndex!]['description']
-                      : '',
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
+                      ? Container()
+                      : Text(
+                          _bulletinItems![fullScreenPdfIndex!]['description']
+                                  .isNotEmpty
+                              ? _bulletinItems![fullScreenPdfIndex!]
+                                  ['description']
+                              : '',
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
                   const SizedBox(height: 4),
                   Text(
-                    'Posted • ${DateFormat('E, d MMM yyyy').format(
-                      DateTime.fromMillisecondsSinceEpoch(
-                        _bulletinItems![fullScreenPdfIndex!]['created'],
-                          isUtc: true))}',
+                    'Posted • ${DateFormat('E, d MMM yyyy').format(DateTime.fromMillisecondsSinceEpoch(_bulletinItems![fullScreenPdfIndex!]['created'], isUtc: true))}',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 12,
@@ -577,12 +575,14 @@ class _BulletinPageState extends State<_BulletinPage> {
                         children: [
                           RawMaterialButton(
                             constraints: const BoxConstraints(),
-                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
                             shape: const CircleBorder(),
                             onPressed: () {
                               pdfViewerController.previousPage();
                               setState(() {
-                                fullScreenPageNumber = pdfViewerController.pageNumber;
+                                fullScreenPageNumber =
+                                    pdfViewerController.pageNumber;
                               });
                             },
                             child: const SizedBox(
@@ -610,12 +610,14 @@ class _BulletinPageState extends State<_BulletinPage> {
                           ),
                           RawMaterialButton(
                             constraints: const BoxConstraints(),
-                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
                             shape: const CircleBorder(),
                             onPressed: () {
                               pdfViewerController.nextPage();
                               setState(() {
-                                fullScreenPageNumber = pdfViewerController.pageNumber;
+                                fullScreenPageNumber =
+                                    pdfViewerController.pageNumber;
                               });
                             },
                             child: const SizedBox(
@@ -631,7 +633,8 @@ class _BulletinPageState extends State<_BulletinPage> {
                           const SizedBox(width: 8),
                           RawMaterialButton(
                             constraints: const BoxConstraints(),
-                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
                             onPressed: () async {
                               if (isFullScreen) {
                                 setState(() {
@@ -640,7 +643,8 @@ class _BulletinPageState extends State<_BulletinPage> {
                                   fullScreenPageNumber = 0;
                                 });
 
-                                await widget.model.setIsFullScreen(isFullScreen: false);
+                                await widget.model
+                                    .setIsFullScreen(isFullScreen: false);
                               }
                             },
                             child: const SizedBox(

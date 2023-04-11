@@ -50,6 +50,10 @@ dependencies:
   flutter_html: ^3.0.0-alpha.6
   firebase_auth: ^4.3.0
   dotted_line: ^3.1.0
+  universal_platform: ^1.0.0+1
+  firebase_analytics: ^10.2.0
+  statusbarz: ^1.0.13
+  responsive_scaffold_nullsafe: ^1.0.1
 
 dev_dependencies:
   flutter_test:

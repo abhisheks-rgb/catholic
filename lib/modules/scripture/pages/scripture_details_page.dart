@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../components/scripture_details_view.dart';
 import '../models/scripture_details_model.dart';
+import '../../../../utils/page_specs.dart';
 
 class ScriptureDetailsPage extends BaseStatefulPageView {
   final ScriptureDetailsModel? model;
@@ -19,5 +20,12 @@ class ScriptureDetailsPage extends BaseStatefulPageView {
   }
 
   @override
-  Widget build(BuildContext context, {bool loading = false}) => ScriptureDetailsView(model!);
+  get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
+        hasAppBar: true,
+        title: 'Scripture Reflection',
+      ));
+
+  @override
+  Widget build(BuildContext context, {bool loading = false}) =>
+      ScriptureDetailsView(model!);
 }

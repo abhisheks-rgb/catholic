@@ -2,12 +2,11 @@ import 'dart:async';
 
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import '../components/church_info_view.dart';
 import '../models/church_info_model.dart';
 
-// import '../../../utils/asset_path.dart';
+import '../../../../utils/page_specs.dart';
 
 class ChurchInfoPage extends BaseStatefulPageView {
   final ChurchInfoModel? model;
@@ -25,5 +24,12 @@ class ChurchInfoPage extends BaseStatefulPageView {
   }
 
   @override
-  Widget build(BuildContext context, {bool loading = false}) => ChurchInfoView(model!);
+  get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
+        hasAppBar: true,
+        title: "Church Info",
+      ));
+
+  @override
+  Widget build(BuildContext context, {bool loading = false}) =>
+      ChurchInfoView(model!);
 }

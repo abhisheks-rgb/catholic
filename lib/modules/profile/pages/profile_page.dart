@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../components/profile_view.dart';
 import '../models/profile_model.dart';
-
+import '../../../../utils/page_specs.dart';
 
 class ProfilePage extends BaseStatefulPageView {
   final ProfileModel? model;
@@ -22,5 +22,12 @@ class ProfilePage extends BaseStatefulPageView {
   }
 
   @override
-  Widget build(BuildContext context, {bool loading = false}) => ProfileView(model!);
+  get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
+        hasAppBar: false,
+        title: "",
+      ));
+
+  @override
+  Widget build(BuildContext context, {bool loading = false}) =>
+      ProfileView(model!);
 }

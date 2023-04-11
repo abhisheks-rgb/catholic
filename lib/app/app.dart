@@ -18,6 +18,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      builder: (_, widget) => Container(child: widget),
       title: AppConfig.title,
       navigatorKey: navigatorKey,
       onGenerateRoute: routes.onGenerateRoute,

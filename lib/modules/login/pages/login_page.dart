@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../components/login_view.dart';
 import '../models/login_model.dart';
-
+import '../../../../utils/page_specs.dart';
 
 class LoginPage extends BaseStatefulPageView {
   final LoginModel? model;
@@ -24,5 +24,12 @@ class LoginPage extends BaseStatefulPageView {
   }
 
   @override
-  Widget build(BuildContext context, {bool loading = false}) => LoginView(model!);
+  get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
+        hasAppBar: false,
+        title: '',
+      ));
+
+  @override
+  Widget build(BuildContext context, {bool loading = false}) =>
+      LoginView(model!);
 }
