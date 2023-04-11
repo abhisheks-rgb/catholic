@@ -24,32 +24,32 @@ class DefaultFirebaseOptions {
 
   Future<DefaultFirebaseOptions> init() async {
     final data = await FirebaseRuntimeOptions().read();
-    web = const FirebaseOptions(
-      apiKey: String.fromEnvironment('API_KEY'),
-      appId: String.fromEnvironment('API_ID'),
-      messagingSenderId: String.fromEnvironment('SENDER_ID'),
-      projectId: String.fromEnvironment('PROJ_ID'),
-      authDomain: String.fromEnvironment('DOMAIN'),
-      storageBucket: String.fromEnvironment('BUCKET_NAME'),
-      measurementId: String.fromEnvironment('MEAS_ID'),
+    web = FirebaseOptions(
+      apiKey: data['apiKey'].toString(),
+      appId: data['appId'].toString(),
+      messagingSenderId: data['messagingSenderId'].toString(),
+      projectId: data['projectId'].toString(),
+      authDomain: data['authDomain'].toString(),
+      storageBucket: data['storageBucket'].toString(),
+      measurementId: data['measurementId'].toString(),
     );
 
-    android = const FirebaseOptions(
-      apiKey: String.fromEnvironment('API_KEY'),
-      appId: String.fromEnvironment('API_ID'),
-      messagingSenderId: String.fromEnvironment('SENDER_ID'),
-      projectId: String.fromEnvironment('PROJ_ID'),
-      storageBucket: String.fromEnvironment('BUCKET_NAME'),
+    android = FirebaseOptions(
+      apiKey: data['apiKey'].toString(),
+      appId: data['appId'].toString(),
+      messagingSenderId: data['messagingSenderId'].toString(),
+      projectId: data['projectId'].toString(),
+      storageBucket: data['storageBucket'].toString(),
     );
 
-    ios = const FirebaseOptions(
-      apiKey: String.fromEnvironment('API_KEY'),
-      appId: String.fromEnvironment('API_ID'),
-      messagingSenderId: String.fromEnvironment('SENDER_ID'),
-      projectId: String.fromEnvironment('PROJ_ID'),
-      storageBucket: String.fromEnvironment('BUCKET_NAME'),
-      iosClientId: String.fromEnvironment('IOS_CLIENT_ID'),
-      iosBundleId: String.fromEnvironment('IOS_BUNDLE_ID'),
+    ios = FirebaseOptions(
+      apiKey: data['apiKey'].toString(),
+      appId: data['appId'].toString(),
+      messagingSenderId: data['messagingSenderId'].toString(),
+      projectId: data['projectId'].toString(),
+      storageBucket: data['storageBucket'].toString(),
+      iosClientId: data['iosClientId'].toString(),
+      iosBundleId: data['iosBundleId'].toString(),
     );
 
     return this;
