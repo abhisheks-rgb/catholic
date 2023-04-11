@@ -46,7 +46,7 @@ class _BulletinPage extends StatefulWidget {
 
 class _BulletinPageState extends State<_BulletinPage> {
   final ChurchBulletinModel model;
-  String? _selectedParishValue = "";
+  String? _selectedParishValue = '';
   List? _bulletinItems;
   final PdfViewerController pdfViewerController = PdfViewerController();
   var controllers = <String, PdfViewerController>{};
@@ -425,7 +425,7 @@ class _BulletinPageState extends State<_BulletinPage> {
         .httpsCallable('bulletin')
         .call(
       {
-        "input": parishlink,
+        'input': parishlink,
       },
     );
 

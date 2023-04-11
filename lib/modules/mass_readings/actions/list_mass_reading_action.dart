@@ -32,17 +32,17 @@ class ListMassReadingAction extends BaseAction {
           .httpsCallable('massreading')
           .call(
         {
-          "input": massReadingDate,
+          'input': massReadingDate,
         },
       );
 
       record = json.decode(instance.data['results']['items']);
 
       record.forEach((key, value) {
-        if (key != "number" &&
-            key != "date" &&
-            key != "day" &&
-            key != "copyright") {
+        if (key != 'number' &&
+            key != 'date' &&
+            key != 'day' &&
+            key != 'copyright') {
           records2.add({key: value});
           keyList.add(key);
         }

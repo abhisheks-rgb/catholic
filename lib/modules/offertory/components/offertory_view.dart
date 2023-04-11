@@ -224,7 +224,7 @@ class _OffertoryViewState extends State<OffertoryView> {
                                             .showSnackBar(
                                           const SnackBar(
                                             content: Text(
-                                                "UEN copied to your clipboard"),
+                                                'UEN copied to your clipboard'),
                                           ),
                                         );
                                       });
@@ -613,7 +613,7 @@ class _OffertoryViewState extends State<OffertoryView> {
               shrinkWrap: true,
               itemCount: widget.model!.items!.length,
               separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(height: 17);
+                return const SizedBox(height: 16);
               },
               itemBuilder: (context, index) {
                 if (index == widget.model!.items!.length - 1) {
@@ -638,7 +638,7 @@ class _OffertoryViewState extends State<OffertoryView> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 17),
+                        const SizedBox(height: 16),
                       ],
                     ),
                   );

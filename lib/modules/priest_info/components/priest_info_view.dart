@@ -183,7 +183,7 @@ class _PriestInfoViewState extends State<PriestInfoView> {
     Map priestParish = {};
 
     if (widget._infos[currentPriestIndex!]['churchid'] != null &&
-        widget._infos[currentPriestIndex!]['churchid'] != "") {
+        widget._infos[currentPriestIndex!]['churchid'] != '') {
       priestParish = widget.model!.items!.firstWhere((element) {
         return element['_id'].toString() ==
             widget._infos[currentPriestIndex!]['churchid'].toString();
@@ -354,7 +354,7 @@ class _PriestInfoViewState extends State<PriestInfoView> {
         Map priestParish = {};
 
         if (widget._infos[index]['churchid'] != null &&
-            widget._infos[index]['churchid'] != "") {
+            widget._infos[index]['churchid'] != '') {
           priestParish = widget.model!.items!.firstWhere((element) {
             return element['_id'].toString() ==
                 widget._infos[index]['churchid'].toString();

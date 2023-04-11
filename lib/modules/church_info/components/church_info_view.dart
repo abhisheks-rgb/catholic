@@ -28,13 +28,13 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
   int outFlex = 0;
   int hasLink = 0;
   Timer? myTimer;
-  String? _selectedParishValue = "";
+  String? _selectedParishValue = '';
 
   @override
   void initState() {
     super.initState();
 
-    _selectedParishValue = "Cathedral of the Good Shepherd";
+    _selectedParishValue = 'Cathedral of the Good Shepherd';
 
     startTimer();
   }
@@ -46,22 +46,22 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
       if (widget._infos.isNotEmpty) {
         x += 1;
 
-        if (widget._infos[0]['orgFacebook'] != "" &&
+        if (widget._infos[0]['orgFacebook'] != '' &&
             widget._infos[0]['orgFacebook'] != null) {
           hasLink += 1;
         }
 
-        if (widget._infos[0]['orgInstagram'] != "" &&
+        if (widget._infos[0]['orgInstagram'] != '' &&
             widget._infos[0]['orgInstagram'] != null) {
           hasLink += 1;
         }
 
-        if (widget._infos[0]['orgTwitter'] != "" &&
+        if (widget._infos[0]['orgTwitter'] != '' &&
             widget._infos[0]['orgTwitter'] != null) {
           hasLink += 1;
         }
 
-        if (widget._infos[0]['orgTelegram'] != "" &&
+        if (widget._infos[0]['orgTelegram'] != '' &&
             widget._infos[0]['orgTelegram'] != null) {
           hasLink += 1;
         }
@@ -300,7 +300,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                   } else if (mounted) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text("Cannot find parish"),
+                                        content: Text('Cannot find parish'),
                                       ),
                                     );
                                   }
@@ -530,7 +530,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                               ),
                                             )
                                           : Container(),
-                                      widget._infos[0]['orgFacebook'] == "" ||
+                                      widget._infos[0]['orgFacebook'] == '' ||
                                               widget._infos[0]['orgFacebook'] ==
                                                   null
                                           ? Container()
@@ -580,7 +580,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                 ),
                                               ),
                                             ),
-                                      widget._infos[0]['orgInstagram'] == "" ||
+                                      widget._infos[0]['orgInstagram'] == '' ||
                                               widget._infos[0]
                                                       ['orgInstagram'] ==
                                                   null
@@ -609,7 +609,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                 ),
                                               ),
                                             ),
-                                      widget._infos[0]['orgTwitter'] == "" ||
+                                      widget._infos[0]['orgTwitter'] == '' ||
                                               widget._infos[0]['orgTwitter'] ==
                                                   null
                                           ? Container()
@@ -641,7 +641,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                 ),
                                               ),
                                             ),
-                                      widget._infos[0]['orgTelegram'] == "" ||
+                                      widget._infos[0]['orgTelegram'] == '' ||
                                               widget._infos[0]['orgTelegram'] ==
                                                   null
                                           ? Container()

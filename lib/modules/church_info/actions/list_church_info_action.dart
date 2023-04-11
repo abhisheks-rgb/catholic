@@ -34,7 +34,7 @@ class ListChurchInfoAction extends BaseAction {
         .httpsCallable('org')
         .call(
           {
-            "input": orgId != null
+            'input': orgId != null
               ? '$orgId'
               : churchId != null && churchId! > 0
                 ? '$churchId'

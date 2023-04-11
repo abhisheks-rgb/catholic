@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_functions/cloud_functions.dart';
-import "package:collection/collection.dart";
+import 'package:collection/collection.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:dotted_line/dotted_line.dart';
@@ -52,8 +52,8 @@ class _SchedulesPage extends StatefulWidget {
 class _SchedulesPageState extends State<_SchedulesPage> {
   final SchedulesModel model;
   bool isLoadingSchedules = false;
-  String? _selectedParishValue = "";
-  String? _selectedSchedType = "";
+  String? _selectedParishValue = '';
+  String? _selectedSchedType = '';
   Map? _schedules;
   Map? _filteredSchedules;
   List? _schedTypes;
@@ -168,7 +168,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                             child: Text(
                               _selectedParishValue != null
                                   ? _getChurchName(_selectedParishValue)
-                                  : "",
+                                  : '',
                               style: const TextStyle(
                                 color: Color.fromRGBO(4, 26, 82, 1),
                                 fontWeight: FontWeight.w500,
@@ -478,10 +478,10 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                                   SizedBox(
                                                       height:
                                                           _selectedParishValue ==
-                                                                  "all"
+                                                                  'all'
                                                               ? 8
                                                               : 0),
-                                                  _selectedParishValue == "all"
+                                                  _selectedParishValue == 'all'
                                                       ? Text(
                                                           schedParish['name'],
                                                           style:
@@ -499,7 +499,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                                         )
                                                       : const SizedBox(),
                                                   data?[key][index]['notes'] !=
-                                                          ""
+                                                          ''
                                                       ? Container(
                                                           margin:
                                                               const EdgeInsets
@@ -868,14 +868,14 @@ class _SchedulesPageState extends State<_SchedulesPage> {
 
     if (parishlink == 'all') {
       await FirebaseAnalytics.instance.logEvent(
-        name: "view_sched",
+        name: 'view_sched',
       );
     }
     final result = await FirebaseFunctions.instanceFor(region: 'asia-east2')
         .httpsCallable('schedule')
         .call(
       {
-        "input": parishlink,
+        'input': parishlink,
       },
     );
 
@@ -893,10 +893,10 @@ class _SchedulesPageState extends State<_SchedulesPage> {
     });
 
     newMap.forEach((key, value) {
-      value.sort((a, b) => DateTime.fromMillisecondsSinceEpoch(b["start"],
+      value.sort((a, b) => DateTime.fromMillisecondsSinceEpoch(b['start'],
               isUtc: true)
           .compareTo(
-              DateTime.fromMillisecondsSinceEpoch(b["start"], isUtc: true)));
+              DateTime.fromMillisecondsSinceEpoch(b['start'], isUtc: true)));
     });
 
     newMap.removeWhere((key, value) {

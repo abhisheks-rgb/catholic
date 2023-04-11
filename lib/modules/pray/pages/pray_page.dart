@@ -155,7 +155,7 @@ class _PrayPageState extends State<_PrayPage> {
                         child: SizedBox(
                           height: 34,
                           child: Text(
-                            _istoday?['title'] ?? "",
+                            _istoday?['title'] ?? '',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
@@ -174,7 +174,7 @@ class _PrayPageState extends State<_PrayPage> {
                         child: SizedBox(
                           height: 48,
                           child: Text(
-                            _istoday?['content'] ?? "",
+                            _istoday?['content'] ?? '',
                             style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
@@ -251,7 +251,7 @@ class _PrayPageState extends State<_PrayPage> {
 
   void _getisToday() async {
     final result = await FirebaseFunctions.instanceFor(region: 'asia-east2')
-        .httpsCallable("todayis")
+        .httpsCallable('todayis')
         .call({});
 
     final response = result.data;

@@ -31,7 +31,7 @@ class ListPriestInfoAction extends BaseAction {
         .httpsCallable('priest')
         .call(
         {
-          "type": 'all',
+          'type': 'all',
         },
       );
 

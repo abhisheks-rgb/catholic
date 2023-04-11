@@ -168,7 +168,7 @@ class _InfoPageState extends State<_InfoPage> {
                         width: MediaQuery.of(context).size.width - 48,
                         height: 34,
                         child: Text(
-                          _qoute?['title'] ?? "",
+                          _qoute?['title'] ?? '',
                           style: const TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.w500,
@@ -186,7 +186,7 @@ class _InfoPageState extends State<_InfoPage> {
                         width: MediaQuery.of(context).size.width - 48,
                         height: 38,
                         child: Text(
-                          _qoute?['content'] ?? "",
+                          _qoute?['content'] ?? '',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
@@ -264,7 +264,7 @@ class _InfoPageState extends State<_InfoPage> {
 
   void _getQoute() async {
     final result = await FirebaseFunctions.instanceFor(region: 'asia-east2')
-        .httpsCallable("quote")
+        .httpsCallable('quote')
         .call({});
 
     final response = result.data;

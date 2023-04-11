@@ -24,7 +24,6 @@ class MassReadingsState extends BasePageState<MassReadingsModel> {
         other is MassReadingsState &&
             runtimeType == other.runtimeType &&
             model == other.model;
-    ;
   }
 
   @override
