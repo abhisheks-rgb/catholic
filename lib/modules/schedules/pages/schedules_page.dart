@@ -1,14 +1,18 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:ui';
+
 import 'package:butter/butter.dart';
-import 'package:flutter/material.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:intl/intl.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:dotted_line/dotted_line.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../models/schedules_model.dart';
 import '../../../utils/asset_path.dart';
@@ -216,34 +220,46 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                         color: Color.fromRGBO(12, 72, 224, 1))),
                               ),
                               const Spacer(flex: 1),
-                              RichText(
-                                text: TextSpan(
-                                  text: '',
-                                  style: DefaultTextStyle.of(context).style,
-                                  children: const <TextSpan>[
-                                    TextSpan(
-                                        style: TextStyle(
-                                            letterSpacing: 0.1,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                            color:
-                                                Color.fromRGBO(12, 72, 224, 1)),
-                                        children: [
-                                          TextSpan(
-                                            text: 'Directions ',
-                                          ),
-                                          WidgetSpan(
-                                            child: Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 1.0),
-                                              child: Icon(Icons.directions,
-                                                  size: 18,
-                                                  color: Color.fromRGBO(
-                                                      12, 72, 224, 1)),
+                              RawMaterialButton(
+                                constraints: const BoxConstraints(),
+                                materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
+                                onPressed: () {
+                                  final query =
+                                      _getChurchAddress(_selectedParishValue);
+                                  if (query.isNotEmpty) {
+                                    _redirectToMaps(query);
+                                  }
+                                },
+                                child: RichText(
+                                  text: TextSpan(
+                                    text: '',
+                                    style: DefaultTextStyle.of(context).style,
+                                    children: const <TextSpan>[
+                                      TextSpan(
+                                          style: TextStyle(
+                                              letterSpacing: 0.1,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                              color: Color.fromRGBO(
+                                                  12, 72, 224, 1)),
+                                          children: [
+                                            TextSpan(
+                                              text: 'Directions ',
                                             ),
-                                          ),
-                                        ]),
-                                  ],
+                                            WidgetSpan(
+                                              child: Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 1.0),
+                                                child: Icon(Icons.directions,
+                                                    size: 18,
+                                                    color: Color.fromRGBO(
+                                                        12, 72, 224, 1)),
+                                              ),
+                                            ),
+                                          ]),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
@@ -482,19 +498,60 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                                               ? 8
                                                               : 0),
                                                   _selectedParishValue == 'all'
-                                                      ? Text(
-                                                          schedParish['name'],
-                                                          style:
-                                                              const TextStyle(
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    12,
-                                                                    72,
-                                                                    224,
-                                                                    1),
+                                                      ? RawMaterialButton(
+                                                          constraints:
+                                                              const BoxConstraints(),
+                                                          materialTapTargetSize:
+                                                              MaterialTapTargetSize
+                                                                  .shrinkWrap,
+                                                          onPressed: () {
+                                                            final query =
+                                                                schedParish[
+                                                                    'address'];
+                                                            if (query
+                                                                .isNotEmpty) {
+                                                              _redirectToMaps(
+                                                                  query);
+                                                            }
+                                                          },
+                                                          child: Row(
+                                                            children: [
+                                                              Expanded(
+                                                                child: Text(
+                                                                  schedParish[
+                                                                      'name'],
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        16,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                            12,
+                                                                            72,
+                                                                            224,
+                                                                            1),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                width: 24,
+                                                                height: 24,
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .directions,
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          12,
+                                                                          72,
+                                                                          224,
+                                                                          1),
+                                                                  size: 24,
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
                                                         )
                                                       : const SizedBox(),
@@ -857,6 +914,63 @@ class _SchedulesPageState extends State<_SchedulesPage> {
       });
 
       return '${parish['completename']}';
+    }
+  }
+
+  String _getChurchAddress(String? selectedParish) {
+    if (selectedParish == 'all') {
+      return '';
+    } else {
+      var parish = widget.model.items?.firstWhere((element) {
+        return element['name'] == selectedParish;
+      });
+
+      return '${parish['address']}';
+    }
+  }
+
+  void urlLauncher(Uri uri, String source) async {
+    if (source == 'web') {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+        );
+      } else {
+        throw 'Could not launch $uri';
+      }
+    } else {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
+      } else {
+        throw 'Could not launch $uri';
+      }
+    }
+  }
+
+  void _redirectToMaps(String query) async {
+    final intRegex = RegExp(r'\d+$');
+    final result = intRegex.firstMatch(query)!;
+    final postalCode = result[0];
+    final url = Uri.parse(
+        'https://developers.onemap.sg/commonapi/search?searchVal=$postalCode&returnGeom=Y&getAddrDetails=Y');
+    final response = await http.get(url);
+    final decodedResponse = json.decode(response.body);
+    final matches = List<dynamic>.from(decodedResponse['results']);
+    final filteredMatches = matches.where((loc) => loc['POSTAL'] == postalCode);
+    final loc = filteredMatches.isNotEmpty ? filteredMatches.first : null;
+
+    if (loc != null) {
+      final googleMaps =
+          'https://www.google.com/maps/search/?api=1&query=${loc['LATITUDE']},${loc['LONGITUDE']}';
+      final uri = Uri.parse(googleMaps);
+      urlLauncher(uri, 'web');
+    } else if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Cannot find parish'),
+        ),
+      );
     }
   }
 
