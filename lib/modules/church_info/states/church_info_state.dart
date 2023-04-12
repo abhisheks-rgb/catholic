@@ -8,6 +8,7 @@ import '../models/church_info_model.dart';
 import '../../church_bulletin/models/church_bulletin_model.dart';
 import '../../offertory/models/offertory_model.dart';
 import '../../schedules/models/schedules_model.dart';
+import '../../priest_info/models/priest_info_model.dart';
 
 class ChurchInfoState extends BasePageState<ChurchInfoModel> {
   ChurchInfoState();
@@ -45,21 +46,26 @@ class ChurchInfoState extends BasePageState<ChurchInfoModel> {
                 ),
           ), (m) {
         // Load all your model's handlers here
-        m.showPage = (route, churchName) async {
-          switch(route) {
+        m.showPage = (route, name) async {
+          switch (route) {
             case '/_/church_bulletin':
               dispatchModel<ChurchBulletinModel>(ChurchBulletinModel(), (m) {
-                m.churchName = churchName;
+                m.churchName = name;
               });
               break;
             case '/_/schedules':
               dispatchModel<SchedulesModel>(SchedulesModel(), (m) {
-                m.churchName = churchName;
+                m.churchName = name;
               });
               break;
             case '/_/offertory':
               dispatchModel<OffertoryModel>(OffertoryModel(), (m) {
-                m.churchName = churchName;
+                m.churchName = name;
+              });
+              break;
+            case '/_/priest_info':
+              dispatchModel<PriestInfoModel>(PriestInfoModel(), (m) {
+                m.priestName = name;
               });
               break;
             default:

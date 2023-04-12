@@ -402,14 +402,23 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                widget._infos.isNotEmpty
-                                    ? '${widget._infos[0]['priestsalutation']} ${widget._infos[0]['priestname']}'
-                                    : '---',
-                                style: const TextStyle(
-                                  color: Color.fromRGBO(12, 72, 224, 1),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
+                              RawMaterialButton(
+                                constraints: const BoxConstraints(),
+                                materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
+                                onPressed: () {
+                                  widget.model?.showPage('/_/priest_info',
+                                      widget._infos[0]['priestname']);
+                                },
+                                child: Text(
+                                  widget._infos.isNotEmpty
+                                      ? '${widget._infos[0]['priestsalutation']} ${widget._infos[0]['priestname']}'
+                                      : '---',
+                                  style: const TextStyle(
+                                    color: Color.fromRGBO(12, 72, 224, 1),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                  ),
                                 ),
                               ),
                               const SizedBox(height: 8),

@@ -1,7 +1,7 @@
 import 'package:butter/butter.dart';
 
 class ChurchInfoModel extends BaseUIModel<ChurchInfoModel> {
-  late void Function(String route, String? churchName) showPage;
+  late void Function(String route, String? name) showPage;
   late void Function() loadData;
   List<dynamic>? items;
   //
@@ -26,30 +26,30 @@ class ChurchInfoModel extends BaseUIModel<ChurchInfoModel> {
 
   @override
   ChurchInfoModel clone() => ChurchInfoModel(
-    items: items ?? [],
-    error: error,
-    loading: loading,
-    churchInfos: churchInfos == null ? [] : List.unmodifiable(churchInfos!),
-    churchId: churchId,
-  );
+        items: items ?? [],
+        error: error,
+        loading: loading,
+        churchInfos: churchInfos == null ? [] : List.unmodifiable(churchInfos!),
+        churchId: churchId,
+      );
 
   @override
   int get hashCode => Object.hashAll([
-    items,
-    error,
-    loading,
-    churchInfos,
-    churchId,
-  ]);
+        items,
+        error,
+        loading,
+        churchInfos,
+        churchId,
+      ]);
 
   @override
   bool operator ==(Object other) =>
-    identical(this, other) ||
+      identical(this, other) ||
       other is ChurchInfoModel &&
-        runtimeType == other.runtimeType &&
-        items == other.items &&
-        error == other.error &&
-        loading == other.loading &&
-        churchInfos == other.churchInfos &&
-        churchId == other.churchId;
+          runtimeType == other.runtimeType &&
+          items == other.items &&
+          error == other.error &&
+          loading == other.loading &&
+          churchInfos == other.churchInfos &&
+          churchId == other.churchId;
 }
