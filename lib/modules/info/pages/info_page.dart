@@ -67,7 +67,7 @@ class _InfoPageState extends State<_InfoPage> {
       },
       {
         'title': 'Priest Info',
-        'icon': 'Church_Info.png',
+        'icon': 'Priest_Info.png',
         'route': 'priest_info',
       },
       {
