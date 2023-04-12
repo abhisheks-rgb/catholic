@@ -87,92 +87,92 @@ class _PriestInfoViewState extends State<PriestInfoView> {
             //     ),
             //   ),
             // ),
-            widget.model?.loading == true
-                ? Container(
-                    height: MediaQuery.of(context).size.height * 0.74,
-                    margin: const EdgeInsets.only(top: 16),
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  )
-                : Column(
+            // widget.model?.loading == true
+            //     ? Container(
+            //         height: MediaQuery.of(context).size.height * 0.74,
+            //         margin: const EdgeInsets.only(top: 16),
+            //         child: const Center(
+            //           child: CircularProgressIndicator(),
+            //         ),
+            //       )
+            //     :
+            Column(
+              children: [
+                const SizedBox(height: 16),
+                Container(
+                  width: double.infinity,
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color.fromRGBO(208, 185, 133, 0.15),
+                        offset: Offset(0, 8),
+                        blurRadius: 16,
+                      ),
+                      BoxShadow(
+                        color: Color.fromRGBO(208, 185, 133, 0.05),
+                        offset: Offset(0, 4),
+                        blurRadius: 8,
+                      ),
+                    ],
+                  ),
+                  child: Column(
                     children: [
-                      const SizedBox(height: 16),
-                      Container(
-                        width: double.infinity,
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 0, horizontal: 24),
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color.fromRGBO(208, 185, 133, 0.15),
-                              offset: Offset(0, 8),
-                              blurRadius: 16,
-                            ),
-                            BoxShadow(
-                              color: Color.fromRGBO(208, 185, 133, 0.05),
-                              offset: Offset(0, 4),
-                              blurRadius: 8,
-                            ),
-                          ],
-                        ),
-                        child: Column(
+                      RawMaterialButton(
+                        constraints: const BoxConstraints(),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: () {
+                          if (widget.model!.items!.isNotEmpty &&
+                              widget._infos.isNotEmpty) {
+                            showAlert(context);
+                          }
+                        },
+                        child: Row(
                           children: [
-                            RawMaterialButton(
-                              constraints: const BoxConstraints(),
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              onPressed: () {
-                                if (widget.model!.items!.isNotEmpty &&
-                                    widget._infos.isNotEmpty) {
-                                  showAlert(context);
-                                }
-                              },
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      widget.model!.items!.isNotEmpty &&
-                                              widget._infos.isNotEmpty &&
-                                              !isAllPriests &&
-                                              currentPriestIndex != null
-                                          ? '${widget._infos[currentPriestIndex!]['salutation'] ?? ''} ${widget._infos[currentPriestIndex!]['name'] ?? '---'}'
-                                          : 'All Priests',
-                                      // overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                        color: Color.fromRGBO(4, 26, 82, 1),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: Icon(
-                                      Entypo.chevron_down,
-                                      color: Color.fromRGBO(4, 26, 82, 1),
-                                      size: 20,
-                                    ),
-                                  ),
-                                ],
+                            Expanded(
+                              child: Text(
+                                widget.model!.items!.isNotEmpty &&
+                                        widget._infos.isNotEmpty &&
+                                        !isAllPriests &&
+                                        currentPriestIndex != null
+                                    ? '${widget._infos[currentPriestIndex!]['salutation'] ?? ''} ${widget._infos[currentPriestIndex!]['name'] ?? '---'}'
+                                    : 'All Priests',
+                                // overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: Color.fromRGBO(4, 26, 82, 1),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                ),
                               ),
                             ),
-                            isAllPriests || widget._infos.isEmpty
-                                ? Container()
-                                : _renderPriestInfo(),
+                            const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: Icon(
+                                Entypo.chevron_down,
+                                color: Color.fromRGBO(4, 26, 82, 1),
+                                size: 20,
+                              ),
+                            ),
                           ],
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      isAllPriests && widget._infos.isNotEmpty
-                          ? _renderPriestList()
-                          : Container(),
+                      isAllPriests || widget._infos.isEmpty
+                          ? Container()
+                          : _renderPriestInfo(),
                     ],
                   ),
+                ),
+                const SizedBox(height: 16),
+                isAllPriests && widget._infos.isNotEmpty
+                    ? _renderPriestList()
+                    : Container(),
+              ],
+            ),
           ],
         ),
       ),

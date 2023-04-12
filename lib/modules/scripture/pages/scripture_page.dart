@@ -10,7 +10,7 @@ import '../../../../utils/page_specs.dart';
 class ScripturePage extends BaseStatefulPageView {
   final ScriptureModel? model;
 
-  ScripturePage({Key? key, this.model}) : super();
+  ScripturePage({Key? key, this.model}) : super(animationDelay: 0);
 
   @override
   FutureOr<bool> beforeLoad(BuildContext context) async {

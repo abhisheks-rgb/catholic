@@ -195,559 +195,549 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
             //     ),
             //   ),
             // ),
-            widget.model?.loading == true
-                ? Container(
-                    height: MediaQuery.of(context).size.height * 0.74,
-                    margin: const EdgeInsets.only(top: 16),
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  )
-                : Column(
+            // widget.model?.loading == true
+            //     ? Container(
+            //         height: MediaQuery.of(context).size.height * 0.74,
+            //         margin: const EdgeInsets.only(top: 16),
+            //         child: const Center(
+            //           child: CircularProgressIndicator(),
+            //         ),
+            //       )
+            //     :
+            Column(
+              children: [
+                const SizedBox(height: 16),
+                Container(
+                  width: double.infinity,
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                  ),
+                  child: Column(
                     children: [
-                      const SizedBox(height: 16),
-                      Container(
-                        width: double.infinity,
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 0, horizontal: 24),
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                        ),
-                        child: Column(
+                      RawMaterialButton(
+                        constraints: const BoxConstraints(),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: () async {
+                          showAlert(context);
+                        },
+                        child: Row(
                           children: [
-                            RawMaterialButton(
-                              constraints: const BoxConstraints(),
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              onPressed: () async {
-                                showAlert(context);
-                              },
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      widget._infos.isNotEmpty
-                                          ? widget._infos[0]['orgName']
-                                          : '---',
-                                      style: const TextStyle(
-                                        color: Color.fromRGBO(4, 26, 82, 1),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: Icon(
-                                      Entypo.chevron_down,
-                                      color: Color.fromRGBO(4, 26, 82, 1),
-                                      size: 20,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                            const Divider(
-                              height: 1,
-                              thickness: 1,
-                              indent: 0,
-                              endIndent: 0,
-                              color: Color.fromRGBO(4, 26, 82, 0.1),
-                            ),
-                            const SizedBox(height: 16),
-                            Container(
-                              height: 120,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: widget._infos.isEmpty
-                                    ? const Color.fromRGBO(219, 228, 251, 1)
-                                    : Colors.transparent,
-                                image: widget._infos.isNotEmpty
-                                    ? DecorationImage(
-                                        image: NetworkImage(
-                                            widget._infos[0]['logoUrl']),
-                                        fit: BoxFit.contain,
-                                      )
-                                    : null,
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                            RawMaterialButton(
-                              constraints: const BoxConstraints(),
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              onPressed: () async {
-                                if (widget._infos.isNotEmpty) {
-                                  final intRegex = RegExp(r'\d+$');
-                                  final query = widget._infos[0]['address'].trim();
-                                  final result = intRegex.firstMatch(query)!;
-                                  final postalCode = result[0];
-                                  final url = Uri.parse('https://developers.onemap.sg/commonapi/search?searchVal=$postalCode&returnGeom=Y&getAddrDetails=Y');
-                                  final response = await http.get(url);
-                                  final decodedResponse = json.decode(response.body);
-                                  final matches = List<dynamic>.from(decodedResponse['results']);
-                                  final filteredMatches = matches.where((loc) => loc['POSTAL'] == postalCode);
-                                  final loc = filteredMatches.isNotEmpty ? filteredMatches.first : null;
-                  
-                                  if (loc != null) {
-                                    final googleMaps = 'https://www.google.com/maps/search/?api=1&query=${loc['LATITUDE']},${loc['LONGITUDE']}';
-                                    final uri = Uri.parse(googleMaps);
-                                    urlLauncher(uri, 'web');
-                                  } else if (mounted) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('Cannot find parish'),
-                                      ),
-                                    );
-                                  }
-                                }
-                              },
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: Icon(
-                                      MaterialCommunityIcons.map_marker,
-                                      color: Color.fromRGBO(130, 141, 168, 1),
-                                      size: 20,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    child: Text(
-                                      widget._infos.isNotEmpty
-                                          ? widget._infos[0]['address']
-                                          : '---',
-                                      style: const TextStyle(
-                                        color: Color.fromRGBO(4, 26, 82, 1),
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const SizedBox(
-                                    width: 24,
-                                    height: 24,
-                                    child: Icon(
-                                      MaterialCommunityIcons.directions,
-                                      color: Color.fromRGBO(12, 72, 224, 1),
-                                      size: 24,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                            RawMaterialButton(
-                              constraints: const BoxConstraints(),
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              onPressed: () {
-                                final orgTel = widget._infos.isNotEmpty
-                                    ? widget._infos[0]['orgTel1']
-                                    : '';
-                                final uri = Uri.parse('tel:$orgTel');
-                                urlLauncher(uri, 'tel');
-                              },
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: Icon(
-                                      FontAwesome.phone,
-                                      color: Color.fromRGBO(130, 141, 168, 1),
-                                      size: 20,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    child: Text(
-                                      widget._infos.isNotEmpty
-                                          ? widget._infos[0]['orgTel1']
-                                          : '---',
-                                      style: const TextStyle(
-                                        color: Color.fromRGBO(12, 72, 224, 1),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: Image.asset(
-                                    assetPath('priest.png'),
-                                  ),
+                            Expanded(
+                              child: Text(
+                                widget._infos.isNotEmpty
+                                    ? widget._infos[0]['orgName']
+                                    : '---',
+                                style: const TextStyle(
+                                  color: Color.fromRGBO(4, 26, 82, 1),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
                                 ),
-                                const SizedBox(width: 10),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      widget._infos.isNotEmpty
-                                          ? '${widget._infos[0]['priestsalutation']} ${widget._infos[0]['priestname']}'
-                                          : '---',
-                                      style: const TextStyle(
-                                        color: Color.fromRGBO(12, 72, 224, 1),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    const Text(
-                                      'See all priest',
-                                      style: TextStyle(
-                                        color: Color.fromRGBO(12, 72, 224, 1),
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 16),
-                            RawMaterialButton(
-                              constraints: const BoxConstraints(),
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              onPressed: () {
-                                final orgEmail = widget._infos.isNotEmpty
-                                    ? widget._infos[0]['orgEmail']
-                                    : '';
-                                final uri = Uri.parse('mailTo:$orgEmail');
-                                urlLauncher(uri, 'email');
-                              },
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: Icon(
-                                      FontAwesome.envelope,
-                                      color: Color.fromRGBO(130, 141, 168, 1),
-                                      size: 20,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    child: Text(
-                                      widget._infos.isNotEmpty
-                                          ? widget._infos[0]['orgEmail']
-                                          : '---',
-                                      style: const TextStyle(
-                                        color: Color.fromRGBO(12, 72, 224, 1),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ),
-                                ],
                               ),
                             ),
-                            const SizedBox(height: 16),
-                            RawMaterialButton(
-                              constraints: const BoxConstraints(),
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              onPressed: () {
-                                final orgWebsite = widget._infos.isNotEmpty
-                                    ? widget._infos[0]['orgWebsite']
-                                    : '';
-                                final uri = Uri.parse('$orgWebsite');
-                                urlLauncher(uri, 'web');
-                              },
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: Image.asset(
-                                      assetPath('globe.png'),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    child: Text(
-                                      widget._infos.isNotEmpty
-                                          ? widget._infos[0]['orgWebsite']
-                                          : '---',
-                                      style: const TextStyle(
-                                        color: Color.fromRGBO(12, 72, 224, 1),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                            const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: Icon(
+                                Entypo.chevron_down,
+                                color: Color.fromRGBO(4, 26, 82, 1),
+                                size: 20,
                               ),
                             ),
-                            widget._infos.isEmpty
-                                ? Container()
-                                : Column(
-                                    children: const [
-                                      SizedBox(height: 16),
-                                      Divider(
-                                        height: 1,
-                                        thickness: 1,
-                                        indent: 0,
-                                        endIndent: 0,
-                                        color: Color.fromRGBO(4, 26, 82, 0.1),
-                                      ),
-                                      SizedBox(height: 16),
-                                    ],
-                                  ),
-                            widget._infos.isEmpty
-                                ? Container()
-                                : Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      hasLink > 0 && hasLink < 4
-                                          ? Expanded(
-                                              flex: outFlex,
-                                              child: Container(
-                                                decoration: const BoxDecoration(
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            )
-                                          : Container(),
-                                      widget._infos[0]['orgFacebook'] == '' ||
-                                              widget._infos[0]['orgFacebook'] ==
-                                                  null
-                                          ? Container()
-                                          : Expanded(
-                                              flex: inFlex,
-                                              child: RawMaterialButton(
-                                                constraints:
-                                                    const BoxConstraints(),
-                                                materialTapTargetSize:
-                                                    MaterialTapTargetSize
-                                                        .shrinkWrap,
-                                                onPressed: () {
-                                                  final orgFacebook =
-                                                      widget._infos.isNotEmpty
-                                                          ? widget._infos[0]
-                                                              ['orgFacebook']
-                                                          : '';
-                                                  final uri =
-                                                      Uri.parse('$orgFacebook');
-                                                  urlLauncher(uri, 'web');
-                                                },
-                                                child: Center(
-                                                  child: Column(
-                                                    children: const [
-                                                      SizedBox(
-                                                        width: 24,
-                                                        height: 24,
-                                                        child: Icon(
-                                                          MaterialCommunityIcons
-                                                              .facebook,
-                                                          color: Color.fromRGBO(
-                                                              24, 119, 242, 1),
-                                                          size: 24,
-                                                        ),
-                                                      ),
-                                                      SizedBox(height: 8),
-                                                      Text(
-                                                        'Facebook',
-                                                        style: TextStyle(
-                                                          color: Color.fromRGBO(
-                                                              4, 26, 82, 0.5),
-                                                          fontSize: 12,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                      widget._infos[0]['orgInstagram'] == '' ||
-                                              widget._infos[0]
-                                                      ['orgInstagram'] ==
-                                                  null
-                                          ? Container()
-                                          : Expanded(
-                                              flex: inFlex,
-                                              child: Center(
-                                                child: Column(
-                                                  children: [
-                                                    SizedBox(
-                                                      width: 24,
-                                                      height: 24,
-                                                      child: Image.asset(assetPath(
-                                                          'images/instagram-alt.png')),
-                                                    ),
-                                                    const SizedBox(height: 8),
-                                                    const Text(
-                                                      'Instagram',
-                                                      style: TextStyle(
-                                                        color: Color.fromRGBO(
-                                                            4, 26, 82, 0.5),
-                                                        fontSize: 12,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                      widget._infos[0]['orgTwitter'] == '' ||
-                                              widget._infos[0]['orgTwitter'] ==
-                                                  null
-                                          ? Container()
-                                          : Expanded(
-                                              flex: inFlex,
-                                              child: Center(
-                                                child: Column(
-                                                  children: const [
-                                                    SizedBox(
-                                                      width: 24,
-                                                      height: 24,
-                                                      child: Icon(
-                                                        Entypo.twitter,
-                                                        color: Color.fromRGBO(
-                                                            29, 161, 242, 1),
-                                                        size: 24,
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: 8),
-                                                    Text(
-                                                      'Twitter',
-                                                      style: TextStyle(
-                                                        color: Color.fromRGBO(
-                                                            4, 26, 82, 0.5),
-                                                        fontSize: 12,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                      widget._infos[0]['orgTelegram'] == '' ||
-                                              widget._infos[0]['orgTelegram'] ==
-                                                  null
-                                          ? Container()
-                                          : Expanded(
-                                              flex: inFlex,
-                                              child: Center(
-                                                child: Column(
-                                                  children: const [
-                                                    SizedBox(
-                                                      width: 24,
-                                                      height: 24,
-                                                      child: Icon(
-                                                        FontAwesome.telegram,
-                                                        color: Color.fromRGBO(
-                                                            38, 166, 230, 1),
-                                                        size: 24,
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: 8),
-                                                    Text(
-                                                      'Telegram',
-                                                      style: TextStyle(
-                                                        color: Color.fromRGBO(
-                                                            4, 26, 82, 0.5),
-                                                        fontSize: 12,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                      hasLink > 0 && hasLink < 4
-                                          ? Expanded(
-                                              flex: outFlex,
-                                              child: Container(
-                                                decoration: const BoxDecoration(
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            )
-                                          : Container(),
-                                    ],
-                                  ),
                           ],
                         ),
                       ),
                       const SizedBox(height: 16),
+                      const Divider(
+                        height: 1,
+                        thickness: 1,
+                        indent: 0,
+                        endIndent: 0,
+                        color: Color.fromRGBO(4, 26, 82, 0.1),
+                      ),
+                      const SizedBox(height: 16),
+                      Container(
+                        height: 120,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: widget._infos.isEmpty
+                              ? const Color.fromRGBO(219, 228, 251, 1)
+                              : Colors.transparent,
+                          image: widget._infos.isNotEmpty
+                              ? DecorationImage(
+                                  image:
+                                      NetworkImage(widget._infos[0]['logoUrl']),
+                                  fit: BoxFit.contain,
+                                )
+                              : null,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      RawMaterialButton(
+                        constraints: const BoxConstraints(),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: () async {
+                          if (widget._infos.isNotEmpty) {
+                            final intRegex = RegExp(r'\d+$');
+                            final query = widget._infos[0]['address'].trim();
+                            final result = intRegex.firstMatch(query)!;
+                            final postalCode = result[0];
+                            final url = Uri.parse(
+                                'https://developers.onemap.sg/commonapi/search?searchVal=$postalCode&returnGeom=Y&getAddrDetails=Y');
+                            final response = await http.get(url);
+                            final decodedResponse = json.decode(response.body);
+                            final matches =
+                                List<dynamic>.from(decodedResponse['results']);
+                            final filteredMatches = matches
+                                .where((loc) => loc['POSTAL'] == postalCode);
+                            final loc = filteredMatches.isNotEmpty
+                                ? filteredMatches.first
+                                : null;
+
+                            if (loc != null) {
+                              final googleMaps =
+                                  'https://www.google.com/maps/search/?api=1&query=${loc['LATITUDE']},${loc['LONGITUDE']}';
+                              final uri = Uri.parse(googleMaps);
+                              urlLauncher(uri, 'web');
+                            } else if (mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Cannot find parish'),
+                                ),
+                              );
+                            }
+                          }
+                        },
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: Icon(
+                                MaterialCommunityIcons.map_marker,
+                                color: Color.fromRGBO(130, 141, 168, 1),
+                                size: 20,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                widget._infos.isNotEmpty
+                                    ? widget._infos[0]['address']
+                                    : '---',
+                                style: const TextStyle(
+                                  color: Color.fromRGBO(4, 26, 82, 1),
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            const SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: Icon(
+                                MaterialCommunityIcons.directions,
+                                color: Color.fromRGBO(12, 72, 224, 1),
+                                size: 24,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      RawMaterialButton(
+                        constraints: const BoxConstraints(),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: () {
+                          final orgTel = widget._infos.isNotEmpty
+                              ? widget._infos[0]['orgTel1']
+                              : '';
+                          final uri = Uri.parse('tel:$orgTel');
+                          urlLauncher(uri, 'tel');
+                        },
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: Icon(
+                                FontAwesome.phone,
+                                color: Color.fromRGBO(130, 141, 168, 1),
+                                size: 20,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                widget._infos.isNotEmpty
+                                    ? widget._infos[0]['orgTel1']
+                                    : '---',
+                                style: const TextStyle(
+                                  color: Color.fromRGBO(12, 72, 224, 1),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: Image.asset(
+                              assetPath('priest.png'),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget._infos.isNotEmpty
+                                    ? '${widget._infos[0]['priestsalutation']} ${widget._infos[0]['priestname']}'
+                                    : '---',
+                                style: const TextStyle(
+                                  color: Color.fromRGBO(12, 72, 224, 1),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              const Text(
+                                'See all priest',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(12, 72, 224, 1),
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      RawMaterialButton(
+                        constraints: const BoxConstraints(),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: () {
+                          final orgEmail = widget._infos.isNotEmpty
+                              ? widget._infos[0]['orgEmail']
+                              : '';
+                          final uri = Uri.parse('mailTo:$orgEmail');
+                          urlLauncher(uri, 'email');
+                        },
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: Icon(
+                                FontAwesome.envelope,
+                                color: Color.fromRGBO(130, 141, 168, 1),
+                                size: 20,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                widget._infos.isNotEmpty
+                                    ? widget._infos[0]['orgEmail']
+                                    : '---',
+                                style: const TextStyle(
+                                  color: Color.fromRGBO(12, 72, 224, 1),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      RawMaterialButton(
+                        constraints: const BoxConstraints(),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: () {
+                          final orgWebsite = widget._infos.isNotEmpty
+                              ? widget._infos[0]['orgWebsite']
+                              : '';
+                          final uri = Uri.parse('$orgWebsite');
+                          urlLauncher(uri, 'web');
+                        },
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: Image.asset(
+                                assetPath('globe.png'),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                widget._infos.isNotEmpty
+                                    ? widget._infos[0]['orgWebsite']
+                                    : '---',
+                                style: const TextStyle(
+                                  color: Color.fromRGBO(12, 72, 224, 1),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       widget._infos.isEmpty
                           ? Container()
                           : Column(
-                              children: otherItems.map<Widget>((e) {
-                                return Column(
-                                  children: [
-                                    RawMaterialButton(
-                                      constraints: const BoxConstraints(),
-                                      materialTapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
-                                      onPressed: () {
-                                        widget.model?.showPage(
-                                            '/_/${e['route']}',
-                                            _selectedParishValue);
-                                      },
-                                      child: Container(
-                                        width: double.infinity,
-                                        margin: const EdgeInsets.symmetric(
-                                            vertical: 0, horizontal: 24),
-                                        padding: const EdgeInsets.all(16),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: Colors.white,
+                              children: const [
+                                SizedBox(height: 16),
+                                Divider(
+                                  height: 1,
+                                  thickness: 1,
+                                  indent: 0,
+                                  endIndent: 0,
+                                  color: Color.fromRGBO(4, 26, 82, 0.1),
+                                ),
+                                SizedBox(height: 16),
+                              ],
+                            ),
+                      widget._infos.isEmpty
+                          ? Container()
+                          : Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                hasLink > 0 && hasLink < 4
+                                    ? Expanded(
+                                        flex: outFlex,
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                            color: Colors.black,
+                                          ),
                                         ),
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 42,
-                                              height: 56,
-                                              child: Image.asset(
-                                                assetPath(
-                                                    'menu_item/${e['icon']}'),
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 8),
-                                            Expanded(
-                                              child: Text(
-                                                e['title'],
-                                                style: const TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      4, 26, 82, 1),
-                                                  fontSize: 16,
+                                      )
+                                    : Container(),
+                                widget._infos[0]['orgFacebook'] == '' ||
+                                        widget._infos[0]['orgFacebook'] == null
+                                    ? Container()
+                                    : Expanded(
+                                        flex: inFlex,
+                                        child: RawMaterialButton(
+                                          constraints: const BoxConstraints(),
+                                          materialTapTargetSize:
+                                              MaterialTapTargetSize.shrinkWrap,
+                                          onPressed: () {
+                                            final orgFacebook =
+                                                widget._infos.isNotEmpty
+                                                    ? widget._infos[0]
+                                                        ['orgFacebook']
+                                                    : '';
+                                            final uri =
+                                                Uri.parse('$orgFacebook');
+                                            urlLauncher(uri, 'web');
+                                          },
+                                          child: Center(
+                                            child: Column(
+                                              children: const [
+                                                SizedBox(
+                                                  width: 24,
+                                                  height: 24,
+                                                  child: Icon(
+                                                    MaterialCommunityIcons
+                                                        .facebook,
+                                                    color: Color.fromRGBO(
+                                                        24, 119, 242, 1),
+                                                    size: 24,
+                                                  ),
                                                 ),
-                                              ),
+                                                SizedBox(height: 8),
+                                                Text(
+                                                  'Facebook',
+                                                  style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        4, 26, 82, 0.5),
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                  ],
-                                );
-                              }).toList(),
+                                widget._infos[0]['orgInstagram'] == '' ||
+                                        widget._infos[0]['orgInstagram'] == null
+                                    ? Container()
+                                    : Expanded(
+                                        flex: inFlex,
+                                        child: Center(
+                                          child: Column(
+                                            children: [
+                                              SizedBox(
+                                                width: 24,
+                                                height: 24,
+                                                child: Image.asset(assetPath(
+                                                    'images/instagram-alt.png')),
+                                              ),
+                                              const SizedBox(height: 8),
+                                              const Text(
+                                                'Instagram',
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      4, 26, 82, 0.5),
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                widget._infos[0]['orgTwitter'] == '' ||
+                                        widget._infos[0]['orgTwitter'] == null
+                                    ? Container()
+                                    : Expanded(
+                                        flex: inFlex,
+                                        child: Center(
+                                          child: Column(
+                                            children: const [
+                                              SizedBox(
+                                                width: 24,
+                                                height: 24,
+                                                child: Icon(
+                                                  Entypo.twitter,
+                                                  color: Color.fromRGBO(
+                                                      29, 161, 242, 1),
+                                                  size: 24,
+                                                ),
+                                              ),
+                                              SizedBox(height: 8),
+                                              Text(
+                                                'Twitter',
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      4, 26, 82, 0.5),
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                widget._infos[0]['orgTelegram'] == '' ||
+                                        widget._infos[0]['orgTelegram'] == null
+                                    ? Container()
+                                    : Expanded(
+                                        flex: inFlex,
+                                        child: Center(
+                                          child: Column(
+                                            children: const [
+                                              SizedBox(
+                                                width: 24,
+                                                height: 24,
+                                                child: Icon(
+                                                  FontAwesome.telegram,
+                                                  color: Color.fromRGBO(
+                                                      38, 166, 230, 1),
+                                                  size: 24,
+                                                ),
+                                              ),
+                                              SizedBox(height: 8),
+                                              Text(
+                                                'Telegram',
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      4, 26, 82, 0.5),
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                hasLink > 0 && hasLink < 4
+                                    ? Expanded(
+                                        flex: outFlex,
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      )
+                                    : Container(),
+                              ],
                             ),
-                      const SizedBox(height: 30),
                     ],
                   ),
+                ),
+                const SizedBox(height: 16),
+                widget._infos.isEmpty
+                    ? Container()
+                    : Column(
+                        children: otherItems.map<Widget>((e) {
+                          return Column(
+                            children: [
+                              RawMaterialButton(
+                                constraints: const BoxConstraints(),
+                                materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
+                                onPressed: () {
+                                  widget.model?.showPage(
+                                      '/_/${e['route']}', _selectedParishValue);
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  margin: const EdgeInsets.symmetric(
+                                      vertical: 0, horizontal: 24),
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 42,
+                                        height: 56,
+                                        child: Image.asset(
+                                          assetPath('menu_item/${e['icon']}'),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Expanded(
+                                        child: Text(
+                                          e['title'],
+                                          style: const TextStyle(
+                                            color: Color.fromRGBO(4, 26, 82, 1),
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                            ],
+                          );
+                        }).toList(),
+                      ),
+                const SizedBox(height: 30),
+              ],
+            ),
           ],
         ),
       ),

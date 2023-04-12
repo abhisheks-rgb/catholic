@@ -13,7 +13,7 @@ import '../../../../utils/page_specs.dart';
 class PriestInfoPage extends BaseStatefulPageView {
   final PriestInfoModel? model;
 
-  PriestInfoPage({Key? key, this.model}) : super();
+  PriestInfoPage({Key? key, this.model}) : super(animationDelay: 0);
 
   @override
   FutureOr<bool> beforeLoad(BuildContext context) async {

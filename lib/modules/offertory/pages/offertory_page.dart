@@ -10,7 +10,7 @@ import '../../../../utils/page_specs.dart';
 class OffertoryPage extends BaseStatefulPageView {
   final OffertoryModel? model;
 
-  OffertoryPage({Key? key, this.model}) : super();
+  OffertoryPage({Key? key, this.model}) : super(animationDelay: 0);
 
   @override
   FutureOr<bool> beforeLoad(BuildContext context) async {

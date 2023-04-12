@@ -11,7 +11,7 @@ import '../../../../utils/page_specs.dart';
 class ChurchInfoPage extends BaseStatefulPageView {
   final ChurchInfoModel? model;
 
-  ChurchInfoPage({Key? key, this.model}) : super();
+  ChurchInfoPage({Key? key, this.model}) : super(animationDelay: 0);
 
   @override
   FutureOr<bool> beforeLoad(BuildContext context) async {

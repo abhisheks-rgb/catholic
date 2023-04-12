@@ -12,7 +12,7 @@ import '../../../../utils/page_specs.dart';
 class ChurchBulletinPage extends BaseStatefulPageView {
   final ChurchBulletinModel? model;
 
-  ChurchBulletinPage({Key? key, this.model}) : super();
+  ChurchBulletinPage({Key? key, this.model}) : super(animationDelay: 0);
 
   @override
   FutureOr<bool> beforeLoad(BuildContext context) async {
@@ -126,96 +126,100 @@ class _BulletinPageState extends State<_BulletinPage> {
         ),
         width: double.infinity,
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-        child: widget.model.loading && widget.model.items!.isEmpty
-            ? const Center(child: CircularProgressIndicator())
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+        child:
+            // widget.model.loading && widget.model.items!.isEmpty
+            //     ? const Center(child: CircularProgressIndicator())
+            //     :
+            Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              height: 64,
+              width: double.infinity,
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(255, 255, 255, 1),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color.fromRGBO(208, 185, 133, 0.15),
+                    offset: Offset(0, 8),
+                    blurRadius: 16,
+                  ),
+                  BoxShadow(
+                    color: Color.fromRGBO(208, 185, 133, 0.05),
+                    offset: Offset(0, 4),
+                    blurRadius: 8,
+                  ),
+                ],
+              ),
+              child: Column(
                 children: [
-                  Container(
-                    height: 64,
-                    width: double.infinity,
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    decoration: BoxDecoration(
-                      color: const Color.fromRGBO(255, 255, 255, 1),
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color.fromRGBO(208, 185, 133, 0.15),
-                          offset: Offset(0, 8),
-                          blurRadius: 16,
-                        ),
-                        BoxShadow(
-                          color: Color.fromRGBO(208, 185, 133, 0.05),
-                          offset: Offset(0, 4),
-                          blurRadius: 8,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        InputDecorator(
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.all(Radius.zero))),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                              icon: const Icon(Icons.keyboard_arrow_down),
-                              elevation: 16,
-                              isDense: true,
-                              isExpanded: true,
-                              value: _selectedParishValue,
-                              hint: const Text('Select parish'),
-                              items: [
-                                ...?widget.model.items?.map((value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value['name'].toString(),
-                                    child: Text(value['name'],
-                                        style: const TextStyle(fontSize: 16)),
-                                  );
-                                }).toList()
-                              ],
-                              onChanged: (value) async {
-                                var parish =
-                                    widget.model.items?.firstWhere((element) {
-                                  return element['name'] == value;
-                                });
+                  InputDecorator(
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.all(Radius.zero))),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton(
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        elevation: 16,
+                        isDense: true,
+                        isExpanded: true,
+                        value: _selectedParishValue,
+                        hint: const Text('Select parish'),
+                        items: [
+                          ...?widget.model.items?.map((value) {
+                            return DropdownMenuItem<String>(
+                              value: value['name'].toString(),
+                              child: Text(value['name'],
+                                  style: const TextStyle(fontSize: 16)),
+                            );
+                          }).toList()
+                        ],
+                        onChanged: (value) async {
+                          var parish =
+                              widget.model.items?.firstWhere((element) {
+                            return element['name'] == value;
+                          });
 
-                                _getBulletin(parish['link']);
-                                setState(() {
-                                  _selectedParishValue = value.toString();
-                                });
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
+                          _getBulletin(parish['link']);
+                          setState(() {
+                            _selectedParishValue = value.toString();
+                          });
+                        },
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  _bulletinItems!.isEmpty && widget.model.loading == false
-                    ? Container(
-                        width: double.infinity,
-                        height: MediaQuery.of(context).size.height * 0.64,
-                        margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 28),
-                        decoration: const BoxDecoration(
-                          color: Colors.transparent,
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            widget.model.loading == false &&
+                    _bulletinItems == null &&
+                    _bulletinItems!.isEmpty
+                ? Container(
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height * 0.64,
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 0, horizontal: 28),
+                    decoration: const BoxDecoration(
+                      color: Colors.transparent,
+                    ),
+                    child: const Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Sorry, this church doesn\'t have any bulletins posted.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color.fromRGBO(4, 26, 82, 0.5),
+                          fontSize: 20,
                         ),
-                        child: const Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Sorry, this church doesn\'t have any bulletins posted.',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color.fromRGBO(4, 26, 82, 0.5),
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                      )
-                    :
-                  Expanded(
+                      ),
+                    ),
+                  )
+                : Expanded(
                     child: ListView.separated(
                       shrinkWrap: true,
                       itemCount: _bulletinItems?.length ?? 0,
@@ -299,22 +303,21 @@ class _BulletinPageState extends State<_BulletinPage> {
                                 ),
                               ),
                               index > 1
-                                ? Container()
-                                :
-                              Container(
-                                height: 449,
-                                // height: 50,
-                                decoration: const BoxDecoration(
-                                  color: Color.fromRGBO(204, 204, 204, 1),
-                                ),
-                                child: SfPdfViewer.network(
-                                  _bulletinItems![index]['filelink'],
-                                  controller:
-                                      controllers[_bulletinItems![index]['id']],
-                                  canShowPaginationDialog: false,
-                                  canShowScrollHead: false,
-                                ),
-                              ),
+                                  ? Container()
+                                  : Container(
+                                      height: 449,
+                                      // height: 50,
+                                      decoration: const BoxDecoration(
+                                        color: Color.fromRGBO(204, 204, 204, 1),
+                                      ),
+                                      child: SfPdfViewer.network(
+                                        _bulletinItems![index]['filelink'],
+                                        controller: controllers[
+                                            _bulletinItems![index]['id']],
+                                        canShowPaginationDialog: false,
+                                        canShowScrollHead: false,
+                                      ),
+                                    ),
                               SizedBox(
                                 height: 35,
                                 child: Row(
@@ -322,53 +325,54 @@ class _BulletinPageState extends State<_BulletinPage> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     index > 1
-                                      ? const Spacer()
-                                      :
-                                    Expanded(
-                                        child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          width: 48,
-                                          alignment: Alignment.center,
-                                          padding: const EdgeInsets.all(0),
-                                          child: GestureDetector(
-                                            child: const Icon(
-                                              Icons.arrow_back_ios,
-                                              color: Colors.black,
-                                            ),
-                                            onTap: () {
-                                              controllers[_bulletinItems![index]
-                                                      ['id']]
-                                                  ?.previousPage();
-                                            },
-                                          ),
-                                        ),
-                                        // ignore: avoid_unnecessary_containers
-                                        Container(
-                                          child: Text(
-                                            'Page 1 / ${controllers[_bulletinItems![index]['id']]?.pageCount}',
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 48,
-                                          alignment: Alignment.center,
-                                          padding: const EdgeInsets.all(0),
-                                          child: GestureDetector(
-                                            child: const Icon(
-                                              Icons.arrow_forward_ios,
-                                              color: Colors.black,
-                                            ),
-                                            onTap: () {
-                                              controllers[_bulletinItems![index]
-                                                      ['id']]
-                                                  ?.nextPage();
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    )),
+                                        ? const Spacer()
+                                        : Expanded(
+                                            child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                width: 48,
+                                                alignment: Alignment.center,
+                                                padding:
+                                                    const EdgeInsets.all(0),
+                                                child: GestureDetector(
+                                                  child: const Icon(
+                                                    Icons.arrow_back_ios,
+                                                    color: Colors.black,
+                                                  ),
+                                                  onTap: () {
+                                                    controllers[_bulletinItems![
+                                                            index]['id']]
+                                                        ?.previousPage();
+                                                  },
+                                                ),
+                                              ),
+                                              // ignore: avoid_unnecessary_containers
+                                              Container(
+                                                child: Text(
+                                                  'Page 1 / ${controllers[_bulletinItems![index]['id']]?.pageCount}',
+                                                ),
+                                              ),
+                                              Container(
+                                                width: 48,
+                                                alignment: Alignment.center,
+                                                padding:
+                                                    const EdgeInsets.all(0),
+                                                child: GestureDetector(
+                                                  child: const Icon(
+                                                    Icons.arrow_forward_ios,
+                                                    color: Colors.black,
+                                                  ),
+                                                  onTap: () {
+                                                    controllers[_bulletinItems![
+                                                            index]['id']]
+                                                        ?.nextPage();
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          )),
                                     RawMaterialButton(
                                       constraints: const BoxConstraints(),
                                       materialTapTargetSize:
@@ -410,8 +414,8 @@ class _BulletinPageState extends State<_BulletinPage> {
                       },
                     ),
                   )
-                ],
-              ),
+          ],
+        ),
       ),
     );
   }

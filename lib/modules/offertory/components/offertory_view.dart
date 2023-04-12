@@ -140,280 +140,269 @@ class _OffertoryViewState extends State<OffertoryView> {
             //     ),
             //   ),
             // ),
-            widget.model?.loading == true
-                ? Container(
-                    height: MediaQuery.of(context).size.height * 0.74,
-                    margin: const EdgeInsets.only(top: 16),
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  )
-                : Column(
+            // widget.model?.loading == true
+            //     ? Container(
+            //         height: MediaQuery.of(context).size.height * 0.74,
+            //         margin: const EdgeInsets.only(top: 16),
+            //         child: const Center(
+            //           child: CircularProgressIndicator(),
+            //         ),
+            //       )
+            //     :
+            Column(
+              children: [
+                const SizedBox(height: 16),
+                Container(
+                  width: double.infinity,
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                  ),
+                  child: Column(
                     children: [
-                      const SizedBox(height: 16),
-                      Container(
-                        width: double.infinity,
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 0, horizontal: 24),
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                        ),
-                        child: Column(
+                      RawMaterialButton(
+                        constraints: const BoxConstraints(),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: () {
+                          showAlert(context);
+                        },
+                        child: Row(
                           children: [
-                            RawMaterialButton(
-                              constraints: const BoxConstraints(),
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              onPressed: () {
-                                showAlert(context);
-                              },
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      widget.model!.items!.isNotEmpty
-                                          ? widget.model!
-                                                  .items![currentParishId]
-                                              ['completename']
-                                          : '---',
-                                      style: const TextStyle(
-                                        color: Color.fromRGBO(4, 26, 82, 1),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: Icon(
-                                      Entypo.chevron_down,
-                                      color: Color.fromRGBO(4, 26, 82, 1),
-                                      size: 20,
-                                    ),
-                                  ),
-                                ],
+                            Expanded(
+                              child: Text(
+                                widget.model!.items!.isNotEmpty
+                                    ? widget.model!.items![currentParishId]
+                                        ['completename']
+                                    : '---',
+                                style: const TextStyle(
+                                  color: Color.fromRGBO(4, 26, 82, 1),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                ),
                               ),
                             ),
-                            const SizedBox(height: 16),
-                            const Divider(
-                              height: 1,
-                              thickness: 1,
-                              indent: 0,
-                              endIndent: 0,
-                              color: Color.fromRGBO(4, 26, 82, 0.1),
-                            ),
-                            const SizedBox(height: 16),
-                            Column(
-                              children: [
-                                RawMaterialButton(
-                                  constraints: const BoxConstraints(),
-                                  materialTapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                  onPressed: () async {
-                                    if (widget.model!.items!.isNotEmpty) {
-                                      await Clipboard.setData(
-                                        ClipboardData(
-                                            text: widget.model!
-                                                    .items![currentParishId]
-                                                ['uen']),
-                                      ).then((_) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                                'UEN copied to your clipboard'),
-                                          ),
-                                        );
-                                      });
-                                    }
-                                  },
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              widget.model!.items!.isNotEmpty
-                                                  ? widget.model!.items![
-                                                      currentParishId]['uen']
-                                                  : '---',
-                                              style: const TextStyle(
-                                                color: Color.fromRGBO(
-                                                    233, 40, 35, 1),
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 16,
-                                            height: 16,
-                                            child: Image.asset(assetPath(
-                                                'square-on-square-solid.png')),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 4),
-                                      const Text(
-                                        'PayNow UEN',
-                                        style: TextStyle(
-                                          color: Color.fromRGBO(4, 26, 82, 0.5),
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: RawMaterialButton(
-                                    constraints: const BoxConstraints(),
-                                    materialTapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    onPressed: () async {
-                                      await widget.model!.navigateTo!(
-                                          currentParishId + 1,
-                                          '/_/church_info');
-                                    },
-                                    child: const Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Text(
-                                        'Church Info',
-                                        style: TextStyle(
-                                          color: Color.fromRGBO(12, 72, 224, 1),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: const [
-                                      Spacer(),
-                                      Text(
-                                        'Directions',
-                                        style: TextStyle(
-                                          color: Color.fromRGBO(12, 72, 224, 1),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      SizedBox(width: 8),
-                                      SizedBox(
-                                        width: 20,
-                                        height: 20,
-                                        child: Icon(
-                                          MaterialCommunityIcons.directions,
-                                          color: Color.fromRGBO(12, 72, 224, 1),
-                                          size: 20,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
+                            const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: Icon(
+                                Entypo.chevron_down,
+                                color: Color.fromRGBO(4, 26, 82, 1),
+                                size: 20,
+                              ),
                             ),
                           ],
                         ),
                       ),
-                      widget._infos.isEmpty
-                          ? Container()
-                          : Column(
+                      const SizedBox(height: 16),
+                      const Divider(
+                        height: 1,
+                        thickness: 1,
+                        indent: 0,
+                        endIndent: 0,
+                        color: Color.fromRGBO(4, 26, 82, 0.1),
+                      ),
+                      const SizedBox(height: 16),
+                      Column(
+                        children: [
+                          RawMaterialButton(
+                            constraints: const BoxConstraints(),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            onPressed: () async {
+                              if (widget.model!.items!.isNotEmpty) {
+                                await Clipboard.setData(
+                                  ClipboardData(
+                                      text: widget.model!
+                                          .items![currentParishId]['uen']),
+                                ).then((_) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content:
+                                          Text('UEN copied to your clipboard'),
+                                    ),
+                                  );
+                                });
+                              }
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const SizedBox(height: 16),
-                                Container(
-                                  width: double.infinity,
-                                  margin: const EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 24),
-                                  padding: const EdgeInsets.all(20),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.white,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        widget._infos[0]['name'],
-                                        style: const TextStyle(
-                                          color: Color.fromRGBO(4, 26, 82, 1),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 18,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        widget._infos[0]['description'],
-                                        style: const TextStyle(
-                                          color: Color.fromRGBO(4, 26, 82, 0.5),
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 16),
-                                      Text(
-                                        widget._infos[0]['uen'],
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        widget.model!.items!.isNotEmpty
+                                            ? widget.model!
+                                                .items![currentParishId]['uen']
+                                            : '---',
                                         style: const TextStyle(
                                           color: Color.fromRGBO(233, 40, 35, 1),
                                           fontWeight: FontWeight.w500,
                                           fontSize: 16,
                                         ),
                                       ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        widget._infos[0]['uenlabel'],
-                                        style: const TextStyle(
-                                          color: Color.fromRGBO(4, 26, 82, 0.5),
-                                          fontSize: 14,
+                                    ),
+                                    SizedBox(
+                                      width: 16,
+                                      height: 16,
+                                      child: Image.asset(assetPath(
+                                          'square-on-square-solid.png')),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 4),
+                                const Text(
+                                  'PayNow UEN',
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(4, 26, 82, 0.5),
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: RawMaterialButton(
+                              constraints: const BoxConstraints(),
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              onPressed: () async {
+                                await widget.model!.navigateTo!(
+                                    currentParishId + 1, '/_/church_info');
+                              },
+                              child: const Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  'Church Info',
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(12, 72, 224, 1),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: const [
+                                Spacer(),
+                                Text(
+                                  'Directions',
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(12, 72, 224, 1),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(width: 8),
+                                SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: Icon(
+                                    MaterialCommunityIcons.directions,
+                                    color: Color.fromRGBO(12, 72, 224, 1),
+                                    size: 20,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                widget._infos.isEmpty
+                    ? Container()
+                    : Column(
+                        children: [
+                          const SizedBox(height: 16),
+                          Container(
+                            width: double.infinity,
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 0, horizontal: 24),
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  widget._infos[0]['name'],
+                                  style: const TextStyle(
+                                    color: Color.fromRGBO(4, 26, 82, 1),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  widget._infos[0]['description'],
+                                  style: const TextStyle(
+                                    color: Color.fromRGBO(4, 26, 82, 0.5),
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                const SizedBox(height: 16),
+                                Text(
+                                  widget._infos[0]['uen'],
+                                  style: const TextStyle(
+                                    color: Color.fromRGBO(233, 40, 35, 1),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  widget._infos[0]['uenlabel'],
+                                  style: const TextStyle(
+                                    color: Color.fromRGBO(4, 26, 82, 0.5),
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                const SizedBox(height: 16),
+                                RawMaterialButton(
+                                  constraints: const BoxConstraints(),
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  onPressed: () {
+                                    final orgWebsite =
+                                        widget._infos[0]['url'] ?? '';
+                                    final uri = Uri.parse('$orgWebsite');
+                                    urlLauncher(uri, 'web');
+                                  },
+                                  child: Row(
+                                    children: [
+                                      const SizedBox(
+                                        width: 14,
+                                        height: 14,
+                                        child: Icon(
+                                          Ionicons.open_outline,
+                                          color: Color.fromRGBO(12, 72, 224, 1),
+                                          size: 14,
                                         ),
                                       ),
-                                      const SizedBox(height: 16),
-                                      RawMaterialButton(
-                                        constraints: const BoxConstraints(),
-                                        materialTapTargetSize:
-                                            MaterialTapTargetSize.shrinkWrap,
-                                        onPressed: () {
-                                          final orgWebsite =
-                                              widget._infos[0]['url'] ?? '';
-                                          final uri = Uri.parse('$orgWebsite');
-                                          urlLauncher(uri, 'web');
-                                        },
-                                        child: Row(
-                                          children: [
-                                            const SizedBox(
-                                              width: 14,
-                                              height: 14,
-                                              child: Icon(
-                                                Ionicons.open_outline,
-                                                color: Color.fromRGBO(
-                                                    12, 72, 224, 1),
-                                                size: 14,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 4),
-                                            Expanded(
-                                              child: Text(
-                                                widget._infos[0]['label'],
-                                                style: const TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      8, 51, 158, 1),
-                                                  fontSize: 14,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                                      const SizedBox(width: 4),
+                                      Expanded(
+                                        child: Text(
+                                          widget._infos[0]['label'],
+                                          style: const TextStyle(
+                                            color:
+                                                Color.fromRGBO(8, 51, 158, 1),
+                                            fontSize: 14,
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -421,120 +410,115 @@ class _OffertoryViewState extends State<OffertoryView> {
                                 ),
                               ],
                             ),
-                      const SizedBox(height: 16),
-                      Container(
-                        width: double.infinity,
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 0, horizontal: 24),
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
+                          ),
+                        ],
+                      ),
+                const SizedBox(height: 16),
+                Container(
+                  width: double.infinity,
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Charities',
+                        style: TextStyle(
+                          color: Color.fromRGBO(4, 26, 82, 1),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18,
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Charities',
-                              style: TextStyle(
-                                color: Color.fromRGBO(4, 26, 82, 1),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                              ),
-                            ),
-                            widget._infos.isEmpty
-                                ? Container()
-                                : Column(
-                                    children:
-                                        widget._infos.map<Widget>((element) {
-                                      if (widget._infos[0]['name'] ==
-                                          element['name']) {
-                                        return Container();
-                                      }
+                      ),
+                      widget._infos.isEmpty
+                          ? Container()
+                          : Column(
+                              children: widget._infos.map<Widget>((element) {
+                                if (widget._infos[0]['name'] ==
+                                    element['name']) {
+                                  return Container();
+                                }
 
-                                      return Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(height: 16),
+                                    const Divider(
+                                      height: 1,
+                                      thickness: 1,
+                                      indent: 0,
+                                      endIndent: 0,
+                                      color: Color.fromRGBO(4, 26, 82, 0.1),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Text(
+                                      element['name'],
+                                      style: const TextStyle(
+                                        color: Color.fromRGBO(4, 26, 82, 1),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      element['description'],
+                                      style: const TextStyle(
+                                        color: Color.fromRGBO(4, 26, 82, 0.5),
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    RawMaterialButton(
+                                      constraints: const BoxConstraints(),
+                                      materialTapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                      onPressed: () {
+                                        final orgWebsite =
+                                            widget._infos[0]['url'] ?? '';
+                                        final uri = Uri.parse('$orgWebsite');
+                                        urlLauncher(uri, 'web');
+                                      },
+                                      child: Row(
                                         children: [
-                                          const SizedBox(height: 16),
-                                          const Divider(
-                                            height: 1,
-                                            thickness: 1,
-                                            indent: 0,
-                                            endIndent: 0,
-                                            color:
-                                                Color.fromRGBO(4, 26, 82, 0.1),
-                                          ),
-                                          const SizedBox(height: 16),
-                                          Text(
-                                            element['name'],
-                                            style: const TextStyle(
-                                              color:
-                                                  Color.fromRGBO(4, 26, 82, 1),
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 8),
-                                          Text(
-                                            element['description'],
-                                            style: const TextStyle(
+                                          const SizedBox(
+                                            width: 14,
+                                            height: 14,
+                                            child: Icon(
+                                              Ionicons.open_outline,
                                               color: Color.fromRGBO(
-                                                  4, 26, 82, 0.5),
-                                              fontSize: 14,
+                                                  12, 72, 224, 1),
+                                              size: 14,
                                             ),
                                           ),
-                                          const SizedBox(height: 8),
-                                          RawMaterialButton(
-                                            constraints: const BoxConstraints(),
-                                            materialTapTargetSize:
-                                                MaterialTapTargetSize
-                                                    .shrinkWrap,
-                                            onPressed: () {
-                                              final orgWebsite =
-                                                  widget._infos[0]['url'] ?? '';
-                                              final uri =
-                                                  Uri.parse('$orgWebsite');
-                                              urlLauncher(uri, 'web');
-                                            },
-                                            child: Row(
-                                              children: [
-                                                const SizedBox(
-                                                  width: 14,
-                                                  height: 14,
-                                                  child: Icon(
-                                                    Ionicons.open_outline,
-                                                    color: Color.fromRGBO(
-                                                        12, 72, 224, 1),
-                                                    size: 14,
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 4),
-                                                Expanded(
-                                                  child: Text(
-                                                    element['label'],
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: const TextStyle(
-                                                      color: Color.fromRGBO(
-                                                          8, 51, 158, 1),
-                                                      fontSize: 14,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
+                                          const SizedBox(width: 4),
+                                          Expanded(
+                                            child: Text(
+                                              element['label'],
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                color: Color.fromRGBO(
+                                                    8, 51, 158, 1),
+                                                fontSize: 14,
+                                              ),
                                             ),
                                           ),
                                         ],
-                                      );
-                                    }).toList(),
-                                  ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 16),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }).toList(),
+                            ),
                     ],
                   ),
+                ),
+                const SizedBox(height: 16),
+              ],
+            ),
           ],
         ),
       ),

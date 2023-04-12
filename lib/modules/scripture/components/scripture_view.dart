@@ -59,157 +59,152 @@ class _ScriptureViewState extends State<ScriptureView> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            widget._items.isEmpty && widget.model?.loading == false
+                ? Container(
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height * 0.77,
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 0, horizontal: 28),
+                    decoration: const BoxDecoration(
+                      color: Colors.transparent,
+                    ),
+                    child: const Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Could not retrieve Scripture Reflections at this time.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color.fromRGBO(4, 26, 82, 0.5),
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  )
+                : Container(
+                    height: 226,
+                    decoration: const BoxDecoration(
+                      color: Color(0xffffffff),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0x192c0807),
+                          offset: Offset(0, 8),
+                          blurRadius: 32,
+                        ),
+                      ],
+                    ),
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          left: 0,
+                          top: 0,
+                          child: Align(
+                            child: SizedBox(
+                              height: 226,
+                              child: Image.asset(
+                                assetPath('pray_banner.png'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 0,
+                          top: 0,
+                          child: Align(
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              height: 226,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: const Alignment(0.957, -1.211),
+                                    end: const Alignment(0.515, 1),
+                                    colors: <Color>[
+                                      const Color(0x51ffffff).withOpacity(0.2),
+                                      const Color(0xffffffff).withOpacity(0.9)
+                                    ],
+                                    stops: const <double>[0, 1],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 0,
+                          top: 0,
+                          child: Align(
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              height: 226,
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment(1, -1),
+                                    end: Alignment(-1, 1),
+                                    colors: <Color>[
+                                      Color.fromRGBO(24, 77, 212, 0.3),
+                                      Color.fromRGBO(255, 255, 255, 0.3)
+                                    ],
+                                    stops: <double>[0, 1],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          // welcomeoscarHYf (127:100)
+                          left: 0,
+                          bottom: 79,
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 24, vertical: 20),
+                            width: MediaQuery.of(context).size.width - 48,
+                            height: 38,
+                            child: SizedBox(
+                              height: 34,
+                              child: Text(
+                                _istoday?['title'] ?? '',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color.fromRGBO(4, 26, 82, 1),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 24,
+                          top: 124,
+                          child: Align(
+                            child: SizedBox(
+                              height: 48,
+                              child: Text(
+                                _istoday?['content'] ?? '',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xff041a51),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+            const SizedBox(height: 8),
             widget.model?.loading == true
                 ? Container(
-                    height: MediaQuery.of(context).size.height * 0.74,
                     margin: const EdgeInsets.only(top: 16),
                     child: const Center(
                       child: CircularProgressIndicator(),
                     ),
                   )
-                : widget._items.isEmpty && widget.model?.loading == false
-                    ? Container(
-                        width: double.infinity,
-                        height: MediaQuery.of(context).size.height * 0.77,
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 0, horizontal: 28),
-                        decoration: const BoxDecoration(
-                          color: Colors.transparent,
-                        ),
-                        child: const Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Could not retrieve Scripture Reflections at this time.',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color.fromRGBO(4, 26, 82, 0.5),
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                      )
-                    : Container(
-                        height: 226,
-                        decoration: const BoxDecoration(
-                          color: Color(0xffffffff),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color(0x192c0807),
-                              offset: Offset(0, 8),
-                              blurRadius: 32,
-                            ),
-                          ],
-                        ),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              left: 0,
-                              top: 0,
-                              child: Align(
-                                child: SizedBox(
-                                  height: 226,
-                                  child: Image.asset(
-                                    assetPath('pray_banner.png'),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: 0,
-                              top: 0,
-                              child: Align(
-                                child: SizedBox(
-                                  width: 391,
-                                  height: 226,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        begin: const Alignment(0.957, -1.211),
-                                        end: const Alignment(0.515, 1),
-                                        colors: <Color>[
-                                          const Color(0x51ffffff)
-                                              .withOpacity(0.2),
-                                          const Color(0xffffffff)
-                                              .withOpacity(0.9)
-                                        ],
-                                        stops: const <double>[0, 1],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: 0,
-                              top: 0,
-                              child: Align(
-                                child: SizedBox(
-                                  width: 391,
-                                  height: 226,
-                                  child: Container(
-                                    decoration: const BoxDecoration(
-                                      gradient: LinearGradient(
-                                        begin: Alignment(1, -1),
-                                        end: Alignment(-1, 1),
-                                        colors: <Color>[
-                                          Color.fromRGBO(24, 77, 212, 0.3),
-                                          Color.fromRGBO(255, 255, 255, 0.3)
-                                        ],
-                                        stops: <double>[0, 1],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              // welcomeoscarHYf (127:100)
-                              left: 0,
-                              bottom: 79,
-                              child: Container(
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 24, vertical: 20),
-                                width: MediaQuery.of(context).size.width - 48,
-                                height: 38,
-                                child: SizedBox(
-                                  height: 34,
-                                  child: Text(
-                                    _istoday?['title'] ?? '',
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color.fromRGBO(4, 26, 82, 1),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: 24,
-                              top: 124,
-                              child: Align(
-                                child: SizedBox(
-                                  height: 48,
-                                  child: Text(
-                                    _istoday?['content'] ?? '',
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color(0xff041a51),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-            const SizedBox(height: 8),
-            widget.model?.loading == true
-                ? Container()
                 : Column(
                     children: widget._items.map<Widget>((element) {
                       final data = element['data'] as List;
