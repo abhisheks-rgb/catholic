@@ -487,12 +487,24 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                     ),
                                                   ),
                                                   const SizedBox(height: 8),
-                                                  const Text(
-                                                    'See all priest',
-                                                    style: TextStyle(
-                                                      color: Color.fromRGBO(
-                                                          12, 72, 224, 1),
-                                                      fontSize: 14,
+                                                  RawMaterialButton(
+                                                    constraints:
+                                                        const BoxConstraints(),
+                                                    materialTapTargetSize:
+                                                        MaterialTapTargetSize
+                                                            .shrinkWrap,
+                                                    onPressed: () {
+                                                      widget.model?.showPage(
+                                                          '/_/priest_info',
+                                                          null);
+                                                    },
+                                                    child: const Text(
+                                                      'See all priest',
+                                                      style: TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            12, 72, 224, 1),
+                                                        fontSize: 14,
+                                                      ),
                                                     ),
                                                   ),
                                                 ],
