@@ -1,9 +1,12 @@
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 import '../models/scripture_model.dart';
 
-class ScriptureView extends BaseStatelessPageView {
+import '../../../utils/asset_path.dart';
+
+class ScriptureView extends BaseStatefulPageView {
   final ScriptureModel? model;
   final List<Map> _items;
 
@@ -37,12 +40,26 @@ class ScriptureView extends BaseStatelessPageView {
         super();
 
   @override
+  State<BaseStatefulPageView> createState() => _ScriptureViewState();
+}
+
+class _ScriptureViewState extends State<ScriptureView> {
+  Map? _istoday;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _getisToday();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
-            model?.loading == true
+            widget.model?.loading == true
                 ? Container(
                     height: MediaQuery.of(context).size.height * 0.74,
                     margin: const EdgeInsets.only(top: 16),
@@ -50,104 +67,155 @@ class ScriptureView extends BaseStatelessPageView {
                       child: CircularProgressIndicator(),
                     ),
                   )
-                : _items.isEmpty && model?.loading == false
-                  ? Container(
-                      width: double.infinity,
-                      height: MediaQuery.of(context).size.height * 0.77,
-                      margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 28),
-                      decoration: const BoxDecoration(
-                        color: Colors.transparent,
-                      ),
-                      child: const Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Could not retrieve Scripture Reflections at this time.',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color.fromRGBO(4, 26, 82, 0.5),
-                            fontSize: 20,
-                          ),
+                : widget._items.isEmpty && widget.model?.loading == false
+                    ? Container(
+                        width: double.infinity,
+                        height: MediaQuery.of(context).size.height * 0.77,
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 28),
+                        decoration: const BoxDecoration(
+                          color: Colors.transparent,
                         ),
-                      ),
-                    )
-                  :
-                Container(
-                    width: double.infinity,
-                    // height: 210,
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
-                    decoration: const BoxDecoration(
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: Color.fromRGBO(235, 235, 235, 1),
-                          blurRadius: 15,
-                          offset: Offset(0.0, 0.75),
-                        ),
-                      ],
-                      color: Colors.white,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: _items.isEmpty
-                        ? []
-                        :
-                      [
-                        const SizedBox(height: 40),
-                        Text(
-                          _items.isEmpty
-                            ? '---'
-                            :
-                          _items[0]['data'][0]['contentTitle'] ?? '---',
-                          style: const TextStyle(
-                            color: Color.fromRGBO(4, 26, 82, 1),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          _items.isEmpty
-                            ? '---'
-                            :
-                          _items[0]['data'][0]['content'] ?? '---',
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style: const TextStyle(
-                            color: Color.fromRGBO(4, 26, 82, 0.5),
-                            fontSize: 16,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        RawMaterialButton(
-                          constraints: const BoxConstraints(),
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          onPressed: () async {
-                            if (_items.isNotEmpty) {
-                              await model?.viewScriptureDetails
-                                  ?.call(_items[0]['data'][0]);
-                            }
-                          },
-                          child: const Text(
-                            'Read More',
+                        child: const Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Could not retrieve Scripture Reflections at this time.',
+                            textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: Color.fromRGBO(12, 72, 224, 1),
-                              fontSize: 16,
+                              color: Color.fromRGBO(4, 26, 82, 0.5),
+                              fontSize: 20,
                             ),
                           ),
                         ),
-                        const SizedBox(height: 32),
-                      ],
-                    ),
-                  ),
-            model?.loading == true
+                      )
+                    : Container(
+                        height: 226,
+                        decoration: const BoxDecoration(
+                          color: Color(0xffffffff),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0x192c0807),
+                              offset: Offset(0, 8),
+                              blurRadius: 32,
+                            ),
+                          ],
+                        ),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              left: 0,
+                              top: 0,
+                              child: Align(
+                                child: SizedBox(
+                                  height: 226,
+                                  child: Image.asset(
+                                    assetPath('pray_banner.png'),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              left: 0,
+                              top: 0,
+                              child: Align(
+                                child: SizedBox(
+                                  width: 391,
+                                  height: 226,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: const Alignment(0.957, -1.211),
+                                        end: const Alignment(0.515, 1),
+                                        colors: <Color>[
+                                          const Color(0x51ffffff)
+                                              .withOpacity(0.2),
+                                          const Color(0xffffffff)
+                                              .withOpacity(0.9)
+                                        ],
+                                        stops: const <double>[0, 1],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              left: 0,
+                              top: 0,
+                              child: Align(
+                                child: SizedBox(
+                                  width: 391,
+                                  height: 226,
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment(1, -1),
+                                        end: Alignment(-1, 1),
+                                        colors: <Color>[
+                                          Color.fromRGBO(24, 77, 212, 0.3),
+                                          Color.fromRGBO(255, 255, 255, 0.3)
+                                        ],
+                                        stops: <double>[0, 1],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              // welcomeoscarHYf (127:100)
+                              left: 0,
+                              bottom: 79,
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 24, vertical: 20),
+                                width: MediaQuery.of(context).size.width - 48,
+                                height: 38,
+                                child: SizedBox(
+                                  height: 34,
+                                  child: Text(
+                                    _istoday?['title'] ?? '',
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500,
+                                      color: Color.fromRGBO(4, 26, 82, 1),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              left: 24,
+                              top: 124,
+                              child: Align(
+                                child: SizedBox(
+                                  height: 48,
+                                  child: Text(
+                                    _istoday?['content'] ?? '',
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: Color(0xff041a51),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+            const SizedBox(height: 8),
+            widget.model?.loading == true
                 ? Container()
                 : Column(
-                    children: _items.map<Widget>((element) {
+                    children: widget._items.map<Widget>((element) {
                       final data = element['data'] as List;
                       return Column(
                         children: [
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 8),
                           Container(
                             width: double.infinity,
                             margin: const EdgeInsets.symmetric(
@@ -156,6 +224,13 @@ class ScriptureView extends BaseStatelessPageView {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: Colors.white,
+                              boxShadow: const <BoxShadow>[
+                                BoxShadow(
+                                  color: Color.fromRGBO(235, 235, 235, 1),
+                                  blurRadius: 15,
+                                  offset: Offset(0.0, 0.75),
+                                ),
+                              ],
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,7 +268,7 @@ class ScriptureView extends BaseStatelessPageView {
                                         materialTapTargetSize:
                                             MaterialTapTargetSize.shrinkWrap,
                                         onPressed: () async {
-                                          await model?.viewHistory?.call(
+                                          await widget.model?.viewHistory?.call(
                                               element['authorname'],
                                               element['data']);
                                         },
@@ -216,7 +291,8 @@ class ScriptureView extends BaseStatelessPageView {
                                         materialTapTargetSize:
                                             MaterialTapTargetSize.shrinkWrap,
                                         onPressed: () async {
-                                          await model?.viewScriptureDetails
+                                          await widget
+                                              .model?.viewScriptureDetails
                                               ?.call(element['data'][0]);
                                         },
                                         child: Align(
@@ -253,5 +329,19 @@ class ScriptureView extends BaseStatelessPageView {
         ),
       ),
     );
+  }
+
+  void _getisToday() async {
+    final result = await FirebaseFunctions.instanceFor(region: 'asia-east2')
+        .httpsCallable('todayis')
+        .call({});
+
+    final response = result.data;
+
+    List itemList = response['results']['items'];
+
+    setState(() {
+      _istoday = itemList[0];
+    });
   }
 }
