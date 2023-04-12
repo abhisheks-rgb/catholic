@@ -102,7 +102,7 @@ class _PrayPageState extends State<_PrayPage> {
                       top: 0,
                       child: Align(
                         child: SizedBox(
-                          width: 391,
+                          width: MediaQuery.of(context).size.width,
                           height: 226,
                           child: Container(
                             decoration: BoxDecoration(
@@ -125,7 +125,7 @@ class _PrayPageState extends State<_PrayPage> {
                       top: 0,
                       child: Align(
                         child: SizedBox(
-                          width: 391,
+                          width: MediaQuery.of(context).size.width,
                           height: 226,
                           child: Container(
                             decoration: const BoxDecoration(

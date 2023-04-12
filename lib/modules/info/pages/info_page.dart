@@ -117,7 +117,7 @@ class _InfoPageState extends State<_InfoPage> {
                       top: 0,
                       child: Align(
                         child: SizedBox(
-                          width: 391,
+                          width: MediaQuery.of(context).size.width,
                           height: 226,
                           child: Container(
                             decoration: BoxDecoration(
@@ -140,7 +140,7 @@ class _InfoPageState extends State<_InfoPage> {
                       top: 0,
                       child: Align(
                         child: SizedBox(
-                          width: 391,
+                          width: MediaQuery.of(context).size.width,
                           height: 226,
                           child: Container(
                             decoration: const BoxDecoration(

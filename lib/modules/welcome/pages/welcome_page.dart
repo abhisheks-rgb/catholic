@@ -189,7 +189,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       top: 0,
                       child: Align(
                         child: SizedBox(
-                          width: 391,
+                          width: MediaQuery.of(context).size.width,
                           height: 275,
                           child: Container(
                             decoration: BoxDecoration(
@@ -212,7 +212,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       top: 0,
                       child: Align(
                         child: SizedBox(
-                          width: 391,
+                          width: MediaQuery.of(context).size.width,
                           height: 275,
                           child: Container(
                             decoration: const BoxDecoration(
