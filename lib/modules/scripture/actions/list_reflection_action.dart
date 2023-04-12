@@ -17,23 +17,21 @@ class ListReflectionAction extends BaseAction {
   @override
   Future<AppState?> reduce() async {
     String? error;
-    await dispatchModel<ScriptureModel>(
-        ScriptureModel(), (m) {
+    await dispatchModel<ScriptureModel>(ScriptureModel(), (m) {
       m.error = error;
       m.loading = true;
     });
 
     List<Object> records = [];
-    
+
     try {
-      final instance = await FirebaseFunctions
-        .instanceFor(region: 'asia-east2')
-        .httpsCallable('reflection')
-        .call(
-          {
-            'type': quantity ?? 'all',
-          },
-        );
+      final instance = await FirebaseFunctions.instanceFor(region: 'asia-east2')
+          .httpsCallable('reflection')
+          .call(
+        {
+          'type': quantity ?? 'all',
+        },
+      );
 
       List<Object?> result = instance.data['results']['items'];
 
@@ -46,13 +44,10 @@ class ListReflectionAction extends BaseAction {
       error = 'Unexpected error';
     }
 
-    await Future.delayed(const Duration(seconds: 1), () async {
-      await dispatchModel<ScriptureModel>(
-          ScriptureModel(), (m) {
-        m.error = error;
-        m.loading = false;
-        m.items = records;
-      });
+    await dispatchModel<ScriptureModel>(ScriptureModel(), (m) {
+      m.error = error;
+      m.loading = false;
+      m.items = records;
     });
 
     return null;
