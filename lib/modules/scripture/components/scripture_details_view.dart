@@ -15,6 +15,15 @@ class ScriptureDetailsView extends BaseStatelessPageView {
 
   @override
   Widget build(BuildContext context) {
+    String content = _item['content'] ?? '---';
+
+    if (_item.isNotEmpty) {
+      if (_item['content'].contains(_item['contentTitle'])) {
+        content =
+            content.replaceFirst('<h2>${_item['contentTitle']}</h2><br/>', '');
+      }
+    }
+
     return Scaffold(
       body: model?.loading == true
           ? Container(
@@ -46,7 +55,7 @@ class ScriptureDetailsView extends BaseStatelessPageView {
                     ),
                     const SizedBox(height: 24),
                     Html(
-                      data: _item['content'] ?? '---',
+                      data: content,
                       onLinkTap: (url, context, attributes, element) async {
                         final uri = Uri.parse(url ?? '');
                         if (await canLaunchUrl(uri)) {
