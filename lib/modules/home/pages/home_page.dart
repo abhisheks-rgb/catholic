@@ -56,7 +56,7 @@ class HomePage extends BaseStatefulPageView {
 
     return SafeArea(
       child: Scaffold(
-        appBar: specs.hasAppBar!
+        appBar: specs.hasAppBar! && !model!.isFullScreen
             ? AppBar(
                 centerTitle: true,
                 leading: IconButton(
