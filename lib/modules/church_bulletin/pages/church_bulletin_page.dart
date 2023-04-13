@@ -198,9 +198,7 @@ class _BulletinPageState extends State<_BulletinPage> {
                 ),
               ),
               const SizedBox(height: 16),
-              widget.model.loading == false &&
-                      _bulletinItems == null &&
-                      _bulletinItems!.isEmpty
+              _bulletinItems == null
                   ? Container(
                       width: double.infinity,
                       height: MediaQuery.of(context).size.height * 0.64,
