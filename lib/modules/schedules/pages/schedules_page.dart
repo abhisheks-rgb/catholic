@@ -984,11 +984,6 @@ class _SchedulesPageState extends State<_SchedulesPage> {
       _selectedSchedType = 'All Types';
     });
 
-    if (parishlink == 'all') {
-      await FirebaseAnalytics.instance.logEvent(
-        name: 'view_sched',
-      );
-    }
     final result = await FirebaseFunctions.instanceFor(region: 'asia-east2')
         .httpsCallable('schedule')
         .call(
@@ -1004,8 +999,8 @@ class _SchedulesPageState extends State<_SchedulesPage> {
     schedTypeList.sort((a, b) => a.compareTo(b));
 
     var newMap = groupBy(itemList, (obj) {
-      var k = DateFormat('yyyyMMdd').format(
-          DateTime.fromMillisecondsSinceEpoch(obj['date'], isUtc: true));
+      var k = DateFormat('yyyyMMdd')
+          .format(DateTime.fromMillisecondsSinceEpoch(obj['date']));
 
       return k;
     });
@@ -1028,6 +1023,12 @@ class _SchedulesPageState extends State<_SchedulesPage> {
           newMap.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key)));
       isLoadingSchedules = false;
     });
+
+    if (parishlink == 'all') {
+      await FirebaseAnalytics.instance.logEvent(
+        name: 'view_sched',
+      );
+    }
   }
 
   bool isToday(DateTime date) {

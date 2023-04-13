@@ -60,6 +60,7 @@ class _WelcomePageState extends State<WelcomePage> {
 
     return Scaffold(
       body: CustomScrollView(
+        physics: const ClampingScrollPhysics(),
         controller: _scrollController,
         slivers: [
           SliverToBoxAdapter(
