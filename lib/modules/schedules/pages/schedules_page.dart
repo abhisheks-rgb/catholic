@@ -402,9 +402,6 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                       ],
                                     ),
                                     ListView.separated(
-                                        reverse: _selectedParishValue == 'all'
-                                            ? true
-                                            : false,
                                         itemCount: data?[key].length,
                                         separatorBuilder: (context, index) {
                                           return const SizedBox(height: 8);
@@ -999,14 +996,14 @@ class _SchedulesPageState extends State<_SchedulesPage> {
     schedTypeList.sort((a, b) => a.compareTo(b));
 
     var newMap = groupBy(itemList, (obj) {
-      var k = DateFormat('yyyyMMdd')
-          .format(DateTime.fromMillisecondsSinceEpoch(obj['date']));
+      var k = DateFormat('yyyyMMdd').format(
+          DateTime.fromMillisecondsSinceEpoch(obj['start'], isUtc: true));
 
       return k;
     });
 
     newMap.forEach((key, value) {
-      value.sort((a, b) => DateTime.fromMillisecondsSinceEpoch(b['start'],
+      value.sort((a, b) => DateTime.fromMillisecondsSinceEpoch(a['start'],
               isUtc: true)
           .compareTo(
               DateTime.fromMillisecondsSinceEpoch(b['start'], isUtc: true)));
