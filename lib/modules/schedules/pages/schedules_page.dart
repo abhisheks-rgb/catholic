@@ -646,7 +646,6 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                   maxHeight: 600,
                 ),
                 child: ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemCount: churchList.length,
@@ -692,7 +691,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                 Navigator.pop(context);
                               },
                               child: Text(
-                                churchList[index]['completename'] ?? '',
+                                churchList[index]['name'] ?? '',
                                 style: const TextStyle(
                                   color: Color.fromRGBO(4, 26, 82, 1),
                                   fontSize: 16,
@@ -741,7 +740,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                             Navigator.pop(context);
                           },
                           child: Text(
-                            churchList[index]['completename'] ?? '',
+                            churchList[index]['name'] ?? '',
                             style: const TextStyle(
                               color: Color.fromRGBO(4, 26, 82, 1),
                               fontSize: 16,
