@@ -24,10 +24,13 @@ class OffertoryView extends BaseStatefulPageView {
 class _OffertoryViewState extends State<OffertoryView> {
   int currentParishId = 1;
   Timer? myTimer;
+  // String? _selectedParishValue = '';
 
   @override
   void initState() {
     super.initState();
+
+    // _selectedParishValue = 'Cathedral of the Good Shepherd';
 
     if (widget.model!.churchName != null && widget.model!.churchName != '') {
       startTimer();
@@ -49,6 +52,7 @@ class _OffertoryViewState extends State<OffertoryView> {
 
             if (!index.isNaN) {
               setState(() {
+                // _selectedParishValue = widget.model!.churchName.toString();
                 currentParishId = index;
               });
             }
@@ -156,6 +160,7 @@ class _OffertoryViewState extends State<OffertoryView> {
                   width: double.infinity,
                   margin:
                       const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
+                  // padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -163,6 +168,45 @@ class _OffertoryViewState extends State<OffertoryView> {
                   ),
                   child: Column(
                     children: [
+                      // InputDecorator(
+                      //   decoration: const InputDecoration(
+                      //       contentPadding: EdgeInsets.all(0),
+                      //       border: OutlineInputBorder(
+                      //           borderSide: BorderSide.none,
+                      //           borderRadius: BorderRadius.all(Radius.zero))),
+                      //   child: DropdownButtonHideUnderline(
+                      //     child: DropdownButton(
+                      //       borderRadius:
+                      //           const BorderRadius.all(Radius.circular(10)),
+                      //       icon: const Icon(Icons.keyboard_arrow_down),
+                      //       elevation: 16,
+                      //       isDense: true,
+                      //       isExpanded: true,
+                      //       value: _selectedParishValue,
+                      //       hint: const Text('Select parish'),
+                      //       items: [
+                      //         ...?widget.model!.items?.map((value) {
+                      //           return DropdownMenuItem<String>(
+                      //             value: value['name'].toString(),
+                      //             child: Text(value['name'],
+                      //                 style: const TextStyle(fontSize: 16)),
+                      //           );
+                      //         }).toList()
+                      //       ],
+                      //       onChanged: (value) {
+                      //         final index = widget.model!.items?.indexWhere(
+                      //             (item) => item['name'] == value.toString());
+
+                      //         if (index != -1) {
+                      //           setState(() {
+                      //             _selectedParishValue = value.toString();
+                      //             currentParishId = index!;
+                      //           });
+                      //         }
+                      //       },
+                      //     ),
+                      //   ),
+                      // ),
                       RawMaterialButton(
                         constraints: const BoxConstraints(),
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -173,10 +217,12 @@ class _OffertoryViewState extends State<OffertoryView> {
                           children: [
                             Expanded(
                               child: Text(
-                                widget.model!.items!.isNotEmpty
-                                    ? widget.model!.items![currentParishId]
-                                        ['completename']
-                                    : '---',
+                                widget.model!.items == null
+                                    ? 'Cathedral of the Good Shepherd'
+                                    : widget.model!.items!.isNotEmpty
+                                        ? widget.model!.items![currentParishId]
+                                            ['name']
+                                        : 'Cathedral of the Good Shepherd',
                                 style: const TextStyle(
                                   color: Color.fromRGBO(4, 26, 82, 1),
                                   fontWeight: FontWeight.w500,
@@ -196,129 +242,140 @@ class _OffertoryViewState extends State<OffertoryView> {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      const Divider(
-                        height: 1,
-                        thickness: 1,
-                        indent: 0,
-                        endIndent: 0,
-                        color: Color.fromRGBO(4, 26, 82, 0.1),
-                      ),
-                      const SizedBox(height: 16),
-                      Column(
-                        children: [
-                          RawMaterialButton(
-                            constraints: const BoxConstraints(),
-                            materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
-                            onPressed: () async {
-                              if (widget.model!.items!.isNotEmpty) {
-                                await Clipboard.setData(
-                                  ClipboardData(
-                                      text: widget.model!
-                                          .items![currentParishId]['uen']),
-                                ).then((_) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content:
-                                          Text('UEN copied to your clipboard'),
-                                    ),
-                                  );
-                                });
-                              }
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                      widget._infos.isEmpty
+                          ? Container()
+                          : Column(
                               children: [
+                                const SizedBox(height: 8),
+                                const Divider(
+                                  height: 1,
+                                  thickness: 1,
+                                  indent: 0,
+                                  endIndent: 0,
+                                  color: Color.fromRGBO(4, 26, 82, 0.1),
+                                ),
+                                const SizedBox(height: 16),
+                                RawMaterialButton(
+                                  constraints: const BoxConstraints(),
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  onPressed: () async {
+                                    if (widget.model!.items!.isNotEmpty) {
+                                      await Clipboard.setData(
+                                        ClipboardData(
+                                            text: widget.model!
+                                                    .items![currentParishId]
+                                                ['uen']),
+                                      ).then((_) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                                'UEN copied to your clipboard'),
+                                          ),
+                                        );
+                                      });
+                                    }
+                                  },
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              widget.model!.items!.isNotEmpty
+                                                  ? widget.model!.items![
+                                                      currentParishId]['uen']
+                                                  : '',
+                                              style: const TextStyle(
+                                                color: Color.fromRGBO(
+                                                    233, 40, 35, 1),
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 16,
+                                            height: 16,
+                                            child: Image.asset(assetPath(
+                                                'square-on-square-solid.png')),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 4),
+                                      const Text(
+                                        'PayNow UEN',
+                                        style: TextStyle(
+                                          color: Color.fromRGBO(4, 26, 82, 0.5),
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 16),
                                 Row(
                                   children: [
                                     Expanded(
-                                      child: Text(
-                                        widget.model!.items!.isNotEmpty
-                                            ? widget.model!
-                                                .items![currentParishId]['uen']
-                                            : '---',
-                                        style: const TextStyle(
-                                          color: Color.fromRGBO(233, 40, 35, 1),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
+                                      child: RawMaterialButton(
+                                        constraints: const BoxConstraints(),
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                        onPressed: () async {
+                                          await widget.model!.navigateTo!(
+                                              currentParishId + 1,
+                                              '/_/church_info');
+                                        },
+                                        child: const Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            'Church Info',
+                                            style: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  12, 72, 224, 1),
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: 16,
-                                      height: 16,
-                                      child: Image.asset(assetPath(
-                                          'square-on-square-solid.png')),
+                                    Expanded(
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: const [
+                                          Spacer(),
+                                          Text(
+                                            'Directions',
+                                            style: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  12, 72, 224, 1),
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          SizedBox(width: 8),
+                                          SizedBox(
+                                            width: 20,
+                                            height: 20,
+                                            child: Icon(
+                                              MaterialCommunityIcons.directions,
+                                              color: Color.fromRGBO(
+                                                  12, 72, 224, 1),
+                                              size: 20,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 4),
-                                const Text(
-                                  'PayNow UEN',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(4, 26, 82, 0.5),
-                                    fontSize: 14,
-                                  ),
-                                ),
                               ],
                             ),
-                          ),
-                          const SizedBox(height: 16),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: RawMaterialButton(
-                              constraints: const BoxConstraints(),
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              onPressed: () async {
-                                await widget.model!.navigateTo!(
-                                    currentParishId + 1, '/_/church_info');
-                              },
-                              child: const Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  'Church Info',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(12, 72, 224, 1),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: const [
-                                Spacer(),
-                                Text(
-                                  'Directions',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(12, 72, 224, 1),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                SizedBox(width: 8),
-                                SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: Icon(
-                                    MaterialCommunityIcons.directions,
-                                    color: Color.fromRGBO(12, 72, 224, 1),
-                                    size: 20,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
                     ],
                   ),
                 ),
@@ -414,29 +471,29 @@ class _OffertoryViewState extends State<OffertoryView> {
                         ],
                       ),
                 const SizedBox(height: 16),
-                Container(
-                  width: double.infinity,
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Charities',
-                        style: TextStyle(
-                          color: Color.fromRGBO(4, 26, 82, 1),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18,
+                widget._infos.isEmpty
+                    ? Container()
+                    : Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 24),
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
                         ),
-                      ),
-                      widget._infos.isEmpty
-                          ? Container()
-                          : Column(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Charities',
+                              style: TextStyle(
+                                color: Color.fromRGBO(4, 26, 82, 1),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                              ),
+                            ),
+                            Column(
                               children: widget._infos.map<Widget>((element) {
                                 if (widget._infos[0]['name'] ==
                                     element['name']) {
@@ -513,9 +570,9 @@ class _OffertoryViewState extends State<OffertoryView> {
                                 );
                               }).toList(),
                             ),
-                    ],
-                  ),
-                ),
+                          ],
+                        ),
+                      ),
                 const SizedBox(height: 16),
               ],
             ),
@@ -615,7 +672,7 @@ class _OffertoryViewState extends State<OffertoryView> {
                             _handleChangeParish(index);
                           },
                           child: Text(
-                            widget.model!.items![index]['completename'] ?? '',
+                            widget.model!.items![index]['name'] ?? '',
                             style: const TextStyle(
                               color: Color.fromRGBO(4, 26, 82, 1),
                               fontSize: 16,
@@ -640,7 +697,7 @@ class _OffertoryViewState extends State<OffertoryView> {
                         _handleChangeParish(index);
                       },
                       child: Text(
-                        widget.model!.items![index]['completename'] ?? '',
+                        widget.model!.items![index]['name'] ?? '',
                         style: const TextStyle(
                           color: Color.fromRGBO(4, 26, 82, 1),
                           fontSize: 16,
