@@ -127,17 +127,16 @@ class _SchedulesPageState extends State<_SchedulesPage> {
           color: Color.fromRGBO(255, 252, 245, 1),
         ),
         width: double.infinity,
+        height: MediaQuery.of(context).size.height,
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-        child:
-            // widget.model.loading && widget.model.items!.isEmpty
-            //     ? const Center(child: CircularProgressIndicator())
-            //     :
-            Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
+        child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
               Container(
-                // height: _selectedParishValue == 'all' ? 62 : 114,
                 width: double.infinity,
                 padding: _selectedParishValue == 'all'
                     ? const EdgeInsets.fromLTRB(20, 20, 20, 0)
@@ -347,8 +346,9 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                   ? Container(
                       margin: const EdgeInsets.only(top: 16),
                       child: const Center(child: CircularProgressIndicator()))
-                  : Expanded(
+                  : Flexible(
                       child: ListView.separated(
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: _selectedSchedType == 'All Types'
                               ? (_schedules?.length ?? 0)
@@ -409,7 +409,8 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                         separatorBuilder: (context, index) {
                                           return const SizedBox(height: 8);
                                         },
-                                        physics: const ClampingScrollPhysics(),
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
                                         shrinkWrap: true,
                                         itemBuilder:
                                             (BuildContext context, int index) {
@@ -587,7 +588,9 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                   ],
                                 ));
                           }))
-            ]),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -646,6 +649,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                   maxHeight: 600,
                 ),
                 child: ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemCount: churchList.length,
