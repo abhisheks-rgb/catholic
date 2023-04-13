@@ -1021,11 +1021,9 @@ class _SchedulesPageState extends State<_SchedulesPage> {
       isLoadingSchedules = false;
     });
 
-    if (parishlink == 'all') {
-      await FirebaseAnalytics.instance.logEvent(
-        name: 'view_sched',
-      );
-    }
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'app_sched_$parishlink',
+    );
   }
 
   bool isToday(DateTime date) {
