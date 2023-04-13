@@ -163,6 +163,8 @@ class _BulletinPageState extends State<_BulletinPage> {
                               borderRadius: BorderRadius.all(Radius.zero))),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
                           icon: const Icon(Icons.keyboard_arrow_down),
                           elevation: 16,
                           isDense: true,
