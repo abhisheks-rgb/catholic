@@ -24,10 +24,13 @@ class _PriestInfoViewState extends State<PriestInfoView> {
   int? currentPriestIndex;
   bool isAllPriests = true;
   Timer? myTimer;
+  // String? _selectedPriestValue = '';
 
   @override
   void initState() {
     super.initState();
+
+    // _selectedPriestValue = 'all';
 
     startTimer();
   }
@@ -153,6 +156,7 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                             width: double.infinity,
                             margin: const EdgeInsets.symmetric(
                                 vertical: 0, horizontal: 24),
+                            // padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
                             padding: const EdgeInsets.all(20),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -172,6 +176,63 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                             ),
                             child: Column(
                               children: [
+                                // InputDecorator(
+                                //   decoration: const InputDecoration(
+                                //       contentPadding: EdgeInsets.all(0),
+                                //       border: OutlineInputBorder(
+                                //         borderSide: BorderSide.none,
+                                //         borderRadius: BorderRadius.all(Radius.zero),
+                                //       ),
+                                //       constraints: BoxConstraints(
+                                //         maxHeight: 20,
+                                //       )),
+                                //   child: DropdownButtonHideUnderline(
+                                //     child: DropdownButton(
+                                //       icon: const Icon(Icons.keyboard_arrow_down),
+                                //       elevation: 16,
+                                //       isDense: true,
+                                //       isExpanded: true,
+                                //       value: _selectedPriestValue,
+                                //       hint: const Text('Select priest'),
+                                //       items: [
+                                //         const DropdownMenuItem<String>(
+                                //           value: 'all',
+                                //           child: Text('All Priests'),
+                                //         ),
+                                //         ...widget._infos.map((value) {
+                                //           return DropdownMenuItem<String>(
+                                //             value: value['name'].toString(),
+                                //             child: Text(
+                                //                 '${value['salutation']} ${value['name']}',
+                                //                 style:
+                                //                     const TextStyle(fontSize: 16)),
+                                //           );
+                                //         }).toList(),
+                                //       ],
+                                //       onChanged: (value) async {
+                                //         final index = widget._infos.indexWhere(
+                                //             (item) =>
+                                //                 item['name'] == value.toString());
+
+                                //         if (index != -1) {
+                                //           setState(() {
+                                //             _selectedPriestValue = value.toString();
+                                //             currentPriestIndex = index;
+
+                                //             if (isAllPriests) {
+                                //               isAllPriests = false;
+                                //             }
+                                //           });
+                                //         } else if (!isAllPriests) {
+                                //           setState(() {
+                                //             _selectedPriestValue = 'all';
+                                //             isAllPriests = true;
+                                //           });
+                                //         }
+                                //       },
+                                //     ),
+                                //   ),
+                                // ),
                                 RawMaterialButton(
                                   constraints: const BoxConstraints(),
                                   materialTapTargetSize:
@@ -244,16 +305,15 @@ class _PriestInfoViewState extends State<PriestInfoView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 8),
-        Text(
-          widget._infos[currentPriestIndex!]['churchrole'].isNotEmpty
-              ? widget._infos[currentPriestIndex!]['churchrole']
-              : '---',
-          style: const TextStyle(
-            color: Color.fromRGBO(4, 26, 82, 0.5),
-            fontSize: 14,
-          ),
-        ),
+        widget._infos[currentPriestIndex!]['churchrole'].isEmpty
+            ? Container()
+            : Text(
+                widget._infos[currentPriestIndex!]['churchrole'] ?? '',
+                style: const TextStyle(
+                  color: Color.fromRGBO(4, 26, 82, 0.5),
+                  fontSize: 14,
+                ),
+              ),
         const SizedBox(height: 16),
         const Divider(
           height: 1,
@@ -262,137 +322,156 @@ class _PriestInfoViewState extends State<PriestInfoView> {
           endIndent: 0,
           color: Color.fromRGBO(4, 26, 82, 0.1),
         ),
-        const SizedBox(height: 16),
-        Align(
-          alignment: Alignment.center,
-          child: Container(
-            height: 100,
-            width: 100,
-            decoration: const BoxDecoration(
-              color: Color.fromRGBO(219, 228, 251, 1),
-              shape: BoxShape.circle,
-              // image: widget._infos[currentPriestIndex!]['photo'] != null
-              //   ? DecorationImage(
-              //       image: NetworkImage(widget._infos[currentPriestIndex!]['photo'] ?? ''),
-              //       fit: BoxFit.contain,
-              //     )
-              //   : null,
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-        Row(
-          children: [
-            SizedBox(
-              width: 20,
-              height: 20,
-              child: Image.asset(
-                assetPath('church-alt.png'),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Text(
-                priestParish['name'] ?? '---',
-                style: const TextStyle(
-                  color: Color.fromRGBO(12, 72, 224, 1),
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Row(
-          children: [
-            const SizedBox(
-              width: 20,
-              height: 20,
-              child: Icon(
-                FontAwesome.phone,
-                color: Color.fromRGBO(130, 141, 168, 1),
-                size: 20,
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Text(
-                widget._infos[currentPriestIndex!]['phone'].isNotEmpty
-                    ? widget._infos[currentPriestIndex!]['phone']
-                    : '---',
-                style: const TextStyle(
-                  color: Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Row(
-          children: [
-            const SizedBox(
-              width: 20,
-              height: 20,
-              child: Icon(
-                FontAwesome.envelope,
-                color: Color.fromRGBO(130, 141, 168, 1),
-                size: 20,
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Text(
-                widget._infos[currentPriestIndex!]['email'].isNotEmpty
-                    ? widget._infos[currentPriestIndex!]['email']
-                    : '---',
-                style: const TextStyle(
-                  color: Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              width: 20,
-              height: 20,
-              child: Icon(
-                FontAwesome5Solid.calendar,
-                color: Color.fromRGBO(130, 141, 168, 1),
-                size: 20,
-              ),
-            ),
-            const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget._infos[currentPriestIndex!]['ordinationdate']
-                          .isNotEmpty
-                      ? widget._infos[currentPriestIndex!]['ordinationdate']
-                      : '---',
-                  style: const TextStyle(
-                    color: Color.fromRGBO(4, 26, 82, 1),
-                    fontSize: 16,
+        // const SizedBox(height: 16),
+        // Align(
+        //   alignment: Alignment.center,
+        //   child: Container(
+        //     height: 100,
+        //     width: 100,
+        //     decoration: const BoxDecoration(
+        //       color: Color.fromRGBO(219, 228, 251, 1),
+        //       shape: BoxShape.circle,
+        //       // image: widget._infos[currentPriestIndex!]['photo'] != null
+        //       //   ? DecorationImage(
+        //       //       image: NetworkImage(widget._infos[currentPriestIndex!]['photo'] ?? ''),
+        //       //       fit: BoxFit.contain,
+        //       //     )
+        //       //   : null,
+        //     ),
+        //   ),
+        // ),
+        priestParish.isEmpty
+            ? Container()
+            : Column(
+                children: [
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: Image.asset(
+                          assetPath('church-alt.png'),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          priestParish['name'] ?? '',
+                          style: const TextStyle(
+                            color: Color.fromRGBO(12, 72, 224, 1),
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(height: 4),
-                const Text(
-                  'Ordination Date',
-                  style: TextStyle(
-                    color: Color.fromRGBO(4, 26, 82, 0.5),
-                    fontSize: 14,
+                ],
+              ),
+        widget._infos[currentPriestIndex!]['phone'].isEmpty
+            ? Container()
+            : Column(
+                children: [
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: Icon(
+                          FontAwesome.phone,
+                          color: Color.fromRGBO(130, 141, 168, 1),
+                          size: 20,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          widget._infos[currentPriestIndex!]['phone'] ?? '',
+                          style: const TextStyle(
+                            color: Color.fromRGBO(4, 26, 82, 1),
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-          ],
-        ),
+                ],
+              ),
+        widget._infos[currentPriestIndex!]['email'].isEmpty
+            ? Container()
+            : Column(
+                children: [
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: Icon(
+                          FontAwesome.envelope,
+                          color: Color.fromRGBO(130, 141, 168, 1),
+                          size: 20,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          widget._infos[currentPriestIndex!]['email'] ?? '',
+                          style: const TextStyle(
+                            color: Color.fromRGBO(4, 26, 82, 1),
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+        widget._infos[currentPriestIndex!]['ordinationdate'].isEmpty
+            ? Container()
+            : Column(
+                children: [
+                  const SizedBox(height: 16),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: Icon(
+                          FontAwesome5Solid.calendar,
+                          color: Color.fromRGBO(130, 141, 168, 1),
+                          size: 20,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget._infos[currentPriestIndex!]
+                                    ['ordinationdate'] ??
+                                '',
+                            style: const TextStyle(
+                              color: Color.fromRGBO(4, 26, 82, 1),
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          const Text(
+                            'Ordination Date',
+                            style: TextStyle(
+                              color: Color.fromRGBO(4, 26, 82, 0.5),
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
       ],
     );
   }
