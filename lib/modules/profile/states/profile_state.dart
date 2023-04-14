@@ -1,7 +1,7 @@
-// import 'dart:convert';
+import 'dart:convert';
+
 import 'package:butter/butter.dart';
-// import 'package:flutter/services.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 
 import '../actions/logout_action.dart';
 import '../models/profile_model.dart';
@@ -44,16 +44,18 @@ class ProfileState extends BasePageState<ProfileModel> {
           ), (m) {
         // Load all your model's handlers here
         m.loadData = () async {
-          User? user;
-          dispatchModel<ProfileModel>(ProfileModel(), (m) {
-            m.loading = true;
-          });
+          Map<String, dynamic>? user;
           dispatchModel<HomeModel>(HomeModel(), (m) {
             user = m.user;
           });
+
           await Future.delayed(const Duration(seconds: 1), () async {
+            final String response =
+                await rootBundle.loadString('assets/data/parish.json');
+            final data = await json.decode(response);
+
             dispatchModel<ProfileModel>(ProfileModel(), (m) {
-              m.loading = false;
+              m.items = data['parishes'];
               m.user = user;
             });
           });

@@ -20,27 +20,23 @@ class LogoutAction extends BaseAction {
       m.loading = true;
     });
 
-    User? user;
-
     await FirebaseAuth.instance.signOut();
 
     await dispatchModel<HomeModel>(HomeModel(), (m) {
-      m.user = user;
+      m.user = null;
     });
 
     await dispatchModel<LoginModel>(LoginModel(), (m) {
       m.isLoggedIn = false;
     });
 
-    await Future.delayed(const Duration(seconds: 2), () async {
-      pushNamed('/_/login');
-      
-      await Future.delayed(const Duration(seconds: 1), () async {
-        await dispatchModel<ProfileModel>(ProfileModel(), (m) {
-          m.error = error;
-          m.loading = false;
-          m.user = user;
-        });
+    pushNamed('/_/login');
+
+    await Future.delayed(const Duration(seconds: 1), () async {
+      await dispatchModel<ProfileModel>(ProfileModel(), (m) {
+        m.error = error;
+        m.loading = false;
+        m.user = null;
       });
     });
 

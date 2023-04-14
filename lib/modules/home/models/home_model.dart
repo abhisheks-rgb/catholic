@@ -1,13 +1,12 @@
 import 'package:butter/butter.dart';
 import 'package:flutter/widgets.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeModel extends BaseUIModel<HomeModel> {
   String? error;
   bool initialized;
   bool loading;
   String? title;
-  User? user;
+  Map<String, dynamic>? user;
   bool isFullScreen;
 
   late Future<void> Function(BuildContext context) initialize;

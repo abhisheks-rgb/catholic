@@ -1,14 +1,15 @@
 import 'package:butter/butter.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfileModel extends BaseUIModel<ProfileModel> {
   late void Function() loadData;
+  List<dynamic>? items;
   //
   String? error;
   bool? loading;
-  User? user;
+  Map<String, dynamic>? user;
 
   ProfileModel({
+    this.items,
     this.error,
     this.loading,
     this.user,
@@ -22,24 +23,27 @@ class ProfileModel extends BaseUIModel<ProfileModel> {
 
   @override
   ProfileModel clone() => ProfileModel(
-    error: error,
-    loading: loading,
-    user: user,
-  );
+        items: items ?? [],
+        error: error,
+        loading: loading,
+        user: user,
+      );
 
   @override
   int get hashCode => Object.hashAll([
-    error,
-    loading,
-    user,
-  ]);
+        items,
+        error,
+        loading,
+        user,
+      ]);
 
   @override
   bool operator ==(Object other) =>
-    identical(this, other) ||
+      identical(this, other) ||
       other is ProfileModel &&
-        runtimeType == other.runtimeType &&
-        error == other.error &&
-        loading == other.loading &&
-        user == other.user;
+          runtimeType == other.runtimeType &&
+          items == other.items &&
+          error == other.error &&
+          loading == other.loading &&
+          user == other.user;
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:butter/butter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -24,7 +25,7 @@ class InitializeAction extends BaseAction {
     Butter.d('InitializeAction::reduce');
 
     String? error;
-    User? user;
+    Map<String, dynamic>? user;
     await dispatchModel<HomeModel>(HomeModel(), (m) {
       m.error = error;
       m.loading = true;
@@ -41,14 +42,25 @@ class InitializeAction extends BaseAction {
       ));
 
       if (user == null) {
-        user = FirebaseAuth.instance.currentUser;
-        if (user == null) {
-          Butter.d('InitializeAction::reduce::not_logged_in');
+        User? currentUser = FirebaseAuth.instance.currentUser;
+
+        if (currentUser != null) {
+          await FirebaseFirestore.instance
+              .doc('users/${currentUser.uid}')
+              .get()
+              .then((value) {
+            user = value.data();
+            Butter.d('InitializeAction::reduce::is_logged_in');
+          }).onError((error, stackTrace) {
+            Butter.e(error.toString());
+            Butter.e(stackTrace.toString());
+            error = error.toString();
+          });
         } else {
-          Butter.d('InitializeAction::reduce::is_logged_in');
+          Butter.d('InitializeAction::reduce::not_logged_in');
         }
       } else {
-        Butter.d('InitializeAction::reduce::is_logged_in');
+        Butter.d('InitializeAction::reduce::not_logged_in');
       }
     } catch (e) {
       Butter.e(e.toString());

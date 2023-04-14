@@ -1,4 +1,5 @@
 import 'package:butter/butter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/welcome_model.dart';
@@ -40,22 +41,34 @@ class WelcomeState extends BasePageState<WelcomeModel> {
           String newRoute = route;
 
           if (route == '/_/profile') {
-            User? user;
+            User? currentUser = FirebaseAuth.instance.currentUser;
+            if (currentUser != null) {
+              Map<String, dynamic>? user;
+              await FirebaseFirestore.instance
+                  .doc('users/${currentUser.uid}')
+                  .get()
+                  .then((value) async {
+                user = value.data();
 
-            await dispatchModel<HomeModel>(HomeModel(), (m) {
-              user = m.user;
-            });
+                await dispatchModel<HomeModel>(HomeModel(), (m) {
+                  user = m.user;
+                });
+                pushNamed(newRoute);
+              }).onError((error, stackTrace) {
+                Butter.e(error.toString());
+                Butter.e(stackTrace.toString());
+                error = error.toString();
 
-            if (user == null) {
-              user = FirebaseAuth.instance.currentUser;
-
-              if (user == null) {
-                newRoute = '/_/login';
-              }
+                if (user == null) {
+                  pushNamed('/_/login');
+                }
+              });
+            } else {
+              pushNamed('/_/login');
             }
+          } else {
+            pushNamed(newRoute);
           }
-
-          pushNamed(newRoute);
         };
       });
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:butter/butter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/login_model.dart';
@@ -25,15 +26,35 @@ class LoginAction extends BaseAction {
       m.loading = true;
     });
 
-    User? user;
+    Map<String, dynamic>? user;
     bool? isLoggedIn = false;
 
     try {
       await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email!.trim(), password: password!.trim());
-
-      user = FirebaseAuth.instance.currentUser;
-      isLoggedIn = true;
+          .signInWithEmailAndPassword(
+              email: email!.trim(), password: password!.trim())
+          .then((value) async {
+        User? currentUser = FirebaseAuth.instance.currentUser;
+        if (currentUser != null) {
+          await FirebaseFirestore.instance
+              .doc('users/${currentUser.uid}')
+              .get()
+              .then((value) {
+            user = value.data();
+            isLoggedIn = true;
+          }).onError((error, stackTrace) {
+            Butter.e(error.toString());
+            Butter.e(stackTrace.toString());
+            error = error.toString();
+            isLoggedIn = false;
+          });
+        }
+      }).onError((error, stackTrace) {
+        Butter.e(error.toString());
+        Butter.e(stackTrace.toString());
+        error = error.toString();
+        isLoggedIn = false;
+      });
     } catch (e, stacktrace) {
       Butter.e(e.toString());
       Butter.e(stacktrace.toString());
@@ -41,30 +62,24 @@ class LoginAction extends BaseAction {
       isLoggedIn = false;
     }
 
-    await dispatchModel<HomeModel>(HomeModel(), (m) {
-      m.user = user;
-    });
+    if (isLoggedIn == true) {
+      await dispatchModel<HomeModel>(HomeModel(), (m) {
+        m.user = user;
+      });
 
-    await Future.delayed(const Duration(seconds: 1), () async {
-      if (isLoggedIn == true) {
-        await Future.delayed(const Duration(seconds: 1), () async {
-          await dispatchModel<LoginModel>(LoginModel(), (m) {
-            m.error = error;
-            m.loading = false;
-            m.isLoggedIn = true;
-          });
-        });
+      await dispatchModel<LoginModel>(LoginModel(), (m) {
+        m.error = error;
+        m.loading = false;
+        m.isLoggedIn = isLoggedIn!;
+      });
 
-        pushNamed('/_/welcome');
-      } else {
-        await Future.delayed(const Duration(seconds: 1), () async {
-          await dispatchModel<LoginModel>(LoginModel(), (m) {
-            m.error = error;
-            m.loading = false;
-          });
-        });
-      }
-    });
+      pushNamed('/_/welcome');
+    } else {
+      await dispatchModel<LoginModel>(LoginModel(), (m) {
+        m.error = error;
+        m.loading = false;
+      });
+    }
 
     return null;
   }
