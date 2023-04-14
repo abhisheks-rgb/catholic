@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
+// import 'dart:convert';
 import 'dart:ui';
 
 import 'package:butter/butter.dart';
@@ -10,7 +10,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -936,29 +936,30 @@ class _SchedulesPageState extends State<_SchedulesPage> {
   }
 
   void _redirectToMaps(String query) async {
-    final intRegex = RegExp(r'\d+$');
-    final result = intRegex.firstMatch(query)!;
-    final postalCode = result[0];
-    final url = Uri.parse(
-        'https://developers.onemap.sg/commonapi/search?searchVal=$postalCode&returnGeom=Y&getAddrDetails=Y');
-    final response = await http.get(url);
-    final decodedResponse = json.decode(response.body);
-    final matches = List<dynamic>.from(decodedResponse['results']);
-    final filteredMatches = matches.where((loc) => loc['POSTAL'] == postalCode);
-    final loc = filteredMatches.isNotEmpty ? filteredMatches.first : null;
+    // final intRegex = RegExp(r'\d+$');
+    // final result = intRegex.firstMatch(query)!;
+    // final postalCode = result[0];
+    // final url = Uri.parse(
+    //     'https://developers.onemap.sg/commonapi/search?searchVal=$postalCode&returnGeom=Y&getAddrDetails=Y');
+    // final response = await http.get(url);
+    // final decodedResponse = json.decode(response.body);
+    // final matches = List<dynamic>.from(decodedResponse['results']);
+    // final filteredMatches = matches.where((loc) => loc['POSTAL'] == postalCode);
+    // final loc = filteredMatches.isNotEmpty ? filteredMatches.first : null;
 
-    if (loc != null) {
-      final googleMaps =
-          'https://www.google.com/maps/search/?api=1&query=${loc['LATITUDE']},${loc['LONGITUDE']}';
-      final uri = Uri.parse(googleMaps);
-      urlLauncher(uri, 'web');
-    } else if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Cannot find parish'),
-        ),
-      );
-    }
+    // if (loc != null) {
+    // final googleMaps =
+    //     'https://www.google.com/maps/search/?api=1&query=${loc['LATITUDE']},${loc['LONGITUDE']}';
+    final googleMaps = 'https://www.google.com/maps/search/?api=1&query=$query';
+    final uri = Uri.parse(googleMaps);
+    urlLauncher(uri, 'web');
+    // } else if (mounted) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(
+    //       content: Text('Cannot find parish'),
+    //     ),
+    //   );
+    // }
   }
 
   void _getSchedules(String parishlink) async {
