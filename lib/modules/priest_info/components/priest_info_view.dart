@@ -77,173 +77,175 @@ class _PriestInfoViewState extends State<PriestInfoView> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
-          children:
-              widget.model!.priestName != null && currentPriestIndex == null
-                  ? []
-                  : [
-                      // Positioned(
-                      //   top: 0,
-                      //   left: 0,
-                      //   child: Align(
-                      //     child: SizedBox(
-                      //       height: 275,
-                      //       child: Image.asset(
-                      //         assetPath('welcome_bg.png'),
-                      //         fit: BoxFit.cover,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                      // Positioned(
-                      //   left: 0,
-                      //   top: 0,
-                      //   child: Align(
-                      //     child: SizedBox(
-                      //       width: 391,
-                      //       height: 275,
-                      //       child: Container(
-                      //         decoration: const BoxDecoration(
-                      //           gradient: LinearGradient(
-                      //             begin: Alignment(0.957, -1.211),
-                      //             end: Alignment(0.515, 1),
-                      //             colors: <Color>[
-                      //               Color(0x51ffffff),
-                      //               Color(0xffffffff)
-                      //             ],
-                      //             stops: <double>[0, 1],
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                      // Positioned(
-                      //   left: 0,
-                      //   top: 0,
-                      //   child: Align(
-                      //     child: SizedBox(
-                      //       width: 391,
-                      //       height: 275,
-                      //       child: Container(
-                      //         decoration: const BoxDecoration(
-                      //           gradient: LinearGradient(
-                      //             begin: Alignment(1, -1),
-                      //             end: Alignment(-1, 1),
-                      //             colors: <Color>[
-                      //               Color(0xff174dd4),
-                      //               Color(0x00ffffff)
-                      //             ],
-                      //             stops: <double>[0, 1],
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                      // widget.model?.loading == true
-                      //     ? Container(
-                      //         height: MediaQuery.of(context).size.height * 0.74,
-                      //         margin: const EdgeInsets.only(top: 16),
-                      //         child: const Center(
-                      //           child: CircularProgressIndicator(),
-                      //         ),
-                      //       )
-                      //     :
-                      Column(
-                        children: [
-                          const SizedBox(height: 16),
-                          Container(
-                            width: double.infinity,
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 0, horizontal: 24),
-                            // padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white,
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Color.fromRGBO(208, 185, 133, 0.15),
-                                  offset: Offset(0, 8),
-                                  blurRadius: 16,
-                                ),
-                                BoxShadow(
-                                  color: Color.fromRGBO(208, 185, 133, 0.05),
-                                  offset: Offset(0, 4),
-                                  blurRadius: 8,
-                                ),
-                              ],
+          children: widget.model!.priestName != null &&
+                  currentPriestIndex == null
+              ? []
+              : [
+                  // Positioned(
+                  //   top: 0,
+                  //   left: 0,
+                  //   child: Align(
+                  //     child: SizedBox(
+                  //       height: 275,
+                  //       child: Image.asset(
+                  //         assetPath('welcome_bg.png'),
+                  //         fit: BoxFit.cover,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // Positioned(
+                  //   left: 0,
+                  //   top: 0,
+                  //   child: Align(
+                  //     child: SizedBox(
+                  //       width: 391,
+                  //       height: 275,
+                  //       child: Container(
+                  //         decoration: const BoxDecoration(
+                  //           gradient: LinearGradient(
+                  //             begin: Alignment(0.957, -1.211),
+                  //             end: Alignment(0.515, 1),
+                  //             colors: <Color>[
+                  //               Color(0x51ffffff),
+                  //               Color(0xffffffff)
+                  //             ],
+                  //             stops: <double>[0, 1],
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // Positioned(
+                  //   left: 0,
+                  //   top: 0,
+                  //   child: Align(
+                  //     child: SizedBox(
+                  //       width: 391,
+                  //       height: 275,
+                  //       child: Container(
+                  //         decoration: const BoxDecoration(
+                  //           gradient: LinearGradient(
+                  //             begin: Alignment(1, -1),
+                  //             end: Alignment(-1, 1),
+                  //             colors: <Color>[
+                  //               Color(0xff174dd4),
+                  //               Color(0x00ffffff)
+                  //             ],
+                  //             stops: <double>[0, 1],
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // widget.model?.loading == true
+                  //     ? Container(
+                  //         height: MediaQuery.of(context).size.height * 0.74,
+                  //         margin: const EdgeInsets.only(top: 16),
+                  //         child: const Center(
+                  //           child: CircularProgressIndicator(),
+                  //         ),
+                  //       )
+                  //     :
+                  Column(
+                    children: [
+                      const SizedBox(height: 16),
+                      Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 24),
+                        // padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color.fromRGBO(208, 185, 133, 0.15),
+                              offset: Offset(0, 8),
+                              blurRadius: 16,
                             ),
-                            child: Column(
-                              children: [
-                                // InputDecorator(
-                                //   decoration: const InputDecoration(
-                                //       contentPadding: EdgeInsets.all(0),
-                                //       border: OutlineInputBorder(
-                                //         borderSide: BorderSide.none,
-                                //         borderRadius: BorderRadius.all(Radius.zero),
-                                //       ),
-                                //       constraints: BoxConstraints(
-                                //         maxHeight: 20,
-                                //       )),
-                                //   child: DropdownButtonHideUnderline(
-                                //     child: DropdownButton(
-                                //       icon: const Icon(Icons.keyboard_arrow_down),
-                                //       elevation: 16,
-                                //       isDense: true,
-                                //       isExpanded: true,
-                                //       value: _selectedPriestValue,
-                                //       hint: const Text('Select priest'),
-                                //       items: [
-                                //         const DropdownMenuItem<String>(
-                                //           value: 'all',
-                                //           child: Text('All Priests'),
-                                //         ),
-                                //         ...widget._infos.map((value) {
-                                //           return DropdownMenuItem<String>(
-                                //             value: value['name'].toString(),
-                                //             child: Text(
-                                //                 '${value['salutation']} ${value['name']}',
-                                //                 style:
-                                //                     const TextStyle(fontSize: 16)),
-                                //           );
-                                //         }).toList(),
-                                //       ],
-                                //       onChanged: (value) async {
-                                //         final index = widget._infos.indexWhere(
-                                //             (item) =>
-                                //                 item['name'] == value.toString());
+                            BoxShadow(
+                              color: Color.fromRGBO(208, 185, 133, 0.05),
+                              offset: Offset(0, 4),
+                              blurRadius: 8,
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            // InputDecorator(
+                            //   decoration: const InputDecoration(
+                            //       contentPadding: EdgeInsets.all(0),
+                            //       border: OutlineInputBorder(
+                            //         borderSide: BorderSide.none,
+                            //         borderRadius: BorderRadius.all(Radius.zero),
+                            //       ),
+                            //       constraints: BoxConstraints(
+                            //         maxHeight: 20,
+                            //       )),
+                            //   child: DropdownButtonHideUnderline(
+                            //     child: DropdownButton(
+                            //       icon: const Icon(Icons.keyboard_arrow_down),
+                            //       elevation: 16,
+                            //       isDense: true,
+                            //       isExpanded: true,
+                            //       value: _selectedPriestValue,
+                            //       hint: const Text('Select priest'),
+                            //       items: [
+                            //         const DropdownMenuItem<String>(
+                            //           value: 'all',
+                            //           child: Text('All Priests'),
+                            //         ),
+                            //         ...widget._infos.map((value) {
+                            //           return DropdownMenuItem<String>(
+                            //             value: value['name'].toString(),
+                            //             child: Text(
+                            //                 '${value['salutation']} ${value['name']}',
+                            //                 style:
+                            //                     const TextStyle(fontSize: 16)),
+                            //           );
+                            //         }).toList(),
+                            //       ],
+                            //       onChanged: (value) async {
+                            //         final index = widget._infos.indexWhere(
+                            //             (item) =>
+                            //                 item['name'] == value.toString());
 
-                                //         if (index != -1) {
-                                //           setState(() {
-                                //             _selectedPriestValue = value.toString();
-                                //             currentPriestIndex = index;
+                            //         if (index != -1) {
+                            //           setState(() {
+                            //             _selectedPriestValue = value.toString();
+                            //             currentPriestIndex = index;
 
-                                //             if (isAllPriests) {
-                                //               isAllPriests = false;
-                                //             }
-                                //           });
-                                //         } else if (!isAllPriests) {
-                                //           setState(() {
-                                //             _selectedPriestValue = 'all';
-                                //             isAllPriests = true;
-                                //           });
-                                //         }
-                                //       },
-                                //     ),
-                                //   ),
-                                // ),
-                                RawMaterialButton(
-                                  constraints: const BoxConstraints(),
-                                  materialTapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                  onPressed: () {
-                                    if (widget.model!.items!.isNotEmpty &&
-                                        widget._infos.isNotEmpty) {
-                                      showAlert(context);
-                                    }
-                                  },
-                                  child: Row(
+                            //             if (isAllPriests) {
+                            //               isAllPriests = false;
+                            //             }
+                            //           });
+                            //         } else if (!isAllPriests) {
+                            //           setState(() {
+                            //             _selectedPriestValue = 'all';
+                            //             isAllPriests = true;
+                            //           });
+                            //         }
+                            //       },
+                            //     ),
+                            //   ),
+                            // ),
+                            RawMaterialButton(
+                              constraints: const BoxConstraints(),
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              onPressed: () {
+                                if (widget.model!.items!.isNotEmpty &&
+                                    widget._infos.isNotEmpty) {
+                                  showAlert(context);
+                                }
+                              },
+                              child: Column(
+                                children: [
+                                  Row(
                                     children: [
                                       Expanded(
                                         child: Text(
@@ -272,20 +274,49 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                                       ),
                                     ],
                                   ),
-                                ),
-                                isAllPriests || widget._infos.isEmpty
-                                    ? Container()
-                                    : _renderPriestInfo(),
-                              ],
+                                  isAllPriests || widget._infos.isEmpty
+                                      ? Container()
+                                      : Column(
+                                          children: [
+                                            const SizedBox(height: 8),
+                                            widget
+                                                    ._infos[currentPriestIndex!]
+                                                        ['churchrole']
+                                                    .isEmpty
+                                                ? Container()
+                                                : Align(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Text(
+                                                      widget._infos[
+                                                                  currentPriestIndex!]
+                                                              ['churchrole'] ??
+                                                          '',
+                                                      style: const TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            4, 26, 82, 0.5),
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  ),
+                                          ],
+                                        ),
+                                ],
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 16),
-                          isAllPriests && widget._infos.isNotEmpty
-                              ? _renderPriestList()
-                              : Container(),
-                        ],
+                            isAllPriests || widget._infos.isEmpty
+                                ? Container()
+                                : _renderPriestInfo(),
+                          ],
+                        ),
                       ),
+                      const SizedBox(height: 16),
+                      isAllPriests && widget._infos.isNotEmpty
+                          ? _renderPriestList()
+                          : Container(),
                     ],
+                  ),
+                ],
         ),
       ),
     );
@@ -305,15 +336,6 @@ class _PriestInfoViewState extends State<PriestInfoView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        widget._infos[currentPriestIndex!]['churchrole'].isEmpty
-            ? Container()
-            : Text(
-                widget._infos[currentPriestIndex!]['churchrole'] ?? '',
-                style: const TextStyle(
-                  color: Color.fromRGBO(4, 26, 82, 0.5),
-                  fontSize: 14,
-                ),
-              ),
         const SizedBox(height: 16),
         const Divider(
           height: 1,
@@ -365,7 +387,7 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                         child: Text(
                           priestParish['name'] ?? '',
                           style: const TextStyle(
-                            color: Color.fromRGBO(12, 72, 224, 1),
+                            color: Color.fromRGBO(4, 26, 82, 1),
                             fontSize: 16,
                           ),
                         ),
