@@ -7,6 +7,7 @@ class OffertoryModel extends BaseUIModel<OffertoryModel> {
   String? error;
   bool? loading;
   List<Object>? offertories;
+  int? churchId;
   String? churchName;
 
   OffertoryModel({
@@ -14,6 +15,7 @@ class OffertoryModel extends BaseUIModel<OffertoryModel> {
     this.error,
     this.loading,
     this.offertories,
+    this.churchId,
     this.churchName,
   });
 
@@ -31,6 +33,7 @@ class OffertoryModel extends BaseUIModel<OffertoryModel> {
         error: error,
         loading: loading,
         offertories: offertories == null ? [] : List.unmodifiable(offertories!),
+        churchId: churchId,
         churchName: churchName,
       );
 
@@ -40,6 +43,7 @@ class OffertoryModel extends BaseUIModel<OffertoryModel> {
         error,
         loading,
         offertories,
+        churchId,
         churchName,
       ]);
 
@@ -52,5 +56,6 @@ class OffertoryModel extends BaseUIModel<OffertoryModel> {
           error == other.error &&
           loading == other.loading &&
           offertories == other.offertories &&
+          churchId == other.churchId &&
           churchName == other.churchName;
 }

@@ -34,6 +34,7 @@ class _OffertoryViewState extends State<OffertoryView> {
 
     if (widget.model!.churchName != null && widget.model!.churchName != '') {
       _selectedParishValue = widget.model!.churchName;
+      currentParishId = widget.model!.churchId!;
 
       startTimer();
     }
