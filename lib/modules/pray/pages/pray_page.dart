@@ -149,42 +149,47 @@ class _PrayPageState extends State<_PrayPage> {
                         ),
                       ),
                       Positioned(
-                        // welcomeoscarHYf (127:100)
                         left: 0,
                         bottom: 79,
+                        child: Container(
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 24,
+                            ),
+                            width: MediaQuery.of(context).size.width - 48,
+                            height: 68,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  _istoday?['title'] ?? '',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromRGBO(4, 26, 82, 1),
+                                  ),
+                                ),
+                              ],
+                            )),
+                      ),
+                      Positioned(
+                        left: 0,
+                        bottom: 0,
                         child: Container(
                           margin: const EdgeInsets.symmetric(
                               horizontal: 24, vertical: 20),
                           width: MediaQuery.of(context).size.width - 48,
                           height: 38,
-                          child: SizedBox(
-                            height: 34,
-                            child: Text(
-                              _istoday?['title'] ?? '',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                                color: Color.fromRGBO(4, 26, 82, 1),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 24,
-                        top: 124,
-                        child: Align(
-                          child: SizedBox(
-                            height: 48,
-                            child: Text(
-                              _istoday?['content'] ?? '',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xff041a51),
-                              ),
+                          child: Text(
+                            _istoday?['content'] ?? '',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xff041a51),
                             ),
                           ),
                         ),

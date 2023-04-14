@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
@@ -66,74 +67,6 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            // Positioned(
-            //   top: 0,
-            //   left: 0,
-            //   child: Align(
-            //     child: SizedBox(
-            //       height: 275,
-            //       child: Image.asset(
-            //         assetPath('welcome_bg.png'),
-            //         fit: BoxFit.cover,
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // Positioned(
-            //   left: 0,
-            //   top: 0,
-            //   child: Align(
-            //     child: SizedBox(
-            //       width: 391,
-            //       height: 275,
-            //       child: Container(
-            //         decoration: const BoxDecoration(
-            //           gradient: LinearGradient(
-            //             begin: Alignment(0.957, -1.211),
-            //             end: Alignment(0.515, 1),
-            //             colors: <Color>[
-            //               Color(0x51ffffff),
-            //               Color(0xffffffff)
-            //             ],
-            //             stops: <double>[0, 1],
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // Positioned(
-            //   left: 0,
-            //   top: 0,
-            //   child: Align(
-            //     child: SizedBox(
-            //       width: 391,
-            //       height: 275,
-            //       child: Container(
-            //         decoration: const BoxDecoration(
-            //           gradient: LinearGradient(
-            //             begin: Alignment(1, -1),
-            //             end: Alignment(-1, 1),
-            //             colors: <Color>[
-            //               Color(0xff174dd4),
-            //               Color(0x00ffffff)
-            //             ],
-            //             stops: <double>[0, 1],
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // widget.model?.loading == true
-            //     ? Container(
-            //         height: MediaQuery.of(context).size.height * 0.74,
-            //         margin: const EdgeInsets.only(top: 16),
-            //         child: const Center(
-            //           child: CircularProgressIndicator(),
-            //         ),
-            //       )
-            //     :
             Column(
               children: [
                 const SizedBox(height: 16),
@@ -156,46 +89,6 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                   ),
                   child: Column(
                     children: [
-                      // InputDecorator(
-                      //   decoration: const InputDecoration(
-                      //       contentPadding: EdgeInsets.all(0),
-                      //       border: OutlineInputBorder(
-                      //           borderSide: BorderSide.none,
-                      //           borderRadius: BorderRadius.all(Radius.zero))),
-                      //   child: DropdownButtonHideUnderline(
-                      //     child: DropdownButton(
-                      //       borderRadius:
-                      //           const BorderRadius.all(Radius.circular(10)),
-                      //       icon: const Icon(Icons.keyboard_arrow_down),
-                      //       elevation: 16,
-                      //       isDense: true,
-                      //       isExpanded: true,
-                      //       value: _selectedParishValue,
-                      //       hint: const Text('Select parish'),
-                      //       items: [
-                      //         ...?widget.model!.items?.map((value) {
-                      //           return DropdownMenuItem<String>(
-                      //             value: value['name'].toString(),
-                      //             child: Text(value['name'],
-                      //                 style: const TextStyle(fontSize: 16)),
-                      //           );
-                      //         }).toList()
-                      //       ],
-                      //       onChanged: (value) {
-                      //         final index = widget.model!.items?.indexWhere(
-                      //             (item) => item['name'] == value.toString());
-
-                      //         if (index != -1) {
-                      //           widget.model!
-                      //               .fetchChurchInfo(orgId: index! + 1);
-                      //           setState(() {
-                      //             _selectedParishValue = value.toString();
-                      //           });
-                      //         }
-                      //       },
-                      //     ),
-                      //   ),
-                      // ),
                       RawMaterialButton(
                         constraints: const BoxConstraints(),
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -239,24 +132,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                   endIndent: 0,
                                   color: Color.fromRGBO(4, 26, 82, 0.1),
                                 ),
-                                // const SizedBox(height: 8),
                                 const SizedBox(height: 16),
-                                // Container(
-                                //   height: 120,
-                                //   decoration: BoxDecoration(
-                                //     color: widget._infos.isEmpty
-                                //         ? const Color.fromRGBO(219, 228, 251, 1)
-                                //         : Colors.transparent,
-                                //     // shape: BoxShape.circle,
-                                //     image: widget._infos.isNotEmpty
-                                //         ? DecorationImage(
-                                //             image: NetworkImage(
-                                //                 widget._infos[0]['logoUrl']),
-                                //             fit: BoxFit.contain,
-                                //           )
-                                //         : null,
-                                //   ),
-                                // ),
                                 widget._infos[0]['address'].isEmpty
                                     ? Container()
                                     : Column(
@@ -311,6 +187,10 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                     ),
                                                   );
                                                 }
+
+                                                _logChurchInfoEvent(
+                                                    widget._infos[0]['orgLink'],
+                                                    true);
                                               }
                                             },
                                             child: Row(
@@ -1028,7 +908,11 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                   .model!.items![index]['name']
                                   .toString();
                             });
+
                             Navigator.pop(context);
+
+                            _logChurchInfoEvent(
+                                widget.model!.items![index]['link'], false);
                           },
                           child: Text(
                             widget.model!.items![index]['name'] ?? '',
@@ -1059,6 +943,8 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                               widget.model!.items![index]['name'].toString();
                         });
                         Navigator.pop(context);
+                        _logChurchInfoEvent(
+                            widget.model!.items![index]['link'], false);
                       },
                       child: Text(
                         widget.model!.items![index]['name'] ?? '',
@@ -1075,6 +961,14 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
           ),
         ),
       );
+
+  void _logChurchInfoEvent(String parishlink, bool isDirection) async {
+    await FirebaseAnalytics.instance.logEvent(
+      name: isDirection
+          ? 'app_church_info_dir_$parishlink'
+          : 'app_church_info_$parishlink',
+    );
+  }
 
   void urlLauncher(Uri uri, String source) async {
     if (source == 'web') {

@@ -195,9 +195,9 @@ class _InfoPageState extends State<_InfoPage> {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w400,
-                                color: Color.fromRGBO(4, 26, 82, 0.5),
+                                color: Color(0xff041a51),
                                 letterSpacing: 0.1),
                           ),
                         ),

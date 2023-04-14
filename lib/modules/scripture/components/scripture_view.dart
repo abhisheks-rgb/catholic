@@ -1,6 +1,7 @@
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 import '../models/scripture_model.dart';
 
@@ -18,18 +19,22 @@ class ScriptureView extends BaseStatefulPageView {
             case 'William SC Goh':
               item['order'] = 0;
               item['authorname'] = 'Cardinal William SC Goh';
+              item['shortname'] = 'arch';
               break;
             case 'Adrian Danker':
               item['order'] = 1;
               item['authorname'] = 'Rev Fr Adrian Danker';
+              item['shortname'] = 'adrian_danker';
               break;
             case 'Luke Fong':
               item['order'] = 2;
               item['authorname'] = 'Rev Fr Luke Fong';
+              item['shortname'] = 'luke_fong';
               break;
             case 'Stephen Yim':
               item['order'] = 3;
               item['authorname'] = 'Rev Fr Stephen Yim';
+              item['shortname'] = 'stephen_yim';
               break;
             default:
           }
@@ -208,6 +213,7 @@ class _ScriptureViewState extends State<ScriptureView> {
                 : Column(
                     children: widget._items.map<Widget>((element) {
                       final data = element['data'] as List;
+
                       return Column(
                         children: [
                           const SizedBox(height: 8),
@@ -266,6 +272,11 @@ class _ScriptureViewState extends State<ScriptureView> {
                                           await widget.model?.viewHistory?.call(
                                               element['authorname'],
                                               element['data']);
+                                          await FirebaseAnalytics.instance
+                                              .logEvent(
+                                            name:
+                                                'app_reflect_view_all_${element['shortname']}',
+                                          );
                                         },
                                         child: const Align(
                                           alignment: Alignment.topLeft,
@@ -289,6 +300,11 @@ class _ScriptureViewState extends State<ScriptureView> {
                                           await widget
                                               .model?.viewScriptureDetails
                                               ?.call(element['data'][0]);
+                                          await FirebaseAnalytics.instance
+                                              .logEvent(
+                                            name:
+                                                'app_reflect  _${element['shortname']}',
+                                          );
                                         },
                                         child: Align(
                                           alignment: Alignment.topLeft,

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:intl/intl.dart';
@@ -451,6 +452,10 @@ class _BulletinPageState extends State<_BulletinPage> {
     setState(() {
       _bulletinItems = response['results']['items'] ?? [];
     });
+
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'app_bulletin_$parishlink',
+    );
   }
 
   Widget _renderFullScreen() {
