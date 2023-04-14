@@ -8,10 +8,12 @@ import '../../church_info/models/church_info_model.dart';
 class NavigateToAction extends BaseAction {
   final int? churchId;
   final String? route;
+  final String? churchName;
 
   NavigateToAction({
     this.churchId,
     this.route,
+    this.churchName,
   });
 
   // Make sure to strictly follow the guidelines found here:
@@ -27,6 +29,7 @@ class NavigateToAction extends BaseAction {
     try {
       await dispatchModel<ChurchInfoModel>(ChurchInfoModel(), (m) {
         m.churchId = churchId;
+        m.churchName = churchName;
       });
 
       // pushNamed(route!);

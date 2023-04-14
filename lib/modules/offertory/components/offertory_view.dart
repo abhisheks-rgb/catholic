@@ -326,9 +326,14 @@ class _OffertoryViewState extends State<OffertoryView> {
                                         materialTapTargetSize:
                                             MaterialTapTargetSize.shrinkWrap,
                                         onPressed: () async {
+                                          Butter.d(widget.model!
+                                              .items![currentParishId]['name']);
                                           await widget.model!.navigateTo!(
                                               currentParishId + 1,
-                                              '/_/church_info');
+                                              '/_/church_info',
+                                              widget.model!
+                                                      .items![currentParishId]
+                                                  ['name']);
                                           // ignore: use_build_context_synchronously
                                           Navigator.of(context)
                                               .pushNamed('/_/church_info');

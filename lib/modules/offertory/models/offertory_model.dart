@@ -18,7 +18,8 @@ class OffertoryModel extends BaseUIModel<OffertoryModel> {
   });
 
   late Future<List<Object>?> Function({int? charityId}) fetchOffertory;
-  Future<void> Function(int? churchId, String route)? navigateTo;
+  Future<void> Function(int? churchId, String route, String churchName)?
+      navigateTo;
   late Function({String? churchName}) setChurchName;
 
   @override
@@ -26,30 +27,30 @@ class OffertoryModel extends BaseUIModel<OffertoryModel> {
 
   @override
   OffertoryModel clone() => OffertoryModel(
-    items: items ?? [],
-    error: error,
-    loading: loading,
-    offertories: offertories == null ? [] : List.unmodifiable(offertories!),
-    churchName: churchName,
-  );
+        items: items ?? [],
+        error: error,
+        loading: loading,
+        offertories: offertories == null ? [] : List.unmodifiable(offertories!),
+        churchName: churchName,
+      );
 
   @override
   int get hashCode => Object.hashAll([
-    items,
-    error,
-    loading,
-    offertories,
-    churchName,
-  ]);
+        items,
+        error,
+        loading,
+        offertories,
+        churchName,
+      ]);
 
   @override
   bool operator ==(Object other) =>
-    identical(this, other) ||
+      identical(this, other) ||
       other is OffertoryModel &&
-        runtimeType == other.runtimeType &&
-        items == other.items &&
-        error == other.error &&
-        loading == other.loading &&
-        offertories == other.offertories &&
-        churchName == other.churchName;
+          runtimeType == other.runtimeType &&
+          items == other.items &&
+          error == other.error &&
+          loading == other.loading &&
+          offertories == other.offertories &&
+          churchName == other.churchName;
 }

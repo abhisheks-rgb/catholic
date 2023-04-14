@@ -65,7 +65,9 @@ class OffertoryState extends BasePageState<OffertoryModel> {
           }
           return model.offertories;
         };
-        m.navigateTo = (churchId, route) => dispatchAction(NavigateToAction(churchId: churchId, route: route));
+        m.navigateTo = (churchId, route, churchName) => dispatchAction(
+            NavigateToAction(
+                churchId: churchId, route: route, churchName: churchName));
         m.setChurchName = ({churchName}) async {
           return dispatchModel<OffertoryModel>(OffertoryModel(), (m) {
             m.churchName = churchName;
