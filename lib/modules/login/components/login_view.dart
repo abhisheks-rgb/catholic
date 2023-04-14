@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/login_model.dart';
+import '../../../utils/asset_path.dart';
 
 class LoginView extends BaseStatefulPageView {
   final LoginModel? model;
@@ -59,65 +60,98 @@ class _LoginViewState extends State<LoginView> {
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            // Positioned(
-            //   top: 0,
-            //   left: 0,
-            //   child: Align(
-            //     child: SizedBox(
-            //       height: 275,
-            //       child: Image.asset(
-            //         assetPath('welcome_bg.png'),
-            //         fit: BoxFit.cover,
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // Positioned(
-            //   left: 0,
-            //   top: 0,
-            //   child: Align(
-            //     child: SizedBox(
-            //       width: 391,
-            //       height: 275,
-            //       child: Container(
-            //         decoration: const BoxDecoration(
-            //           gradient: LinearGradient(
-            //             begin: Alignment(0.957, -1.211),
-            //             end: Alignment(0.515, 1),
-            //             colors: <Color>[
-            //               Color(0x51ffffff),
-            //               Color(0xffffffff)
-            //             ],
-            //             stops: <double>[0, 1],
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // Positioned(
-            //   left: 0,
-            //   top: 0,
-            //   child: Align(
-            //     child: SizedBox(
-            //       width: 391,
-            //       height: 275,
-            //       child: Container(
-            //         decoration: const BoxDecoration(
-            //           gradient: LinearGradient(
-            //             begin: Alignment(1, -1),
-            //             end: Alignment(-1, 1),
-            //             colors: <Color>[
-            //               Color(0xff174dd4),
-            //               Color(0x00ffffff)
-            //             ],
-            //             stops: <double>[0, 1],
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.25,
+              decoration: const BoxDecoration(
+                color: Color(0xffffffff),
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    left: 0,
+                    top: 0,
+                    child: Align(
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        width: MediaQuery.of(context).size.width,
+                        child: Image.asset(
+                          assetPath('welcome_bg.png'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 0,
+                    top: 0,
+                    child: Align(
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: const Alignment(0.957, -1.211),
+                              end: const Alignment(0.515, 1),
+                              colors: <Color>[
+                                const Color(0x51ffffff),
+                                const Color(0xffffffff).withOpacity(0.9)
+                              ],
+                              stops: const <double>[0, 1],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 0,
+                    top: 0,
+                    child: Align(
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment(1, -1),
+                              end: Alignment(-1, 1),
+                              colors: <Color>[
+                                Color.fromRGBO(24, 77, 212, 0.5),
+                                Color.fromRGBO(255, 255, 255, 0)
+                              ],
+                              stops: <double>[0, 1],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 0,
+                    top: 0,
+                    child: Align(
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color.fromRGBO(255, 252, 245, 0),
+                                Color.fromRGBO(255, 252, 245, 1),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Container(
               width: double.infinity,
               margin: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
@@ -127,7 +161,7 @@ class _LoginViewState extends State<LoginView> {
                   const Text(
                     '“For I was hungry and you gave me food, I was thirsty and you gave me drink, I was a stranger and you welcomed me”',
                     style: TextStyle(
-                      color:  Color.fromRGBO(4, 26, 82, 1),
+                      color: Color.fromRGBO(4, 26, 82, 1),
                       fontSize: 16,
                     ),
                   ),
@@ -137,7 +171,7 @@ class _LoginViewState extends State<LoginView> {
                     child: Text(
                       '- Matthew 25:35',
                       style: TextStyle(
-                        color:  Color.fromRGBO(4, 26, 82, 1),
+                        color: Color.fromRGBO(4, 26, 82, 1),
                         fontSize: 16,
                       ),
                     ),
@@ -160,19 +194,22 @@ class _LoginViewState extends State<LoginView> {
                             const SizedBox(height: 4),
                             TextFormField(
                               controller: element['label'] == 'EMAIL'
-                                ? loginEmail
-                                : loginPassword,
-                              obscureText: element['label'] == 'EMAIL'
-                                ? false
-                                : true,
+                                  ? loginEmail
+                                  : loginPassword,
+                              obscureText:
+                                  element['label'] == 'EMAIL' ? false : true,
                               decoration: InputDecoration(
                                 hintText: element['hintText'] ?? '',
                                 border: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
                                 ),
+                                filled: true,
+                                fillColor: Colors.white,
                               ),
                               validator: (value) {
-                                if (value!.isEmpty) { // || !element['regex'].hasMatch(value)
+                                if (value!.isEmpty) {
+                                  // || !element['regex'].hasMatch(value)
                                   return element['error'] ?? '';
                                 } else {
                                   return null;
@@ -187,14 +224,16 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   const SizedBox(height: 8),
                   Material(
-                    shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(10)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
                     color: const Color.fromRGBO(12, 72, 224, 1),
                     clipBehavior: Clip.antiAlias,
                     child: MaterialButton(
                       minWidth: double.infinity,
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          widget.model?.login(loginEmail.text, loginPassword.text);
+                          widget.model
+                              ?.login(loginEmail.text, loginPassword.text);
                         }
                       },
                       child: const Text(
@@ -207,7 +246,7 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.20),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.156),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -224,7 +263,8 @@ class _LoginViewState extends State<LoginView> {
                         constraints: const BoxConstraints(),
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         onPressed: () {
-                          const registerWebSIte = 'https://mycatholic.sg/register';
+                          const registerWebSIte =
+                              'https://mycatholic.sg/register';
                           final uri = Uri.parse(registerWebSIte);
                           urlLauncher(uri);
                         },
@@ -264,18 +304,17 @@ class _LoginViewState extends State<LoginView> {
               ),
             ),
             widget.model?.loading == false || widget.model?.loading == null
-              ? Container()
-              :
-            Container(
-              height: MediaQuery.of(context).size.height * 0.74,
-              margin: const EdgeInsets.only(top: 16),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.5),
-              ),
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
+                ? Container()
+                : Container(
+                    height: MediaQuery.of(context).size.height * 0.74,
+                    margin: const EdgeInsets.only(top: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.5),
+                    ),
+                    child: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
           ],
         ),
       ),
@@ -289,7 +328,7 @@ class _LoginViewState extends State<LoginView> {
         mode: LaunchMode.externalApplication,
       );
     } else {
-        throw 'Could not launch $uri';
+      throw 'Could not launch $uri';
     }
   }
 }
