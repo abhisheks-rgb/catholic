@@ -174,21 +174,21 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                     .format(DateTime.now()
                                         .add(const Duration(days: 1))));
                                 setState(() {
-                                  selectedDate = 'tommorow';
+                                  selectedDate = 'tomorrow';
                                 });
                               },
                               child: Container(
                                 height: 42,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                  color: selectedDate == 'tommorow'
+                                  color: selectedDate == 'tomorrow'
                                       ? const Color.fromRGBO(12, 72, 224, 1)
                                       : Colors.white,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Text(
-                                  'Tommorow',
-                                  style: selectedDate == 'tommorow'
+                                  'Tomorrow',
+                                  style: selectedDate == 'tomorrow'
                                       ? const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w500,
@@ -263,7 +263,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                     .format(DateTime.now()
                                         .add(const Duration(days: 1))));
                                 setState(() {
-                                  selectedDate = 'tommorow';
+                                  selectedDate = 'tomorrow';
                                 });
                                 _logMassReadingEvent('tmr');
                               },
@@ -272,7 +272,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                     .add(const Duration(days: 1))),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  color: selectedDate == 'tommorow'
+                                  color: selectedDate == 'tomorrow'
                                       ? const Color.fromRGBO(12, 72, 224, 1)
                                       : const Color.fromRGBO(4, 26, 82, 0.5),
                                 ),
