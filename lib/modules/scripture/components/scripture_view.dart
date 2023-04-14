@@ -105,6 +105,7 @@ class _ScriptureViewState extends State<ScriptureView> {
                           child: Align(
                             child: SizedBox(
                               height: 226,
+                              width: MediaQuery.of(context).size.width,
                               child: Image.asset(
                                 assetPath('pray_banner.png'),
                                 fit: BoxFit.cover,
@@ -159,43 +160,41 @@ class _ScriptureViewState extends State<ScriptureView> {
                           ),
                         ),
                         Positioned(
-                          // welcomeoscarHYf (127:100)
                           left: 0,
                           bottom: 79,
                           child: Container(
                             margin: const EdgeInsets.symmetric(
-                                horizontal: 24, vertical: 20),
+                              horizontal: 24,
+                            ),
                             width: MediaQuery.of(context).size.width - 48,
-                            height: 38,
-                            child: SizedBox(
-                              height: 34,
-                              child: Text(
-                                _istoday?['title'] ?? '',
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color.fromRGBO(4, 26, 82, 1),
-                                ),
+                            height: 34,
+                            child: Text(
+                              _istoday?['title'] ?? '',
+                              style: const TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.w500,
+                                color: Color.fromRGBO(4, 26, 82, 1),
                               ),
                             ),
                           ),
                         ),
                         Positioned(
-                          left: 24,
-                          top: 124,
-                          child: Align(
-                            child: SizedBox(
-                              height: 48,
-                              child: Text(
-                                _istoday?['content'] ?? '',
-                                style: const TextStyle(
+                          left: 0,
+                          bottom: 0,
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 24, vertical: 21),
+                            width: MediaQuery.of(context).size.width - 48,
+                            height: 38,
+                            child: Text(
+                              _istoday?['content'] ?? '',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
                                   color: Color(0xff041a51),
-                                ),
-                              ),
+                                  letterSpacing: 0.1),
                             ),
                           ),
                         ),

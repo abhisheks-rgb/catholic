@@ -577,8 +577,8 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                               ),
                                             ),
                                             onTap: () {
-                                              _showPopup(
-                                                  context, data?[key][index]);
+                                              // _showPopup(
+                                              //     context, data?[key][index]);
                                             },
                                           );
                                         }),
