@@ -3,6 +3,7 @@ import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 import '../models/mass_readings_model.dart';
 import '../../../../utils/page_specs.dart';
@@ -219,6 +220,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                 setState(() {
                                   selectedDate = 'yesterday';
                                 });
+                                _logMassReadingEvent('ytd');
                               },
                               child: Text(
                                 DateFormat('d MMM').format(DateTime.now()
@@ -240,6 +242,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                               setState(() {
                                 selectedDate = 'today';
                               });
+                              _logMassReadingEvent('tdy');
                             },
                             child: Text(
                               DateFormat('d MMM').format(DateTime.now()),
@@ -262,6 +265,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                 setState(() {
                                   selectedDate = 'tommorow';
                                 });
+                                _logMassReadingEvent('tmr');
                               },
                               child: Text(
                                 DateFormat('d MMM').format(DateTime.now()
@@ -355,6 +359,12 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
           ),
         ),
       ),
+    );
+  }
+
+  void _logMassReadingEvent(String type) async {
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'app_reading_$type',
     );
   }
 }

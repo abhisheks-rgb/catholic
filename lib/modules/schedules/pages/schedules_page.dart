@@ -15,7 +15,7 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/schedules_model.dart';
-import '../../../utils/asset_path.dart';
+// import '../../../utils/asset_path.dart';
 import '../../../../utils/page_specs.dart';
 
 class SchedulesPage extends BaseStatefulPageView {
