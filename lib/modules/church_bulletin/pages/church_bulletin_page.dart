@@ -351,8 +351,7 @@ class _BulletinPageState extends State<_BulletinPage> {
                                                   ],
                                                 )),
                                           index > 1
-                                              ? Expanded(
-                                                  child: RawMaterialButton(
+                                              ? RawMaterialButton(
                                                   constraints:
                                                       const BoxConstraints(),
                                                   materialTapTargetSize:
@@ -382,7 +381,7 @@ class _BulletinPageState extends State<_BulletinPage> {
                                                       fontSize: 16,
                                                     ),
                                                   ),
-                                                ))
+                                                )
                                               : RawMaterialButton(
                                                   constraints:
                                                       const BoxConstraints(),
