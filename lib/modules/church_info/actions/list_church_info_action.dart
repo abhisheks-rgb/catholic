@@ -18,8 +18,7 @@ class ListChurchInfoAction extends BaseAction {
   Future<AppState?> reduce() async {
     String? error;
     int? churchId;
-    await dispatchModel<ChurchInfoModel>(
-        ChurchInfoModel(), (m) {
+    await dispatchModel<ChurchInfoModel>(ChurchInfoModel(), (m) {
       m.error = error;
       m.loading = true;
       m.churchInfos = [];
@@ -27,20 +26,19 @@ class ListChurchInfoAction extends BaseAction {
     });
 
     List<Object> records = [];
-    
+
     try {
-      final instance = await FirebaseFunctions
-        .instanceFor(region: 'asia-east2')
-        .httpsCallable('org')
-        .call(
-          {
-            'input': orgId != null
+      final instance = await FirebaseFunctions.instanceFor(region: 'asia-east2')
+          .httpsCallable('org')
+          .call(
+        {
+          'input': orgId != null
               ? '$orgId'
               : churchId != null && churchId! > 0
-                ? '$churchId'
-                : '2',
-          },
-        );
+                  ? '$churchId'
+                  : '2',
+        },
+      );
 
       List<Object?> result = instance.data['results']['items'];
 
@@ -54,8 +52,7 @@ class ListChurchInfoAction extends BaseAction {
     }
 
     await Future.delayed(const Duration(seconds: 1), () async {
-      await dispatchModel<ChurchInfoModel>(
-          ChurchInfoModel(), (m) {
+      await dispatchModel<ChurchInfoModel>(ChurchInfoModel(), (m) {
         m.error = error;
         m.loading = false;
         m.churchInfos = records;

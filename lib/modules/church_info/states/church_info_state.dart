@@ -46,7 +46,7 @@ class ChurchInfoState extends BasePageState<ChurchInfoModel> {
                 ),
           ), (m) {
         // Load all your model's handlers here
-        m.showPage = (route, name, link) async {
+        m.showPage = (route, name, link, churchId) async {
           switch (route) {
             case '/_/church_bulletin':
               dispatchModel<ChurchBulletinModel>(ChurchBulletinModel(), (m) {
@@ -61,6 +61,7 @@ class ChurchInfoState extends BasePageState<ChurchInfoModel> {
               break;
             case '/_/offertory':
               dispatchModel<OffertoryModel>(OffertoryModel(), (m) {
+                m.churchId = churchId;
                 m.churchName = name;
               });
               break;

@@ -312,6 +312,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                           '/_/priest_info',
                                                           widget._infos[0]
                                                               ['priestname'],
+                                                          null,
                                                           null);
                                                     },
                                                     child: Text(
@@ -337,6 +338,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                     onPressed: () {
                                                       widget.model?.showPage(
                                                           '/_/priest_info',
+                                                          null,
                                                           null,
                                                           null);
                                                     },
@@ -502,8 +504,11 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                         _selectedParishValue;
                                   });
 
-                                  widget.model?.showPage('/_/${e['route']}',
-                                      _selectedParishValue, parish['link']);
+                                  widget.model?.showPage(
+                                      '/_/${e['route']}',
+                                      _selectedParishValue,
+                                      parish['link'],
+                                      parish['_id'] - 1);
                                 },
                                 child: Container(
                                   width: double.infinity,
