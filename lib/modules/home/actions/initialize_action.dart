@@ -62,6 +62,7 @@ class InitializeAction extends BaseAction {
               if (e['_id'] == int.parse(user!['parish'])) {
                 user!['churchId'] = e['_id'];
                 user!['churchName'] = e['name'];
+                user!['churchLink'] = e['link'];
               }
             }
 

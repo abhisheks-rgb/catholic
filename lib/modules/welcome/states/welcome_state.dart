@@ -2,6 +2,7 @@ import 'package:butter/butter.dart';
 
 import '../models/welcome_model.dart';
 import '../../church_info/models/church_info_model.dart';
+import '../../church_bulletin/models/church_bulletin_model.dart';
 import '../../profile/models/profile_model.dart';
 import '../../home/models/home_model.dart';
 import '../../offertory/models/offertory_model.dart';
@@ -49,10 +50,12 @@ class WelcomeState extends BasePageState<WelcomeModel> {
 
           int? churchId;
           String? churchName;
+          String? churchLink;
 
           if (user != null) {
             churchId = user!['churchId'];
             churchName = user!['churchName'];
+            churchLink = user!['churchLink'];
           }
 
           switch (route) {
@@ -80,6 +83,13 @@ class WelcomeState extends BasePageState<WelcomeModel> {
             case '/_/schedules':
               await dispatchModel<SchedulesModel>(SchedulesModel(), (m) {
                 m.churchName = churchName;
+              });
+              break;
+            case '/_/church_bulletin':
+              await dispatchModel<ChurchBulletinModel>(ChurchBulletinModel(),
+                  (m) {
+                m.churchName = churchName;
+                m.churchLink = churchLink;
               });
               break;
             default:

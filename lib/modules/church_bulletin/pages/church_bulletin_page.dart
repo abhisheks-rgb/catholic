@@ -67,8 +67,7 @@ class _BulletinPageState extends State<_BulletinPage> {
       _getBulletin('cathedral');
     } else {
       _selectedParishValue = widget.model.churchName;
-
-      _getBulletin(widget.model.churchLink!);
+      _getBulletin(widget.model.churchLink ?? '');
     }
   }
 
@@ -89,8 +88,6 @@ class _BulletinPageState extends State<_BulletinPage> {
     if (isFullScreen && _bulletinItems!.isNotEmpty) {
       return _renderFullScreen();
     }
-
-    Butter.d(_bulletinItems);
 
     return Scaffold(
       body: Container(
