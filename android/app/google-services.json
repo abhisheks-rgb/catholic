@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:740453153901:android:7456eeb44fbb185d0d9364",
+        "mobilesdk_app_id": "1:740453153901:android:eef18f169cafc0de0d9364",
         "android_client_info": {
-          "package_name": "com.example.trcas_catholic"
+          "package_name": "com.CSG.CatholicSG"
         }
       },
       "oauth_client": [
@@ -34,7 +34,7 @@
               "client_id": "740453153901-drpbog7uhmc2s0gtcneqsn6bqnqnk9i1.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.trcasCatholic"
+                "bundle_id": "com.CSG.CatholicSG"
               }
             }
           ]
