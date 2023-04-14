@@ -74,6 +74,8 @@ class _SchedulesPageState extends State<_SchedulesPage> {
     if (widget.model.churchName == null || widget.model.churchName == '') {
       _getSchedules('cathedral');
     } else {
+      _selectedParishValue = widget.model.churchName;
+
       startTimer();
     }
   }
@@ -81,30 +83,24 @@ class _SchedulesPageState extends State<_SchedulesPage> {
   void startTimer() async {
     int x = 0;
 
-    await Future.delayed(const Duration(seconds: 1), () async {
-      myTimer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-        if (widget.model.churchName != null || widget.model.churchName != '') {
-          if (widget.model.items!.isNotEmpty) {
-            x += 1;
-
-            var parish = widget.model.items?.firstWhere((element) {
-              return element['name'] == widget.model.churchName;
-            });
-
-            _getSchedules(parish['link']);
-
-            setState(() {
-              _selectedParishValue = widget.model.churchName;
-            });
-          }
-        } else {
+    myTimer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      if (widget.model.churchName != null || widget.model.churchName != '') {
+        if (widget.model.items!.isNotEmpty) {
           x += 1;
-        }
 
-        if (x > 0) {
-          timer.cancel();
+          var parish = widget.model.items?.firstWhere((element) {
+            return element['name'] == widget.model.churchName;
+          });
+
+          _getSchedules(parish['link']);
         }
-      });
+      } else {
+        x += 1;
+      }
+
+      if (x > 0) {
+        timer.cancel();
+      }
     });
   }
 

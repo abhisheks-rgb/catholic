@@ -59,6 +59,7 @@ class ChurchBulletinState extends BasePageState<ChurchBulletinModel> {
         m.setChurchName = ({churchName}) async {
           return dispatchModel<ChurchBulletinModel>(ChurchBulletinModel(), (m) {
             m.churchName = churchName;
+            m.churchLink = null;
           });
         };
         m.setIsFullScreen = ({isFullScreen}) async {

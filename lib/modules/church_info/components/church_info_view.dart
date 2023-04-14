@@ -309,7 +309,8 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                       widget.model?.showPage(
                                                           '/_/priest_info',
                                                           widget._infos[0]
-                                                              ['priestname']);
+                                                              ['priestname'],
+                                                          null);
                                                     },
                                                     child: Text(
                                                       widget._infos.isNotEmpty
@@ -334,6 +335,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                     onPressed: () {
                                                       widget.model?.showPage(
                                                           '/_/priest_info',
+                                                          null,
                                                           null);
                                                     },
                                                     child: const Text(
@@ -492,8 +494,14 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                 materialTapTargetSize:
                                     MaterialTapTargetSize.shrinkWrap,
                                 onPressed: () {
-                                  widget.model?.showPage(
-                                      '/_/${e['route']}', _selectedParishValue);
+                                  var parish = widget.model!.items
+                                      ?.firstWhere((element) {
+                                    return element['name'] ==
+                                        _selectedParishValue;
+                                  });
+
+                                  widget.model?.showPage('/_/${e['route']}',
+                                      _selectedParishValue, parish['link']);
                                 },
                                 child: Container(
                                   width: double.infinity,

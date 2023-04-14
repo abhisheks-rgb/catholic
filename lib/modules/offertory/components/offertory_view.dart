@@ -24,15 +24,17 @@ class OffertoryView extends BaseStatefulPageView {
 class _OffertoryViewState extends State<OffertoryView> {
   int currentParishId = 1;
   Timer? myTimer;
-  // String? _selectedParishValue = '';
+  String? _selectedParishValue = '';
 
   @override
   void initState() {
     super.initState();
 
-    // _selectedParishValue = 'Cathedral of the Good Shepherd';
+    _selectedParishValue = 'Cathedral of the Good Shepherd';
 
     if (widget.model!.churchName != null && widget.model!.churchName != '') {
+      _selectedParishValue = widget.model!.churchName;
+
       startTimer();
     }
   }
@@ -219,10 +221,7 @@ class _OffertoryViewState extends State<OffertoryView> {
                               child: Text(
                                 widget.model!.items == null
                                     ? 'Cathedral of the Good Shepherd'
-                                    : widget.model!.items!.isNotEmpty
-                                        ? widget.model!.items![currentParishId]
-                                            ['name']
-                                        : 'Cathedral of the Good Shepherd',
+                                    : _selectedParishValue!,
                                 style: const TextStyle(
                                   color: Color.fromRGBO(4, 26, 82, 1),
                                   fontWeight: FontWeight.w500,
@@ -725,7 +724,8 @@ class _OffertoryViewState extends State<OffertoryView> {
                       ),
                     ),
                     onTap: () {
-                      _handleChangeParish(index);
+                      _handleChangeParish(
+                          index, widget.model!.items![index]['name']);
                     },
                   );
                 }
@@ -746,7 +746,8 @@ class _OffertoryViewState extends State<OffertoryView> {
                     ),
                   ),
                   onTap: () {
-                    _handleChangeParish(index);
+                    _handleChangeParish(
+                        index, widget.model!.items![index]['name']);
                   },
                 );
               },
@@ -755,9 +756,10 @@ class _OffertoryViewState extends State<OffertoryView> {
         ),
       );
 
-  void _handleChangeParish(int index) {
+  void _handleChangeParish(int index, String churchName) {
     setState(() {
       currentParishId = index;
+      _selectedParishValue = churchName;
     });
     Navigator.pop(context);
   }

@@ -5,11 +5,13 @@ class ChurchBulletinModel extends BaseUIModel<ChurchBulletinModel> {
   bool loading;
   List<dynamic>? items;
   String? churchName;
+  String? churchLink;
 
   ChurchBulletinModel({
     this.loading = false,
     this.items,
     this.churchName,
+    this.churchLink,
   });
 
   late Function({String? churchName}) setChurchName;
@@ -23,6 +25,7 @@ class ChurchBulletinModel extends BaseUIModel<ChurchBulletinModel> {
         loading: loading,
         items: items ?? [],
         churchName: churchName,
+        churchLink: churchLink,
       );
 
   @override
@@ -30,6 +33,7 @@ class ChurchBulletinModel extends BaseUIModel<ChurchBulletinModel> {
         items,
         loading,
         churchName,
+        churchLink,
       ]);
 
   @override
@@ -39,5 +43,6 @@ class ChurchBulletinModel extends BaseUIModel<ChurchBulletinModel> {
           runtimeType == other.runtimeType &&
           loading == other.loading &&
           items == other.items &&
-          churchName == other.churchName;
+          churchName == other.churchName &&
+          churchLink == other.churchLink;
 }

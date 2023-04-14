@@ -51,7 +51,6 @@ class _BulletinPageState extends State<_BulletinPage> {
   List? _bulletinItems;
   final PdfViewerController pdfViewerController = PdfViewerController();
   var controllers = <String, PdfViewerController>{};
-  Timer? myTimer;
   bool isFullScreen = false;
   int? fullScreenPdfIndex;
   int fullScreenPageNumber = 0;
@@ -64,53 +63,24 @@ class _BulletinPageState extends State<_BulletinPage> {
 
     _selectedParishValue = 'Cathedral of the Good Shepherd';
 
-    if (widget.model.churchName == null || widget.model.churchName == '') {
+    if (widget.model.churchName == null) {
       _getBulletin('cathedral');
     } else {
-      startTimer();
+      _selectedParishValue = widget.model.churchName;
+
+      _getBulletin(widget.model.churchLink!);
     }
-  }
-
-  void startTimer() async {
-    int x = 0;
-
-    await Future.delayed(const Duration(seconds: 3), () async {
-      myTimer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-        if (widget.model.churchName != null || widget.model.churchName != '') {
-          if (widget.model.items!.isNotEmpty) {
-            x += 1;
-
-            var parish = widget.model.items?.firstWhere((element) {
-              return element['name'] == widget.model.churchName;
-            });
-
-            _getBulletin(parish['link']);
-
-            setState(() {
-              _selectedParishValue = widget.model.churchName;
-            });
-          }
-        } else {
-          x += 1;
-        }
-
-        if (x > 0) {
-          timer.cancel();
-        }
-      });
-    });
   }
 
   @override
   void dispose() {
     pdfViewerController.dispose(); // Dispose of the controller object
     super.dispose();
-    myTimer?.cancel();
     delayedReset();
   }
 
   void delayedReset() async {
-    await widget.model.setChurchName(churchName: '');
+    await widget.model.setChurchName(churchName: null);
     await widget.model.setIsFullScreen(isFullScreen: false);
   }
 
@@ -119,6 +89,8 @@ class _BulletinPageState extends State<_BulletinPage> {
     if (isFullScreen && _bulletinItems!.isNotEmpty) {
       return _renderFullScreen();
     }
+
+    Butter.d(_bulletinItems);
 
     return Scaffold(
       body: Container(
