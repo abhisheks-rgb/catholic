@@ -65,11 +65,15 @@ class HomePage extends BaseStatefulPageView {
                     color: Color.fromRGBO(4, 26, 82, 1),
                     size: 24,
                   ),
-                  onPressed: () {
-                    if (Navigator.of(context).canPop()) {
-                      Navigator.of(context).maybePop();
-                    } else {
+                  onPressed: () async {
+                    final result = await Navigator.of(context).maybePop();
+
+                    if (!result) {
+                      // ignore: use_build_context_synchronously
                       Navigator.of(context).popAndPushNamed('/_/welcome');
+                    } else {
+                      // ignore: use_build_context_synchronously
+                      Navigator.of(context).maybePop();
                     }
                   },
                 ),

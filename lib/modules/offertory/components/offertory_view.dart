@@ -328,6 +328,9 @@ class _OffertoryViewState extends State<OffertoryView> {
                                           await widget.model!.navigateTo!(
                                               currentParishId + 1,
                                               '/_/church_info');
+                                          // ignore: use_build_context_synchronously
+                                          Navigator.of(context)
+                                              .pushNamed('/_/church_info');
                                         },
                                         child: const Align(
                                           alignment: Alignment.topLeft,

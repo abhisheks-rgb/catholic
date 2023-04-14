@@ -29,7 +29,7 @@ class NavigateToAction extends BaseAction {
         m.churchId = churchId;
       });
 
-      pushNamed(route!);
+      // pushNamed(route!);
     } catch (e, stacktrace) {
       Butter.e(e.toString());
       Butter.e(stacktrace.toString());

@@ -95,6 +95,7 @@ class _PrayPageState extends State<_PrayPage> {
                         child: Align(
                           child: SizedBox(
                             height: 226,
+                            width: MediaQuery.of(context).size.width,
                             child: Image.asset(
                               assetPath('pray_banner.png'),
                               fit: BoxFit.cover,
@@ -210,7 +211,8 @@ class _PrayPageState extends State<_PrayPage> {
                   itemBuilder: (_, int index) {
                     return InkWell(
                       onTap: () {
-                        model.showPage('/_/${exploreItems[index]['route']}');
+                        Navigator.of(context)
+                            .pushNamed('/_/${exploreItems[index]['route']}');
                       },
                       child: Container(
                           height: 88,

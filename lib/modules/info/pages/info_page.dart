@@ -110,6 +110,7 @@ class _InfoPageState extends State<_InfoPage> {
                         child: Align(
                           child: SizedBox(
                             height: 226,
+                            width: MediaQuery.of(context).size.width,
                             child: Image.asset(
                               assetPath('info_banner.png'),
                               fit: BoxFit.cover,
@@ -218,7 +219,8 @@ class _InfoPageState extends State<_InfoPage> {
                   itemBuilder: (_, int index) {
                     return InkWell(
                       onTap: () {
-                        model.showPage('/_/${exploreItems[index]['route']}');
+                        Navigator.of(context)
+                            .pushNamed('/_/${exploreItems[index]['route']}');
                       },
                       child: Container(
                           height: 88,

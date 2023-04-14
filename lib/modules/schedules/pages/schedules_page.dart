@@ -209,7 +209,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                               InkWell(
                                 onTap: () {
                                   Navigator.of(context)
-                                      .popAndPushNamed('/_/church_info');
+                                      .pushNamed('/_/church_info');
                                 },
                                 child: const Text('Church Info',
                                     style: TextStyle(
