@@ -16,8 +16,6 @@ class ProfilePage extends BaseStatefulPageView {
   FutureOr<bool> beforeLoad(BuildContext context) async {
     await super.beforeLoad(context);
 
-    model?.loadData();
-
     return true;
   }
 

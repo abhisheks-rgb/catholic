@@ -8,12 +8,8 @@ import '../../../utils/asset_path.dart';
 
 class ProfileView extends BaseStatelessPageView {
   final ProfileModel? model;
-  final List<Map> _items;
 
-  ProfileView(this.model, {Key? key})
-      : _items = List.generate(
-            model?.items?.length ?? 0, (index) => model?.items![index] as Map),
-        super();
+  ProfileView(this.model, {Key? key}) : super();
 
   @override
   Widget build(BuildContext context) {
@@ -330,7 +326,7 @@ class ProfileView extends BaseStatelessPageView {
                                 ),
                       model!.user == null
                           ? Container()
-                          : model!.user?['parish'] == null || _items.isEmpty
+                          : model!.user?['churchName'] == null
                               ? Container()
                               : Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -364,9 +360,7 @@ class ProfileView extends BaseStatelessPageView {
                                         const SizedBox(width: 10),
                                         Expanded(
                                           child: Text(
-                                            _items[int.parse(
-                                                    model!.user?['parish']) -
-                                                1]['name'],
+                                            model!.user?['churchName'],
                                             style: const TextStyle(
                                               color:
                                                   Color.fromRGBO(4, 26, 82, 1),

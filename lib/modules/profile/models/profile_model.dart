@@ -1,15 +1,12 @@
 import 'package:butter/butter.dart';
 
 class ProfileModel extends BaseUIModel<ProfileModel> {
-  late void Function() loadData;
-  List<dynamic>? items;
   //
   String? error;
   bool? loading;
   Map<String, dynamic>? user;
 
   ProfileModel({
-    this.items,
     this.error,
     this.loading,
     this.user,
@@ -23,7 +20,6 @@ class ProfileModel extends BaseUIModel<ProfileModel> {
 
   @override
   ProfileModel clone() => ProfileModel(
-        items: items ?? [],
         error: error,
         loading: loading,
         user: user,
@@ -31,7 +27,6 @@ class ProfileModel extends BaseUIModel<ProfileModel> {
 
   @override
   int get hashCode => Object.hashAll([
-        items,
         error,
         loading,
         user,
@@ -42,7 +37,6 @@ class ProfileModel extends BaseUIModel<ProfileModel> {
       identical(this, other) ||
       other is ProfileModel &&
           runtimeType == other.runtimeType &&
-          items == other.items &&
           error == other.error &&
           loading == other.loading &&
           user == other.user;

@@ -43,23 +43,6 @@ class ProfileState extends BasePageState<ProfileModel> {
                 ),
           ), (m) {
         // Load all your model's handlers here
-        m.loadData = () async {
-          Map<String, dynamic>? user;
-          dispatchModel<HomeModel>(HomeModel(), (m) {
-            user = m.user;
-          });
-
-          await Future.delayed(const Duration(seconds: 1), () async {
-            final String response =
-                await rootBundle.loadString('assets/data/parish.json');
-            final data = await json.decode(response);
-
-            dispatchModel<ProfileModel>(ProfileModel(), (m) {
-              m.items = data['parishes'];
-              m.user = user;
-            });
-          });
-        };
         m.logout = () => dispatchAction(LogoutAction());
       });
 }
