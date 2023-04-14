@@ -594,7 +594,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
 
   void showAlert(BuildContext context) {
     List<dynamic> churchList = [
-      {'name': 'All Churches', 'completename': 'All Churches'},
+      {'name': 'All Churches'},
       ...widget.model.items!
     ];
     showDialog(
@@ -913,7 +913,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
         return element['name'] == selectedParish;
       });
 
-      return '${parish['completename']}';
+      return '${parish['name']}';
     }
   }
 
