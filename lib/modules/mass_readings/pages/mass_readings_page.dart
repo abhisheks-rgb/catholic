@@ -331,14 +331,16 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                 Text(title,
                                     style: const TextStyle(
                                       fontSize: 16,
+                                      fontWeight: FontWeight.bold,
                                       color: Color.fromRGBO(8, 51, 158, 1),
                                     )),
+                                SizedBox(height: key != 'copyright' ? 8 : 0),
                                 key != 'copyright'
                                     ? data![key]['heading'] != null
                                         ? Text(
                                             '${data[key]['heading']} - ${data[key]['source']}',
                                             style: const TextStyle(
-                                              fontSize: 16,
+                                              fontSize: 17,
                                               color:
                                                   Color.fromRGBO(4, 26, 82, 1),
                                             ),
@@ -348,7 +350,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                 Html(data: data![key]['text'], style: {
                                   'body': Style(
                                     color: const Color.fromRGBO(4, 26, 82, 1),
-                                    fontSize: FontSize(16),
+                                    fontSize: FontSize(17),
                                   ),
                                 }),
                               ],
