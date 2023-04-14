@@ -31,10 +31,11 @@
               "client_type": 3
             },
             {
-              "client_id": "740453153901-drpbog7uhmc2s0gtcneqsn6bqnqnk9i1.apps.googleusercontent.com",
+              "client_id": "740453153901-7plbgs0d89a8e2nuglk6hk84iqn8d8ck.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.CSG.CatholicSG"
+                "bundle_id": "com.CSG.CatholicSG",
+                "app_store_id": "1151027240"
               }
             }
           ]
