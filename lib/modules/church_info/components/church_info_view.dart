@@ -1,10 +1,10 @@
-import 'dart:convert';
+// import 'dart:convert';
 
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/church_info_model.dart';
@@ -31,6 +31,10 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
     super.initState();
 
     _selectedParishValue = 'Cathedral of the Good Shepherd';
+
+    if (widget.model!.churchId != null) {
+      _selectedParishValue = widget.model!.churchName;
+    }
   }
 
   @override
@@ -74,7 +78,6 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                   width: double.infinity,
                   margin:
                       const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
-                  // padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -123,7 +126,6 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                           ? Container()
                           : Column(
                               children: [
-                                // const SizedBox(height: 8),
                                 const SizedBox(height: 16),
                                 const Divider(
                                   height: 1,
@@ -133,6 +135,28 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                   color: Color.fromRGBO(4, 26, 82, 0.1),
                                 ),
                                 const SizedBox(height: 16),
+                                Container(
+                                  height: 120,
+                                  decoration: BoxDecoration(
+                                    color:
+                                        const Color.fromRGBO(219, 228, 251, 1),
+                                    shape: BoxShape.circle,
+                                    image: widget
+                                            ._infos[0]['orgPhotoUrl'].isNotEmpty
+                                        ? DecorationImage(
+                                            image: NetworkImage(widget._infos[0]
+                                                ['orgPhotoUrl']),
+                                            fit: BoxFit.cover,
+                                          )
+                                        : DecorationImage(
+                                            image: AssetImage(
+                                              assetPath(
+                                                  'church-placeholder-img.png'),
+                                            ),
+                                            fit: BoxFit.contain,
+                                          ),
+                                  ),
+                                ),
                                 widget._infos[0]['address'].isEmpty
                                     ? Container()
                                     : Column(
@@ -145,52 +169,11 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                     .shrinkWrap,
                                             onPressed: () async {
                                               if (widget._infos.isNotEmpty) {
-                                                final intRegex =
-                                                    RegExp(r'\d+$');
                                                 final query = widget._infos[0]
                                                         ['address']
                                                     .trim();
-                                                final result =
-                                                    intRegex.firstMatch(query)!;
-                                                final postalCode = result[0];
-                                                final url = Uri.parse(
-                                                    'https://developers.onemap.sg/commonapi/search?searchVal=$postalCode&returnGeom=Y&getAddrDetails=Y');
-                                                final response =
-                                                    await http.get(url);
-                                                final decodedResponse =
-                                                    json.decode(response.body);
-                                                final matches =
-                                                    List<dynamic>.from(
-                                                        decodedResponse[
-                                                            'results']);
-                                                final filteredMatches =
-                                                    matches.where((loc) =>
-                                                        loc['POSTAL'] ==
-                                                        postalCode);
-                                                final loc =
-                                                    filteredMatches.isNotEmpty
-                                                        ? filteredMatches.first
-                                                        : null;
 
-                                                if (loc != null) {
-                                                  final googleMaps =
-                                                      'https://www.google.com/maps/search/?api=1&query=${loc['LATITUDE']},${loc['LONGITUDE']}';
-                                                  final uri =
-                                                      Uri.parse(googleMaps);
-                                                  urlLauncher(uri, 'web');
-                                                } else if (mounted) {
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    const SnackBar(
-                                                      content: Text(
-                                                          'Cannot find parish'),
-                                                    ),
-                                                  );
-                                                }
-
-                                                _logChurchInfoEvent(
-                                                    widget._infos[0]['orgLink'],
-                                                    true);
+                                                _redirectToMaps(query);
                                               }
                                             },
                                             child: Row(
@@ -564,6 +547,35 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
         ),
       ),
     );
+  }
+
+  void _redirectToMaps(String query) async {
+    // final intRegex = RegExp(r'\d+$');
+    // final result = intRegex.firstMatch(query)!;
+    // final postalCode = result[0];
+    // final url = Uri.parse(
+    //     'https://developers.onemap.sg/commonapi/search?searchVal=$postalCode&returnGeom=Y&getAddrDetails=Y');
+    // final response = await http.get(url);
+    // final decodedResponse = json.decode(response.body);
+    // final matches = List<dynamic>.from(decodedResponse['results']);
+    // final filteredMatches = matches.where((loc) => loc['POSTAL'] == postalCode);
+    // final loc = filteredMatches.isNotEmpty ? filteredMatches.first : null;
+
+    // if (loc != null) {
+    // final googleMaps =
+    //     'https://www.google.com/maps/search/?api=1&query=${loc['LATITUDE']},${loc['LONGITUDE']}';
+    final googleMaps = 'https://www.google.com/maps/search/?api=1&query=$query';
+    final uri = Uri.parse(googleMaps);
+    urlLauncher(uri, 'web');
+    // } else if (mounted) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(
+    //       content: Text('Cannot find parish'),
+    //     ),
+    //   );
+    // }
+
+    _logChurchInfoEvent(widget._infos[0]['orgLink'], true);
   }
 
   Widget _renderLinks() {
