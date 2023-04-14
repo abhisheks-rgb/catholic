@@ -307,6 +307,8 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                 height: 20,
                                                 child: Image.asset(
                                                   assetPath('priest.png'),
+                                                  color: const Color.fromRGBO(
+                                                      4, 26, 82, 0.5),
                                                 ),
                                               ),
                                               const SizedBox(width: 10),
