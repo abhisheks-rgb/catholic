@@ -300,8 +300,10 @@ class _OffertoryViewState extends State<OffertoryView> {
                                           SizedBox(
                                             width: 16,
                                             height: 16,
-                                            child: Image.asset(assetPath(
-                                                'square-on-square-solid.png')),
+                                            child: Image.asset(
+                                              assetPath('copy.png'),
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -347,32 +349,45 @@ class _OffertoryViewState extends State<OffertoryView> {
                                       ),
                                     ),
                                     Expanded(
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: const [
-                                          Spacer(),
-                                          Text(
-                                            'Directions',
-                                            style: TextStyle(
-                                              color: Color.fromRGBO(
-                                                  12, 72, 224, 1),
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16,
+                                      child: RawMaterialButton(
+                                        constraints: const BoxConstraints(),
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                        onPressed: () {
+                                          final query = widget.model!
+                                                  .items?[currentParishId]
+                                              ['address'];
+
+                                          _redirectToMaps(query);
+                                        },
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: const [
+                                            Spacer(),
+                                            Text(
+                                              'Directions',
+                                              style: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    12, 72, 224, 1),
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 16,
+                                              ),
                                             ),
-                                          ),
-                                          SizedBox(width: 8),
-                                          SizedBox(
-                                            width: 20,
-                                            height: 20,
-                                            child: Icon(
-                                              MaterialCommunityIcons.directions,
-                                              color: Color.fromRGBO(
-                                                  12, 72, 224, 1),
-                                              size: 20,
+                                            SizedBox(width: 8),
+                                            SizedBox(
+                                              width: 20,
+                                              height: 20,
+                                              child: Icon(
+                                                MaterialCommunityIcons
+                                                    .directions,
+                                                color: Color.fromRGBO(
+                                                    12, 72, 224, 1),
+                                                size: 20,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -503,6 +518,9 @@ class _OffertoryViewState extends State<OffertoryView> {
                                   return Container();
                                 }
 
+                                final index = widget._infos.indexWhere(
+                                    (item) => item['name'] == element['name']);
+
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -537,9 +555,9 @@ class _OffertoryViewState extends State<OffertoryView> {
                                       materialTapTargetSize:
                                           MaterialTapTargetSize.shrinkWrap,
                                       onPressed: () {
-                                        final orgWebsite =
-                                            widget._infos[0]['url'] ?? '';
-                                        final uri = Uri.parse('$orgWebsite');
+                                        final charityUrl =
+                                            widget._infos[index]['url'] ?? '';
+                                        final uri = Uri.parse('$charityUrl');
                                         urlLauncher(uri, 'web');
                                       },
                                       child: Row(
@@ -583,6 +601,33 @@ class _OffertoryViewState extends State<OffertoryView> {
         ),
       ),
     );
+  }
+
+  void _redirectToMaps(String query) async {
+    // final intRegex = RegExp(r'\d+$');
+    // final result = intRegex.firstMatch(query)!;
+    // final postalCode = result[0];
+    // final url = Uri.parse(
+    //     'https://developers.onemap.sg/commonapi/search?searchVal=$postalCode&returnGeom=Y&getAddrDetails=Y');
+    // final response = await http.get(url);
+    // final decodedResponse = json.decode(response.body);
+    // final matches = List<dynamic>.from(decodedResponse['results']);
+    // final filteredMatches = matches.where((loc) => loc['POSTAL'] == postalCode);
+    // final loc = filteredMatches.isNotEmpty ? filteredMatches.first : null;
+
+    // if (loc != null) {
+    // final googleMaps =
+    //     'https://www.google.com/maps/search/?api=1&query=${loc['LATITUDE']},${loc['LONGITUDE']}';
+    final googleMaps = 'https://www.google.com/maps/search/?api=1&query=$query';
+    final uri = Uri.parse(googleMaps);
+    urlLauncher(uri, 'web');
+    // } else if (mounted) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(
+    //       content: Text('Cannot find parish'),
+    //     ),
+    //   );
+    // }
   }
 
   void urlLauncher(Uri uri, String source) async {
