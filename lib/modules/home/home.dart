@@ -14,6 +14,7 @@ import '../priest_info/priest_info.dart';
 import '../mass_readings/mass_readings.dart';
 import '../login/login.dart';
 import '../profile/profile.dart';
+import '../events/events.dart';
 
 class Home extends BaseModule {
   Home()
@@ -40,6 +41,7 @@ class Home extends BaseModule {
             '/_/mass_readings': MassReadings(),
             '/_/login': Login(),
             '/_/profile': Profile(),
+            '/_/events': Events(),
           },
         );
 }

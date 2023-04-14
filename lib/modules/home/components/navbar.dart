@@ -119,6 +119,12 @@ class Navbar extends StatelessWidget {
           route: '/_/info',
         );
         break;
+      case 3:
+        model!.selectMenuItem!(
+          context: context,
+          route: '/_/events',
+        );
+        break;
       default:
         model!.selectMenuItem!(
           context: context,
@@ -140,6 +146,8 @@ class Navbar extends StatelessWidget {
       case '/_/priest_info':
       case '/_/offertory':
         return 2;
+      case '/_/events':
+        return 3;
       default:
         return 0;
     }
