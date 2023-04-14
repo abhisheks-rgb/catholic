@@ -624,91 +624,78 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                 },
                 itemBuilder: (context, index) {
                   if (index == 0) {
-                    return Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 0, horizontal: 24),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          RawMaterialButton(
-                            constraints: const BoxConstraints(),
-                            materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
-                            onPressed: () {
-                              if (!isAllPriests) {
-                                setState(() {
-                                  isAllPriests = true;
-                                });
-                              }
+                    return InkWell(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 0, horizontal: 24),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              RawMaterialButton(
+                                constraints: const BoxConstraints(),
+                                materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
+                                onPressed: () {
+                                  if (!isAllPriests) {
+                                    setState(() {
+                                      isAllPriests = true;
+                                    });
+                                  }
 
-                              Navigator.pop(context);
-                            },
-                            child: const Text(
-                              'All Priests',
-                              style: TextStyle(
-                                color: Color.fromRGBO(4, 26, 82, 1),
-                                fontSize: 16,
+                                  Navigator.pop(context);
+                                },
+                                child: const Text(
+                                  'All Priests',
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(4, 26, 82, 1),
+                                    fontSize: 16,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          RawMaterialButton(
-                            constraints: const BoxConstraints(),
-                            materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
-                            onPressed: () {
-                              _handleChangePriest(index);
-                            },
-                            child: Text(
-                              '${widget._infos[index]['salutation'] ?? ''} ${widget._infos[index]['name'] ?? '---'}',
-                              style: const TextStyle(
-                                color: Color.fromRGBO(4, 26, 82, 1),
-                                fontSize: 16,
+                              const SizedBox(height: 16),
+                              Text(
+                                '${widget._infos[index]['salutation'] ?? ''} ${widget._infos[index]['name'] ?? '---'}',
+                                style: const TextStyle(
+                                  color: Color.fromRGBO(4, 26, 82, 1),
+                                  fontSize: 16,
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
-                      ),
-                    );
+                        ),
+                        onTap: () {
+                          _handleChangePriest(index);
+                        });
                   } else if (index == widget._infos.length - 1) {
-                    return Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 0, horizontal: 24),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          RawMaterialButton(
-                            constraints: const BoxConstraints(),
-                            materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
-                            onPressed: () {
-                              _handleChangePriest(index);
-                            },
-                            child: Text(
-                              '${widget._infos[index]['salutation'] ?? ''} ${widget._infos[index]['name'] ?? '---'}',
-                              style: const TextStyle(
-                                color: Color.fromRGBO(4, 26, 82, 1),
-                                fontSize: 16,
+                    return InkWell(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 0, horizontal: 24),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${widget._infos[index]['salutation'] ?? ''} ${widget._infos[index]['name'] ?? '---'}',
+                                style: const TextStyle(
+                                  color: Color.fromRGBO(4, 26, 82, 1),
+                                  fontSize: 16,
+                                ),
                               ),
-                            ),
+                              const SizedBox(height: 16),
+                            ],
                           ),
-                          const SizedBox(height: 16),
-                        ],
-                      ),
-                    );
+                        ),
+                        onTap: () {
+                          _handleChangePriest(index);
+                        });
                   }
 
-                  return Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: RawMaterialButton(
-                        constraints: const BoxConstraints(),
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        onPressed: () {
-                          _handleChangePriest(index);
-                        },
+                  return InkWell(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 0, horizontal: 24),
+                      child: Align(
+                        alignment: Alignment.topLeft,
                         child: Text(
                           '${widget._infos[index]['salutation'] ?? ''} ${widget._infos[index]['name'] ?? '---'}',
                           style: const TextStyle(
@@ -718,6 +705,9 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                         ),
                       ),
                     ),
+                    onTap: () {
+                      _handleChangePriest(index);
+                    },
                   );
                 }),
           ),

@@ -661,44 +661,36 @@ class _OffertoryViewState extends State<OffertoryView> {
               },
               itemBuilder: (context, index) {
                 if (index == widget.model!.items!.length - 1) {
-                  return Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        RawMaterialButton(
-                          constraints: const BoxConstraints(),
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          onPressed: () {
-                            _handleChangeParish(index);
-                          },
-                          child: Text(
+                  return InkWell(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 0, horizontal: 24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
                             widget.model!.items![index]['name'] ?? '',
                             style: const TextStyle(
                               color: Color.fromRGBO(4, 26, 82, 1),
                               fontSize: 16,
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 16),
-                      ],
+                          const SizedBox(height: 16),
+                        ],
+                      ),
                     ),
+                    onTap: () {
+                      _handleChangeParish(index);
+                    },
                   );
                 }
 
-                return Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: RawMaterialButton(
-                      constraints: const BoxConstraints(),
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      onPressed: () {
-                        _handleChangeParish(index);
-                      },
+                return InkWell(
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
+                    child: Align(
+                      alignment: Alignment.topLeft,
                       child: Text(
                         widget.model!.items![index]['name'] ?? '',
                         style: const TextStyle(
@@ -708,6 +700,9 @@ class _OffertoryViewState extends State<OffertoryView> {
                       ),
                     ),
                   ),
+                  onTap: () {
+                    _handleChangeParish(index);
+                  },
                 );
               },
             ),

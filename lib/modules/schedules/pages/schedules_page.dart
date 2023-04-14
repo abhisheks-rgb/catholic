@@ -235,28 +235,27 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                     text: '',
                                     style: DefaultTextStyle.of(context).style,
                                     children: const <TextSpan>[
-                                      TextSpan(
+                                      TextSpan(children: [
+                                        TextSpan(
+                                          text: 'Directions ',
                                           style: TextStyle(
                                               letterSpacing: 0.1,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
                                               color: Color.fromRGBO(
                                                   12, 72, 224, 1)),
-                                          children: [
-                                            TextSpan(
-                                              text: 'Directions ',
-                                            ),
-                                            WidgetSpan(
-                                              child: Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 1.0),
-                                                child: Icon(Icons.directions,
-                                                    size: 18,
-                                                    color: Color.fromRGBO(
-                                                        12, 72, 224, 1)),
-                                              ),
-                                            ),
-                                          ]),
+                                        ),
+                                        WidgetSpan(
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 1.0),
+                                            child: Icon(Icons.directions,
+                                                size: 18,
+                                                color: Color.fromRGBO(
+                                                    12, 72, 224, 1)),
+                                          ),
+                                        ),
+                                      ]),
                                     ],
                                   ),
                                 ),
@@ -654,100 +653,87 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                   },
                   itemBuilder: (context, index) {
                     if (index == churchList.length - 1) {
-                      return Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 0, horizontal: 24),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            RawMaterialButton(
-                              constraints: const BoxConstraints(),
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              onPressed: () {
-                                setState(() {
-                                  _selectedParishValue =
-                                      churchList[index]['name'].toString();
-                                });
-                                if (churchList[index]['name'] ==
-                                    'All Churches') {
-                                  _getSchedules('all');
-                                  setState(() {
-                                    _selectedParishValue = 'all';
-                                  });
-                                } else {
-                                  var parish =
-                                      widget.model.items?.firstWhere((element) {
-                                    return element['name'] ==
-                                        churchList[index]['name'];
-                                  });
-
-                                  _getSchedules(parish['link']);
-                                  setState(() {
-                                    _selectedParishValue =
-                                        churchList[index]['name'];
-                                  });
-                                }
-                                Navigator.pop(context);
-                              },
-                              child: Text(
+                      return InkWell(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 0, horizontal: 24),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
                                 churchList[index]['name'] ?? '',
                                 style: const TextStyle(
                                   color: Color.fromRGBO(4, 26, 82, 1),
                                   fontSize: 16,
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 10),
-                          ],
+                              const SizedBox(height: 10),
+                            ],
+                          ),
                         ),
+                        onTap: () {
+                          setState(() {
+                            _selectedParishValue =
+                                churchList[index]['name'].toString();
+                          });
+                          if (churchList[index]['name'] == 'All Churches') {
+                            _getSchedules('all');
+                            setState(() {
+                              _selectedParishValue = 'all';
+                            });
+                          } else {
+                            var parish =
+                                widget.model.items?.firstWhere((element) {
+                              return element['name'] ==
+                                  churchList[index]['name'];
+                            });
+
+                            _getSchedules(parish['link']);
+                            setState(() {
+                              _selectedParishValue = churchList[index]['name'];
+                            });
+                          }
+                          Navigator.pop(context);
+                        },
                       );
                     }
 
-                    return Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 0, horizontal: 24),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: RawMaterialButton(
-                          constraints: const BoxConstraints(),
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          onPressed: () {
-                            setState(() {
-                              _selectedParishValue =
-                                  churchList[index]['name'].toString();
-                            });
-                            if (churchList[index]['name'] == 'All Churches') {
-                              _getSchedules('all');
-                              setState(() {
-                                _selectedParishValue = 'all';
-                              });
-                            } else {
-                              var parish =
-                                  widget.model.items?.firstWhere((element) {
-                                return element['name'] ==
-                                    churchList[index]['name'];
-                              });
-
-                              _getSchedules(parish['link']);
-                              setState(() {
-                                _selectedParishValue =
-                                    churchList[index]['name'];
-                              });
-                            }
-
-                            Navigator.pop(context);
-                          },
-                          child: Text(
-                            churchList[index]['name'] ?? '',
-                            style: const TextStyle(
-                              color: Color.fromRGBO(4, 26, 82, 1),
-                              fontSize: 16,
-                            ),
+                    return InkWell(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 24),
+                        child: Text(
+                          churchList[index]['name'] ?? '',
+                          style: const TextStyle(
+                            color: Color.fromRGBO(4, 26, 82, 1),
+                            fontSize: 16,
                           ),
                         ),
                       ),
+                      onTap: () {
+                        setState(() {
+                          _selectedParishValue =
+                              churchList[index]['name'].toString();
+                        });
+                        if (churchList[index]['name'] == 'All Churches') {
+                          _getSchedules('all');
+                          setState(() {
+                            _selectedParishValue = 'all';
+                          });
+                        } else {
+                          var parish =
+                              widget.model.items?.firstWhere((element) {
+                            return element['name'] == churchList[index]['name'];
+                          });
+
+                          _getSchedules(parish['link']);
+                          setState(() {
+                            _selectedParishValue = churchList[index]['name'];
+                          });
+                        }
+
+                        Navigator.pop(context);
+                      },
                     );
                   },
                 ),
@@ -755,143 +741,144 @@ class _SchedulesPageState extends State<_SchedulesPage> {
             ));
   }
 
-  void _showPopup(BuildContext context, var schedData) {
-    var schedParish = widget.model.items?.firstWhere((element) {
-      return element['_id'] == schedData['parish'];
-    });
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-            insetPadding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
-            content: SingleChildScrollView(
-              // ignore: sized_box_for_whitespace
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.5,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Schedule Details',
-                          style: TextStyle(
-                            color: Color.fromRGBO(4, 26, 82, 1),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
-                          ),
-                        ),
-                        IconButton(
-                          padding: const EdgeInsets.all(0),
-                          alignment: Alignment.centerRight,
-                          icon: const Icon(Ionicons.close_circle),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                '${schedData['title']}',
-                                style: const TextStyle(
-                                  color: Color.fromRGBO(4, 26, 82, 1),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 20,
-                                ),
-                              ),
-                              _scheduleChip(
-                                  schedData['type'],
-                                  schedData['abbrev'],
-                                  schedData['colorEvento'],
-                                  schedData['color'],
-                                  true),
-                            ]),
-                        Text(
-                            '${schedData['lang'].toUpperCase()} • ${schedData['location'].toUpperCase()}',
-                            style: const TextStyle(
-                                letterSpacing: 0.1,
-                                fontWeight: FontWeight.w400,
-                                color: Color.fromRGBO(4, 26, 82, 1),
-                                fontFeatures: <FontFeature>[
-                                  FontFeature.enable('smcp')
-                                ],
-                                fontSize: 16)),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Container(
-                      height: 120,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: const Color.fromRGBO(219, 228, 251, 1),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: Image.asset(
-                            assetPath('church-alt.png'),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            schedParish['name'],
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromRGBO(12, 72, 224, 1),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: Image.asset(
-                            assetPath('map-pin-solid.png'),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            schedParish['address'],
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: Image.asset(
-                            assetPath('directions.png'),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ));
-      },
-    );
-  }
+  // disable popup for the meantime
+  // void _showPopup(BuildContext context, var schedData) {
+  //   var schedParish = widget.model.items?.firstWhere((element) {
+  //     return element['_id'] == schedData['parish'];
+  //   });
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //           insetPadding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
+  //           content: SingleChildScrollView(
+  //             // ignore: sized_box_for_whitespace
+  //             child: Container(
+  //               height: MediaQuery.of(context).size.height * 0.5,
+  //               child: Column(
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 children: [
+  //                   Row(
+  //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                     children: [
+  //                       const Text(
+  //                         'Schedule Details',
+  //                         style: TextStyle(
+  //                           color: Color.fromRGBO(4, 26, 82, 1),
+  //                           fontWeight: FontWeight.w500,
+  //                           fontSize: 18,
+  //                         ),
+  //                       ),
+  //                       IconButton(
+  //                         padding: const EdgeInsets.all(0),
+  //                         alignment: Alignment.centerRight,
+  //                         icon: const Icon(Ionicons.close_circle),
+  //                         onPressed: () {
+  //                           Navigator.of(context).pop();
+  //                         },
+  //                       ),
+  //                     ],
+  //                   ),
+  //                   Column(
+  //                     crossAxisAlignment: CrossAxisAlignment.start,
+  //                     children: [
+  //                       Row(
+  //                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                           children: [
+  //                             Text(
+  //                               '${schedData['title']}',
+  //                               style: const TextStyle(
+  //                                 color: Color.fromRGBO(4, 26, 82, 1),
+  //                                 fontWeight: FontWeight.w500,
+  //                                 fontSize: 20,
+  //                               ),
+  //                             ),
+  //                             _scheduleChip(
+  //                                 schedData['type'],
+  //                                 schedData['abbrev'],
+  //                                 schedData['colorEvento'],
+  //                                 schedData['color'],
+  //                                 true),
+  //                           ]),
+  //                       Text(
+  //                           '${schedData['lang'].toUpperCase()} • ${schedData['location'].toUpperCase()}',
+  //                           style: const TextStyle(
+  //                               letterSpacing: 0.1,
+  //                               fontWeight: FontWeight.w400,
+  //                               color: Color.fromRGBO(4, 26, 82, 1),
+  //                               fontFeatures: <FontFeature>[
+  //                                 FontFeature.enable('smcp')
+  //                               ],
+  //                               fontSize: 16)),
+  //                     ],
+  //                   ),
+  //                   const SizedBox(height: 8),
+  //                   Container(
+  //                     height: 120,
+  //                     decoration: BoxDecoration(
+  //                       borderRadius: BorderRadius.circular(10),
+  //                       color: const Color.fromRGBO(219, 228, 251, 1),
+  //                     ),
+  //                   ),
+  //                   const SizedBox(height: 8),
+  //                   Row(
+  //                     crossAxisAlignment: CrossAxisAlignment.start,
+  //                     children: [
+  //                       SizedBox(
+  //                         width: 20,
+  //                         height: 20,
+  //                         child: Image.asset(
+  //                           assetPath('church-alt.png'),
+  //                         ),
+  //                       ),
+  //                       const SizedBox(width: 8),
+  //                       Expanded(
+  //                         child: Text(
+  //                           schedParish['name'],
+  //                           style: const TextStyle(
+  //                             fontSize: 16,
+  //                             fontWeight: FontWeight.w500,
+  //                             color: Color.fromRGBO(12, 72, 224, 1),
+  //                           ),
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                   const SizedBox(height: 8),
+  //                   Row(
+  //                     crossAxisAlignment: CrossAxisAlignment.start,
+  //                     children: [
+  //                       SizedBox(
+  //                         width: 20,
+  //                         height: 20,
+  //                         child: Image.asset(
+  //                           assetPath('map-pin-solid.png'),
+  //                         ),
+  //                       ),
+  //                       const SizedBox(width: 8),
+  //                       Expanded(
+  //                         child: Text(
+  //                           schedParish['address'],
+  //                           style: const TextStyle(fontSize: 16),
+  //                         ),
+  //                       ),
+  //                       const SizedBox(width: 10),
+  //                       SizedBox(
+  //                         width: 24,
+  //                         height: 24,
+  //                         child: Image.asset(
+  //                           assetPath('directions.png'),
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ));
+  //     },
+  //   );
+  // }
 
   Widget _scheduleChip(String type, String abbrev, String colorEvent,
       String colorString, bool isLongName) {

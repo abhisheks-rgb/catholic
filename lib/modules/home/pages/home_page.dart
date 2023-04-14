@@ -68,12 +68,9 @@ class HomePage extends BaseStatefulPageView {
                   onPressed: () async {
                     final result = await Navigator.of(context).maybePop();
 
-                    if (!result) {
+                    if (!result && context.mounted) {
                       // ignore: use_build_context_synchronously
                       Navigator.of(context).popAndPushNamed('/_/welcome');
-                    } else {
-                      // ignore: use_build_context_synchronously
-                      Navigator.of(context).maybePop();
                     }
                   },
                 ),
