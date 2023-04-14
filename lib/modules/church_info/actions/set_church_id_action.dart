@@ -16,17 +16,16 @@ class SetChurchIdAction extends BaseAction {
   @override
   Future<AppState?> reduce() async {
     String? error;
-    await dispatchModel<ChurchInfoModel>(
-        ChurchInfoModel(), (m) {
+    await dispatchModel<ChurchInfoModel>(ChurchInfoModel(), (m) {
       m.error = error;
       m.loading = true;
     });
 
-    await dispatchModel<ChurchInfoModel>(
-        ChurchInfoModel(), (m) {
+    await dispatchModel<ChurchInfoModel>(ChurchInfoModel(), (m) {
       m.error = error;
       m.loading = false;
       m.churchId = churchId;
+      m.churchName = null;
     });
 
     return null;

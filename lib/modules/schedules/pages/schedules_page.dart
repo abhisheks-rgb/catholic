@@ -208,8 +208,14 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                             children: [
                               InkWell(
                                 onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed('/_/church_info');
+                                  final index = widget.model.items!.indexWhere(
+                                      (item) =>
+                                          item['name'] == _selectedParishValue);
+
+                                  if (index != -1) {
+                                    widget.model.showPage('/_/church_info',
+                                        index + 1, _selectedParishValue);
+                                  }
                                 },
                                 child: const Text('Church Info',
                                     style: TextStyle(

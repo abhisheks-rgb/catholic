@@ -45,7 +45,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
   }
 
   void delayedResetChurchId() async {
-    await widget.model!.setChurchId(churchId: 0);
+    await widget.model!.setChurchId(churchId: null);
   }
 
   @override

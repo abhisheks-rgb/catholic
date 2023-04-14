@@ -9,6 +9,7 @@ class ChurchInfoModel extends BaseUIModel<ChurchInfoModel> {
   bool? loading;
   List<Object>? churchInfos;
   int? churchId;
+  String? churchName;
 
   ChurchInfoModel({
     this.items,
@@ -16,6 +17,7 @@ class ChurchInfoModel extends BaseUIModel<ChurchInfoModel> {
     this.loading,
     this.churchInfos,
     this.churchId,
+    this.churchName,
   });
 
   late Future<List<Object>?> Function({int? orgId}) fetchChurchInfo;
@@ -31,6 +33,7 @@ class ChurchInfoModel extends BaseUIModel<ChurchInfoModel> {
         loading: loading,
         churchInfos: churchInfos == null ? [] : List.unmodifiable(churchInfos!),
         churchId: churchId,
+        churchName: churchName,
       );
 
   @override
@@ -40,6 +43,7 @@ class ChurchInfoModel extends BaseUIModel<ChurchInfoModel> {
         loading,
         churchInfos,
         churchId,
+        churchName,
       ]);
 
   @override
@@ -51,5 +55,6 @@ class ChurchInfoModel extends BaseUIModel<ChurchInfoModel> {
           error == other.error &&
           loading == other.loading &&
           churchInfos == other.churchInfos &&
-          churchId == other.churchId;
+          churchId == other.churchId &&
+          churchName == other.churchName;
 }

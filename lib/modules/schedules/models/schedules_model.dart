@@ -1,6 +1,7 @@
 import 'package:butter/butter.dart';
 
 class SchedulesModel extends BaseUIModel<SchedulesModel> {
+  late void Function(String route, int? orgId, String? churchName) showPage;
   late void Function() loadData;
   bool loading;
   List<dynamic>? items;

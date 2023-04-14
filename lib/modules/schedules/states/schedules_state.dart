@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 
 import '../models/schedules_model.dart';
+import '../../church_info/models/church_info_model.dart';
 
 class SchedulesState extends BasePageState<SchedulesModel> {
   SchedulesState();
@@ -59,6 +60,14 @@ class SchedulesState extends BasePageState<SchedulesModel> {
           return dispatchModel<SchedulesModel>(SchedulesModel(), (m) {
             m.churchName = churchName;
           });
+        };
+        m.showPage = (route, orgId, churchName) async {
+          dispatchModel<ChurchInfoModel>(ChurchInfoModel(), (m) {
+            m.churchId = orgId;
+            m.churchName = churchName;
+          });
+
+          pushNamed(route);
         };
       });
 }
