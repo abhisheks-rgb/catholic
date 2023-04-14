@@ -330,7 +330,7 @@ class _BulletinPageState extends State<_BulletinPage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       index > 1
-                                          ? const Spacer()
+                                          ? const SizedBox()
                                           : Expanded(
                                               child: Row(
                                               mainAxisAlignment:
@@ -381,38 +381,73 @@ class _BulletinPageState extends State<_BulletinPage> {
                                                 ),
                                               ],
                                             )),
-                                      RawMaterialButton(
-                                        constraints: const BoxConstraints(),
-                                        materialTapTargetSize:
-                                            MaterialTapTargetSize.shrinkWrap,
-                                        onPressed: () async {
-                                          if (!isFullScreen) {
-                                            setState(() {
-                                              fullScreenPdfIndex = index;
-                                              isFullScreen = true;
-                                            });
+                                      index > 1
+                                          ? Expanded(
+                                              child: RawMaterialButton(
+                                              constraints:
+                                                  const BoxConstraints(),
+                                              materialTapTargetSize:
+                                                  MaterialTapTargetSize
+                                                      .shrinkWrap,
+                                              onPressed: () async {
+                                                if (!isFullScreen) {
+                                                  setState(() {
+                                                    fullScreenPdfIndex = index;
+                                                    isFullScreen = true;
+                                                  });
 
-                                            await widget.model.setIsFullScreen(
-                                                isFullScreen: true);
-                                          }
-                                        },
-                                        child: SizedBox(
-                                          width: 32,
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                width: 32,
-                                                alignment: Alignment.center,
-                                                child: const Icon(
-                                                  MaterialIcons.fullscreen,
-                                                  color: Colors.black,
-                                                  size: 24,
+                                                  await widget.model
+                                                      .setIsFullScreen(
+                                                          isFullScreen: true);
+                                                }
+                                              },
+                                              child: const Text(
+                                                'View Bulletin',
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      12, 72, 224, 1),
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 16,
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
+                                            ))
+                                          : RawMaterialButton(
+                                              constraints:
+                                                  const BoxConstraints(),
+                                              materialTapTargetSize:
+                                                  MaterialTapTargetSize
+                                                      .shrinkWrap,
+                                              onPressed: () async {
+                                                if (!isFullScreen) {
+                                                  setState(() {
+                                                    fullScreenPdfIndex = index;
+                                                    isFullScreen = true;
+                                                  });
+
+                                                  await widget.model
+                                                      .setIsFullScreen(
+                                                          isFullScreen: true);
+                                                }
+                                              },
+                                              child: SizedBox(
+                                                width: 32,
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      width: 32,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: const Icon(
+                                                        MaterialIcons
+                                                            .fullscreen,
+                                                        color: Colors.black,
+                                                        size: 24,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
                                     ],
                                   ),
                                 ),
