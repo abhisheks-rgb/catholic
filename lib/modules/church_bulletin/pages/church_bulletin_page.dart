@@ -321,11 +321,11 @@ class _BulletinPageState extends State<_BulletinPage> {
                                                       ),
                                                     ),
                                                     // ignore: avoid_unnecessary_containers
-                                                    Container(
-                                                      child: Text(
-                                                        'Page 1 / ${controllers[_bulletinItems![index]['id']]?.pageCount}',
-                                                      ),
-                                                    ),
+                                                    // Container(
+                                                    //   child: Text(
+                                                    //     'Page 1 / ${controllers[_bulletinItems![index]['id']]?.pageCount}',
+                                                    //   ),
+                                                    // ),
                                                     Container(
                                                       width: 48,
                                                       alignment:
