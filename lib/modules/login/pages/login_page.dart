@@ -10,7 +10,7 @@ import '../../../../utils/page_specs.dart';
 class LoginPage extends BaseStatefulPageView {
   final LoginModel? model;
 
-  LoginPage({Key? key, this.model}) : super();
+  LoginPage({Key? key, this.model}) : super(animationDelay: 0);
 
   @override
   FutureOr<bool> beforeLoad(BuildContext context) async {

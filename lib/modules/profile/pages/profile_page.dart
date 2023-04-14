@@ -10,7 +10,7 @@ import '../../../../utils/page_specs.dart';
 class ProfilePage extends BaseStatefulPageView {
   final ProfileModel? model;
 
-  ProfilePage({Key? key, this.model}) : super();
+  ProfilePage({Key? key, this.model}) : super(animationDelay: 0);
 
   @override
   FutureOr<bool> beforeLoad(BuildContext context) async {
