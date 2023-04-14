@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:butter/butter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -32,6 +34,11 @@ class InitializeAction extends BaseAction {
       user = m.user;
     });
 
+    final String response =
+        await rootBundle.loadString('assets/data/parish.json');
+    final data = await json.decode(response);
+    final items = data['parishes'];
+
     try {
       // ignore: use_build_context_synchronously
       await dispatchAction(SelectMenuItemAction(
@@ -50,6 +57,14 @@ class InitializeAction extends BaseAction {
               .get()
               .then((value) {
             user = value.data();
+
+            for (var e in items) {
+              if (e['_id'] == int.parse(user!['parish'])) {
+                user!['churchId'] = e['_id'];
+                user!['churchName'] = e['name'];
+              }
+            }
+
             Butter.d('InitializeAction::reduce::is_logged_in');
           }).onError((error, stackTrace) {
             Butter.e(error.toString());

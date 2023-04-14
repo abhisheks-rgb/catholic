@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:butter/butter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/login_model.dart';
@@ -26,6 +28,11 @@ class LoginAction extends BaseAction {
       m.loading = true;
     });
 
+    final String response =
+        await rootBundle.loadString('assets/data/parish.json');
+    final data = await json.decode(response);
+    final items = data['parishes'];
+
     Map<String, dynamic>? user;
     bool? isLoggedIn = false;
 
@@ -42,6 +49,13 @@ class LoginAction extends BaseAction {
               .then((value) {
             user = value.data();
             isLoggedIn = true;
+
+            for (var e in items) {
+              if (e['_id'] == int.parse(user!['parish'])) {
+                user!['churchId'] = e['_id'];
+                user!['churchName'] = e['name'];
+              }
+            }
           }).onError((error, stackTrace) {
             Butter.e(error.toString());
             Butter.e(stackTrace.toString());

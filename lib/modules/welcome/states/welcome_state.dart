@@ -1,9 +1,11 @@
 import 'package:butter/butter.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/welcome_model.dart';
+import '../../church_info/models/church_info_model.dart';
+import '../../profile/models/profile_model.dart';
 import '../../home/models/home_model.dart';
+import '../../offertory/models/offertory_model.dart';
+import '../../schedules/models/schedules_model.dart';
 
 class WelcomeState extends BasePageState<WelcomeModel> {
   WelcomeState();
@@ -39,36 +41,51 @@ class WelcomeState extends BasePageState<WelcomeModel> {
         // Load all your model's handlers here
         m.showPage = (route) async {
           String newRoute = route;
+          Map<String, dynamic>? user;
 
-          if (route == '/_/profile') {
-            User? currentUser = FirebaseAuth.instance.currentUser;
-            if (currentUser != null) {
-              Map<String, dynamic>? user;
-              await FirebaseFirestore.instance
-                  .doc('users/${currentUser.uid}')
-                  .get()
-                  .then((value) async {
-                user = value.data();
+          dispatchModel<HomeModel>(HomeModel(), (m) {
+            user = m.user;
+          });
 
-                await dispatchModel<HomeModel>(HomeModel(), (m) {
-                  user = m.user;
-                });
-                pushNamed(newRoute);
-              }).onError((error, stackTrace) {
-                Butter.e(error.toString());
-                Butter.e(stackTrace.toString());
-                error = error.toString();
+          int? churchId;
+          String? churchName;
 
-                if (user == null) {
-                  pushNamed('/_/login');
-                }
-              });
-            } else {
-              pushNamed('/_/login');
-            }
-          } else {
-            pushNamed(newRoute);
+          if (user != null) {
+            churchId = user!['churchId'];
+            churchName = user!['churchName'];
           }
+
+          switch (route) {
+            case '/_/profile':
+              if (user == null) {
+                newRoute = '/_/login';
+              } else {
+                await dispatchModel<ProfileModel>(ProfileModel(), (m) {
+                  m.user = user;
+                });
+              }
+              break;
+            case '/_/church_info':
+              await dispatchModel<ChurchInfoModel>(ChurchInfoModel(), (m) {
+                m.churchId = churchId;
+                m.churchName = churchName;
+              });
+              break;
+            case '/_/offertory':
+              await dispatchModel<OffertoryModel>(OffertoryModel(), (m) {
+                m.churchId = churchId;
+                m.churchName = churchName;
+              });
+              break;
+            case '/_/schedules':
+              await dispatchModel<SchedulesModel>(SchedulesModel(), (m) {
+                m.churchName = churchName;
+              });
+              break;
+            default:
+          }
+
+          pushNamed(newRoute);
         };
       });
 }
