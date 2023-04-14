@@ -365,8 +365,8 @@ class ProfileView extends BaseStatelessPageView {
                                         Expanded(
                                           child: Text(
                                             _items[int.parse(
-                                                    model!.user?['parish'])]
-                                                ['name'],
+                                                    model!.user?['parish']) -
+                                                1]['name'],
                                             style: const TextStyle(
                                               color:
                                                   Color.fromRGBO(4, 26, 82, 1),

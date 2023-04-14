@@ -85,7 +85,6 @@ class ScriptureDetailsView extends BaseStatelessPageView {
                         ),
                       },
                     ),
-                    // TODO Universalis credit
                   ],
                 ),
               ),
