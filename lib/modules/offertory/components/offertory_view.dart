@@ -213,7 +213,9 @@ class _OffertoryViewState extends State<OffertoryView> {
                         constraints: const BoxConstraints(),
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         onPressed: () {
-                          showAlert(context);
+                          if (widget.model!.items != null) {
+                            showAlert(context);
+                          }
                         },
                         child: Row(
                           children: [
