@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:butter/butter.dart';
-import 'package:flutter/services.dart';
 
 import '../actions/logout_action.dart';
 import '../models/profile_model.dart';
-import '../../home/models/home_model.dart';
 
 class ProfileState extends BasePageState<ProfileModel> {
   ProfileState();

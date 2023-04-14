@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../models/priest_info_model.dart';
 import '../../../utils/asset_path.dart';
@@ -401,28 +402,38 @@ class _PriestInfoViewState extends State<PriestInfoView> {
             : Column(
                 children: [
                   const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: Icon(
-                          FontAwesome.phone,
-                          color: Color.fromRGBO(130, 141, 168, 1),
-                          size: 20,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          widget._infos[currentPriestIndex!]['phone'] ?? '',
-                          style: const TextStyle(
-                            color: Color.fromRGBO(4, 26, 82, 1),
-                            fontSize: 16,
+                  RawMaterialButton(
+                    constraints: const BoxConstraints(),
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    onPressed: () {
+                      final priestTel =
+                          widget._infos[currentPriestIndex!]['phone'] ?? '';
+                      final uri = Uri.parse('tel:$priestTel');
+                      urlLauncher(uri, 'tel');
+                    },
+                    child: Row(
+                      children: [
+                        const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: Icon(
+                            FontAwesome.phone,
+                            color: Color.fromRGBO(130, 141, 168, 1),
+                            size: 20,
                           ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            widget._infos[currentPriestIndex!]['phone'] ?? '',
+                            style: const TextStyle(
+                              color: Color.fromRGBO(4, 26, 82, 1),
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -431,28 +442,38 @@ class _PriestInfoViewState extends State<PriestInfoView> {
             : Column(
                 children: [
                   const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: Icon(
-                          FontAwesome.envelope,
-                          color: Color.fromRGBO(130, 141, 168, 1),
-                          size: 20,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          widget._infos[currentPriestIndex!]['email'] ?? '',
-                          style: const TextStyle(
-                            color: Color.fromRGBO(4, 26, 82, 1),
-                            fontSize: 16,
+                  RawMaterialButton(
+                    constraints: const BoxConstraints(),
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    onPressed: () {
+                      final priestEmail =
+                          widget._infos[currentPriestIndex!]['email'] ?? '';
+                      final uri = Uri.parse('mailTo:$priestEmail');
+                      urlLauncher(uri, 'email');
+                    },
+                    child: Row(
+                      children: [
+                        const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: Icon(
+                            FontAwesome.envelope,
+                            color: Color.fromRGBO(130, 141, 168, 1),
+                            size: 20,
                           ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            widget._infos[currentPriestIndex!]['email'] ?? '',
+                            style: const TextStyle(
+                              color: Color.fromRGBO(4, 26, 82, 1),
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -760,5 +781,24 @@ class _PriestInfoViewState extends State<PriestInfoView> {
     });
 
     Navigator.pop(context);
+  }
+
+  void urlLauncher(Uri uri, String source) async {
+    if (source == 'web') {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+        );
+      } else {
+        throw 'Could not launch $uri';
+      }
+    } else {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
+      } else {
+        throw 'Could not launch $uri';
+      }
+    }
   }
 }

@@ -18,22 +18,22 @@ class ScriptureView extends BaseStatefulPageView {
           switch (item['authorname']) {
             case 'William SC Goh':
               item['order'] = 0;
-              item['authorname'] = 'Cardinal William SC Goh';
+              item['authorname'] = 'Cardinal ${item['authorname']}';
               item['shortname'] = 'arch';
               break;
             case 'Adrian Danker':
               item['order'] = 1;
-              item['authorname'] = 'Rev Fr Adrian Danker';
+              item['authorname'] = 'Rev Fr ${item['authorname']}';
               item['shortname'] = 'adrian_danker';
               break;
             case 'Luke Fong':
               item['order'] = 2;
-              item['authorname'] = 'Rev Fr Luke Fong';
+              item['authorname'] = 'Rev Fr ${item['authorname']}';
               item['shortname'] = 'luke_fong';
               break;
             case 'Stephen Yim':
               item['order'] = 3;
-              item['authorname'] = 'Rev Fr Stephen Yim';
+              item['authorname'] = 'Rev Fr ${item['authorname']}';
               item['shortname'] = 'stephen_yim';
               break;
             default:
