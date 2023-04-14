@@ -5,6 +5,8 @@ class PageSpecs extends BasePageSpecs {
   bool? centerTitle;
   bool? inSafeArea;
   bool? hasAppBar;
+  bool? showProfile;
+  bool? leadingLogo;
   String? title;
   String? shortTitle;
   Widget? leading;
@@ -20,6 +22,8 @@ class PageSpecs extends BasePageSpecs {
     this.centerTitle = true,
     this.inSafeArea = true,
     this.hasAppBar = true,
+    this.showProfile = false,
+    this.leadingLogo = false,
     this.shortTitle,
     this.title,
     this.leading,

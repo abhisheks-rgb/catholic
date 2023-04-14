@@ -33,8 +33,8 @@ class ProfileView extends BaseStatelessPageView {
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           onPressed: () {},
           child: SizedBox(
-            width: 20,
-            height: 20,
+            width: 36,
+            height: 36,
             child: Image.asset(
               assetPath('icon-small.png'),
             ),

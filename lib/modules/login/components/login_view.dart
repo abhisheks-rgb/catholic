@@ -48,6 +48,16 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        leading: IconButton(
+          icon: Image.asset(
+            assetPath('icon-small.png'),
+            width: 36,
+            height: 36,
+          ),
+          onPressed: () {
+            Navigator.of(context).popAndPushNamed('/_/welcome');
+          },
+        ),
         title: const Text(
           'Login',
           style: TextStyle(
@@ -56,7 +66,7 @@ class _LoginViewState extends State<LoginView> {
             fontSize: 16,
           ),
         ),
-        leading: Container(),
+        // leading: Container(),
       ),
       body: SingleChildScrollView(
         child: Stack(

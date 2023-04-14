@@ -16,6 +16,8 @@ class PrayPage extends BaseStatefulPageView {
   @override
   get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
         hasAppBar: true,
+        showProfile: true,
+        leadingLogo: true,
         title: 'Pray',
       ));
 

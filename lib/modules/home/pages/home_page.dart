@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../app/app.dart';
 import '../../../app/splash_screen.dart';
 import '../../../utils/page_specs.dart';
+import '../../../utils/asset_path.dart';
 
 import '../models/home_model.dart';
 import '../components/navbar.dart';
@@ -59,22 +60,70 @@ class HomePage extends BaseStatefulPageView {
         appBar: specs.hasAppBar! && !model!.isFullScreen
             ? AppBar(
                 centerTitle: true,
-                leading: IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back_ios,
-                    color: Color.fromRGBO(4, 26, 82, 1),
-                    size: 24,
-                  ),
-                  onPressed: () async {
-                    final result = await Navigator.of(context).maybePop();
+                leading: specs.leadingLogo!
+                    ? RawMaterialButton(
+                        constraints: const BoxConstraints(),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: () {
+                          Navigator.of(context).popAndPushNamed('/_/welcome');
+                        },
+                        child: SizedBox(
+                          width: 36,
+                          height: 36,
+                          child: Image.asset(
+                            assetPath('icon-small.png'),
+                          ),
+                        ),
+                      )
+                    : IconButton(
+                        icon: const Icon(
+                          Icons.arrow_back_ios,
+                          color: Color.fromRGBO(4, 26, 82, 1),
+                          size: 24,
+                        ),
+                        onPressed: () async {
+                          final result = await Navigator.of(context).maybePop();
 
-                    if (!result && context.mounted) {
-                      // ignore: use_build_context_synchronously
-                      Navigator.of(context).popAndPushNamed('/_/welcome');
-                    }
-                  },
-                ),
+                          if (!result && context.mounted) {
+                            // ignore: use_build_context_synchronously
+                            Navigator.of(context).popAndPushNamed('/_/welcome');
+                          }
+                        },
+                      ),
                 title: Text(specs.title!),
+                actions: [
+                  specs.showProfile!
+                      ? RawMaterialButton(
+                          constraints: const BoxConstraints(),
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          onPressed: () {
+                            if (model?.user == null) {
+                              Navigator.of(context).pushNamed('/_/login');
+                            } else {
+                              Navigator.of(context).pushNamed('/_/profile');
+                            }
+                          },
+                          child: Container(
+                            width: 40,
+                            decoration: const BoxDecoration(
+                              color: Colors.transparent,
+                            ),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: Image.asset(
+                                  assetPath('user-active-solid.png'),
+                                  color: const Color.fromRGBO(4, 26, 82, 0.2),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container()
+                ],
               )
             : PreferredSize(
                 preferredSize: const Size(0.0, 0.0),
