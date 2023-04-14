@@ -322,24 +322,30 @@ class _PriestInfoViewState extends State<PriestInfoView> {
           endIndent: 0,
           color: Color.fromRGBO(4, 26, 82, 0.1),
         ),
-        // const SizedBox(height: 16),
-        // Align(
-        //   alignment: Alignment.center,
-        //   child: Container(
-        //     height: 100,
-        //     width: 100,
-        //     decoration: const BoxDecoration(
-        //       color: Color.fromRGBO(219, 228, 251, 1),
-        //       shape: BoxShape.circle,
-        //       // image: widget._infos[currentPriestIndex!]['photo'] != null
-        //       //   ? DecorationImage(
-        //       //       image: NetworkImage(widget._infos[currentPriestIndex!]['photo'] ?? ''),
-        //       //       fit: BoxFit.contain,
-        //       //     )
-        //       //   : null,
-        //     ),
-        //   ),
-        // ),
+        const SizedBox(height: 16),
+        Align(
+          alignment: Alignment.center,
+          child: Container(
+            height: 100,
+            width: 100,
+            decoration: BoxDecoration(
+              color: const Color.fromRGBO(219, 228, 251, 1),
+              shape: BoxShape.circle,
+              image: widget._infos[currentPriestIndex!]['photo'] != ''
+                  ? DecorationImage(
+                      image: NetworkImage(
+                          widget._infos[currentPriestIndex!]['photo'] ?? ''),
+                      fit: BoxFit.contain,
+                    )
+                  : DecorationImage(
+                      image: AssetImage(
+                        assetPath('priest-placeholder-img.png'),
+                      ),
+                      fit: BoxFit.cover,
+                    ),
+            ),
+          ),
+        ),
         priestParish.isEmpty
             ? Container()
             : Column(
