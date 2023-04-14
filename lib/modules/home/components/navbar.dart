@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../models/home_model.dart';
 
-import '../../../app/app.dart';
 import '../../../utils/asset_path.dart';
 
-class Navbar extends StatelessWidget {
+class Navbar extends StatefulWidget {
   final HomeModel? model;
   final String? routeName;
 
@@ -15,6 +14,11 @@ class Navbar extends StatelessWidget {
     this.routeName,
   });
 
+  @override
+  State<Navbar> createState() => _NavbarState();
+}
+
+class _NavbarState extends State<Navbar> {
   @override
   Widget build(BuildContext context) => BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -96,7 +100,7 @@ class Navbar extends StatelessWidget {
             label: 'Events',
           ),
         ],
-        currentIndex: _getIndex(context),
+        currentIndex: widget.model?.selectedIndex ?? 0,
         unselectedItemColor: const Color.fromRGBO(205, 209, 220, 1),
         selectedItemColor: const Color.fromRGBO(4, 26, 82, 1),
         selectedLabelStyle: const TextStyle(
@@ -106,50 +110,31 @@ class Navbar extends StatelessWidget {
       );
 
   void _onItemTapped(int index, BuildContext context) {
+    widget.model!.setSelectedIndex!(index: index);
     switch (index) {
       case 1:
-        model!.selectMenuItem!(
+        widget.model!.selectMenuItem!(
           context: context,
           route: '/_/pray',
         );
         break;
       case 2:
-        model!.selectMenuItem!(
+        widget.model!.selectMenuItem!(
           context: context,
           route: '/_/info',
         );
         break;
       case 3:
-        model!.selectMenuItem!(
+        widget.model!.selectMenuItem!(
           context: context,
           route: '/_/events',
         );
         break;
       default:
-        model!.selectMenuItem!(
+        widget.model!.selectMenuItem!(
           context: context,
           route: '/_/welcome',
         );
-    }
-  }
-
-  int _getIndex(BuildContext context) {
-    var route = App.getRouteName(context);
-    switch (route) {
-      case '/_/pray':
-      case '/_/mass_readings':
-      case '/_/scripture':
-        return 1;
-      case '/_/info':
-      case '/_/schedules':
-      case '/_/church_info':
-      case '/_/priest_info':
-      case '/_/offertory':
-        return 2;
-      case '/_/events':
-        return 3;
-      default:
-        return 0;
     }
   }
 }

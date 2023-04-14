@@ -8,8 +8,10 @@ class HomeModel extends BaseUIModel<HomeModel> {
   String? title;
   Map<String, dynamic>? user;
   bool isFullScreen;
+  int selectedIndex;
 
   late Future<void> Function(BuildContext context) initialize;
+  Function({int? index})? setSelectedIndex;
   void Function({
     BuildContext? context,
     bool? replaceCurrent,
@@ -28,6 +30,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
     this.title = '',
     this.user,
     this.isFullScreen = false,
+    this.selectedIndex = 0,
   });
 
   @override
@@ -41,6 +44,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
         title: title,
         user: user,
         isFullScreen: isFullScreen,
+        selectedIndex: selectedIndex,
       );
 
   @override
@@ -51,6 +55,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
         title,
         user,
         isFullScreen,
+        selectedIndex,
       ]);
 
   //
@@ -66,5 +71,6 @@ class HomeModel extends BaseUIModel<HomeModel> {
           loading == other.loading &&
           title == other.title &&
           user == other.user &&
-          isFullScreen == other.isFullScreen;
+          isFullScreen == other.isFullScreen &&
+          selectedIndex == other.selectedIndex;
 }

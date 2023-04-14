@@ -42,6 +42,11 @@ class HomeState extends BasePageState<HomeModel> {
         // Load all your model's handlers here
         m.initialize =
             (context) => dispatchAction(InitializeAction(context: context));
+        m.setSelectedIndex = ({index}) {
+          dispatchModel<HomeModel>(HomeModel(), (m) {
+            m.selectedIndex = index!;
+          });
+        };
         m.selectMenuItem = ({
           allowSameId = true,
           context,
