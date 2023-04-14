@@ -532,6 +532,14 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                     color: Color.fromRGBO(219, 228, 251, 1),
                     shape: BoxShape.circle,
                   ),
+                  child: Center(
+                    child: Image.asset(
+                      assetPath('priest.png'),
+                      color: const Color.fromRGBO(4, 26, 82, 0.5),
+                      width: 23,
+                      height: 23,
+                    ),
+                  ),
                 ),
                 const SizedBox(width: 8),
                 Flexible(
