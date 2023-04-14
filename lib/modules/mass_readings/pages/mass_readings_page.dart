@@ -315,6 +315,9 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                               case 'Mass_G':
                                 title = 'Gospel';
                                 break;
+                              case 'copyright':
+                                title = '';
+                                break;
                               default:
                                 title = 'First Reading';
                             }
@@ -326,16 +329,19 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                       fontSize: 16,
                                       color: Color.fromRGBO(8, 51, 158, 1),
                                     )),
-                                data![key]['heading'] != null
-                                    ? Text(
-                                        '${data[key]['heading']} - ${data[key]['source']}',
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          color: Color.fromRGBO(4, 26, 82, 1),
-                                        ),
-                                      )
-                                    : Text('${data[key]['source']}'),
-                                Html(data: data[key]['text'], style: {
+                                key != 'copyright'
+                                    ? data![key]['heading'] != null
+                                        ? Text(
+                                            '${data[key]['heading']} - ${data[key]['source']}',
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              color:
+                                                  Color.fromRGBO(4, 26, 82, 1),
+                                            ),
+                                          )
+                                        : Text('${data[key]['source']}')
+                                    : const SizedBox(),
+                                Html(data: data![key]['text'], style: {
                                   'body': Style(
                                     color: const Color.fromRGBO(4, 26, 82, 1),
                                     fontSize: FontSize(16),
