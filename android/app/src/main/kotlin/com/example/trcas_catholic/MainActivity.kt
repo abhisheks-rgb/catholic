@@ -1,4 +1,4 @@
-package com.CSG.CatholicSG
+package com.example.trcas_catholic
 
 import io.flutter.embedding.android.FlutterActivity
 
