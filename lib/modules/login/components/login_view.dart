@@ -32,6 +32,16 @@ class _LoginViewState extends State<LoginView> {
   ];
   final loginEmail = TextEditingController();
   final loginPassword = TextEditingController();
+  String? _error;
+
+  @override
+  void didUpdateWidget(LoginView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.model!.error != widget.model!.error) {
+      _error = widget.model!.error;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,15 +57,6 @@ class _LoginViewState extends State<LoginView> {
           ),
         ),
         leading: Container(),
-        // leading: GestureDetector(
-        //   child: const Icon(
-        //     Icons.arrow_back_ios,
-        //     color: Colors.black,
-        //   ),
-        //   onTap: () {
-        //     Navigator.of(context).maybePop();
-        //   },
-        // ),
       ),
       body: SingleChildScrollView(
         child: Stack(
@@ -177,6 +178,12 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                   const SizedBox(height: 14),
+                  _error == null
+                      ? const SizedBox()
+                      : const Center(
+                          child: Text('Incorrect email/password.',
+                              style: TextStyle(
+                                  color: Color.fromRGBO(247, 9, 22, 1)))),
                   Form(
                     key: formKey,
                     child: Column(
@@ -215,6 +222,7 @@ class _LoginViewState extends State<LoginView> {
                                   return null;
                                 }
                               },
+                              onChanged: (_) => setState(() => _error = null),
                             ),
                             const SizedBox(height: 16),
                           ],

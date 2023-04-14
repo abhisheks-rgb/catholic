@@ -76,7 +76,7 @@ class LoginAction extends BaseAction {
       pushNamed('/_/welcome');
     } else {
       await dispatchModel<LoginModel>(LoginModel(), (m) {
-        m.error = error;
+        m.error = 'Incorrect email/password';
         m.loading = false;
       });
     }
