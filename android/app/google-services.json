@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "740453153901",
-    "project_id": "mycatholicsgapp-dev",
-    "storage_bucket": "mycatholicsgapp-dev.appspot.com"
+    "project_number": "763899876517",
+    "firebase_url": "https://mycatholicsg-prod01.firebaseio.com",
+    "project_id": "mycatholicsg-prod01",
+    "storage_bucket": "mycatholicsg-prod01.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:740453153901:android:eef18f169cafc0de0d9364",
+        "mobilesdk_app_id": "1:763899876517:android:46e36a232cfc546c62294c",
         "android_client_info": {
           "package_name": "com.CSG.CatholicSG"
         }
       },
       "oauth_client": [
         {
-          "client_id": "740453153901-4dt9ss2q5qib6dpp5asb0umh6j3b3vmv.apps.googleusercontent.com",
+          "client_id": "763899876517-90jgij9nd88c9pgj9sjvstijs3ukm1u7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC_Is3FnXsNcsnzHCroOYBo3NHNVXVPYg0"
+          "current_key": "AIzaSyDbyMcp1MmbYC55EECSxf08Ot2RTSPTH5w"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "740453153901-4dt9ss2q5qib6dpp5asb0umh6j3b3vmv.apps.googleusercontent.com",
+              "client_id": "763899876517-90jgij9nd88c9pgj9sjvstijs3ukm1u7.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "740453153901-7plbgs0d89a8e2nuglk6hk84iqn8d8ck.apps.googleusercontent.com",
+              "client_id": "763899876517-0pgjel2j26gflr2jc9p2onk6pm4g0ffa.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.CSG.CatholicSG",
-                "app_store_id": "1151027240"
+                "bundle_id": "com.CSG.CatholicSG"
               }
             }
           ]

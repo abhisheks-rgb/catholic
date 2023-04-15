@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>740453153901-7plbgs0d89a8e2nuglk6hk84iqn8d8ck.apps.googleusercontent.com</string>
+	<string>763899876517-0pgjel2j26gflr2jc9p2onk6pm4g0ffa.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.740453153901-7plbgs0d89a8e2nuglk6hk84iqn8d8ck</string>
+	<string>com.googleusercontent.apps.763899876517-0pgjel2j26gflr2jc9p2onk6pm4g0ffa</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDXY6Nm79yVThm64GdexO7RrTuOxrEByqE</string>
+	<string>AIzaSyBlO9VxdDSe0IYtfY6SiDl4-4vfB_tFxOA</string>
 	<key>GCM_SENDER_ID</key>
-	<string>740453153901</string>
+	<string>763899876517</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.CSG.CatholicSG</string>
 	<key>PROJECT_ID</key>
-	<string>mycatholicsgapp-dev</string>
+	<string>mycatholicsg-prod01</string>
 	<key>STORAGE_BUCKET</key>
-	<string>mycatholicsgapp-dev.appspot.com</string>
+	<string>mycatholicsg-prod01.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:740453153901:ios:4f0c7ad76a0865890d9364</string>
+	<string>1:763899876517:ios:2d9ae8da0a1b34ce62294c</string>
+	<key>DATABASE_URL</key>
+	<string>https://mycatholicsg-prod01.firebaseio.com</string>
 </dict>
 </plist>
