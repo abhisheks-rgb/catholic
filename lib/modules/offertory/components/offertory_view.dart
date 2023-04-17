@@ -163,8 +163,7 @@ class _OffertoryViewState extends State<OffertoryView> {
                   width: double.infinity,
                   margin:
                       const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
-                  // padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.white,
@@ -218,29 +217,35 @@ class _OffertoryViewState extends State<OffertoryView> {
                             showAlert(context);
                           }
                         },
-                        child: Row(
+                        child: Column(
                           children: [
-                            Expanded(
-                              child: Text(
-                                widget.model!.items == null
-                                    ? 'Cathedral of the Good Shepherd'
-                                    : _selectedParishValue!,
-                                style: const TextStyle(
-                                  color: Color.fromRGBO(4, 26, 82, 1),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 18,
+                            const SizedBox(height: 8),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    widget.model!.items == null
+                                        ? ''
+                                        : _selectedParishValue!,
+                                    style: const TextStyle(
+                                      color: Color.fromRGBO(4, 26, 82, 1),
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 18,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                const SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: Icon(
+                                    Entypo.chevron_down,
+                                    color: Color.fromRGBO(4, 26, 82, 1),
+                                    size: 20,
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: Icon(
-                                Entypo.chevron_down,
-                                color: Color.fromRGBO(4, 26, 82, 1),
-                                size: 20,
-                              ),
-                            ),
+                            const SizedBox(height: 8),
                           ],
                         ),
                       ),
@@ -320,7 +325,7 @@ class _OffertoryViewState extends State<OffertoryView> {
                                     ],
                                   ),
                                 ),
-                                const SizedBox(height: 16),
+                                const SizedBox(height: 8),
                                 Row(
                                   children: [
                                     Expanded(
@@ -341,17 +346,23 @@ class _OffertoryViewState extends State<OffertoryView> {
                                           Navigator.of(context)
                                               .pushNamed('/_/church_info');
                                         },
-                                        child: const Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                            'Church Info',
-                                            style: TextStyle(
-                                              color: Color.fromRGBO(
-                                                  12, 72, 224, 1),
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16,
+                                        child: Column(
+                                          children: const [
+                                            SizedBox(height: 8),
+                                            Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                'Church Info',
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      12, 72, 224, 1),
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
                                             ),
-                                          ),
+                                            SizedBox(height: 8),
+                                          ],
                                         ),
                                       ),
                                     ),
@@ -367,32 +378,36 @@ class _OffertoryViewState extends State<OffertoryView> {
 
                                           _redirectToMaps(query);
                                         },
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: const [
-                                            Spacer(),
-                                            Text(
-                                              'Directions',
-                                              style: TextStyle(
-                                                color: Color.fromRGBO(
-                                                    12, 72, 224, 1),
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 16,
-                                              ),
+                                        child: Column(
+                                          children: [
+                                            const SizedBox(height: 8),
+                                            Row(
+                                              children: const [
+                                                Spacer(),
+                                                Text(
+                                                  'Directions',
+                                                  style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        12, 72, 224, 1),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 8),
+                                                SizedBox(
+                                                  width: 20,
+                                                  height: 20,
+                                                  child: Icon(
+                                                    MaterialCommunityIcons
+                                                        .directions,
+                                                    color: Color.fromRGBO(
+                                                        12, 72, 224, 1),
+                                                    size: 20,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            SizedBox(width: 8),
-                                            SizedBox(
-                                              width: 20,
-                                              height: 20,
-                                              child: Icon(
-                                                MaterialCommunityIcons
-                                                    .directions,
-                                                color: Color.fromRGBO(
-                                                    12, 72, 224, 1),
-                                                size: 20,
-                                              ),
-                                            ),
+                                            const SizedBox(height: 8),
                                           ],
                                         ),
                                       ),
@@ -413,7 +428,7 @@ class _OffertoryViewState extends State<OffertoryView> {
                             width: double.infinity,
                             margin: const EdgeInsets.symmetric(
                                 vertical: 0, horizontal: 24),
-                            padding: const EdgeInsets.all(20),
+                            padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: Colors.white,
@@ -454,7 +469,7 @@ class _OffertoryViewState extends State<OffertoryView> {
                                     fontSize: 14,
                                   ),
                                 ),
-                                const SizedBox(height: 16),
+                                const SizedBox(height: 8),
                                 RawMaterialButton(
                                   constraints: const BoxConstraints(),
                                   materialTapTargetSize:
@@ -465,28 +480,35 @@ class _OffertoryViewState extends State<OffertoryView> {
                                     final uri = Uri.parse('$orgWebsite');
                                     urlLauncher(uri, 'web');
                                   },
-                                  child: Row(
+                                  child: Column(
                                     children: [
-                                      const SizedBox(
-                                        width: 14,
-                                        height: 14,
-                                        child: Icon(
-                                          Ionicons.open_outline,
-                                          color: Color.fromRGBO(12, 72, 224, 1),
-                                          size: 14,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 4),
-                                      Expanded(
-                                        child: Text(
-                                          widget._infos[0]['label'],
-                                          style: const TextStyle(
-                                            color:
-                                                Color.fromRGBO(8, 51, 158, 1),
-                                            fontSize: 14,
+                                      const SizedBox(height: 8),
+                                      Row(
+                                        children: [
+                                          const SizedBox(
+                                            width: 14,
+                                            height: 14,
+                                            child: Icon(
+                                              Ionicons.open_outline,
+                                              color: Color.fromRGBO(
+                                                  12, 72, 224, 1),
+                                              size: 14,
+                                            ),
                                           ),
-                                        ),
+                                          const SizedBox(width: 4),
+                                          Expanded(
+                                            child: Text(
+                                              widget._infos[0]['label'],
+                                              style: const TextStyle(
+                                                color: Color.fromRGBO(
+                                                    8, 51, 158, 1),
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
+                                      const SizedBox(height: 8),
                                     ],
                                   ),
                                 ),
@@ -502,7 +524,7 @@ class _OffertoryViewState extends State<OffertoryView> {
                         width: double.infinity,
                         margin: const EdgeInsets.symmetric(
                             vertical: 0, horizontal: 24),
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white,
@@ -531,7 +553,9 @@ class _OffertoryViewState extends State<OffertoryView> {
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const SizedBox(height: 16),
+                                    index != 1
+                                        ? const SizedBox(height: 8)
+                                        : const SizedBox(height: 16),
                                     const Divider(
                                       height: 1,
                                       thickness: 1,
@@ -556,7 +580,6 @@ class _OffertoryViewState extends State<OffertoryView> {
                                         fontSize: 14,
                                       ),
                                     ),
-                                    const SizedBox(height: 8),
                                     RawMaterialButton(
                                       constraints: const BoxConstraints(),
                                       materialTapTargetSize:
@@ -567,30 +590,37 @@ class _OffertoryViewState extends State<OffertoryView> {
                                         final uri = Uri.parse('$charityUrl');
                                         urlLauncher(uri, 'web');
                                       },
-                                      child: Row(
+                                      child: Column(
                                         children: [
-                                          const SizedBox(
-                                            width: 14,
-                                            height: 14,
-                                            child: Icon(
-                                              Ionicons.open_outline,
-                                              color: Color.fromRGBO(
-                                                  12, 72, 224, 1),
-                                              size: 14,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 4),
-                                          Expanded(
-                                            child: Text(
-                                              element['label'],
-                                              overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                color: Color.fromRGBO(
-                                                    8, 51, 158, 1),
-                                                fontSize: 14,
+                                          const SizedBox(height: 8),
+                                          Row(
+                                            children: [
+                                              const SizedBox(
+                                                width: 14,
+                                                height: 14,
+                                                child: Icon(
+                                                  Ionicons.open_outline,
+                                                  color: Color.fromRGBO(
+                                                      12, 72, 224, 1),
+                                                  size: 14,
+                                                ),
                                               ),
-                                            ),
+                                              const SizedBox(width: 4),
+                                              Expanded(
+                                                child: Text(
+                                                  element['label'],
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        8, 51, 158, 1),
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
+                                          const SizedBox(height: 8),
                                         ],
                                       ),
                                     ),
@@ -696,7 +726,7 @@ class _OffertoryViewState extends State<OffertoryView> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 12),
             ],
           ),
           content: Container(
@@ -709,48 +739,26 @@ class _OffertoryViewState extends State<OffertoryView> {
               shrinkWrap: true,
               itemCount: widget.model!.items!.length,
               separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(height: 16);
+                return Container();
               },
               itemBuilder: (context, index) {
-                if (index == widget.model!.items!.length - 1) {
-                  return InkWell(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 0, horizontal: 24),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.model!.items![index]['name'] ?? '',
-                            style: const TextStyle(
-                              color: Color.fromRGBO(4, 26, 82, 1),
-                              fontSize: 16,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                        ],
-                      ),
-                    ),
-                    onTap: () {
-                      _handleChangeParish(
-                          index, widget.model!.items![index]['name']);
-                    },
-                  );
-                }
-
                 return InkWell(
                   child: Container(
                     padding:
                         const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        widget.model!.items![index]['name'] ?? '',
-                        style: const TextStyle(
-                          color: Color.fromRGBO(4, 26, 82, 1),
-                          fontSize: 16,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 8),
+                        Text(
+                          widget.model!.items![index]['name'] ?? '',
+                          style: const TextStyle(
+                            color: Color.fromRGBO(4, 26, 82, 1),
+                            fontSize: 16,
+                          ),
                         ),
-                      ),
+                        const SizedBox(height: 8),
+                      ],
                     ),
                   ),
                   onTap: () {
