@@ -135,8 +135,8 @@ class _SchedulesPageState extends State<_SchedulesPage> {
               Container(
                 width: double.infinity,
                 padding: _selectedParishValue == 'all'
-                    ? const EdgeInsets.fromLTRB(20, 20, 20, 0)
-                    : const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                    ? const EdgeInsets.fromLTRB(20, 12, 20, 0)
+                    : const EdgeInsets.fromLTRB(20, 12, 20, 20),
                 decoration: BoxDecoration(
                   color: const Color.fromRGBO(255, 255, 255, 1),
                   borderRadius: BorderRadius.circular(10),
@@ -163,33 +163,39 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                           showAlert(context);
                         }
                       },
-                      child: Row(
+                      child: Column(
                         children: [
-                          Expanded(
-                            child: Text(
-                              _selectedParishValue != null
-                                  ? _getChurchName(_selectedParishValue)
-                                  : '',
-                              style: const TextStyle(
-                                color: Color.fromRGBO(4, 26, 82, 1),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  _selectedParishValue != null
+                                      ? _getChurchName(_selectedParishValue)
+                                      : '',
+                                  style: const TextStyle(
+                                    color: Color.fromRGBO(4, 26, 82, 1),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18,
+                                  ),
+                                ),
                               ),
-                            ),
+                              const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: Icon(
+                                  Entypo.chevron_down,
+                                  color: Color.fromRGBO(4, 26, 82, 1),
+                                  size: 20,
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: Icon(
-                              Entypo.chevron_down,
-                              color: Color.fromRGBO(4, 26, 82, 1),
-                              size: 20,
-                            ),
-                          ),
+                          const SizedBox(height: 8),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 12),
                     _selectedParishValue == 'all'
                         ? const SizedBox()
                         : const Divider(
@@ -642,7 +648,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 12),
                 ],
               ),
               content: Container(
@@ -655,65 +661,26 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                   shrinkWrap: true,
                   itemCount: churchList.length,
                   separatorBuilder: (BuildContext context, int index) {
-                    return const SizedBox(height: 10);
+                    return Container();
                   },
                   itemBuilder: (context, index) {
-                    if (index == churchList.length - 1) {
-                      return InkWell(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 0, horizontal: 24),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                churchList[index]['name'] ?? '',
-                                style: const TextStyle(
-                                  color: Color.fromRGBO(4, 26, 82, 1),
-                                  fontSize: 16,
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                            ],
-                          ),
-                        ),
-                        onTap: () {
-                          setState(() {
-                            _selectedParishValue =
-                                churchList[index]['name'].toString();
-                          });
-                          if (churchList[index]['name'] == 'All Churches') {
-                            _getSchedules('all');
-                            setState(() {
-                              _selectedParishValue = 'all';
-                            });
-                          } else {
-                            var parish =
-                                widget.model.items?.firstWhere((element) {
-                              return element['name'] ==
-                                  churchList[index]['name'];
-                            });
-
-                            _getSchedules(parish['link']);
-                            setState(() {
-                              _selectedParishValue = churchList[index]['name'];
-                            });
-                          }
-                          Navigator.pop(context);
-                        },
-                      );
-                    }
-
                     return InkWell(
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                             vertical: 0, horizontal: 24),
-                        child: Text(
-                          churchList[index]['name'] ?? '',
-                          style: const TextStyle(
-                            color: Color.fromRGBO(4, 26, 82, 1),
-                            fontSize: 16,
-                          ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 8),
+                            Text(
+                              churchList[index]['name'] ?? '',
+                              style: const TextStyle(
+                                color: Color.fromRGBO(4, 26, 82, 1),
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                          ],
                         ),
                       ),
                       onTap: () {
