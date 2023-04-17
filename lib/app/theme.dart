@@ -7,6 +7,7 @@ class BrandColors {
       backgroundColor: Light,
       systemOverlayStyle: SystemUiOverlayStyle(
         statusBarBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.dark,
       ),
       foregroundColor: Dark,
       iconTheme: IconThemeData(color: Dark),
