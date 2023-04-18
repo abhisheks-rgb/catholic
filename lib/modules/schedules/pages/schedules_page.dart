@@ -159,7 +159,8 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                       constraints: const BoxConstraints(),
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       onPressed: () async {
-                        if (widget.model.items != null) {
+                        if (widget.model.items!.isNotEmpty &&
+                            _schedules != null) {
                           showAlert(context);
                         }
                       },
