@@ -52,7 +52,7 @@ class LoginAction extends BaseAction {
 
             for (var e in items) {
               if (e['_id'] == int.parse(user!['parish'])) {
-                user!['churchId'] = e['_id'];
+                user!['churchId'] = e['_id'] - 1;
                 user!['churchName'] = e['name'];
                 user!['churchLink'] = e['link'];
               }
