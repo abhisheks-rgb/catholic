@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,7 +22,6 @@ class OffertoryView extends BaseStatefulPageView {
 
 class _OffertoryViewState extends State<OffertoryView> {
   int currentParishId = 1;
-  Timer? myTimer;
   String? _selectedParishValue = '';
 
   @override
@@ -35,46 +33,12 @@ class _OffertoryViewState extends State<OffertoryView> {
     if (widget.model!.churchName != null && widget.model!.churchName != '') {
       _selectedParishValue = widget.model!.churchName;
       currentParishId = widget.model!.churchId!;
-
-      startTimer();
     }
-  }
-
-  void startTimer() async {
-    int x = 0;
-
-    Future.delayed(const Duration(seconds: 1), () async {
-      myTimer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-        if (widget.model!.churchName != null &&
-            widget.model!.churchName != '') {
-          if (widget.model!.items!.isNotEmpty) {
-            x += 1;
-
-            final index = widget.model!.items!
-                .indexWhere((item) => item['name'] == widget.model!.churchName);
-
-            if (!index.isNaN) {
-              setState(() {
-                // _selectedParishValue = widget.model!.churchName.toString();
-                currentParishId = index;
-              });
-            }
-          }
-        } else {
-          x += 1;
-        }
-
-        if (x > 0) {
-          timer.cancel();
-        }
-      });
-    });
   }
 
   @override
   void dispose() {
     super.dispose();
-    myTimer?.cancel();
     delayedResetChurchName();
   }
 
@@ -167,6 +131,13 @@ class _OffertoryViewState extends State<OffertoryView> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.white,
+                    boxShadow: const <BoxShadow>[
+                      BoxShadow(
+                        color: Color.fromRGBO(235, 235, 235, 1),
+                        blurRadius: 15,
+                        offset: Offset(0.0, 0.75),
+                      ),
+                    ],
                   ),
                   child: Column(
                     children: [
@@ -213,7 +184,7 @@ class _OffertoryViewState extends State<OffertoryView> {
                         constraints: const BoxConstraints(),
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         onPressed: () {
-                          if (widget.model!.items != null) {
+                          if (widget.model!.items!.isNotEmpty) {
                             showAlert(context);
                           }
                         },
@@ -337,7 +308,7 @@ class _OffertoryViewState extends State<OffertoryView> {
                                           Butter.d(widget.model!
                                               .items![currentParishId]['name']);
                                           await widget.model!.navigateTo!(
-                                              currentParishId + 1,
+                                              currentParishId,
                                               '/_/church_info',
                                               widget.model!
                                                       .items![currentParishId]
@@ -420,6 +391,14 @@ class _OffertoryViewState extends State<OffertoryView> {
                   ),
                 ),
                 widget._infos.isEmpty
+                    ? Container(
+                        margin: const EdgeInsets.only(top: 16),
+                        child: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                    : Container(),
+                widget._infos.isEmpty
                     ? Container()
                     : Column(
                         children: [
@@ -432,6 +411,13 @@ class _OffertoryViewState extends State<OffertoryView> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: Colors.white,
+                              boxShadow: const <BoxShadow>[
+                                BoxShadow(
+                                  color: Color.fromRGBO(235, 235, 235, 1),
+                                  blurRadius: 15,
+                                  offset: Offset(0.0, 0.75),
+                                ),
+                              ],
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -528,6 +514,13 @@ class _OffertoryViewState extends State<OffertoryView> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white,
+                          boxShadow: const <BoxShadow>[
+                            BoxShadow(
+                              color: Color.fromRGBO(235, 235, 235, 1),
+                              blurRadius: 15,
+                              offset: Offset(0.0, 0.75),
+                            ),
+                          ],
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
