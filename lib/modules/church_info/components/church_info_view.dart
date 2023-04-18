@@ -97,7 +97,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                         constraints: const BoxConstraints(),
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         onPressed: () async {
-                          if (widget.model!.items != null) {
+                          if (widget.model!.items!.isNotEmpty) {
                             showAlert(context);
                           }
                         },
@@ -524,6 +524,14 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                     ],
                   ),
                 ),
+                widget._infos.isEmpty
+                    ? Container(
+                        margin: const EdgeInsets.only(top: 16),
+                        child: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                    : Container(),
                 const SizedBox(height: 16),
                 widget._infos.isEmpty
                     ? Container()
