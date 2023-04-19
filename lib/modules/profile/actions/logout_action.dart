@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../models/profile_model.dart';
 import '../../home/models/home_model.dart';
 import '../../login/models/login_model.dart';
+import '../../welcome/models/welcome_model.dart';
 
 class LogoutAction extends BaseAction {
   LogoutAction();
@@ -23,6 +24,10 @@ class LogoutAction extends BaseAction {
     await FirebaseAuth.instance.signOut();
 
     await dispatchModel<HomeModel>(HomeModel(), (m) {
+      m.user = null;
+    });
+
+    await dispatchModel<WelcomeModel>(WelcomeModel(), (m) {
       m.user = null;
     });
 

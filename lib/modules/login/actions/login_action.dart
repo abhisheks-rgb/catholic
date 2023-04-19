@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/login_model.dart';
 import '../../home/models/home_model.dart';
+import '../../welcome/models/welcome_model.dart';
 
 class LoginAction extends BaseAction {
   final String? email;
@@ -52,7 +53,7 @@ class LoginAction extends BaseAction {
 
             for (var e in items) {
               if (e['_id'] == int.parse(user!['parish'])) {
-                user!['churchId'] = e['_id'];
+                user!['churchId'] = e['_id'] - 1;
                 user!['churchName'] = e['name'];
                 user!['churchLink'] = e['link'];
               }
@@ -79,6 +80,10 @@ class LoginAction extends BaseAction {
 
     if (isLoggedIn == true) {
       await dispatchModel<HomeModel>(HomeModel(), (m) {
+        m.user = user;
+      });
+
+      await dispatchModel<WelcomeModel>(WelcomeModel(), (m) {
         m.user = user;
       });
 

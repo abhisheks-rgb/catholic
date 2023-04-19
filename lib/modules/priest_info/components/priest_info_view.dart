@@ -157,8 +157,8 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                         width: double.infinity,
                         margin: const EdgeInsets.symmetric(
                             vertical: 0, horizontal: 24),
-                        // padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12, horizontal: 20),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white,
@@ -246,6 +246,7 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                               },
                               child: Column(
                                 children: [
+                                  const SizedBox(height: 8),
                                   Row(
                                     children: [
                                       Expanded(
@@ -275,11 +276,11 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                                       ),
                                     ],
                                   ),
+                                  const SizedBox(height: 8),
                                   isAllPriests || widget._infos.isEmpty
                                       ? Container()
                                       : Column(
                                           children: [
-                                            const SizedBox(height: 8),
                                             widget
                                                     ._infos[currentPriestIndex!]
                                                         ['churchrole']
@@ -300,6 +301,12 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                                                       ),
                                                     ),
                                                   ),
+                                            widget
+                                                    ._infos[currentPriestIndex!]
+                                                        ['churchrole']
+                                                    .isEmpty
+                                                ? Container()
+                                                : const SizedBox(height: 8),
                                           ],
                                         ),
                                 ],
@@ -311,6 +318,14 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                           ],
                         ),
                       ),
+                      widget._infos.isEmpty
+                          ? Container(
+                              margin: const EdgeInsets.only(top: 16),
+                              child: const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          : Container(),
                       const SizedBox(height: 16),
                       isAllPriests && widget._infos.isNotEmpty
                           ? _renderPriestList()
@@ -337,7 +352,7 @@ class _PriestInfoViewState extends State<PriestInfoView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 16),
+        const SizedBox(height: 8),
         const Divider(
           height: 1,
           thickness: 1,
@@ -395,23 +410,27 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                       ),
                     ],
                   ),
+                  widget._infos[currentPriestIndex!]['phone'].isEmpty
+                      ? Container()
+                      : const SizedBox(height: 8),
                 ],
               ),
+        priestParish.isEmpty ? const SizedBox(height: 8) : Container(),
         widget._infos[currentPriestIndex!]['phone'].isEmpty
             ? Container()
-            : Column(
-                children: [
-                  const SizedBox(height: 16),
-                  RawMaterialButton(
-                    constraints: const BoxConstraints(),
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    onPressed: () {
-                      final priestTel =
-                          widget._infos[currentPriestIndex!]['phone'] ?? '';
-                      final uri = Uri.parse('tel:$priestTel');
-                      urlLauncher(uri, 'tel');
-                    },
-                    child: Row(
+            : RawMaterialButton(
+                constraints: const BoxConstraints(),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                onPressed: () {
+                  final priestTel =
+                      widget._infos[currentPriestIndex!]['phone'] ?? '';
+                  final uri = Uri.parse('tel:$priestTel');
+                  urlLauncher(uri, 'tel');
+                },
+                child: Column(
+                  children: [
+                    const SizedBox(height: 8),
+                    Row(
                       children: [
                         const SizedBox(
                           width: 20,
@@ -434,24 +453,25 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                         ),
                       ],
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 8),
+                  ],
+                ),
               ),
         widget._infos[currentPriestIndex!]['email'].isEmpty
             ? Container()
-            : Column(
-                children: [
-                  const SizedBox(height: 16),
-                  RawMaterialButton(
-                    constraints: const BoxConstraints(),
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    onPressed: () {
-                      final priestEmail =
-                          widget._infos[currentPriestIndex!]['email'] ?? '';
-                      final uri = Uri.parse('mailTo:$priestEmail');
-                      urlLauncher(uri, 'email');
-                    },
-                    child: Row(
+            : RawMaterialButton(
+                constraints: const BoxConstraints(),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                onPressed: () {
+                  final priestEmail =
+                      widget._infos[currentPriestIndex!]['email'] ?? '';
+                  final uri = Uri.parse('mailTo:$priestEmail');
+                  urlLauncher(uri, 'email');
+                },
+                child: Column(
+                  children: [
+                    const SizedBox(height: 8),
+                    Row(
                       children: [
                         const SizedBox(
                           width: 20,
@@ -474,14 +494,21 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                         ),
                       ],
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 8),
+                  ],
+                ),
               ),
         widget._infos[currentPriestIndex!]['ordinationdate'].isEmpty
             ? Container()
             : Column(
                 children: [
-                  const SizedBox(height: 16),
+                  widget._infos[currentPriestIndex!]['email'].isEmpty ||
+                          (widget._infos[currentPriestIndex!]['email']
+                                  .isEmpty &&
+                              widget
+                                  ._infos[currentPriestIndex!]['phone'].isEmpty)
+                      ? const SizedBox(height: 16)
+                      : const SizedBox(height: 8),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -521,6 +548,7 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                   ),
                 ],
               ),
+        const SizedBox(height: 8),
       ],
     );
   }
@@ -664,7 +692,7 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 12),
             ],
           ),
           content: Container(
@@ -677,60 +705,81 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                 shrinkWrap: true,
                 itemCount: widget._infos.length,
                 separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(height: 16);
+                  return Container();
                 },
                 itemBuilder: (context, index) {
                   if (index == 0) {
-                    return InkWell(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 0, horizontal: 24),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              RawMaterialButton(
-                                constraints: const BoxConstraints(),
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                                onPressed: () {
-                                  if (!isAllPriests) {
-                                    setState(() {
-                                      isAllPriests = true;
-                                    });
-                                  }
-
-                                  Navigator.pop(context);
-                                },
-                                child: const Text(
-                                  'All Priests',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(4, 26, 82, 1),
-                                    fontSize: 16,
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        InkWell(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 0, horizontal: 24),
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Column(
+                                children: const [
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'All Priests',
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(4, 26, 82, 1),
+                                      fontSize: 16,
+                                    ),
                                   ),
-                                ),
+                                  SizedBox(height: 8),
+                                ],
                               ),
-                              const SizedBox(height: 16),
-                              Text(
-                                '${widget._infos[index]['salutation'] ?? ''} ${widget._infos[index]['name'] ?? '---'}',
-                                style: const TextStyle(
-                                  color: Color.fromRGBO(4, 26, 82, 1),
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
+                          onTap: () {
+                            if (!isAllPriests) {
+                              setState(() {
+                                isAllPriests = true;
+                              });
+                            }
+
+                            Navigator.pop(context);
+                          },
                         ),
-                        onTap: () {
-                          _handleChangePriest(index);
-                        });
+                        InkWell(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 0, horizontal: 24),
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Column(
+                                children: [
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    '${widget._infos[index]['salutation'] ?? ''} ${widget._infos[index]['name'] ?? '---'}',
+                                    style: const TextStyle(
+                                      color: Color.fromRGBO(4, 26, 82, 1),
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                ],
+                              ),
+                            ),
+                          ),
+                          onTap: () {
+                            _handleChangePriest(index);
+                          },
+                        ),
+                      ],
+                    );
                   } else if (index == widget._infos.length - 1) {
                     return InkWell(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 0, horizontal: 24),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 24),
+                        child: Align(
+                          alignment: Alignment.topLeft,
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              const SizedBox(height: 8),
                               Text(
                                 '${widget._infos[index]['salutation'] ?? ''} ${widget._infos[index]['name'] ?? '---'}',
                                 style: const TextStyle(
@@ -742,9 +791,11 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                             ],
                           ),
                         ),
-                        onTap: () {
-                          _handleChangePriest(index);
-                        });
+                      ),
+                      onTap: () {
+                        _handleChangePriest(index);
+                      },
+                    );
                   }
 
                   return InkWell(
@@ -753,12 +804,18 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                           vertical: 0, horizontal: 24),
                       child: Align(
                         alignment: Alignment.topLeft,
-                        child: Text(
-                          '${widget._infos[index]['salutation'] ?? ''} ${widget._infos[index]['name'] ?? '---'}',
-                          style: const TextStyle(
-                            color: Color.fromRGBO(4, 26, 82, 1),
-                            fontSize: 16,
-                          ),
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 8),
+                            Text(
+                              '${widget._infos[index]['salutation'] ?? ''} ${widget._infos[index]['name'] ?? '---'}',
+                              style: const TextStyle(
+                                color: Color.fromRGBO(4, 26, 82, 1),
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                          ],
                         ),
                       ),
                     ),

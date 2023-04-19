@@ -62,6 +62,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
   Map? _filteredSchedules;
   List? _schedTypes;
   Timer? myTimer;
+  DateTime? _selectedDate;
 
   _SchedulesPageState(this.model);
 
@@ -135,8 +136,8 @@ class _SchedulesPageState extends State<_SchedulesPage> {
               Container(
                 width: double.infinity,
                 padding: _selectedParishValue == 'all'
-                    ? const EdgeInsets.fromLTRB(20, 20, 20, 0)
-                    : const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                    ? const EdgeInsets.fromLTRB(20, 12, 20, 0)
+                    : const EdgeInsets.fromLTRB(20, 12, 20, 20),
                 decoration: BoxDecoration(
                   color: const Color.fromRGBO(255, 255, 255, 1),
                   borderRadius: BorderRadius.circular(10),
@@ -159,37 +160,44 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                       constraints: const BoxConstraints(),
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       onPressed: () async {
-                        if (widget.model.items != null) {
+                        if (widget.model.items!.isNotEmpty &&
+                            _schedules != null) {
                           showAlert(context);
                         }
                       },
-                      child: Row(
+                      child: Column(
                         children: [
-                          Expanded(
-                            child: Text(
-                              _selectedParishValue != null
-                                  ? _getChurchName(_selectedParishValue)
-                                  : '',
-                              style: const TextStyle(
-                                color: Color.fromRGBO(4, 26, 82, 1),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  _selectedParishValue != null
+                                      ? _getChurchName(_selectedParishValue)
+                                      : '',
+                                  style: const TextStyle(
+                                    color: Color.fromRGBO(4, 26, 82, 1),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18,
+                                  ),
+                                ),
                               ),
-                            ),
+                              const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: Icon(
+                                  Entypo.chevron_down,
+                                  color: Color.fromRGBO(4, 26, 82, 1),
+                                  size: 20,
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: Icon(
-                              Entypo.chevron_down,
-                              color: Color.fromRGBO(4, 26, 82, 1),
-                              size: 20,
-                            ),
-                          ),
+                          const SizedBox(height: 8),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 12),
                     _selectedParishValue == 'all'
                         ? const SizedBox()
                         : const Divider(
@@ -282,6 +290,10 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                         itemBuilder: (BuildContext context, int index) {
                           bool isSelected =
                               _schedTypes![index] == _selectedSchedType;
+                          bool hasDateSelected =
+                              _schedTypes![index] == 'Date' &&
+                                  _selectedDate != null;
+
                           return Container(
                             margin: const EdgeInsets.only(bottom: 5),
                             decoration: const BoxDecoration(
@@ -303,39 +315,127 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                   padding: MaterialStateProperty.all<EdgeInsets>(
                                       const EdgeInsets.symmetric(
                                           horizontal: 10.5)),
-                                  foregroundColor:
-                                      MaterialStateProperty.all<Color>(isSelected
-                                          ? const Color.fromRGBO(
-                                              255, 255, 255, 1)
-                                          : const Color.fromRGBO(
-                                              4, 26, 82, 0.7)),
-                                  backgroundColor: MaterialStateProperty.all(
-                                      isSelected
-                                          ? const Color.fromRGBO(4, 26, 82, 1)
-                                          : const Color.fromRGBO(
-                                              255, 255, 255, 1)),
-                                  shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(RoundedRectangleBorder(
+                                  foregroundColor: MaterialStateProperty.all<
+                                      Color>(isSelected ||
+                                          hasDateSelected
+                                      ? const Color.fromRGBO(255, 255, 255, 1)
+                                      : const Color.fromRGBO(4, 26, 82, 0.7)),
+                                  backgroundColor: MaterialStateProperty.all(isSelected ||
+                                          hasDateSelected
+                                      ? const Color.fromRGBO(4, 26, 82, 1)
+                                      : const Color.fromRGBO(255, 255, 255, 1)),
+                                  shape:
+                                      MaterialStateProperty.all<RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(32.0),
                                   ))),
-                              onPressed: () {
-                                final filtered = _schedules?.map((key, value) {
-                                  final filteredSched = value.where((p) {
-                                    return p['type'] == _schedTypes![index];
-                                  }).toList();
+                              onPressed: () async {
+                                if (_schedTypes![index] == 'Date') {
+                                  final DateTime? picked = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime.now(),
+                                    lastDate: DateTime.now()
+                                        .add(const Duration(days: 40)),
+                                  );
+                                  if (picked != null) {
+                                    final filtered =
+                                        _schedules?.map((key, value) {
+                                      final filteredSched = value.where((p) {
+                                        // if (_selectedSchedType != 'All Types') {
+                                        return p['type'] == _selectedSchedType;
+                                      }).toList();
 
-                                  return MapEntry(key, filteredSched);
-                                });
+                                      return MapEntry(
+                                          key,
+                                          _selectedSchedType != 'All Types'
+                                              ? filteredSched
+                                              : value.toList());
+                                    });
 
-                                filtered?.removeWhere(
-                                    (key, value) => value.isEmpty);
+                                    filtered?.removeWhere((key, value) {
+                                      return int.parse(key) !=
+                                          int.parse(DateFormat('yyyyMMdd')
+                                              .format(picked));
+                                    });
 
-                                setState(() {
-                                  _filteredSchedules = filtered;
-                                  _selectedSchedType = _schedTypes![index];
-                                });
+                                    setState(() {
+                                      _selectedDate = picked;
+                                      _filteredSchedules = filtered;
+                                    });
+                                  }
+                                } else {
+                                  final filtered =
+                                      _schedules?.map((key, value) {
+                                    final filteredSched = value.where((p) {
+                                      return p['type'] == _schedTypes![index];
+                                    }).toList();
+
+                                    return MapEntry(
+                                        key,
+                                        _schedTypes![index] != 'All Types'
+                                            ? filteredSched
+                                            : value.toList());
+                                  });
+
+                                  filtered?.removeWhere(
+                                      (key, value) => value.isEmpty);
+
+                                  if (_selectedDate != null) {
+                                    filtered?.removeWhere((key, value) {
+                                      return int.parse(key) !=
+                                          int.parse(DateFormat('yyyyMMdd')
+                                              .format(_selectedDate!));
+                                    });
+                                  }
+
+                                  setState(() {
+                                    _filteredSchedules = filtered;
+                                    _selectedSchedType = _schedTypes![index];
+                                  });
+                                }
                               },
-                              child: Text(_schedTypes![index]),
+                              child: hasDateSelected
+                                  ? Row(children: [
+                                      const Icon(
+                                          MaterialCommunityIcons
+                                              .calendar_blank_outline,
+                                          size: 16),
+                                      const SizedBox(width: 5),
+                                      Text(
+                                        DateFormat('d MMM yy')
+                                            .format(_selectedDate!),
+                                      ),
+                                      const SizedBox(width: 5),
+                                      GestureDetector(
+                                        onTap: () {
+                                          final filtered =
+                                              _schedules?.map((key, value) {
+                                            final filteredSched =
+                                                value.where((p) {
+                                              return p['type'] ==
+                                                  _selectedSchedType;
+                                            }).toList();
+
+                                            return MapEntry(
+                                                key,
+                                                _selectedSchedType !=
+                                                        'All Types'
+                                                    ? filteredSched
+                                                    : value.toList());
+                                          });
+
+                                          setState(() {
+                                            _selectedDate = null;
+                                            _filteredSchedules = filtered;
+                                          });
+                                        },
+                                        child: const Icon(
+                                            MaterialCommunityIcons.close,
+                                            size: 16),
+                                      ),
+                                    ])
+                                  : Text(_schedTypes![index]),
                             ),
                           );
                         },
@@ -347,20 +447,24 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                   : const SizedBox(),
               isLoadingSchedules
                   ? Container(
-                      margin: const EdgeInsets.only(top: 16),
-                      child: const Center(child: CircularProgressIndicator()))
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      margin: const EdgeInsets.only(top: 20),
+                      child: const Center(child: CircularProgressIndicator()),
+                    )
                   : Flexible(
                       child: ListView.separated(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: _selectedSchedType == 'All Types'
+                          itemCount: _selectedSchedType == 'All Types' &&
+                                  _selectedDate == null
                               ? (_schedules?.length ?? 0)
                               : (_filteredSchedules?.length ?? 0),
                           separatorBuilder: (context, index) {
                             return const SizedBox(height: 24);
                           },
                           itemBuilder: (BuildContext context, int index) {
-                            var data = _selectedSchedType == 'All Types'
+                            var data = _selectedSchedType == 'All Types' &&
+                                    _selectedDate == null
                                 ? _schedules
                                 : _filteredSchedules;
 
@@ -640,7 +744,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 12),
                 ],
               ),
               content: Container(
@@ -653,65 +757,26 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                   shrinkWrap: true,
                   itemCount: churchList.length,
                   separatorBuilder: (BuildContext context, int index) {
-                    return const SizedBox(height: 10);
+                    return Container();
                   },
                   itemBuilder: (context, index) {
-                    if (index == churchList.length - 1) {
-                      return InkWell(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 0, horizontal: 24),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                churchList[index]['name'] ?? '',
-                                style: const TextStyle(
-                                  color: Color.fromRGBO(4, 26, 82, 1),
-                                  fontSize: 16,
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                            ],
-                          ),
-                        ),
-                        onTap: () {
-                          setState(() {
-                            _selectedParishValue =
-                                churchList[index]['name'].toString();
-                          });
-                          if (churchList[index]['name'] == 'All Churches') {
-                            _getSchedules('all');
-                            setState(() {
-                              _selectedParishValue = 'all';
-                            });
-                          } else {
-                            var parish =
-                                widget.model.items?.firstWhere((element) {
-                              return element['name'] ==
-                                  churchList[index]['name'];
-                            });
-
-                            _getSchedules(parish['link']);
-                            setState(() {
-                              _selectedParishValue = churchList[index]['name'];
-                            });
-                          }
-                          Navigator.pop(context);
-                        },
-                      );
-                    }
-
                     return InkWell(
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                             vertical: 0, horizontal: 24),
-                        child: Text(
-                          churchList[index]['name'] ?? '',
-                          style: const TextStyle(
-                            color: Color.fromRGBO(4, 26, 82, 1),
-                            fontSize: 16,
-                          ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 8),
+                            Text(
+                              churchList[index]['name'] ?? '',
+                              style: const TextStyle(
+                                color: Color.fromRGBO(4, 26, 82, 1),
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                          ],
                         ),
                       ),
                       onTap: () {
@@ -745,7 +810,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
             ));
   }
 
-  // disable popup for the meantime
+  // Disable popup view temporarily
   // void _showPopup(BuildContext context, var schedData) {
   //   var schedParish = widget.model.items?.firstWhere((element) {
   //     return element['_id'] == schedData['parish'];
@@ -754,109 +819,112 @@ class _SchedulesPageState extends State<_SchedulesPage> {
   //     context: context,
   //     builder: (BuildContext context) {
   //       return AlertDialog(
-  //           insetPadding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
-  //           content: SingleChildScrollView(
-  //             // ignore: sized_box_for_whitespace
-  //             child: Container(
-  //               height: MediaQuery.of(context).size.height * 0.5,
-  //               child: Column(
-  //                 crossAxisAlignment: CrossAxisAlignment.start,
-  //                 children: [
-  //                   Row(
-  //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                     children: [
-  //                       const Text(
-  //                         'Schedule Details',
-  //                         style: TextStyle(
-  //                           color: Color.fromRGBO(4, 26, 82, 1),
-  //                           fontWeight: FontWeight.w500,
-  //                           fontSize: 18,
-  //                         ),
+  //         insetPadding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
+  //         content: SingleChildScrollView(
+  //           physics: const NeverScrollableScrollPhysics(),
+  //           child: SizedBox(
+  //             // height: MediaQuery.of(context).size.height * 0.5,
+  //             child: Column(
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               children: [
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                   children: [
+  //                     const Text(
+  //                       'Schedule Details',
+  //                       style: TextStyle(
+  //                         color: Color.fromRGBO(4, 26, 82, 1),
+  //                         fontWeight: FontWeight.w500,
+  //                         fontSize: 18,
   //                       ),
-  //                       IconButton(
-  //                         padding: const EdgeInsets.all(0),
-  //                         alignment: Alignment.centerRight,
-  //                         icon: const Icon(Ionicons.close_circle),
-  //                         onPressed: () {
-  //                           Navigator.of(context).pop();
-  //                         },
-  //                       ),
-  //                     ],
-  //                   ),
-  //                   Column(
-  //                     crossAxisAlignment: CrossAxisAlignment.start,
-  //                     children: [
-  //                       Row(
-  //                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                           children: [
-  //                             Text(
-  //                               '${schedData['title']}',
-  //                               style: const TextStyle(
-  //                                 color: Color.fromRGBO(4, 26, 82, 1),
-  //                                 fontWeight: FontWeight.w500,
-  //                                 fontSize: 20,
-  //                               ),
-  //                             ),
-  //                             _scheduleChip(
-  //                                 schedData['type'],
-  //                                 schedData['abbrev'],
-  //                                 schedData['colorEvento'],
-  //                                 schedData['color'],
-  //                                 true),
-  //                           ]),
-  //                       Text(
-  //                           '${schedData['lang'].toUpperCase()} • ${schedData['location'].toUpperCase()}',
-  //                           style: const TextStyle(
-  //                               letterSpacing: 0.1,
-  //                               fontWeight: FontWeight.w400,
-  //                               color: Color.fromRGBO(4, 26, 82, 1),
-  //                               fontFeatures: <FontFeature>[
-  //                                 FontFeature.enable('smcp')
-  //                               ],
-  //                               fontSize: 16)),
-  //                     ],
-  //                   ),
-  //                   const SizedBox(height: 8),
-  //                   Container(
-  //                     height: 120,
-  //                     decoration: BoxDecoration(
-  //                       borderRadius: BorderRadius.circular(10),
-  //                       color: const Color.fromRGBO(219, 228, 251, 1),
   //                     ),
-  //                   ),
-  //                   const SizedBox(height: 8),
-  //                   Row(
-  //                     crossAxisAlignment: CrossAxisAlignment.start,
-  //                     children: [
-  //                       SizedBox(
-  //                         width: 20,
-  //                         height: 20,
-  //                         child: Image.asset(
-  //                           assetPath('church-alt.png'),
-  //                         ),
-  //                       ),
-  //                       const SizedBox(width: 8),
-  //                       Expanded(
-  //                         child: Text(
-  //                           schedParish['name'],
-  //                           style: const TextStyle(
-  //                             fontSize: 16,
-  //                             fontWeight: FontWeight.w500,
-  //                             color: Color.fromRGBO(12, 72, 224, 1),
+  //                     IconButton(
+  //                       padding: const EdgeInsets.all(0),
+  //                       alignment: Alignment.centerRight,
+  //                       icon: const Icon(Ionicons.close_circle),
+  //                       onPressed: () {
+  //                         Navigator.of(context).pop();
+  //                       },
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: [
+  //                     Row(
+  //                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                         children: [
+  //                           Text(
+  //                             '${schedData['title']}',
+  //                             style: const TextStyle(
+  //                               color: Color.fromRGBO(4, 26, 82, 1),
+  //                               fontWeight: FontWeight.w500,
+  //                               fontSize: 20,
+  //                             ),
   //                           ),
+  //                           _scheduleChip(
+  //                               schedData['type'],
+  //                               schedData['abbrev'],
+  //                               schedData['colorEvento'],
+  //                               schedData['color'],
+  //                               true),
+  //                         ]),
+  //                     Text(
+  //                         '${schedData['lang'].toUpperCase()} • ${schedData['location'].toUpperCase()}',
+  //                         style: const TextStyle(
+  //                             letterSpacing: 0.1,
+  //                             fontWeight: FontWeight.w400,
+  //                             color: Color.fromRGBO(4, 26, 82, 1),
+  //                             fontFeatures: <FontFeature>[
+  //                               FontFeature.enable('smcp')
+  //                             ],
+  //                             fontSize: 16)),
+  //                   ],
+  //                 ),
+  //                 const SizedBox(height: 8),
+  //                 // Container(
+  //                 //   height: 120,
+  //                 //   decoration: BoxDecoration(
+  //                 //     borderRadius: BorderRadius.circular(10),
+  //                 //     color: const Color.fromRGBO(219, 228, 251, 1),
+  //                 //   ),
+  //                 // ),
+  //                 // const SizedBox(height: 8),
+  //                 Row(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: [
+  //                     SizedBox(
+  //                       width: 20,
+  //                       height: 20,
+  //                       child: Image.asset(
+  //                         assetPath('church-alt.png'),
+  //                       ),
+  //                     ),
+  //                     const SizedBox(width: 8),
+  //                     Expanded(
+  //                       child: Text(
+  //                         schedParish['name'],
+  //                         style: const TextStyle(
+  //                           fontSize: 16,
+  //                           fontWeight: FontWeight.w500,
+  //                           color: Color.fromRGBO(12, 72, 224, 1),
   //                         ),
   //                       ),
-  //                     ],
-  //                   ),
-  //                   const SizedBox(height: 8),
-  //                   Row(
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 const SizedBox(height: 8),
+  //                 InkWell(
+  //                   child: Row(
   //                     crossAxisAlignment: CrossAxisAlignment.start,
   //                     children: [
-  //                       SizedBox(
+  //                       const SizedBox(
   //                         width: 20,
   //                         height: 20,
-  //                         child: Image.asset(
-  //                           assetPath('map-pin-solid.png'),
+  //                         child: Icon(
+  //                           MaterialCommunityIcons.map_marker,
+  //                           color: Color.fromRGBO(130, 141, 168, 1),
+  //                           size: 20,
   //                         ),
   //                       ),
   //                       const SizedBox(width: 8),
@@ -867,19 +935,58 @@ class _SchedulesPageState extends State<_SchedulesPage> {
   //                         ),
   //                       ),
   //                       const SizedBox(width: 10),
-  //                       SizedBox(
+  //                       const SizedBox(
   //                         width: 24,
   //                         height: 24,
-  //                         child: Image.asset(
-  //                           assetPath('directions.png'),
+  //                         child: Icon(
+  //                           MaterialCommunityIcons.directions,
+  //                           color: Color.fromRGBO(12, 72, 224, 1),
+  //                           size: 24,
   //                         ),
   //                       ),
   //                     ],
   //                   ),
-  //                 ],
-  //               ),
+  //                   onTap: () {
+  //                     final query = _getChurchAddress(_selectedParishValue);
+  //                     if (query.isNotEmpty) {
+  //                       _redirectToMaps(query);
+  //                     }
+  //                   },
+  //                 ),
+  //                 schedData['notes'] != ''
+  //                     ? Row(
+  //                         children: [
+  //                           SizedBox(
+  //                             width: 16,
+  //                             height: 16,
+  //                             child: Image.asset(assetPath('notes.png'),
+  //                                 color: const Color.fromRGBO(4, 26, 82, 0.5)),
+  //                           ),
+  //                           const Padding(
+  //                             padding: EdgeInsets.symmetric(
+  //                                 horizontal: 4, vertical: 8),
+  //                             child: Text(
+  //                               'Additional Notes:',
+  //                               style: TextStyle(
+  //                                   fontSize: 14,
+  //                                   color: Color.fromRGBO(4, 26, 82, 0.3)),
+  //                             ),
+  //                           ),
+  //                         ],
+  //                       )
+  //                     : const SizedBox(),
+  //                 Text(
+  //                   '${schedData['notes']}',
+  //                   style: const TextStyle(
+  //                       fontSize: 15,
+  //                       fontWeight: FontWeight.w400,
+  //                       color: Color.fromRGBO(4, 26, 82, 1)),
+  //                 )
+  //               ],
   //             ),
-  //           ));
+  //           ),
+  //         ),
+  //       );
   //     },
   //   );
   // }
@@ -1006,7 +1113,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
     });
 
     setState(() {
-      _schedTypes = ['All Types', ...schedTypeList];
+      _schedTypes = ['All Types', 'Date', ...schedTypeList];
       _schedules = Map.fromEntries(
           newMap.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key)));
       isLoadingSchedules = false;

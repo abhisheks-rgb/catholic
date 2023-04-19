@@ -164,7 +164,7 @@ class ProfileView extends BaseStatelessPageView {
                   width: double.infinity,
                   margin:
                       const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.white,
@@ -204,11 +204,14 @@ class ProfileView extends BaseStatelessPageView {
                       ),
                       model!.user == null
                           ? Container()
+                          : const SizedBox(height: 8),
+                      model!.user == null
+                          ? Container()
                           : model!.user?['fullname'] == null
                               ? Container()
                               : Column(
                                   children: [
-                                    const SizedBox(height: 16),
+                                    const SizedBox(height: 8),
                                     Row(
                                       children: [
                                         SizedBox(
@@ -231,27 +234,27 @@ class ProfileView extends BaseStatelessPageView {
                                         ),
                                       ],
                                     ),
+                                    const SizedBox(height: 8),
                                   ],
                                 ),
                       model!.user == null
                           ? Container()
                           : model!.user?['email'] == null
                               ? Container()
-                              : Column(
-                                  children: [
-                                    const SizedBox(height: 16),
-                                    RawMaterialButton(
-                                      constraints: const BoxConstraints(),
-                                      materialTapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
-                                      onPressed: () {
-                                        final userEmail =
-                                            model!.user?['email'] ?? '';
-                                        final uri =
-                                            Uri.parse('mailTo:$userEmail');
-                                        urlLauncher(uri, 'email');
-                                      },
-                                      child: Row(
+                              : RawMaterialButton(
+                                  constraints: const BoxConstraints(),
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  onPressed: () {
+                                    final userEmail =
+                                        model!.user?['email'] ?? '';
+                                    final uri = Uri.parse('mailTo:$userEmail');
+                                    urlLauncher(uri, 'email');
+                                  },
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(height: 8),
+                                      Row(
                                         children: [
                                           const SizedBox(
                                             width: 20,
@@ -277,27 +280,28 @@ class ProfileView extends BaseStatelessPageView {
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  ],
+                                      const SizedBox(height: 8),
+                                    ],
+                                  ),
                                 ),
                       model!.user == null
                           ? Container()
                           : model!.user?['mobile'] == null
                               ? Container()
-                              : Column(
-                                  children: [
-                                    const SizedBox(height: 16),
-                                    RawMaterialButton(
-                                      constraints: const BoxConstraints(),
-                                      materialTapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
-                                      onPressed: () {
-                                        final userTel =
-                                            model!.user?['mobile'] ?? '';
-                                        final uri = Uri.parse('tel:$userTel');
-                                        urlLauncher(uri, 'tel');
-                                      },
-                                      child: Row(
+                              : RawMaterialButton(
+                                  constraints: const BoxConstraints(),
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  onPressed: () {
+                                    final userTel =
+                                        model!.user?['mobile'] ?? '';
+                                    final uri = Uri.parse('tel:$userTel');
+                                    urlLauncher(uri, 'tel');
+                                  },
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(height: 8),
+                                      Row(
                                         children: [
                                           SizedBox(
                                             width: 20,
@@ -321,8 +325,9 @@ class ProfileView extends BaseStatelessPageView {
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  ],
+                                      const SizedBox(height: 8),
+                                    ],
+                                  ),
                                 ),
                       model!.user == null
                           ? Container()
@@ -331,7 +336,7 @@ class ProfileView extends BaseStatelessPageView {
                               : Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const SizedBox(height: 16),
+                                    const SizedBox(height: 8),
                                     const Divider(
                                       height: 1,
                                       thickness: 1,
@@ -370,6 +375,7 @@ class ProfileView extends BaseStatelessPageView {
                                         ),
                                       ],
                                     ),
+                                    const SizedBox(height: 8),
                                   ],
                                 ),
                     ],
