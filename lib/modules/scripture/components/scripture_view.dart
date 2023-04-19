@@ -168,15 +168,21 @@ class _ScriptureViewState extends State<ScriptureView> {
                             ),
                             width: MediaQuery.of(context).size.width - 48,
                             height: 102,
-                            child: Text(
-                              _istoday?['title'] ?? '',
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.w500,
-                                color: Color.fromRGBO(4, 26, 82, 1),
-                              ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  _istoday?['title'] ?? '',
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromRGBO(4, 26, 82, 1),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
