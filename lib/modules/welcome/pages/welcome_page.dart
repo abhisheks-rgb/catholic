@@ -153,9 +153,11 @@ class _WelcomePageState extends State<WelcomePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            const Text(
-                              'Peace be with you!',
-                              style: TextStyle(
+                            Text(
+                              widget.model?.user != null
+                                  ? 'Peace,'
+                                  : 'Peace be with you!',
+                              style: const TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.w500,
                                 color: Color.fromRGBO(4, 26, 82, 1),
