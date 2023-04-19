@@ -15,7 +15,7 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/schedules_model.dart';
-import '../../../utils/asset_path.dart';
+// import '../../../utils/asset_path.dart';
 import '../../../../utils/page_specs.dart';
 
 class SchedulesPage extends BaseStatefulPageView {
@@ -684,8 +684,8 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                               ),
                                             ),
                                             onTap: () {
-                                              _showPopup(
-                                                  context, data?[key][index]);
+                                              // _showPopup(
+                                              //     context, data?[key][index]);
                                             },
                                           );
                                         }),
@@ -810,185 +810,186 @@ class _SchedulesPageState extends State<_SchedulesPage> {
             ));
   }
 
-  void _showPopup(BuildContext context, var schedData) {
-    var schedParish = widget.model.items?.firstWhere((element) {
-      return element['_id'] == schedData['parish'];
-    });
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          insetPadding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
-          content: SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
-            child: SizedBox(
-              // height: MediaQuery.of(context).size.height * 0.5,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Schedule Details',
-                        style: TextStyle(
-                          color: Color.fromRGBO(4, 26, 82, 1),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18,
-                        ),
-                      ),
-                      IconButton(
-                        padding: const EdgeInsets.all(0),
-                        alignment: Alignment.centerRight,
-                        icon: const Icon(Ionicons.close_circle),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '${schedData['title']}',
-                              style: const TextStyle(
-                                color: Color.fromRGBO(4, 26, 82, 1),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 20,
-                              ),
-                            ),
-                            _scheduleChip(
-                                schedData['type'],
-                                schedData['abbrev'],
-                                schedData['colorEvento'],
-                                schedData['color'],
-                                true),
-                          ]),
-                      Text(
-                          '${schedData['lang'].toUpperCase()} • ${schedData['location'].toUpperCase()}',
-                          style: const TextStyle(
-                              letterSpacing: 0.1,
-                              fontWeight: FontWeight.w400,
-                              color: Color.fromRGBO(4, 26, 82, 1),
-                              fontFeatures: <FontFeature>[
-                                FontFeature.enable('smcp')
-                              ],
-                              fontSize: 16)),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  // Container(
-                  //   height: 120,
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(10),
-                  //     color: const Color.fromRGBO(219, 228, 251, 1),
-                  //   ),
-                  // ),
-                  // const SizedBox(height: 8),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: Image.asset(
-                          assetPath('church-alt.png'),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          schedParish['name'],
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromRGBO(12, 72, 224, 1),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  InkWell(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: Icon(
-                            MaterialCommunityIcons.map_marker,
-                            color: Color.fromRGBO(130, 141, 168, 1),
-                            size: 20,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            schedParish['address'],
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        const SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: Icon(
-                            MaterialCommunityIcons.directions,
-                            color: Color.fromRGBO(12, 72, 224, 1),
-                            size: 24,
-                          ),
-                        ),
-                      ],
-                    ),
-                    onTap: () {
-                      final query = _getChurchAddress(_selectedParishValue);
-                      if (query.isNotEmpty) {
-                        _redirectToMaps(query);
-                      }
-                    },
-                  ),
-                  schedData['notes'] != ''
-                      ? Row(
-                          children: [
-                            SizedBox(
-                              width: 16,
-                              height: 16,
-                              child: Image.asset(assetPath('notes.png'),
-                                  color: const Color.fromRGBO(4, 26, 82, 0.5)),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 4, vertical: 8),
-                              child: Text(
-                                'Additional Notes:',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color.fromRGBO(4, 26, 82, 0.3)),
-                              ),
-                            ),
-                          ],
-                        )
-                      : const SizedBox(),
-                  Text(
-                    '${schedData['notes']}',
-                    style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w400,
-                        color: Color.fromRGBO(4, 26, 82, 1)),
-                  )
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
+  // Disable popup view temporarily
+  // void _showPopup(BuildContext context, var schedData) {
+  //   var schedParish = widget.model.items?.firstWhere((element) {
+  //     return element['_id'] == schedData['parish'];
+  //   });
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         insetPadding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
+  //         content: SingleChildScrollView(
+  //           physics: const NeverScrollableScrollPhysics(),
+  //           child: SizedBox(
+  //             // height: MediaQuery.of(context).size.height * 0.5,
+  //             child: Column(
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               children: [
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                   children: [
+  //                     const Text(
+  //                       'Schedule Details',
+  //                       style: TextStyle(
+  //                         color: Color.fromRGBO(4, 26, 82, 1),
+  //                         fontWeight: FontWeight.w500,
+  //                         fontSize: 18,
+  //                       ),
+  //                     ),
+  //                     IconButton(
+  //                       padding: const EdgeInsets.all(0),
+  //                       alignment: Alignment.centerRight,
+  //                       icon: const Icon(Ionicons.close_circle),
+  //                       onPressed: () {
+  //                         Navigator.of(context).pop();
+  //                       },
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: [
+  //                     Row(
+  //                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                         children: [
+  //                           Text(
+  //                             '${schedData['title']}',
+  //                             style: const TextStyle(
+  //                               color: Color.fromRGBO(4, 26, 82, 1),
+  //                               fontWeight: FontWeight.w500,
+  //                               fontSize: 20,
+  //                             ),
+  //                           ),
+  //                           _scheduleChip(
+  //                               schedData['type'],
+  //                               schedData['abbrev'],
+  //                               schedData['colorEvento'],
+  //                               schedData['color'],
+  //                               true),
+  //                         ]),
+  //                     Text(
+  //                         '${schedData['lang'].toUpperCase()} • ${schedData['location'].toUpperCase()}',
+  //                         style: const TextStyle(
+  //                             letterSpacing: 0.1,
+  //                             fontWeight: FontWeight.w400,
+  //                             color: Color.fromRGBO(4, 26, 82, 1),
+  //                             fontFeatures: <FontFeature>[
+  //                               FontFeature.enable('smcp')
+  //                             ],
+  //                             fontSize: 16)),
+  //                   ],
+  //                 ),
+  //                 const SizedBox(height: 8),
+  //                 // Container(
+  //                 //   height: 120,
+  //                 //   decoration: BoxDecoration(
+  //                 //     borderRadius: BorderRadius.circular(10),
+  //                 //     color: const Color.fromRGBO(219, 228, 251, 1),
+  //                 //   ),
+  //                 // ),
+  //                 // const SizedBox(height: 8),
+  //                 Row(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: [
+  //                     SizedBox(
+  //                       width: 20,
+  //                       height: 20,
+  //                       child: Image.asset(
+  //                         assetPath('church-alt.png'),
+  //                       ),
+  //                     ),
+  //                     const SizedBox(width: 8),
+  //                     Expanded(
+  //                       child: Text(
+  //                         schedParish['name'],
+  //                         style: const TextStyle(
+  //                           fontSize: 16,
+  //                           fontWeight: FontWeight.w500,
+  //                           color: Color.fromRGBO(12, 72, 224, 1),
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 const SizedBox(height: 8),
+  //                 InkWell(
+  //                   child: Row(
+  //                     crossAxisAlignment: CrossAxisAlignment.start,
+  //                     children: [
+  //                       const SizedBox(
+  //                         width: 20,
+  //                         height: 20,
+  //                         child: Icon(
+  //                           MaterialCommunityIcons.map_marker,
+  //                           color: Color.fromRGBO(130, 141, 168, 1),
+  //                           size: 20,
+  //                         ),
+  //                       ),
+  //                       const SizedBox(width: 8),
+  //                       Expanded(
+  //                         child: Text(
+  //                           schedParish['address'],
+  //                           style: const TextStyle(fontSize: 16),
+  //                         ),
+  //                       ),
+  //                       const SizedBox(width: 10),
+  //                       const SizedBox(
+  //                         width: 24,
+  //                         height: 24,
+  //                         child: Icon(
+  //                           MaterialCommunityIcons.directions,
+  //                           color: Color.fromRGBO(12, 72, 224, 1),
+  //                           size: 24,
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                   onTap: () {
+  //                     final query = _getChurchAddress(_selectedParishValue);
+  //                     if (query.isNotEmpty) {
+  //                       _redirectToMaps(query);
+  //                     }
+  //                   },
+  //                 ),
+  //                 schedData['notes'] != ''
+  //                     ? Row(
+  //                         children: [
+  //                           SizedBox(
+  //                             width: 16,
+  //                             height: 16,
+  //                             child: Image.asset(assetPath('notes.png'),
+  //                                 color: const Color.fromRGBO(4, 26, 82, 0.5)),
+  //                           ),
+  //                           const Padding(
+  //                             padding: EdgeInsets.symmetric(
+  //                                 horizontal: 4, vertical: 8),
+  //                             child: Text(
+  //                               'Additional Notes:',
+  //                               style: TextStyle(
+  //                                   fontSize: 14,
+  //                                   color: Color.fromRGBO(4, 26, 82, 0.3)),
+  //                             ),
+  //                           ),
+  //                         ],
+  //                       )
+  //                     : const SizedBox(),
+  //                 Text(
+  //                   '${schedData['notes']}',
+  //                   style: const TextStyle(
+  //                       fontSize: 15,
+  //                       fontWeight: FontWeight.w400,
+  //                       color: Color.fromRGBO(4, 26, 82, 1)),
+  //                 )
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   Widget _scheduleChip(String type, String abbrev, String colorEvent,
       String colorString, bool isLongName) {
