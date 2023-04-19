@@ -22,7 +22,7 @@ class ListChurchInfoAction extends BaseAction {
       m.error = error;
       m.loading = true;
       m.churchInfos = [];
-      churchId = m.churchId! + 1;
+      churchId = m.churchId != null ? m.churchId! + 1 : null;
     });
 
     List<Object> records = [];
