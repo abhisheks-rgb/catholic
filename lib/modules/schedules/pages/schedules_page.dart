@@ -62,6 +62,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
   Map? _filteredSchedules;
   List? _schedTypes;
   Timer? myTimer;
+  DateTime? _selectedDate;
 
   _SchedulesPageState(this.model);
 
@@ -289,6 +290,10 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                         itemBuilder: (BuildContext context, int index) {
                           bool isSelected =
                               _schedTypes![index] == _selectedSchedType;
+                          bool hasDateSelected =
+                              _schedTypes![index] == 'Date' &&
+                                  _selectedDate != null;
+
                           return Container(
                             margin: const EdgeInsets.only(bottom: 5),
                             decoration: const BoxDecoration(
@@ -310,39 +315,127 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                   padding: MaterialStateProperty.all<EdgeInsets>(
                                       const EdgeInsets.symmetric(
                                           horizontal: 10.5)),
-                                  foregroundColor:
-                                      MaterialStateProperty.all<Color>(isSelected
-                                          ? const Color.fromRGBO(
-                                              255, 255, 255, 1)
-                                          : const Color.fromRGBO(
-                                              4, 26, 82, 0.7)),
-                                  backgroundColor: MaterialStateProperty.all(
-                                      isSelected
-                                          ? const Color.fromRGBO(4, 26, 82, 1)
-                                          : const Color.fromRGBO(
-                                              255, 255, 255, 1)),
-                                  shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(RoundedRectangleBorder(
+                                  foregroundColor: MaterialStateProperty.all<
+                                      Color>(isSelected ||
+                                          hasDateSelected
+                                      ? const Color.fromRGBO(255, 255, 255, 1)
+                                      : const Color.fromRGBO(4, 26, 82, 0.7)),
+                                  backgroundColor: MaterialStateProperty.all(isSelected ||
+                                          hasDateSelected
+                                      ? const Color.fromRGBO(4, 26, 82, 1)
+                                      : const Color.fromRGBO(255, 255, 255, 1)),
+                                  shape:
+                                      MaterialStateProperty.all<RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(32.0),
                                   ))),
-                              onPressed: () {
-                                final filtered = _schedules?.map((key, value) {
-                                  final filteredSched = value.where((p) {
-                                    return p['type'] == _schedTypes![index];
-                                  }).toList();
+                              onPressed: () async {
+                                if (_schedTypes![index] == 'Date') {
+                                  final DateTime? picked = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime.now(),
+                                    lastDate: DateTime.now()
+                                        .add(const Duration(days: 40)),
+                                  );
+                                  if (picked != null) {
+                                    final filtered =
+                                        _schedules?.map((key, value) {
+                                      final filteredSched = value.where((p) {
+                                        // if (_selectedSchedType != 'All Types') {
+                                        return p['type'] == _selectedSchedType;
+                                      }).toList();
 
-                                  return MapEntry(key, filteredSched);
-                                });
+                                      return MapEntry(
+                                          key,
+                                          _selectedSchedType != 'All Types'
+                                              ? filteredSched
+                                              : value.toList());
+                                    });
 
-                                filtered?.removeWhere(
-                                    (key, value) => value.isEmpty);
+                                    filtered?.removeWhere((key, value) {
+                                      return int.parse(key) !=
+                                          int.parse(DateFormat('yyyyMMdd')
+                                              .format(picked));
+                                    });
 
-                                setState(() {
-                                  _filteredSchedules = filtered;
-                                  _selectedSchedType = _schedTypes![index];
-                                });
+                                    setState(() {
+                                      _selectedDate = picked;
+                                      _filteredSchedules = filtered;
+                                    });
+                                  }
+                                } else {
+                                  final filtered =
+                                      _schedules?.map((key, value) {
+                                    final filteredSched = value.where((p) {
+                                      return p['type'] == _schedTypes![index];
+                                    }).toList();
+
+                                    return MapEntry(
+                                        key,
+                                        _schedTypes![index] != 'All Types'
+                                            ? filteredSched
+                                            : value.toList());
+                                  });
+
+                                  filtered?.removeWhere(
+                                      (key, value) => value.isEmpty);
+
+                                  if (_selectedDate != null) {
+                                    filtered?.removeWhere((key, value) {
+                                      return int.parse(key) !=
+                                          int.parse(DateFormat('yyyyMMdd')
+                                              .format(_selectedDate!));
+                                    });
+                                  }
+
+                                  setState(() {
+                                    _filteredSchedules = filtered;
+                                    _selectedSchedType = _schedTypes![index];
+                                  });
+                                }
                               },
-                              child: Text(_schedTypes![index]),
+                              child: hasDateSelected
+                                  ? Row(children: [
+                                      const Icon(
+                                          MaterialCommunityIcons
+                                              .calendar_blank_outline,
+                                          size: 16),
+                                      const SizedBox(width: 5),
+                                      Text(
+                                        DateFormat('d MMM yy')
+                                            .format(_selectedDate!),
+                                      ),
+                                      const SizedBox(width: 5),
+                                      GestureDetector(
+                                        onTap: () {
+                                          final filtered =
+                                              _schedules?.map((key, value) {
+                                            final filteredSched =
+                                                value.where((p) {
+                                              return p['type'] ==
+                                                  _selectedSchedType;
+                                            }).toList();
+
+                                            return MapEntry(
+                                                key,
+                                                _selectedSchedType !=
+                                                        'All Types'
+                                                    ? filteredSched
+                                                    : value.toList());
+                                          });
+
+                                          setState(() {
+                                            _selectedDate = null;
+                                            _filteredSchedules = filtered;
+                                          });
+                                        },
+                                        child: const Icon(
+                                            MaterialCommunityIcons.close,
+                                            size: 16),
+                                      ),
+                                    ])
+                                  : Text(_schedTypes![index]),
                             ),
                           );
                         },
@@ -362,14 +455,16 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                       child: ListView.separated(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: _selectedSchedType == 'All Types'
+                          itemCount: _selectedSchedType == 'All Types' &&
+                                  _selectedDate == null
                               ? (_schedules?.length ?? 0)
                               : (_filteredSchedules?.length ?? 0),
                           separatorBuilder: (context, index) {
                             return const SizedBox(height: 24);
                           },
                           itemBuilder: (BuildContext context, int index) {
-                            var data = _selectedSchedType == 'All Types'
+                            var data = _selectedSchedType == 'All Types' &&
+                                    _selectedDate == null
                                 ? _schedules
                                 : _filteredSchedules;
 
@@ -1017,7 +1112,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
     });
 
     setState(() {
-      _schedTypes = ['All Types', ...schedTypeList];
+      _schedTypes = ['All Types', 'Date', ...schedTypeList];
       _schedules = Map.fromEntries(
           newMap.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key)));
       isLoadingSchedules = false;
