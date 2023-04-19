@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../../config/app_config.dart';
 import 'select_menu_item_action.dart';
 import '../models/home_model.dart';
+import '../../welcome/models/welcome_model.dart';
 
 class InitializeAction extends BaseAction {
   final BuildContext context;
@@ -84,6 +85,11 @@ class InitializeAction extends BaseAction {
     }
 
     Butter.d('InitializeAction::reduce::done');
+
+    await dispatchModel<WelcomeModel>(WelcomeModel(), (m) {
+      m.user = user;
+    });
+
     return write<HomeModel>(HomeModel(), (m) {
       m.error = error;
       m.loading = false;

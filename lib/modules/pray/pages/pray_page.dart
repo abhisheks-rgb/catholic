@@ -159,14 +159,14 @@ class _PrayPageState extends State<_PrayPage> {
                               horizontal: 24,
                             ),
                             width: MediaQuery.of(context).size.width - 48,
-                            height: 68,
+                            height: 102,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Text(
                                   _istoday?['title'] ?? '',
-                                  maxLines: 2,
+                                  maxLines: 3,
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
                                     fontSize: 28,

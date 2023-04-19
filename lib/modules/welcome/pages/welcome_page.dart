@@ -2,14 +2,16 @@ import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 
 import '../models/welcome_model.dart';
+import '../../home/models/home_model.dart';
 
 import '../../../utils/asset_path.dart';
 import '../../../../utils/page_specs.dart';
 
 class WelcomePage extends BaseStatefulPageView {
   final WelcomeModel? model;
+  final HomeModel? homeModel;
 
-  WelcomePage({Key? key, this.model}) : super();
+  WelcomePage({Key? key, this.model, this.homeModel}) : super();
 
   @override
   get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
@@ -150,8 +152,8 @@ class _WelcomePageState extends State<WelcomePage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.end,
-                          children: const [
-                            Text(
+                          children: [
+                            const Text(
                               'Peace be with you!',
                               style: TextStyle(
                                 fontSize: 28,
@@ -159,16 +161,18 @@ class _WelcomePageState extends State<WelcomePage> {
                                 color: Color.fromRGBO(4, 26, 82, 1),
                               ),
                             ),
-                            // Text(
-                            //   'Oscar Dela Hoya Hatton y...',
-                            //   maxLines: 1,
-                            //   overflow: TextOverflow.ellipsis,
-                            //   style: TextStyle(
-                            //     fontSize: 28,
-                            //     fontWeight: FontWeight.w500,
-                            //     color: Color.fromRGBO(4, 26, 82, 1),
-                            //   ),
-                            // ),
+                            widget.model?.user != null
+                                ? Text(
+                                    widget.model!.user?['fullname'],
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.w500,
+                                      color: Color.fromRGBO(4, 26, 82, 1),
+                                    ),
+                                  )
+                                : const SizedBox(),
                           ],
                         )),
                   ),
