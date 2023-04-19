@@ -221,8 +221,10 @@ class _InfoPageState extends State<_InfoPage> {
                   itemBuilder: (_, int index) {
                     return InkWell(
                       onTap: () {
-                        Navigator.of(context)
-                            .pushNamed('/_/${exploreItems[index]['route']}');
+                        // Navigator.of(context)
+                        //     .pushNamed('/_/${exploreItems[index]['route']}');
+                        widget.model
+                            .showPage('/_/${exploreItems[index]['route']}');
                       },
                       child: Container(
                           height: 88,
