@@ -1,6 +1,12 @@
 import 'package:butter/butter.dart';
 
 import '../models/info_model.dart';
+import '../../church_info/models/church_info_model.dart';
+import '../../church_bulletin/models/church_bulletin_model.dart';
+import '../../profile/models/profile_model.dart';
+import '../../home/models/home_model.dart';
+import '../../offertory/models/offertory_model.dart';
+import '../../schedules/models/schedules_model.dart';
 
 class InfoState extends BasePageState<InfoModel> {
   InfoState();
@@ -35,7 +41,61 @@ class InfoState extends BasePageState<InfoModel> {
           ), (m) {
         // Load all your model's handlers here
         m.showPage = (route) async {
-          pushNamed(route);
+          String newRoute = route;
+          Map<String, dynamic>? user;
+
+          dispatchModel<HomeModel>(HomeModel(), (m) {
+            user = m.user;
+          });
+
+          int? churchId;
+          String? churchName;
+          String? churchLink;
+
+          if (user != null) {
+            churchId = user!['churchId'];
+            churchName = user!['churchName'];
+            churchLink = user!['churchLink'];
+          }
+
+          switch (route) {
+            case '/_/profile':
+              if (user == null) {
+                newRoute = '/_/login';
+              } else {
+                await dispatchModel<ProfileModel>(ProfileModel(), (m) {
+                  m.user = user;
+                });
+              }
+              break;
+            case '/_/church_info':
+              await dispatchModel<ChurchInfoModel>(ChurchInfoModel(), (m) {
+                m.churchId = churchId;
+                m.churchName = churchName;
+              });
+              break;
+            case '/_/offertory':
+              await dispatchModel<OffertoryModel>(OffertoryModel(), (m) {
+                m.churchId = churchId;
+                m.churchName = churchName;
+              });
+              break;
+            case '/_/schedules':
+              await dispatchModel<SchedulesModel>(SchedulesModel(), (m) {
+                m.churchName = churchName;
+              });
+              break;
+            case '/_/church_bulletin':
+              await dispatchModel<ChurchBulletinModel>(ChurchBulletinModel(),
+                  (m) {
+                m.churchName = churchName;
+                m.churchLink = churchLink;
+              });
+              break;
+            default:
+          }
+
+          pushNamed(newRoute);
         };
       });
 }

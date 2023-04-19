@@ -200,7 +200,8 @@ class _BulletinPageState extends State<_BulletinPage> {
                                     ),
                                   ],
                                 ),
-                                padding: const EdgeInsets.all(20),
+                                padding:
+                                    const EdgeInsets.fromLTRB(20, 20, 20, 12),
                                 width: double.infinity,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -282,8 +283,11 @@ class _BulletinPageState extends State<_BulletinPage> {
                                               canShowScrollHead: false,
                                             ),
                                           ),
+                                    index > 1
+                                        ? Container()
+                                        : const SizedBox(height: 8),
                                     SizedBox(
-                                      height: 35,
+                                      height: 48,
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -296,25 +300,32 @@ class _BulletinPageState extends State<_BulletinPage> {
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
-                                                    Container(
-                                                      width: 48,
-                                                      alignment:
-                                                          Alignment.center,
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              0),
-                                                      child: GestureDetector(
+                                                    RawMaterialButton(
+                                                      constraints:
+                                                          const BoxConstraints(),
+                                                      materialTapTargetSize:
+                                                          MaterialTapTargetSize
+                                                              .shrinkWrap,
+                                                      shape:
+                                                          const CircleBorder(),
+                                                      onPressed: () {
+                                                        controllers[
+                                                                _bulletinItems![
+                                                                        index]
+                                                                    ['id']]
+                                                            ?.previousPage();
+                                                      },
+                                                      child: Container(
+                                                        width: 48,
+                                                        alignment:
+                                                            Alignment.center,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(0),
                                                         child: const Icon(
                                                           Icons.arrow_back_ios,
                                                           color: Colors.black,
                                                         ),
-                                                        onTap: () {
-                                                          controllers[
-                                                                  _bulletinItems![
-                                                                          index]
-                                                                      ['id']]
-                                                              ?.previousPage();
-                                                        },
                                                       ),
                                                     ),
                                                     // ignore: avoid_unnecessary_containers
@@ -323,26 +334,33 @@ class _BulletinPageState extends State<_BulletinPage> {
                                                     //     'Page 1 / ${controllers[_bulletinItems![index]['id']]?.pageCount}',
                                                     //   ),
                                                     // ),
-                                                    Container(
-                                                      width: 48,
-                                                      alignment:
-                                                          Alignment.center,
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              0),
-                                                      child: GestureDetector(
+                                                    RawMaterialButton(
+                                                      constraints:
+                                                          const BoxConstraints(),
+                                                      materialTapTargetSize:
+                                                          MaterialTapTargetSize
+                                                              .shrinkWrap,
+                                                      shape:
+                                                          const CircleBorder(),
+                                                      onPressed: () {
+                                                        controllers[
+                                                                _bulletinItems![
+                                                                        index]
+                                                                    ['id']]
+                                                            ?.nextPage();
+                                                      },
+                                                      child: Container(
+                                                        width: 48,
+                                                        alignment:
+                                                            Alignment.center,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(0),
                                                         child: const Icon(
                                                           Icons
                                                               .arrow_forward_ios,
                                                           color: Colors.black,
                                                         ),
-                                                        onTap: () {
-                                                          controllers[
-                                                                  _bulletinItems![
-                                                                          index]
-                                                                      ['id']]
-                                                              ?.nextPage();
-                                                        },
                                                       ),
                                                     ),
                                                   ],
@@ -368,14 +386,20 @@ class _BulletinPageState extends State<_BulletinPage> {
                                                                   true);
                                                     }
                                                   },
-                                                  child: const Text(
-                                                    'View Bulletin',
-                                                    style: TextStyle(
-                                                      color: Color.fromRGBO(
-                                                          12, 72, 224, 1),
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 16,
+                                                  child: Container(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        vertical: 8,
+                                                        horizontal: 0),
+                                                    child: const Text(
+                                                      'View Bulletin',
+                                                      style: TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            12, 72, 224, 1),
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 16,
+                                                      ),
                                                     ),
                                                   ),
                                                 )
@@ -400,18 +424,20 @@ class _BulletinPageState extends State<_BulletinPage> {
                                                     }
                                                   },
                                                   child: SizedBox(
-                                                    width: 32,
+                                                    width: 48,
+                                                    height: 48,
                                                     child: Row(
                                                       children: [
                                                         Container(
-                                                          width: 32,
+                                                          width: 48,
+                                                          height: 48,
                                                           alignment:
                                                               Alignment.center,
                                                           child: const Icon(
                                                             MaterialIcons
                                                                 .fullscreen,
                                                             color: Colors.black,
-                                                            size: 24,
+                                                            size: 32,
                                                           ),
                                                         ),
                                                       ],
@@ -559,12 +585,10 @@ class _BulletinPageState extends State<_BulletinPage> {
                 children: [
                   Row(
                     children: [
-                      GestureDetector(
-                        child: const Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white,
-                        ),
-                        onTap: () async {
+                      RawMaterialButton(
+                        constraints: const BoxConstraints(),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: () async {
                           if (isFullScreen) {
                             setState(() {
                               fullScreenPdfIndex = null;
@@ -576,10 +600,13 @@ class _BulletinPageState extends State<_BulletinPage> {
                                 .setIsFullScreen(isFullScreen: false);
                           }
                         },
+                        child: const Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
+                        ),
                       ),
                       Expanded(
                         child: Text(
-                          // _selectedParishValue!,
                           _bulletinItems![fullScreenPdfIndex!]['title'],
                           style: const TextStyle(
                             color: Colors.white,
@@ -618,7 +645,8 @@ class _BulletinPageState extends State<_BulletinPage> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.18,
-                padding: const EdgeInsets.all(20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
@@ -654,13 +682,18 @@ class _BulletinPageState extends State<_BulletinPage> {
                                     pdfViewerController.pageNumber;
                               });
                             },
-                            child: const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: Icon(
-                                Icons.arrow_back_ios,
-                                color: Colors.white,
-                                size: 20,
+                            child: SizedBox(
+                              width: 40,
+                              height: 40,
+                              child: Row(
+                                children: const [
+                                  SizedBox(width: 12.5),
+                                  Icon(
+                                    Icons.arrow_back_ios,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -690,8 +723,8 @@ class _BulletinPageState extends State<_BulletinPage> {
                               });
                             },
                             child: const SizedBox(
-                              width: 20,
-                              height: 20,
+                              width: 40,
+                              height: 40,
                               child: Icon(
                                 Icons.arrow_forward_ios,
                                 color: Colors.white,
@@ -699,7 +732,6 @@ class _BulletinPageState extends State<_BulletinPage> {
                               ),
                             ),
                           ),
-                          const SizedBox(width: 8),
                           RawMaterialButton(
                             constraints: const BoxConstraints(),
                             materialTapTargetSize:
@@ -717,8 +749,8 @@ class _BulletinPageState extends State<_BulletinPage> {
                               }
                             },
                             child: const SizedBox(
-                              width: 26,
-                              height: 26,
+                              width: 40,
+                              height: 40,
                               child: Icon(
                                 MaterialIcons.fullscreen_exit,
                                 color: Colors.white,

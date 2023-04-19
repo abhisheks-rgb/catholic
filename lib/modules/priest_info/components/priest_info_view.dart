@@ -318,6 +318,14 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                           ],
                         ),
                       ),
+                      widget._infos.isEmpty
+                          ? Container(
+                              margin: const EdgeInsets.only(top: 16),
+                              child: const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          : Container(),
                       const SizedBox(height: 16),
                       isAllPriests && widget._infos.isNotEmpty
                           ? _renderPriestList()

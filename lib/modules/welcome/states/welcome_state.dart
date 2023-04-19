@@ -25,12 +25,16 @@ class WelcomeState extends BasePageState<WelcomeModel> {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is WelcomeState && runtimeType == other.runtimeType;
+        other is WelcomeState &&
+            runtimeType == other.runtimeType &&
+            model == other.model;
   }
 
   @override
-  // ignore: recursive_getters
-  int get hashCode => hashCode;
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        model,
+      ]);
 
   @override
   WelcomeState fromStore() => WelcomeState.build(
