@@ -338,17 +338,20 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                 key != 'copyright'
                                     ? data![key]['heading'] != null
                                         ? Text(
-                                            '${data[key]['heading']} - ${data[key]['source']}',
+                                            '${data[key]['heading'] ?? ''} - ${data[key]['source'] ?? ''}',
                                             style: const TextStyle(
                                               fontSize: 17,
                                               color:
                                                   Color.fromRGBO(4, 26, 82, 1),
                                             ),
                                           )
-                                        : Text('${data[key]['source']}')
+                                        : data[key]['source'] != null
+                                            ? Text('${data[key]['source']}')
+                                            : const SizedBox()
                                     : const SizedBox(),
                                 Html(data: data![key]['text'], style: {
                                   'body': Style(
+                                    textAlign: TextAlign.left,
                                     color: const Color.fromRGBO(4, 26, 82, 1),
                                     fontSize: FontSize(17),
                                   ),
