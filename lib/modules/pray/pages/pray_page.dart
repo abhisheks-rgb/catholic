@@ -1,7 +1,6 @@
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 
 import '../models/pray_model.dart';
 
@@ -38,16 +37,8 @@ class _PrayPage extends StatefulWidget {
 
 class _PrayPageState extends State<_PrayPage> {
   final PrayModel model;
-  Map? _istoday;
 
   _PrayPageState(this.model);
-
-  @override
-  void initState() {
-    super.initState();
-
-    _getisToday();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -165,7 +156,7 @@ class _PrayPageState extends State<_PrayPage> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Text(
-                                  _istoday?['title'] ?? '',
+                                  widget.model.isToday?['title'] ?? '',
                                   maxLines: 3,
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
@@ -186,13 +177,14 @@ class _PrayPageState extends State<_PrayPage> {
                           width: MediaQuery.of(context).size.width - 48,
                           height: 38,
                           child: Text(
-                            _istoday?['content'] ?? '',
+                            widget.model.isToday?['content'] ?? '',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
                               color: Color(0xff041a51),
+                              letterSpacing: 0.1,
                             ),
                           ),
                         ),
@@ -264,19 +256,5 @@ class _PrayPageState extends State<_PrayPage> {
         ),
       ),
     );
-  }
-
-  void _getisToday() async {
-    final result = await FirebaseFunctions.instanceFor(region: 'asia-east2')
-        .httpsCallable('todayis')
-        .call({});
-
-    final response = result.data;
-
-    List itemList = response['results']['items'];
-
-    setState(() {
-      _istoday = itemList[0];
-    });
   }
 }

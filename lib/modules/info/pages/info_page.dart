@@ -1,7 +1,6 @@
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 
 import '../models/info_model.dart';
 
@@ -38,16 +37,8 @@ class _InfoPage extends StatefulWidget {
 
 class _InfoPageState extends State<_InfoPage> {
   final InfoModel model;
-  Map? _qoute;
 
   _InfoPageState(this.model);
-
-  @override
-  void initState() {
-    super.initState();
-
-    _getQoute();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -170,31 +161,38 @@ class _InfoPageState extends State<_InfoPage> {
                         left: 0,
                         bottom: 79,
                         child: Container(
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 24,
-                          ),
-                          width: MediaQuery.of(context).size.width - 48,
-                          height: 34,
-                          child: Text(
-                            _qoute?['title'] ?? '',
-                            style: const TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromRGBO(4, 26, 82, 1),
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 24,
                             ),
-                          ),
-                        ),
+                            width: MediaQuery.of(context).size.width - 48,
+                            height: 102,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  widget.model.qouteInfo?['title'] ?? '',
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromRGBO(4, 26, 82, 1),
+                                  ),
+                                ),
+                              ],
+                            )),
                       ),
                       Positioned(
                         left: 0,
                         bottom: 0,
                         child: Container(
                           margin: const EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 21),
+                              horizontal: 24, vertical: 20),
                           width: MediaQuery.of(context).size.width - 48,
                           height: 38,
                           child: Text(
-                            _qoute?['content'] ?? '',
+                            widget.model.qouteInfo?['content'] ?? '',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
@@ -274,23 +272,5 @@ class _InfoPageState extends State<_InfoPage> {
         ),
       ),
     );
-  }
-
-  void _getQoute() async {
-    final result = await FirebaseFunctions.instanceFor(region: 'asia-east2')
-        .httpsCallable('quote')
-        .call({});
-
-    final response = result.data;
-
-    List itemList = response['results']['items'];
-
-    var infoQoute = itemList.firstWhere((element) {
-      return element['type'] == 'info';
-    });
-
-    setState(() {
-      _qoute = infoQoute;
-    });
   }
 }

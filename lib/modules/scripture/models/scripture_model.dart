@@ -2,11 +2,13 @@ import 'package:butter/butter.dart';
 
 class ScriptureModel extends BaseUIModel<ScriptureModel> {
   List<Object>? items;
+  Map? isToday;
   //
   String? error;
   bool? loading;
 
   ScriptureModel({
+    this.isToday,
     this.items,
     this.error,
     this.loading,
@@ -22,24 +24,27 @@ class ScriptureModel extends BaseUIModel<ScriptureModel> {
 
   @override
   ScriptureModel clone() => ScriptureModel(
-    items: items ?? [],
-    error: error,
-    loading: loading,
-  );
+        items: items ?? [],
+        isToday: isToday,
+        error: error,
+        loading: loading,
+      );
 
   @override
   int get hashCode => Object.hashAll([
-    items,
-    error,
-    loading,
-  ]);
+        items,
+        isToday,
+        error,
+        loading,
+      ]);
 
   @override
   bool operator ==(Object other) =>
-    identical(this, other) ||
+      identical(this, other) ||
       other is ScriptureModel &&
-        runtimeType == other.runtimeType &&
-        items == other.items &&
-        error == other.error &&
-        loading == other.loading;
+          runtimeType == other.runtimeType &&
+          isToday == other.isToday &&
+          items == other.items &&
+          error == other.error &&
+          loading == other.loading;
 }
