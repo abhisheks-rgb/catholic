@@ -35,7 +35,7 @@ class SchedulesPage extends BaseStatefulPageView {
   @override
   get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
         hasAppBar: true,
-        title: 'Mass Schedule',
+        title: 'Mass Schedules',
       ));
 
   @override
