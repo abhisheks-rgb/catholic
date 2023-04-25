@@ -289,9 +289,9 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                         itemCount: _schedTypes?.length ?? 0,
                         itemBuilder: (BuildContext context, int index) {
                           bool isSelected =
-                              _schedTypes![index] == _selectedSchedType;
+                              _schedTypes![index]['type'] == _selectedSchedType;
                           bool hasDateSelected =
-                              _schedTypes![index] == 'Date' &&
+                              _schedTypes![index]['type'] == 'Date' &&
                                   _selectedDate != null;
 
                           return Container(
@@ -330,7 +330,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                     borderRadius: BorderRadius.circular(32.0),
                                   ))),
                               onPressed: () async {
-                                if (_schedTypes![index] == 'Date') {
+                                if (_schedTypes![index]['type'] == 'Date') {
                                   final DateTime? picked = await showDatePicker(
                                     context: context,
                                     initialDate: DateTime.now(),
@@ -368,12 +368,14 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                   final filtered =
                                       _schedules?.map((key, value) {
                                     final filteredSched = value.where((p) {
-                                      return p['type'] == _schedTypes![index];
+                                      return p['type'] ==
+                                          _schedTypes![index]['type'];
                                     }).toList();
 
                                     return MapEntry(
                                         key,
-                                        _schedTypes![index] != 'All Types'
+                                        _schedTypes![index]['type'] !=
+                                                'All Types'
                                             ? filteredSched
                                             : value.toList());
                                   });
@@ -391,7 +393,8 @@ class _SchedulesPageState extends State<_SchedulesPage> {
 
                                   setState(() {
                                     _filteredSchedules = filtered;
-                                    _selectedSchedType = _schedTypes![index];
+                                    _selectedSchedType =
+                                        _schedTypes![index]['type'];
                                   });
                                 }
                               },
@@ -435,7 +438,11 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                             size: 16),
                                       ),
                                     ])
-                                  : Text(_schedTypes![index]),
+                                  : Text(_schedTypes![index]['type'] ==
+                                              'All Types' ||
+                                          _schedTypes![index]['type'] == 'Date'
+                                      ? '${_schedTypes![index]['type']}'
+                                      : '${_schedTypes![index]['type']} (${_schedTypes![index]['abbrev']})'),
                             ),
                           );
                         },
@@ -1090,8 +1097,13 @@ class _SchedulesPageState extends State<_SchedulesPage> {
     final response = result.data;
 
     List<dynamic> itemList = response['results']['items'] ?? [];
-    List schedTypeList = response['results']['type'] ?? [];
-    schedTypeList.sort((a, b) => a.compareTo(b));
+
+    var seen = <String>{};
+    List schedTypeList = itemList
+        .where((d) => seen.add(d['type']))
+        .map((item) => {'type': item['type'], 'abbrev': item['abbrev']})
+        .toList();
+    schedTypeList.sort((a, b) => a['type'].compareTo(b['type']));
 
     var newMap = groupBy(itemList, (obj) {
       var k = DateFormat('yyyyMMdd').format(
@@ -1113,7 +1125,11 @@ class _SchedulesPageState extends State<_SchedulesPage> {
     });
 
     setState(() {
-      _schedTypes = ['All Types', 'Date', ...schedTypeList];
+      _schedTypes = [
+        {'type': 'All Types'},
+        {'type': 'Date'},
+        ...schedTypeList
+      ];
       _schedules = Map.fromEntries(
           newMap.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key)));
       isLoadingSchedules = false;
