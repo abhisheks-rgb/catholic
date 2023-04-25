@@ -234,19 +234,11 @@ class _ScriptureViewState extends State<ScriptureView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Reflections & Homilies (${data.length})',
+                                  '${element['authorname']} (${data.length})',
                                   style: const TextStyle(
                                     color: Color.fromRGBO(4, 26, 82, 1),
                                     fontWeight: FontWeight.w500,
                                     fontSize: 18,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  'by ${element['authorname']}',
-                                  style: const TextStyle(
-                                    color: Color.fromRGBO(4, 26, 82, 0.5),
-                                    fontSize: 16,
                                   ),
                                 ),
                                 const SizedBox(height: 8),
