@@ -8,6 +8,8 @@ class MassReadingsModel extends BaseUIModel<MassReadingsModel> {
   Map? massReadingItem;
   List<Object>? massReadingList;
   List<String>? massReadingTypeList;
+  double? titleFontSize = 20;
+  double? contentFontSize = 16;
 
   MassReadingsModel({
     this.error,
@@ -15,6 +17,8 @@ class MassReadingsModel extends BaseUIModel<MassReadingsModel> {
     this.massReadingItem,
     this.massReadingList,
     this.massReadingTypeList,
+    this.titleFontSize,
+    this.contentFontSize,
   });
 
   @override
@@ -27,6 +31,8 @@ class MassReadingsModel extends BaseUIModel<MassReadingsModel> {
         massReadingItem: massReadingItem ?? {},
         massReadingList: massReadingList ?? [],
         massReadingTypeList: massReadingTypeList ?? [],
+        titleFontSize: titleFontSize,
+        contentFontSize: contentFontSize,
       );
 
   @override
@@ -36,6 +42,8 @@ class MassReadingsModel extends BaseUIModel<MassReadingsModel> {
         massReadingItem,
         massReadingList,
         massReadingTypeList,
+        titleFontSize,
+        contentFontSize,
       ]);
 
   @override
@@ -47,5 +55,7 @@ class MassReadingsModel extends BaseUIModel<MassReadingsModel> {
           loading == other.loading &&
           massReadingItem == other.massReadingItem &&
           massReadingList == other.massReadingList &&
-          massReadingTypeList == other.massReadingTypeList;
+          massReadingTypeList == other.massReadingTypeList &&
+          titleFontSize == other.titleFontSize &&
+          contentFontSize == other.contentFontSize;
 }

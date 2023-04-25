@@ -209,7 +209,9 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                         : '',
                                                     style: const TextStyle(
                                                       color: Color.fromRGBO(
-                                                          4, 26, 82, 1),
+                                                          12, 72, 224, 1),
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       fontSize: 16,
                                                     ),
                                                   ),
@@ -526,10 +528,9 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                 ),
                 widget._infos.isEmpty
                     ? Container(
-                        margin: const EdgeInsets.only(top: 16),
-                        child: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
+                        height: MediaQuery.of(context).size.height * 0.3,
+                        margin: const EdgeInsets.only(top: 20),
+                        child: const Center(child: CircularProgressIndicator()),
                       )
                     : Container(),
                 const SizedBox(height: 16),

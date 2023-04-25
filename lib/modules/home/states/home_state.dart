@@ -2,6 +2,7 @@ import 'package:butter/butter.dart';
 
 import '../actions/initialize_action.dart';
 import '../actions/select_menu_item_action.dart';
+import '../actions/set_font_size_action.dart';
 import '../models/home_model.dart';
 
 class HomeState extends BasePageState<HomeModel> {
@@ -40,12 +41,19 @@ class HomeState extends BasePageState<HomeModel> {
                 ),
           ), (m) {
         // Load all your model's handlers here
+        // m.dispatch = (action) => dispatchAction(action);
+        // m.read = <T extends BaseUIModel>(T o) {
+        //   return read(o);
+        // };
         m.initialize =
             (context) => dispatchAction(InitializeAction(context: context));
         m.setSelectedIndex = ({index}) {
           dispatchModel<HomeModel>(HomeModel(), (m) {
             m.selectedIndex = index!;
           });
+        };
+        m.setPageFontSize = () {
+          dispatchAction(SetFontSizeAction());
         };
         m.selectMenuItem = ({
           allowSameId = true,

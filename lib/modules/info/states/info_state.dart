@@ -25,12 +25,16 @@ class InfoState extends BasePageState<InfoModel> {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is InfoState && runtimeType == other.runtimeType;
+        other is InfoState &&
+            runtimeType == other.runtimeType &&
+            model == other.model;
   }
 
   @override
-  // ignore: recursive_getters
-  int get hashCode => hashCode;
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        model,
+      ]);
 
   @override
   InfoState fromStore() => InfoState.build(

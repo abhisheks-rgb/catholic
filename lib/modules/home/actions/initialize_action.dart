@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../config/app_config.dart';
 import 'select_menu_item_action.dart';
+import 'initialize_qoutes.dart';
 import '../models/home_model.dart';
 import '../../welcome/models/welcome_model.dart';
 
@@ -48,6 +49,8 @@ class InitializeAction extends BaseAction {
         replaceCurrent: true,
         route: AppConfig.initRoute,
       ));
+
+      await dispatchAction(InitializeQoutes());
 
       if (user == null) {
         User? currentUser = FirebaseAuth.instance.currentUser;

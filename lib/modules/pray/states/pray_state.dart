@@ -19,12 +19,16 @@ class PrayState extends BasePageState<PrayModel> {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is PrayState && runtimeType == other.runtimeType;
+        other is PrayState &&
+            runtimeType == other.runtimeType &&
+            model == other.model;
   }
 
   @override
-  // ignore: recursive_getters
-  int get hashCode => hashCode;
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        model,
+      ]);
 
   @override
   PrayState fromStore() => PrayState.build(
