@@ -335,6 +335,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                 title = '';
                                 break;
                               default:
+                                print(data![key]['source']);
                                 title = 'First Reading';
                             }
                             return Column(
@@ -352,15 +353,31 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                 SizedBox(height: key != 'copyright' ? 8 : 0),
                                 key != 'copyright'
                                     ? data![key]['heading'] != null
-                                        ? Text(
-                                            '${data[key]['heading'] ?? ''} - ${data[key]['source'] ?? ''}',
-                                            style: TextStyle(
-                                              fontSize: widget
-                                                      .model!.contentFontSize ??
-                                                  17,
-                                              color: const Color.fromRGBO(
-                                                  4, 26, 82, 1),
-                                            ),
+                                        ? Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '${data[key]['source'] ?? ''}',
+                                                style: TextStyle(
+                                                  fontSize: widget.model!
+                                                          .contentFontSize ??
+                                                      17,
+                                                  color: const Color.fromRGBO(
+                                                      4, 26, 82, 1),
+                                                ),
+                                              ),
+                                              Text(
+                                                '${data[key]['heading'] ?? ''}',
+                                                style: TextStyle(
+                                                  fontSize: widget.model!
+                                                          .contentFontSize ??
+                                                      17,
+                                                  color: const Color.fromRGBO(
+                                                      4, 26, 82, 1),
+                                                ),
+                                              ),
+                                            ],
                                           )
                                         : data[key]['source'] != null
                                             ? Text(
