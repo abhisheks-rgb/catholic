@@ -335,7 +335,6 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                 title = '';
                                 break;
                               default:
-                                print(data![key]['source']);
                                 title = 'First Reading';
                             }
                             return Column(
