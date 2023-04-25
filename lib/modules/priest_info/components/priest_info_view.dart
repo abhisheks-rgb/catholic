@@ -403,9 +403,8 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                         child: Text(
                           priestParish['name'] ?? '',
                           style: const TextStyle(
-                            color: Color.fromRGBO(12, 72, 224, 1),
+                            color: Color.fromRGBO(4, 26, 82, 1),
                             fontSize: 16,
-                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
