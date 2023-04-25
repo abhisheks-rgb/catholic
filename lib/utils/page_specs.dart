@@ -6,6 +6,7 @@ class PageSpecs extends BasePageSpecs {
   bool? inSafeArea;
   bool? hasAppBar;
   bool? showProfile;
+  bool? showFontSetting;
   bool? leadingLogo;
   String? title;
   String? shortTitle;
@@ -23,6 +24,7 @@ class PageSpecs extends BasePageSpecs {
     this.inSafeArea = true,
     this.hasAppBar = true,
     this.showProfile = false,
+    this.showFontSetting = false,
     this.leadingLogo = false,
     this.shortTitle,
     this.title,

@@ -46,10 +46,10 @@ class ScriptureDetailsView extends BaseStatelessPageView {
                           vertical: 0, horizontal: 8),
                       child: Text(
                         _item['contentTitle'],
-                        style: const TextStyle(
-                          color: Color.fromRGBO(4, 26, 82, 1),
+                        style: TextStyle(
+                          color: const Color.fromRGBO(4, 26, 82, 1),
                           fontWeight: FontWeight.w500,
-                          fontSize: 20,
+                          fontSize: model!.titleFontSize ?? 20,
                         ),
                       ),
                     ),
@@ -70,17 +70,17 @@ class ScriptureDetailsView extends BaseStatelessPageView {
                       style: {
                         'body': Style(
                           color: const Color.fromRGBO(4, 26, 82, 1),
-                          fontSize: FontSize(16),
+                          fontSize: FontSize(model!.titleFontSize ?? 16),
                           textAlign: TextAlign.left,
                         ),
                         'div': Style(
                           color: const Color.fromRGBO(4, 26, 82, 1),
-                          fontSize: FontSize(16),
+                          fontSize: FontSize(model!.titleFontSize ?? 16),
                           textAlign: TextAlign.left,
                         ),
                         'p': Style(
                           color: const Color.fromRGBO(4, 26, 82, 1),
-                          fontSize: FontSize(16),
+                          fontSize: FontSize(model!.titleFontSize ?? 16),
                           textAlign: TextAlign.left,
                         ),
                       },

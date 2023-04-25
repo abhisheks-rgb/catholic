@@ -25,6 +25,7 @@ class MassReadingsPage extends BaseStatefulPageView {
   @override
   get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
         hasAppBar: true,
+        showFontSetting: true,
         title: 'Mass Readings',
       ));
 
@@ -290,13 +291,24 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                   : Html(
                       data: widget.model?.massReadingItem!['day'],
                       style: {
-                        'b': Style(
+                        'html': Style(
+                          textAlign: TextAlign.start,
+                          padding: const EdgeInsets.all(0),
+                          margin: Margins.all(0),
                           color: const Color.fromRGBO(4, 26, 82, 1),
-                          fontSize: FontSize(18),
+                          fontSize: FontSize(widget.model!.titleFontSize ?? 20),
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.normal,
+                        ),
+                        'i': Style(
+                          color: const Color.fromRGBO(4, 26, 82, 1),
+                          fontSize: FontSize(widget.model!.titleFontSize ?? 20),
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.normal,
                         ),
                       },
                     ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 8),
               widget.model?.loading == true &&
                       widget.model?.massReadingList != null
                   ? const SizedBox()
@@ -328,31 +340,69 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                SizedBox(height: key != 'copyright' ? 16 : 0),
                                 Text(title,
-                                    style: const TextStyle(
-                                      fontSize: 16,
+                                    style: TextStyle(
+                                      fontSize:
+                                          widget.model!.contentFontSize ?? 17,
                                       fontWeight: FontWeight.bold,
-                                      color: Color.fromRGBO(8, 51, 158, 1),
+                                      color:
+                                          const Color.fromRGBO(8, 51, 158, 1),
                                     )),
                                 SizedBox(height: key != 'copyright' ? 8 : 0),
                                 key != 'copyright'
                                     ? data![key]['heading'] != null
-                                        ? Text(
-                                            '${data[key]['heading']} - ${data[key]['source']}',
-                                            style: const TextStyle(
-                                              fontSize: 17,
-                                              color:
-                                                  Color.fromRGBO(4, 26, 82, 1),
-                                            ),
+                                        ? Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '${data[key]['source'] ?? ''}',
+                                                style: TextStyle(
+                                                  fontSize: widget.model!
+                                                          .contentFontSize ??
+                                                      17,
+                                                  color: const Color.fromRGBO(
+                                                      4, 26, 82, 1),
+                                                ),
+                                              ),
+                                              Text(
+                                                '${data[key]['heading'] ?? ''}',
+                                                style: TextStyle(
+                                                  fontSize: widget.model!
+                                                          .contentFontSize ??
+                                                      17,
+                                                  color: const Color.fromRGBO(
+                                                      4, 26, 82, 1),
+                                                ),
+                                              ),
+                                            ],
                                           )
-                                        : Text('${data[key]['source']}')
+                                        : data[key]['source'] != null
+                                            ? Text(
+                                                '${data[key]['source']}',
+                                                style: TextStyle(
+                                                  fontSize: widget.model!
+                                                          .contentFontSize ??
+                                                      17,
+                                                  color: const Color.fromRGBO(
+                                                      4, 26, 82, 1),
+                                                ),
+                                              )
+                                            : const SizedBox()
                                     : const SizedBox(),
-                                Html(data: data![key]['text'], style: {
-                                  'body': Style(
-                                    color: const Color.fromRGBO(4, 26, 82, 1),
-                                    fontSize: FontSize(17),
-                                  ),
-                                }),
+                                Html(
+                                  data: data![key]['text'],
+                                  style: {
+                                    'div': Style(
+                                      textAlign: TextAlign.left,
+                                      color: const Color.fromRGBO(4, 26, 82, 1),
+                                      fontSize: FontSize(
+                                        widget.model!.contentFontSize ?? 17,
+                                      ),
+                                    ),
+                                  },
+                                ),
                               ],
                             );
                           }).toList() ??

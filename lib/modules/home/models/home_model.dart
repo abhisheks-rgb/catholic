@@ -10,6 +10,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
   bool isFullScreen;
   int selectedIndex;
 
+  void Function()? setPageFontSize;
   late Future<void> Function(BuildContext context) initialize;
   Function({int? index})? setSelectedIndex;
   void Function({

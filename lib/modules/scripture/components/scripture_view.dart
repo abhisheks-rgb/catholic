@@ -1,6 +1,5 @@
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
 import '../models/scripture_model.dart';
@@ -49,15 +48,6 @@ class ScriptureView extends BaseStatefulPageView {
 }
 
 class _ScriptureViewState extends State<ScriptureView> {
-  Map? _istoday;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _getisToday();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -173,7 +163,7 @@ class _ScriptureViewState extends State<ScriptureView> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Text(
-                                  _istoday?['title'] ?? '',
+                                  widget.model?.isToday?['title'] ?? '',
                                   maxLines: 3,
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
@@ -191,11 +181,11 @@ class _ScriptureViewState extends State<ScriptureView> {
                           bottom: 0,
                           child: Container(
                             margin: const EdgeInsets.symmetric(
-                                horizontal: 24, vertical: 21),
+                                horizontal: 24, vertical: 20),
                             width: MediaQuery.of(context).size.width - 48,
                             height: 38,
                             child: Text(
-                              _istoday?['content'] ?? '',
+                              widget.model?.isToday?['content'] ?? '',
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
@@ -244,19 +234,11 @@ class _ScriptureViewState extends State<ScriptureView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Reflections & Homilies (${data.length})',
+                                  '${element['authorname']} (${data.length})',
                                   style: const TextStyle(
                                     color: Color.fromRGBO(4, 26, 82, 1),
                                     fontWeight: FontWeight.w500,
                                     fontSize: 18,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  'by ${element['authorname']}',
-                                  style: const TextStyle(
-                                    color: Color.fromRGBO(4, 26, 82, 0.5),
-                                    fontSize: 16,
                                   ),
                                 ),
                                 const SizedBox(height: 8),
@@ -347,19 +329,5 @@ class _ScriptureViewState extends State<ScriptureView> {
         ),
       ),
     );
-  }
-
-  void _getisToday() async {
-    final result = await FirebaseFunctions.instanceFor(region: 'asia-east2')
-        .httpsCallable('todayis')
-        .call({});
-
-    final response = result.data;
-
-    List itemList = response['results']['items'];
-
-    setState(() {
-      _istoday = itemList[0];
-    });
   }
 }

@@ -6,12 +6,10 @@ import '../../../utils/asset_path.dart';
 
 class Navbar extends StatefulWidget {
   final HomeModel? model;
-  final String? routeName;
 
   const Navbar({
     super.key,
     this.model,
-    this.routeName,
   });
 
   @override
