@@ -336,7 +336,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                     initialDate: DateTime.now(),
                                     firstDate: DateTime.now(),
                                     lastDate: DateTime.now()
-                                        .add(const Duration(days: 40)),
+                                        .add(const Duration(days: 30)),
                                   );
                                   if (picked != null) {
                                     final filtered =
