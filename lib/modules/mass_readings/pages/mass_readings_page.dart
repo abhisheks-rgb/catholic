@@ -6,7 +6,6 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
 import '../models/mass_readings_model.dart';
-import '../../../utils/asset_path.dart';
 import '../../../../utils/page_specs.dart';
 
 class MassReadingsPage extends BaseStatefulPageView {
@@ -24,13 +23,11 @@ class MassReadingsPage extends BaseStatefulPageView {
   }
 
   @override
-  get specs => PageSpecs.build((context, {dispatch, read}) {
-        return PageSpecs(
-          hasAppBar: true,
-          showFontSetting: true,
-          title: 'Mass Readings',
-        );
-      });
+  get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
+        hasAppBar: true,
+        showFontSetting: true,
+        title: 'Mass Readings',
+      ));
 
   @override
   Widget build(BuildContext context, {bool loading = false}) =>
@@ -311,7 +308,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                         ),
                       },
                     ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 8),
               widget.model?.loading == true &&
                       widget.model?.massReadingList != null
                   ? const SizedBox()
@@ -343,6 +340,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                SizedBox(height: key != 'copyright' ? 16 : 0),
                                 Text(title,
                                     style: TextStyle(
                                       fontSize:
@@ -365,7 +363,16 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                             ),
                                           )
                                         : data[key]['source'] != null
-                                            ? Text('${data[key]['source']}')
+                                            ? Text(
+                                                '${data[key]['source']}',
+                                                style: TextStyle(
+                                                  fontSize: widget.model!
+                                                          .contentFontSize ??
+                                                      17,
+                                                  color: const Color.fromRGBO(
+                                                      4, 26, 82, 1),
+                                                ),
+                                              )
                                             : const SizedBox()
                                     : const SizedBox(),
                                 Html(

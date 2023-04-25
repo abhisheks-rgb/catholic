@@ -2,9 +2,8 @@ import 'package:butter/butter.dart';
 
 import '../actions/initialize_action.dart';
 import '../actions/select_menu_item_action.dart';
+import '../actions/set_font_size_action.dart';
 import '../models/home_model.dart';
-import '../../mass_readings/models/mass_readings_model.dart';
-import '../../scripture/models/scripture_details_model.dart';
 
 class HomeState extends BasePageState<HomeModel> {
   HomeState();
@@ -42,10 +41,10 @@ class HomeState extends BasePageState<HomeModel> {
                 ),
           ), (m) {
         // Load all your model's handlers here
-        m.dispatch = (action) => dispatchAction(action);
-        m.read = <T extends BaseUIModel>(T o) {
-          return read(o);
-        };
+        // m.dispatch = (action) => dispatchAction(action);
+        // m.read = <T extends BaseUIModel>(T o) {
+        //   return read(o);
+        // };
         m.initialize =
             (context) => dispatchAction(InitializeAction(context: context));
         m.setSelectedIndex = ({index}) {
@@ -54,39 +53,7 @@ class HomeState extends BasePageState<HomeModel> {
           });
         };
         m.setPageFontSize = () {
-          double defaultTitleFontSize = 20.0;
-          double defaultContentFontSize = 17;
-          double titlefontsize;
-          double contentfontsize;
-
-          if (m.titleFontSize == defaultTitleFontSize) {
-            titlefontsize = defaultTitleFontSize * 1.2;
-            contentfontsize = defaultContentFontSize * 1.2;
-          } else if (m.titleFontSize == defaultTitleFontSize * 1.2) {
-            titlefontsize = defaultTitleFontSize * 1.4;
-            contentfontsize = defaultContentFontSize * 1.4;
-          } else if (m.titleFontSize == defaultTitleFontSize * 1.4) {
-            titlefontsize = defaultTitleFontSize * 0.8;
-            contentfontsize = defaultContentFontSize * 0.8;
-          } else {
-            titlefontsize = defaultTitleFontSize;
-            contentfontsize = defaultContentFontSize;
-          }
-
-          dispatchModel<MassReadingsModel>(MassReadingsModel(), (m) {
-            m.titleFontSize = titlefontsize;
-            m.contentFontSize = contentfontsize;
-          });
-
-          dispatchModel<ScriptureDetailsModel>(ScriptureDetailsModel(), (m) {
-            m.titleFontSize = titlefontsize;
-            m.contentFontSize = contentfontsize;
-          });
-
-          dispatchModel<HomeModel>(HomeModel(), (m) {
-            m.titleFontSize = titlefontsize;
-            m.contentFontSize = contentfontsize;
-          });
+          dispatchAction(SetFontSizeAction());
         };
         m.selectMenuItem = ({
           allowSameId = true,

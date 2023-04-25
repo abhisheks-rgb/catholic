@@ -129,8 +129,8 @@ class HomePage extends BaseStatefulPageView {
                           constraints: const BoxConstraints(),
                           materialTapTargetSize:
                               MaterialTapTargetSize.shrinkWrap,
-                          onPressed: () {
-                            model?.setPageFontSize();
+                          onPressed: () async {
+                            model?.setPageFontSize!();
                           },
                           child: Container(
                             width: 40,
@@ -151,7 +151,7 @@ class HomePage extends BaseStatefulPageView {
                           ),
                         )
                       : Container(),
-                  ...?specs.actions,
+                  // ...?specs.actions,
                 ],
               )
             : PreferredSize(
@@ -167,7 +167,6 @@ class HomePage extends BaseStatefulPageView {
                 )
               : Navbar(
                   model: model,
-                  routeName: App.getRouteName(context),
                 ),
         ),
       ),

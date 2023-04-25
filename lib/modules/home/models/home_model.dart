@@ -9,10 +9,8 @@ class HomeModel extends BaseUIModel<HomeModel> {
   Map<String, dynamic>? user;
   bool isFullScreen;
   int selectedIndex;
-  double? titleFontSize = 20;
-  double? contentFontSize = 17;
 
-  late Function() setPageFontSize;
+  void Function()? setPageFontSize;
   late Future<void> Function(BuildContext context) initialize;
   Function({int? index})? setSelectedIndex;
   void Function({
@@ -34,8 +32,6 @@ class HomeModel extends BaseUIModel<HomeModel> {
     this.user,
     this.isFullScreen = false,
     this.selectedIndex = 0,
-    this.titleFontSize,
-    this.contentFontSize,
   });
 
   @override
@@ -50,8 +46,6 @@ class HomeModel extends BaseUIModel<HomeModel> {
         user: user,
         isFullScreen: isFullScreen,
         selectedIndex: selectedIndex,
-        titleFontSize: titleFontSize,
-        contentFontSize: contentFontSize,
       );
 
   @override
@@ -63,8 +57,6 @@ class HomeModel extends BaseUIModel<HomeModel> {
         user,
         isFullScreen,
         selectedIndex,
-        titleFontSize,
-        contentFontSize,
       ]);
 
   //
@@ -81,7 +73,5 @@ class HomeModel extends BaseUIModel<HomeModel> {
           title == other.title &&
           user == other.user &&
           isFullScreen == other.isFullScreen &&
-          selectedIndex == other.selectedIndex &&
-          titleFontSize == other.titleFontSize &&
-          contentFontSize == other.contentFontSize;
+          selectedIndex == other.selectedIndex;
 }
