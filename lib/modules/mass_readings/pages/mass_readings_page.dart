@@ -6,6 +6,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
 import '../models/mass_readings_model.dart';
+import '../../../utils/asset_path.dart';
 import '../../../../utils/page_specs.dart';
 
 class MassReadingsPage extends BaseStatefulPageView {
@@ -23,10 +24,13 @@ class MassReadingsPage extends BaseStatefulPageView {
   }
 
   @override
-  get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
-        hasAppBar: true,
-        title: 'Mass Readings',
-      ));
+  get specs => PageSpecs.build((context, {dispatch, read}) {
+        return PageSpecs(
+          hasAppBar: true,
+          showFontSetting: true,
+          title: 'Mass Readings',
+        );
+      });
 
   @override
   Widget build(BuildContext context, {bool loading = false}) =>
@@ -290,9 +294,20 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                   : Html(
                       data: widget.model?.massReadingItem!['day'],
                       style: {
-                        'b': Style(
+                        'html': Style(
+                          textAlign: TextAlign.start,
+                          padding: const EdgeInsets.all(0),
+                          margin: Margins.all(0),
                           color: const Color.fromRGBO(4, 26, 82, 1),
-                          fontSize: FontSize(18),
+                          fontSize: FontSize(widget.model!.titleFontSize ?? 20),
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.normal,
+                        ),
+                        'i': Style(
+                          color: const Color.fromRGBO(4, 26, 82, 1),
+                          fontSize: FontSize(widget.model!.titleFontSize ?? 20),
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.normal,
                         ),
                       },
                     ),
@@ -329,33 +344,42 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(title,
-                                    style: const TextStyle(
-                                      fontSize: 16,
+                                    style: TextStyle(
+                                      fontSize:
+                                          widget.model!.contentFontSize ?? 17,
                                       fontWeight: FontWeight.bold,
-                                      color: Color.fromRGBO(8, 51, 158, 1),
+                                      color:
+                                          const Color.fromRGBO(8, 51, 158, 1),
                                     )),
                                 SizedBox(height: key != 'copyright' ? 8 : 0),
                                 key != 'copyright'
                                     ? data![key]['heading'] != null
                                         ? Text(
                                             '${data[key]['heading'] ?? ''} - ${data[key]['source'] ?? ''}',
-                                            style: const TextStyle(
-                                              fontSize: 17,
-                                              color:
-                                                  Color.fromRGBO(4, 26, 82, 1),
+                                            style: TextStyle(
+                                              fontSize: widget
+                                                      .model!.contentFontSize ??
+                                                  17,
+                                              color: const Color.fromRGBO(
+                                                  4, 26, 82, 1),
                                             ),
                                           )
                                         : data[key]['source'] != null
                                             ? Text('${data[key]['source']}')
                                             : const SizedBox()
                                     : const SizedBox(),
-                                Html(data: data![key]['text'], style: {
-                                  'body': Style(
-                                    textAlign: TextAlign.left,
-                                    color: const Color.fromRGBO(4, 26, 82, 1),
-                                    fontSize: FontSize(17),
-                                  ),
-                                }),
+                                Html(
+                                  data: data![key]['text'],
+                                  style: {
+                                    'div': Style(
+                                      textAlign: TextAlign.left,
+                                      color: const Color.fromRGBO(4, 26, 82, 1),
+                                      fontSize: FontSize(
+                                        widget.model!.contentFontSize ?? 17,
+                                      ),
+                                    ),
+                                  },
+                                ),
                               ],
                             );
                           }).toList() ??

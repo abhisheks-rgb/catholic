@@ -42,6 +42,7 @@ class HomePage extends BaseStatefulPageView {
 
     PageSpecs? baseSpecs = module?.page?.specs as PageSpecs?;
     var specs = baseSpecs ?? PageSpecs();
+
     if (baseSpecs?.builder != null) {
       specs = baseSpecs?.builder!(
             context,
@@ -122,7 +123,35 @@ class HomePage extends BaseStatefulPageView {
                             ),
                           ),
                         )
-                      : Container()
+                      : Container(),
+                  specs.showFontSetting!
+                      ? RawMaterialButton(
+                          constraints: const BoxConstraints(),
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          onPressed: () {
+                            model?.setPageFontSize();
+                          },
+                          child: Container(
+                            width: 40,
+                            decoration: const BoxDecoration(
+                              color: Colors.transparent,
+                            ),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: Image.asset(
+                                  assetPath('font-size.png'),
+                                  color: const Color.fromRGBO(4, 26, 82, 1),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
+                  ...?specs.actions,
                 ],
               )
             : PreferredSize(
