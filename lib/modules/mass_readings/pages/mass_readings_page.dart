@@ -370,7 +370,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                                       4, 26, 82, 1),
                                                 ),
                                               ),
-                                              const SizedBox(height: 8),
+                                              const SizedBox(height: 15),
                                               Text(
                                                 '${data[key]['heading'] ?? ''}',
                                                 style: TextStyle(
@@ -396,7 +396,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                               )
                                             : const SizedBox()
                                     : const SizedBox(),
-                                SizedBox(height: key != 'copyright' ? 8 : 0),
+                                SizedBox(height: key != 'copyright' ? 15 : 0),
                                 Html(
                                   data: data![key]['text'] ?? '',
                                   style: {
