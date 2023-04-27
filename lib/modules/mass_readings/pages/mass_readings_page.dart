@@ -317,6 +317,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                       widget.model?.massReadingList != null
                   ? const SizedBox()
                   : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: widget.model?.massReadingList?.map((item) {
                             Map? data = item as Map?;
                             String key = data?.keys.elementAt(0);
@@ -397,7 +398,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                     : const SizedBox(),
                                 SizedBox(height: key != 'copyright' ? 8 : 0),
                                 Html(
-                                  data: data![key]['text'],
+                                  data: data![key]['text'] ?? '',
                                   style: {
                                     'div': Style(
                                       textAlign: TextAlign.left,
