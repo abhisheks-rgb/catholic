@@ -320,10 +320,10 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                       ),
                       widget._infos.isEmpty
                           ? Container(
-                              margin: const EdgeInsets.only(top: 16),
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              margin: const EdgeInsets.only(top: 20),
                               child: const Center(
-                                child: CircularProgressIndicator(),
-                              ),
+                                  child: CircularProgressIndicator()),
                             )
                           : Container(),
                       const SizedBox(height: 16),

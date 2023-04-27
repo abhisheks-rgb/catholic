@@ -70,10 +70,10 @@ class _SchedulesPageState extends State<_SchedulesPage> {
   void initState() {
     super.initState();
 
-    _selectedParishValue = 'Cathedral of the Good Shepherd';
+    _selectedParishValue = 'all';
 
     if (widget.model.churchName == null || widget.model.churchName == '') {
-      _getSchedules('cathedral');
+      _getSchedules('all');
     } else {
       _selectedParishValue = widget.model.churchName;
 
@@ -1124,16 +1124,42 @@ class _SchedulesPageState extends State<_SchedulesPage> {
           int.parse(DateFormat('yyyyMMdd').format(DateTime.now()));
     });
 
+    Map newSchedules = Map.fromEntries(
+        newMap.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key)));
+
     setState(() {
       _schedTypes = [
         {'type': 'All Types'},
         {'type': 'Date'},
         ...schedTypeList
       ];
-      _schedules = Map.fromEntries(
-          newMap.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key)));
+      _schedules = newSchedules;
       isLoadingSchedules = false;
     });
+
+    if (_selectedSchedType != 'All Types' || _selectedDate != null) {
+      final filtered = newSchedules.map((key, value) {
+        final filteredSched = value.where((p) {
+          return p['type'] == _selectedSchedType;
+        }).toList();
+
+        return MapEntry(key,
+            _selectedSchedType != 'All Types' ? filteredSched : value.toList());
+      });
+
+      filtered.removeWhere((key, value) => value.isEmpty);
+
+      if (_selectedDate != null) {
+        filtered.removeWhere((key, value) {
+          return int.parse(key) !=
+              int.parse(DateFormat('yyyyMMdd').format(_selectedDate!));
+        });
+      }
+
+      setState(() {
+        _filteredSchedules = filtered;
+      });
+    }
 
     await FirebaseAnalytics.instance.logEvent(
       name: 'app_sched_$parishlink',

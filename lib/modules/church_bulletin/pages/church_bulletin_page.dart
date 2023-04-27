@@ -105,9 +105,8 @@ class _BulletinPageState extends State<_BulletinPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                height: 64,
                 width: double.infinity,
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
                 decoration: BoxDecoration(
                   color: const Color.fromRGBO(255, 255, 255, 1),
                   borderRadius: BorderRadius.circular(10),
@@ -126,42 +125,45 @@ class _BulletinPageState extends State<_BulletinPage> {
                 ),
                 child: Column(
                   children: [
-                    InputDecorator(
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.all(Radius.zero))),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10)),
-                          icon: const Icon(Icons.keyboard_arrow_down),
-                          elevation: 16,
-                          isDense: true,
-                          isExpanded: true,
-                          value: _selectedParishValue,
-                          hint: const Text('Select parish'),
-                          items: [
-                            ...?widget.model.items?.map((value) {
-                              return DropdownMenuItem<String>(
-                                value: value['name'].toString(),
-                                child: Text(value['name'],
-                                    style: const TextStyle(fontSize: 16)),
-                              );
-                            }).toList()
-                          ],
-                          onChanged: (value) async {
-                            var parish =
-                                widget.model.items?.firstWhere((element) {
-                              return element['name'] == value;
-                            });
-
-                            _getBulletin(parish['link']);
-                            setState(() {
-                              _selectedParishValue = value.toString();
-                            });
-                          },
-                        ),
+                    RawMaterialButton(
+                      constraints: const BoxConstraints(),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      onPressed: () async {
+                        if (widget.model.items!.isNotEmpty &&
+                            _bulletinItems != null) {
+                          showAlert(context);
+                        }
+                      },
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  _selectedParishValue != null
+                                      ? _getChurchName(_selectedParishValue)
+                                      : '',
+                                  style: const TextStyle(
+                                    color: Color.fromRGBO(4, 26, 82, 1),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: Icon(
+                                  Entypo.chevron_down,
+                                  color: Color.fromRGBO(4, 26, 82, 1),
+                                  size: 20,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                        ],
                       ),
                     ),
                   ],
@@ -769,5 +771,114 @@ class _BulletinPageState extends State<_BulletinPage> {
         ),
       ),
     );
+  }
+
+  void showAlert(BuildContext context) {
+    List<dynamic> churchList = [...widget.model.items!];
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              ),
+              contentPadding: const EdgeInsets.all(0),
+              title: Column(
+                children: [
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          'Select Church',
+                          style: TextStyle(
+                            color: Color.fromRGBO(4, 26, 82, 1),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                      RawMaterialButton(
+                        constraints: const BoxConstraints(),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        shape: const CircleBorder(),
+                        child: const SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: Icon(
+                            MaterialCommunityIcons.close_circle,
+                            color: Color.fromRGBO(130, 141, 168, 1),
+                            size: 24,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                ],
+              ),
+              content: Container(
+                constraints: const BoxConstraints(
+                  maxWidth: 600,
+                  maxHeight: 600,
+                ),
+                child: ListView.separated(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: churchList.length,
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Container();
+                  },
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 0, horizontal: 24),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 8),
+                            Text(
+                              churchList[index]['name'] ?? '',
+                              style: const TextStyle(
+                                color: Color.fromRGBO(4, 26, 82, 1),
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                          ],
+                        ),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          _selectedParishValue =
+                              churchList[index]['name'].toString();
+                        });
+
+                        var parish = widget.model.items?.firstWhere((element) {
+                          return element['name'] == churchList[index]['name'];
+                        });
+
+                        _getBulletin(parish['link']);
+                        setState(() {
+                          _selectedParishValue = churchList[index]['name'];
+                        });
+
+                        Navigator.pop(context);
+                      },
+                    );
+                  },
+                ),
+              ),
+            ));
+  }
+
+  String _getChurchName(String? selectedParish) {
+    var parish = widget.model.items?.firstWhere((element) {
+      return element['name'] == selectedParish;
+    });
+
+    return '${parish['name']}';
   }
 }

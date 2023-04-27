@@ -45,7 +45,7 @@ class ChurchBulletinState extends BasePageState<ChurchBulletinModel> {
           dispatchModel<ChurchBulletinModel>(ChurchBulletinModel(), (m) {
             m.loading = true;
           });
-          await Future.delayed(const Duration(seconds: 3), () async {
+          await Future.delayed(const Duration(milliseconds: 30), () async {
             final String response =
                 await rootBundle.loadString('assets/data/parish.json');
             final data = await json.decode(response);

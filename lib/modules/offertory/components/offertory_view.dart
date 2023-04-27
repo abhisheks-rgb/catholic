@@ -392,10 +392,9 @@ class _OffertoryViewState extends State<OffertoryView> {
                 ),
                 widget._infos.isEmpty
                     ? Container(
-                        margin: const EdgeInsets.only(top: 16),
-                        child: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
+                        height: MediaQuery.of(context).size.height * 0.3,
+                        margin: const EdgeInsets.only(top: 20),
+                        child: const Center(child: CircularProgressIndicator()),
                       )
                     : Container(),
                 widget._infos.isEmpty

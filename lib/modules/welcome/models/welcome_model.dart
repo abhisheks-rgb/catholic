@@ -1,10 +1,14 @@
 import 'package:butter/butter.dart';
 
 class WelcomeModel extends BaseUIModel<WelcomeModel> {
+  bool loading;
   Map<String, dynamic>? user;
   late void Function(String route) showPage;
+  late Future<void> Function() initializeQoute;
+  late Future<void> Function() initializeUser;
 
   WelcomeModel({
+    this.loading = false,
     this.user,
   });
 
@@ -13,11 +17,13 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
 
   @override
   WelcomeModel clone() => WelcomeModel(
+        loading: loading,
         user: user,
       );
 
   @override
   int get hashCode => Object.hashAll([
+        loading,
         user,
       ]);
 
@@ -26,5 +32,6 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
       identical(this, other) ||
       other is WelcomeModel &&
           runtimeType == other.runtimeType &&
+          loading == other.loading &&
           user == other.user;
 }
