@@ -1,6 +1,7 @@
 import 'package:butter/butter.dart';
 
 import '../actions/initialize_action.dart';
+import '../actions/initialize_todayis.dart';
 import '../actions/select_menu_item_action.dart';
 import '../actions/set_font_size_action.dart';
 import '../models/home_model.dart';
@@ -47,6 +48,7 @@ class HomeState extends BasePageState<HomeModel> {
         // };
         m.initialize =
             (context) => dispatchAction(InitializeAction(context: context));
+        m.initializeTodayIs = () => dispatchAction(InitializeTodayIs());
         m.setSelectedIndex = ({index}) {
           dispatchModel<HomeModel>(HomeModel(), (m) {
             m.selectedIndex = index!;

@@ -287,7 +287,11 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
               const SizedBox(height: 16.5),
               widget.model?.loading == true &&
                       widget.model?.massReadingList != null
-                  ? const Center(child: CircularProgressIndicator())
+                  ? Container(
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      margin: const EdgeInsets.only(top: 20),
+                      child: const Center(child: CircularProgressIndicator()),
+                    )
                   : Html(
                       data: widget.model?.massReadingItem!['day'],
                       style: {
@@ -313,6 +317,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                       widget.model?.massReadingList != null
                   ? const SizedBox()
                   : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: widget.model?.massReadingList?.map((item) {
                             Map? data = item as Map?;
                             String key = data?.keys.elementAt(0);
@@ -349,7 +354,6 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                       color:
                                           const Color.fromRGBO(8, 51, 158, 1),
                                     )),
-                                SizedBox(height: key != 'copyright' ? 8 : 0),
                                 key != 'copyright'
                                     ? data![key]['heading'] != null
                                         ? Column(
@@ -366,6 +370,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                                       4, 26, 82, 1),
                                                 ),
                                               ),
+                                              const SizedBox(height: 15),
                                               Text(
                                                 '${data[key]['heading'] ?? ''}',
                                                 style: TextStyle(
@@ -391,8 +396,9 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                               )
                                             : const SizedBox()
                                     : const SizedBox(),
+                                SizedBox(height: key != 'copyright' ? 15 : 0),
                                 Html(
-                                  data: data![key]['text'],
+                                  data: data![key]['text'] ?? '',
                                   style: {
                                     'div': Style(
                                       textAlign: TextAlign.left,

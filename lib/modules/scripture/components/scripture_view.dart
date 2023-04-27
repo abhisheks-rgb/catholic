@@ -202,10 +202,9 @@ class _ScriptureViewState extends State<ScriptureView> {
             const SizedBox(height: 8),
             widget.model?.loading == true
                 ? Container(
-                    margin: const EdgeInsets.only(top: 16),
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    margin: const EdgeInsets.only(top: 20),
+                    child: const Center(child: CircularProgressIndicator()),
                   )
                 : Column(
                     children: widget._items.map<Widget>((element) {
