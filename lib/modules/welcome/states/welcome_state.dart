@@ -1,5 +1,6 @@
 import 'package:butter/butter.dart';
 
+import '../actions/initialize_qoutes.dart';
 import '../models/welcome_model.dart';
 import '../../church_info/models/church_info_model.dart';
 import '../../church_bulletin/models/church_bulletin_model.dart';
@@ -44,6 +45,7 @@ class WelcomeState extends BasePageState<WelcomeModel> {
                 ),
           ), (m) {
         // Load all your model's handlers here
+        m.initializeQoute = () => dispatchAction(InitializeQoutes());
         m.showPage = (route) async {
           String newRoute = route;
           Map<String, dynamic>? user;

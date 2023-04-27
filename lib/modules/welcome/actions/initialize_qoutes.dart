@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:butter/butter.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
-import '../models/home_model.dart';
+import '../models/welcome_model.dart';
 import '../../info/models/info_model.dart';
 
 class InitializeQoutes extends BaseAction {
@@ -31,7 +31,7 @@ class InitializeQoutes extends BaseAction {
       m.qouteInfo = infoQoute;
     });
 
-    return write<HomeModel>(HomeModel(), (m) {
+    return write<WelcomeModel>(WelcomeModel(), (m) {
       m.loading = false;
     });
   }

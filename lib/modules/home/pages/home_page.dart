@@ -22,6 +22,13 @@ class HomePage extends BaseStatefulPageView {
       await model!.initialize(context);
     }
 
+    final currentTime = DateTime.now();
+    if (model!.todayIsLastUpdate?.year != currentTime.year ||
+        model!.todayIsLastUpdate?.month != currentTime.month ||
+        model!.todayIsLastUpdate?.day != currentTime.day) {
+      await model!.initializeTodayIs();
+    }
+
     return true;
   }
 
