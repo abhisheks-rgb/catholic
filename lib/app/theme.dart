@@ -5,10 +5,11 @@ class BrandColors {
   static final ThemeData theme = ThemeData(
     appBarTheme: const AppBarTheme(
       backgroundColor: Light,
-      systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarBrightness: Brightness.light,
-        statusBarIconBrightness: Brightness.dark,
-      ),
+      systemOverlayStyle: SystemUiOverlayStyle.dark,
+      // SystemUiOverlayStyle(
+      //   statusBarBrightness: Brightness.light,
+      //   statusBarIconBrightness: Brightness.dark,
+      // ),
       foregroundColor: Dark,
       iconTheme: IconThemeData(color: Dark),
       titleTextStyle: TextStyle(
