@@ -314,12 +314,12 @@ class _WelcomePageState extends State<WelcomePage> {
                         children: [
                           Container(
                             margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                            width: 74,
+                            width: 72,
                             height: 100,
                             child: Image.asset(
                               assetPath(
                                   'menu_item/${exploreItems[index]['icon']}'),
-                              fit: BoxFit.cover,
+                              // fit: BoxFit.cover,
                             ),
                           ),
                           Text(

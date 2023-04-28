@@ -116,7 +116,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                   style: selectedDate == 'yesterday'
                                       ? const TextStyle(
                                           fontSize: 18,
-                                          fontWeight: FontWeight.w500,
+                                          fontWeight: FontWeight.w400,
                                           letterSpacing: 0.1,
                                           color:
                                               Color.fromRGBO(237, 241, 253, 1),
@@ -154,7 +154,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                   style: selectedDate == 'today'
                                       ? const TextStyle(
                                           fontSize: 18,
-                                          fontWeight: FontWeight.w500,
+                                          fontWeight: FontWeight.w400,
                                           letterSpacing: 0.1,
                                           color:
                                               Color.fromRGBO(237, 241, 253, 1),
@@ -193,7 +193,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                   style: selectedDate == 'tomorrow'
                                       ? const TextStyle(
                                           fontSize: 18,
-                                          fontWeight: FontWeight.w500,
+                                          fontWeight: FontWeight.w400,
                                           letterSpacing: 0.1,
                                           color:
                                               Color.fromRGBO(237, 241, 253, 1),

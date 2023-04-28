@@ -233,7 +233,6 @@ class _PrayPageState extends State<_PrayPage> {
                                 child: Image.asset(
                                   assetPath(
                                       'menu_item/${exploreItems[index]['icon']}'),
-                                  fit: BoxFit.cover,
                                 ),
                               ),
                               Text(
