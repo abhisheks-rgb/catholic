@@ -673,8 +673,9 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                                                     ['color'],
                                                                 false),
                                                           ]),
+                                                      const SizedBox(height: 3),
                                                       Text(
-                                                          '${data?[key][index]['lang'].toUpperCase()} • ${data?[key][index]['location'].toUpperCase()}',
+                                                          '${data?[key][index]['lang']} • ${data?[key][index]['location']}',
                                                           style: const TextStyle(
                                                               letterSpacing:
                                                                   0.1,
@@ -687,19 +688,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                                                       26,
                                                                       82,
                                                                       1),
-                                                              fontFeatures: <
-                                                                  FontFeature>[
-                                                                FontFeature
-                                                                    .enable(
-                                                                        'smcp')
-                                                              ],
                                                               fontSize: 16)),
-                                                      SizedBox(
-                                                          height:
-                                                              _selectedParishValue ==
-                                                                      'all'
-                                                                  ? 8
-                                                                  : 0),
                                                       _selectedParishValue ==
                                                               'all'
                                                           ? RawMaterialButton(
@@ -718,42 +707,51 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                                                       query);
                                                                 }
                                                               },
-                                                              child: Row(
-                                                                children: [
-                                                                  Expanded(
-                                                                    child: Text(
-                                                                      schedParish[
-                                                                          'name'],
-                                                                      style:
-                                                                          const TextStyle(
-                                                                        fontSize:
-                                                                            16,
-                                                                        fontWeight:
-                                                                            FontWeight.w500,
+                                                              child: Container(
+                                                                padding: const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical:
+                                                                        4),
+                                                                child: Row(
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child:
+                                                                          Text(
+                                                                        schedParish[
+                                                                            'name'],
+                                                                        style:
+                                                                            const TextStyle(
+                                                                          fontSize:
+                                                                              16,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                          color: Color.fromRGBO(
+                                                                              12,
+                                                                              72,
+                                                                              224,
+                                                                              1),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    const SizedBox(
+                                                                      width: 24,
+                                                                      height:
+                                                                          24,
+                                                                      child:
+                                                                          Icon(
+                                                                        Icons
+                                                                            .directions,
                                                                         color: Color.fromRGBO(
                                                                             12,
                                                                             72,
                                                                             224,
                                                                             1),
+                                                                        size:
+                                                                            24,
                                                                       ),
                                                                     ),
-                                                                  ),
-                                                                  const SizedBox(
-                                                                    width: 24,
-                                                                    height: 24,
-                                                                    child: Icon(
-                                                                      Icons
-                                                                          .directions,
-                                                                      color: Color
-                                                                          .fromRGBO(
-                                                                              12,
-                                                                              72,
-                                                                              224,
-                                                                              1),
-                                                                      size: 24,
-                                                                    ),
-                                                                  ),
-                                                                ],
+                                                                  ],
+                                                                ),
                                                               ),
                                                             )
                                                           : const SizedBox(),
@@ -763,25 +761,34 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                                           ? Container(
                                                               margin: const EdgeInsets
                                                                       .fromLTRB(
-                                                                  0, 8, 0, 12),
-                                                              child:
-                                                                  const DottedLine(),
+                                                                  0, 4, 0, 12),
+                                                              child: DottedLine(
+                                                                dashColor: HexColor(
+                                                                        '#CCCCCC')
+                                                                    .withOpacity(
+                                                                        1.0),
+                                                              ),
                                                             )
                                                           : const SizedBox(),
-                                                      Text(
-                                                        data?[key][index]
-                                                            ['notes'],
-                                                        style: const TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    4,
-                                                                    26,
-                                                                    82,
-                                                                    1)),
-                                                      )
+                                                      data?[key][index]
+                                                                  ['notes'] !=
+                                                              ''
+                                                          ? Text(
+                                                              data?[key][index]
+                                                                  ['notes'],
+                                                              style: const TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          4,
+                                                                          26,
+                                                                          82,
+                                                                          1)),
+                                                            )
+                                                          : const SizedBox()
                                                     ],
                                                   ),
                                                 ),
@@ -1096,12 +1103,32 @@ class _SchedulesPageState extends State<_SchedulesPage> {
 
   Widget _scheduleChip(String type, String abbrev, String colorEvent,
       String colorString, bool isLongName) {
-    return Chip(
-      backgroundColor: HexColor(colorEvent).withOpacity(1.0),
-      label: Text(
-        isLongName ? type : abbrev,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(color: HexColor(colorString).withOpacity(1.0)),
+    return Container(
+      width: 32,
+      height: 19,
+      decoration: BoxDecoration(
+        color: HexColor(colorEvent).withOpacity(1.0),
+        borderRadius: BorderRadius.circular(32),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Add any child widgets here, separated by the gap distance
+          Center(
+            child: Text(
+              isLongName ? type : abbrev,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: HexColor(colorString).withOpacity(1.0),
+                fontSize: 11,
+              ),
+            ),
+          )
+          // Another child widget
+        ],
       ),
     );
   }
@@ -1262,20 +1289,9 @@ class _SchedulesPageState extends State<_SchedulesPage> {
           return p['type'] == _selectedSchedType;
         }).toList();
 
-        filteredTypeList = [
-          ...filteredSched
-              .where((d) => seen.add(d['type']))
-              .map((item) => {'type': item['type'], 'abbrev': item['abbrev']})
-              .toList(),
-          ...filteredTypeList
-        ];
-
         return MapEntry(key,
             _selectedSchedType != 'All Types' ? filteredSched : value.toList());
       });
-
-      filtered.removeWhere((key, value) => value.isEmpty);
-      filteredTypeList.sort((a, b) => a['type'].compareTo(b['type']));
 
       if (_selectedDate != null) {
         filtered.removeWhere((key, value) {
@@ -1283,6 +1299,20 @@ class _SchedulesPageState extends State<_SchedulesPage> {
               int.parse(DateFormat('yyyyMMdd').format(_selectedDate!));
         });
       }
+
+      filtered.removeWhere((key, value) => value.isEmpty);
+      filtered.forEach((key, value) {
+        filteredTypeList = [
+          ...value
+              .toList()
+              .where((d) => seen.add(d['type']))
+              .map((item) => {'type': item['type'], 'abbrev': item['abbrev']})
+              .toList(),
+          ...filteredTypeList
+        ];
+      });
+
+      filteredTypeList.sort((a, b) => a['type'].compareTo(b['type']));
 
       setState(() {
         _filteredSchedules = filtered;
