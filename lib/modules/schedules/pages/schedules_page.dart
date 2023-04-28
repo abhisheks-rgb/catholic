@@ -522,10 +522,11 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                       child: const Center(child: CircularProgressIndicator()),
                     )
                   : ((_selectedSchedType == 'All Types' &&
-                                  _selectedDate == null)
-                              ? _schedules
-                              : _filteredSchedules)!
-                          .isNotEmpty
+                                      _selectedDate == null)
+                                  ? _schedules
+                                  : _filteredSchedules) !=
+                              null &&
+                          !isLoadingSchedules
                       ? Flexible(
                           child: ListView.separated(
                               physics: const NeverScrollableScrollPhysics(),
