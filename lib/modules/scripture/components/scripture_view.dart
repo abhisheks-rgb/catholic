@@ -217,7 +217,7 @@ class _ScriptureViewState extends State<ScriptureView> {
                             width: double.infinity,
                             margin: const EdgeInsets.symmetric(
                                 vertical: 0, horizontal: 24),
-                            padding: const EdgeInsets.all(20),
+                            padding: const EdgeInsets.fromLTRB(20, 20, 20, 5.5),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: Colors.white,
@@ -248,7 +248,6 @@ class _ScriptureViewState extends State<ScriptureView> {
                                   endIndent: 0,
                                   color: Color.fromRGBO(4, 26, 82, 0.1),
                                 ),
-                                const SizedBox(height: 8),
                                 Row(
                                   children: [
                                     Expanded(
@@ -266,16 +265,21 @@ class _ScriptureViewState extends State<ScriptureView> {
                                                 'app_reflect_view_all_${element['shortname']}',
                                           );
                                         },
-                                        child: const Align(
+                                        child: Align(
                                           alignment: Alignment.topLeft,
-                                          child: Text(
-                                            'View All',
-                                            style: TextStyle(
-                                              color: Color.fromRGBO(
-                                                  12, 72, 224, 1),
-                                              fontSize: 16,
-                                            ),
-                                          ),
+                                          child: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 14.5),
+                                              child: const Text(
+                                                'View All',
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      12, 72, 224, 1),
+                                                  fontSize: 16,
+                                                  height: 1.2,
+                                                ),
+                                              )),
                                         ),
                                       ),
                                     ),
@@ -296,20 +300,24 @@ class _ScriptureViewState extends State<ScriptureView> {
                                         },
                                         child: Align(
                                           alignment: Alignment.topLeft,
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: const [
-                                              Spacer(),
-                                              Text(
-                                                'Read Latest',
-                                                style: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      12, 72, 224, 1),
-                                                  fontSize: 16,
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 14.5),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: const [
+                                                Spacer(),
+                                                Text(
+                                                  'Read Latest',
+                                                  style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        12, 72, 224, 1),
+                                                    fontSize: 16,
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),

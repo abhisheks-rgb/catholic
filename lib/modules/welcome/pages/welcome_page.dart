@@ -187,7 +187,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       width: MediaQuery.of(context).size.width - 48,
                       height: 38,
                       child: const Text(
-                        '“The steadfast love of the LORD never ceases...” - Lam 3: 22',
+                        '“The steadfast love of the LORD never ceases...” ~ Lam 3: 22',
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -314,12 +314,12 @@ class _WelcomePageState extends State<WelcomePage> {
                         children: [
                           Container(
                             margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                            width: 74,
+                            width: 72,
                             height: 100,
                             child: Image.asset(
                               assetPath(
                                   'menu_item/${exploreItems[index]['icon']}'),
-                              fit: BoxFit.cover,
+                              // fit: BoxFit.cover,
                             ),
                           ),
                           Text(
