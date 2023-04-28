@@ -337,8 +337,10 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                     context: context,
                                     initialDate: DateTime.now(),
                                     firstDate: DateTime.now(),
-                                    lastDate: DateTime.now()
-                                        .add(const Duration(days: 7)),
+                                    lastDate: DateTime.now().add(Duration(
+                                        days: (_selectedParishValue == 'all'
+                                            ? 7
+                                            : 30))),
                                   );
                                   if (picked != null) {
                                     var seen = <String>{};
