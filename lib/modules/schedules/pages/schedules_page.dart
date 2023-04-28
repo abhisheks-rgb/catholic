@@ -277,6 +277,8 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                   ],
                 ),
               ),
+
+              // Schedule Type Filter
               _schedules != null &&
                       _schedules!.isNotEmpty &&
                       !isLoadingSchedules
@@ -335,14 +337,17 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                     context: context,
                                     initialDate: DateTime.now(),
                                     firstDate: DateTime.now(),
-                                    lastDate: DateTime.now()
-                                        .add(const Duration(days: 30)),
+                                    lastDate: DateTime.now().add(Duration(
+                                        days: (_selectedParishValue == 'all'
+                                            ? 7
+                                            : 30))),
                                   );
                                   if (picked != null) {
+                                    var seen = <String>{};
+                                    List filteredTypeList = [];
                                     final filtered =
                                         _schedules?.map((key, value) {
                                       final filteredSched = value.where((p) {
-                                        // if (_selectedSchedType != 'All Types') {
                                         return p['type'] == _selectedSchedType;
                                       }).toList();
 
@@ -359,9 +364,31 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                               .format(picked));
                                     });
 
+                                    filtered?.forEach((key, value) {
+                                      filteredTypeList = [
+                                        ...value
+                                            .toList()
+                                            .where((d) => seen.add(d['type']))
+                                            .map((item) => {
+                                                  'type': item['type'],
+                                                  'abbrev': item['abbrev']
+                                                })
+                                            .toList(),
+                                        ...filteredTypeList
+                                      ];
+                                    });
+
+                                    filteredTypeList.sort((a, b) =>
+                                        a['type'].compareTo(b['type']));
+
                                     setState(() {
                                       _selectedDate = picked;
                                       _filteredSchedules = filtered;
+                                      _schedTypes = [
+                                        {'type': 'All Types'},
+                                        {'type': 'Date'},
+                                        ...filteredTypeList
+                                      ];
                                     });
                                   }
                                 } else {
@@ -412,6 +439,8 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                       const SizedBox(width: 5),
                                       GestureDetector(
                                         onTap: () {
+                                          var seen = <String>{};
+                                          List filteredTypeList = [];
                                           final filtered =
                                               _schedules?.map((key, value) {
                                             final filteredSched =
@@ -428,9 +457,32 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                                     : value.toList());
                                           });
 
+                                          filtered?.forEach((key, value) {
+                                            filteredTypeList = [
+                                              ...value
+                                                  .toList()
+                                                  .where((d) =>
+                                                      seen.add(d['type']))
+                                                  .map((item) => {
+                                                        'type': item['type'],
+                                                        'abbrev': item['abbrev']
+                                                      })
+                                                  .toList(),
+                                              ...filteredTypeList
+                                            ];
+                                          });
+
+                                          filteredTypeList.sort((a, b) =>
+                                              a['type'].compareTo(b['type']));
+
                                           setState(() {
                                             _selectedDate = null;
                                             _filteredSchedules = filtered;
+                                            _schedTypes = [
+                                              {'type': 'All Types'},
+                                              {'type': 'Date'},
+                                              ...filteredTypeList
+                                            ];
                                           });
                                         },
                                         child: const Icon(
@@ -438,11 +490,22 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                             size: 16),
                                       ),
                                     ])
-                                  : Text(_schedTypes![index]['type'] ==
-                                              'All Types' ||
-                                          _schedTypes![index]['type'] == 'Date'
-                                      ? '${_schedTypes![index]['type']}'
-                                      : '${_schedTypes![index]['type']} (${_schedTypes![index]['abbrev']})'),
+                                  : _schedTypes![index]['type'] == 'All Types'
+                                      ? Text('${_schedTypes![index]['type']}')
+                                      : _schedTypes![index]['type'] == 'Date'
+                                          ? Row(children: [
+                                              const Icon(
+                                                  MaterialCommunityIcons
+                                                      .calendar_blank_outline,
+                                                  size: 16,
+                                                  color: Color.fromRGBO(
+                                                      4, 26, 82, 0.7)),
+                                              const SizedBox(width: 5),
+                                              Text(
+                                                  '${_schedTypes![index]['type']}'),
+                                            ])
+                                          : Text(
+                                              '${_schedTypes![index]['type']} (${_schedTypes![index]['abbrev']})'),
                             ),
                           );
                         },
@@ -458,247 +521,289 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                       margin: const EdgeInsets.only(top: 20),
                       child: const Center(child: CircularProgressIndicator()),
                     )
-                  : Flexible(
-                      child: ListView.separated(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: _selectedSchedType == 'All Types' &&
-                                  _selectedDate == null
-                              ? (_schedules?.length ?? 0)
-                              : (_filteredSchedules?.length ?? 0),
-                          separatorBuilder: (context, index) {
-                            return const SizedBox(height: 24);
-                          },
-                          itemBuilder: (BuildContext context, int index) {
-                            var data = _selectedSchedType == 'All Types' &&
-                                    _selectedDate == null
-                                ? _schedules
-                                : _filteredSchedules;
+                  : ((_selectedSchedType == 'All Types' &&
+                                  _selectedDate == null)
+                              ? _schedules
+                              : _filteredSchedules)!
+                          .isNotEmpty
+                      ? Flexible(
+                          child: ListView.separated(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: _selectedSchedType == 'All Types' &&
+                                      _selectedDate == null
+                                  ? (_schedules?.length ?? 0)
+                                  : (_filteredSchedules?.length ?? 0),
+                              separatorBuilder: (context, index) {
+                                return const SizedBox(height: 24);
+                              },
+                              itemBuilder: (BuildContext context, int index) {
+                                var data = _selectedSchedType == 'All Types' &&
+                                        _selectedDate == null
+                                    ? _schedules
+                                    : _filteredSchedules;
 
-                            String key = data?.keys.elementAt(index);
+                                String key = data?.keys.elementAt(index);
 
-                            String dateSchedText = DateFormat('EEEE')
-                                .format(DateTime.parse(key))
-                                .toUpperCase();
+                                String dateSchedText = DateFormat('EEEE')
+                                    .format(DateTime.parse(key))
+                                    .toUpperCase();
 
-                            if (isToday(DateTime.parse(key))) {
-                              dateSchedText = 'TODAY';
-                            } else if (isTomorrow(DateTime.parse(key))) {
-                              dateSchedText = 'TOMORROW';
-                            }
+                                if (isToday(DateTime.parse(key))) {
+                                  dateSchedText = 'TODAY';
+                                } else if (isTomorrow(DateTime.parse(key))) {
+                                  dateSchedText = 'TOMORROW';
+                                }
 
-                            return SizedBox(
-                                width: double.infinity,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Column(
-                                      children: [
-                                        Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                dateSchedText,
-                                                style: const TextStyle(
-                                                    color: Color.fromRGBO(
-                                                        4, 26, 82, 1)),
-                                              ),
-                                              Text(
-                                                DateFormat('d MMM yyyy').format(
-                                                    DateTime.parse(key)),
-                                                style: const TextStyle(
-                                                    color: Color.fromRGBO(
-                                                        4, 26, 82, 1)),
-                                              ),
-                                            ]),
-                                        const SizedBox(height: 8),
-                                      ],
-                                    ),
-                                    ListView.separated(
-                                        itemCount: data?[key].length,
-                                        separatorBuilder: (context, index) {
-                                          return const SizedBox(height: 8);
-                                        },
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        shrinkWrap: true,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          var schedParish = widget.model.items
-                                              ?.firstWhere((element) {
-                                            return element['_id'] ==
-                                                data?[key][index]['parish'];
-                                          });
-                                          return InkWell(
-                                            child: Container(
-                                              width: double.infinity,
-                                              padding: const EdgeInsets.all(15),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                color: const Color.fromRGBO(
-                                                    255, 255, 255, 1),
-                                                boxShadow: const [
-                                                  BoxShadow(
-                                                    color: Color.fromRGBO(
-                                                        208, 185, 133, 0.15),
-                                                    offset: Offset(0, 8),
-                                                    blurRadius: 16,
-                                                  ),
-                                                  BoxShadow(
-                                                    color: Color.fromRGBO(
-                                                        208, 185, 133, 0.05),
-                                                    offset: Offset(0, 4),
-                                                    blurRadius: 8,
-                                                  ),
-                                                ],
-                                              ),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                return SizedBox(
+                                    width: double.infinity,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Column(
+                                          children: [
+                                            Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
-                                                  Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                          '${data?[key][index]['title']}',
-                                                          style:
-                                                              const TextStyle(
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    4,
-                                                                    26,
-                                                                    82,
-                                                                    1),
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: 20,
-                                                          ),
-                                                        ),
-                                                        _scheduleChip(
-                                                            data?[key][index]
-                                                                ['type'],
-                                                            data?[key][index]
-                                                                ['abbrev'],
-                                                            data?[key][index]
-                                                                ['colorEvento'],
-                                                            data?[key][index]
-                                                                ['color'],
-                                                            false),
-                                                      ]),
                                                   Text(
-                                                      '${data?[key][index]['lang'].toUpperCase()} • ${data?[key][index]['location'].toUpperCase()}',
-                                                      style: const TextStyle(
-                                                          letterSpacing: 0.1,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color: Color.fromRGBO(
-                                                              4, 26, 82, 1),
-                                                          fontFeatures: <
-                                                              FontFeature>[
-                                                            FontFeature.enable(
-                                                                'smcp')
-                                                          ],
-                                                          fontSize: 16)),
-                                                  SizedBox(
-                                                      height:
-                                                          _selectedParishValue ==
-                                                                  'all'
-                                                              ? 8
-                                                              : 0),
-                                                  _selectedParishValue == 'all'
-                                                      ? RawMaterialButton(
-                                                          constraints:
-                                                              const BoxConstraints(),
-                                                          materialTapTargetSize:
-                                                              MaterialTapTargetSize
-                                                                  .shrinkWrap,
-                                                          onPressed: () {
-                                                            final query =
-                                                                schedParish[
-                                                                    'address'];
-                                                            if (query
-                                                                .isNotEmpty) {
-                                                              _redirectToMaps(
-                                                                  query);
-                                                            }
-                                                          },
-                                                          child: Row(
-                                                            children: [
-                                                              Expanded(
-                                                                child: Text(
-                                                                  schedParish[
-                                                                      'name'],
-                                                                  style:
-                                                                      const TextStyle(
-                                                                    fontSize:
-                                                                        16,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    color: Color
-                                                                        .fromRGBO(
+                                                    dateSchedText,
+                                                    style: const TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            4, 26, 82, 1)),
+                                                  ),
+                                                  Text(
+                                                    DateFormat('d MMM yyyy')
+                                                        .format(DateTime.parse(
+                                                            key)),
+                                                    style: const TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            4, 26, 82, 1)),
+                                                  ),
+                                                ]),
+                                            const SizedBox(height: 8),
+                                          ],
+                                        ),
+                                        ListView.separated(
+                                            itemCount: data?[key].length,
+                                            separatorBuilder: (context, index) {
+                                              return const SizedBox(height: 8);
+                                            },
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            shrinkWrap: true,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              var schedParish = widget
+                                                  .model.items
+                                                  ?.firstWhere((element) {
+                                                return element['_id'] ==
+                                                    data?[key][index]['parish'];
+                                              });
+                                              return InkWell(
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  padding:
+                                                      const EdgeInsets.all(15),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color: const Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                    boxShadow: const [
+                                                      BoxShadow(
+                                                        color: Color.fromRGBO(
+                                                            208,
+                                                            185,
+                                                            133,
+                                                            0.15),
+                                                        offset: Offset(0, 8),
+                                                        blurRadius: 16,
+                                                      ),
+                                                      BoxShadow(
+                                                        color: Color.fromRGBO(
+                                                            208,
+                                                            185,
+                                                            133,
+                                                            0.05),
+                                                        offset: Offset(0, 4),
+                                                        blurRadius: 8,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Text(
+                                                              '${data?[key][index]['title']}',
+                                                              style:
+                                                                  const TextStyle(
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        4,
+                                                                        26,
+                                                                        82,
+                                                                        1),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontSize: 20,
+                                                              ),
+                                                            ),
+                                                            _scheduleChip(
+                                                                data?[key]
+                                                                        [index]
+                                                                    ['type'],
+                                                                data?[key]
+                                                                        [index]
+                                                                    ['abbrev'],
+                                                                data?[key]
+                                                                        [index][
+                                                                    'colorEvento'],
+                                                                data?[key]
+                                                                        [index]
+                                                                    ['color'],
+                                                                false),
+                                                          ]),
+                                                      const SizedBox(height: 3),
+                                                      Text(
+                                                          '${data?[key][index]['lang']} • ${data?[key][index]['location']}',
+                                                          style: const TextStyle(
+                                                              letterSpacing:
+                                                                  0.1,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      4,
+                                                                      26,
+                                                                      82,
+                                                                      1),
+                                                              fontSize: 16)),
+                                                      _selectedParishValue ==
+                                                              'all'
+                                                          ? RawMaterialButton(
+                                                              constraints:
+                                                                  const BoxConstraints(),
+                                                              materialTapTargetSize:
+                                                                  MaterialTapTargetSize
+                                                                      .shrinkWrap,
+                                                              onPressed: () {
+                                                                final query =
+                                                                    schedParish[
+                                                                        'address'];
+                                                                if (query
+                                                                    .isNotEmpty) {
+                                                                  _redirectToMaps(
+                                                                      query);
+                                                                }
+                                                              },
+                                                              child: Container(
+                                                                padding: const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical:
+                                                                        4),
+                                                                child: Row(
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child:
+                                                                          Text(
+                                                                        schedParish[
+                                                                            'name'],
+                                                                        style:
+                                                                            const TextStyle(
+                                                                          fontSize:
+                                                                              16,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                          color: Color.fromRGBO(
+                                                                              12,
+                                                                              72,
+                                                                              224,
+                                                                              1),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    const SizedBox(
+                                                                      width: 24,
+                                                                      height:
+                                                                          24,
+                                                                      child:
+                                                                          Icon(
+                                                                        Icons
+                                                                            .directions,
+                                                                        color: Color.fromRGBO(
                                                                             12,
                                                                             72,
                                                                             224,
                                                                             1),
-                                                                  ),
+                                                                        size:
+                                                                            24,
+                                                                      ),
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                               ),
-                                                              const SizedBox(
-                                                                width: 24,
-                                                                height: 24,
-                                                                child: Icon(
-                                                                  Icons
-                                                                      .directions,
+                                                            )
+                                                          : const SizedBox(),
+                                                      data?[key][index]
+                                                                  ['notes'] !=
+                                                              ''
+                                                          ? Container(
+                                                              margin: const EdgeInsets
+                                                                      .fromLTRB(
+                                                                  0, 4, 0, 12),
+                                                              child: DottedLine(
+                                                                dashColor: HexColor(
+                                                                        '#CCCCCC')
+                                                                    .withOpacity(
+                                                                        1.0),
+                                                              ),
+                                                            )
+                                                          : const SizedBox(),
+                                                      data?[key][index]
+                                                                  ['notes'] !=
+                                                              ''
+                                                          ? Text(
+                                                              data?[key][index]
+                                                                  ['notes'],
+                                                              style: const TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
                                                                   color: Color
                                                                       .fromRGBO(
-                                                                          12,
-                                                                          72,
-                                                                          224,
-                                                                          1),
-                                                                  size: 24,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        )
-                                                      : const SizedBox(),
-                                                  data?[key][index]['notes'] !=
-                                                          ''
-                                                      ? Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .fromLTRB(
-                                                                  0, 8, 0, 12),
-                                                          child:
-                                                              const DottedLine(),
-                                                        )
-                                                      : const SizedBox(),
-                                                  Text(
-                                                    data?[key][index]['notes'],
-                                                    style: const TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: Color.fromRGBO(
-                                                            4, 26, 82, 1)),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            onTap: () {
-                                              // _showPopup(
-                                              //     context, data?[key][index]);
-                                            },
-                                          );
-                                        }),
-                                  ],
-                                ));
-                          }))
+                                                                          4,
+                                                                          26,
+                                                                          82,
+                                                                          1)),
+                                                            )
+                                                          : const SizedBox()
+                                                    ],
+                                                  ),
+                                                ),
+                                                onTap: () {
+                                                  // _showPopup(
+                                                  //     context, data?[key][index]);
+                                                },
+                                              );
+                                            }),
+                                      ],
+                                    ));
+                              }))
+                      : _renderEmptyState()
             ],
           ),
         ),
@@ -1000,15 +1105,55 @@ class _SchedulesPageState extends State<_SchedulesPage> {
 
   Widget _scheduleChip(String type, String abbrev, String colorEvent,
       String colorString, bool isLongName) {
-    return Chip(
-      backgroundColor: HexColor(colorEvent).withOpacity(1.0),
-      label: Text(
-        isLongName ? type : abbrev,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(color: HexColor(colorString).withOpacity(1.0)),
+    return Container(
+      width: 32,
+      height: 19,
+      decoration: BoxDecoration(
+        color: HexColor(colorEvent).withOpacity(1.0),
+        borderRadius: BorderRadius.circular(32),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Add any child widgets here, separated by the gap distance
+          Center(
+            child: Text(
+              isLongName ? type : abbrev,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: HexColor(colorString).withOpacity(1.0),
+                fontSize: 11,
+              ),
+            ),
+          )
+          // Another child widget
+        ],
       ),
     );
   }
+
+  Widget _renderEmptyState() => Container(
+        width: double.infinity,
+        height: MediaQuery.of(context).size.height * 0.45,
+        margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 28),
+        decoration: const BoxDecoration(
+          color: Colors.transparent,
+        ),
+        child: const Align(
+          alignment: Alignment.center,
+          child: Text(
+            'Sorry, there are no available schedules.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Color.fromRGBO(4, 26, 82, 0.5),
+              fontSize: 20,
+            ),
+          ),
+        ),
+      );
 
   String _getChurchName(String? selectedParish) {
     if (selectedParish == 'all') {
@@ -1138,6 +1283,9 @@ class _SchedulesPageState extends State<_SchedulesPage> {
     });
 
     if (_selectedSchedType != 'All Types' || _selectedDate != null) {
+      var seen = <String>{};
+      List filteredTypeList = [];
+
       final filtered = newSchedules.map((key, value) {
         final filteredSched = value.where((p) {
           return p['type'] == _selectedSchedType;
@@ -1147,8 +1295,6 @@ class _SchedulesPageState extends State<_SchedulesPage> {
             _selectedSchedType != 'All Types' ? filteredSched : value.toList());
       });
 
-      filtered.removeWhere((key, value) => value.isEmpty);
-
       if (_selectedDate != null) {
         filtered.removeWhere((key, value) {
           return int.parse(key) !=
@@ -1156,8 +1302,27 @@ class _SchedulesPageState extends State<_SchedulesPage> {
         });
       }
 
+      filtered.removeWhere((key, value) => value.isEmpty);
+      filtered.forEach((key, value) {
+        filteredTypeList = [
+          ...value
+              .toList()
+              .where((d) => seen.add(d['type']))
+              .map((item) => {'type': item['type'], 'abbrev': item['abbrev']})
+              .toList(),
+          ...filteredTypeList
+        ];
+      });
+
+      filteredTypeList.sort((a, b) => a['type'].compareTo(b['type']));
+
       setState(() {
         _filteredSchedules = filtered;
+        _schedTypes = [
+          {'type': 'All Types'},
+          {'type': 'Date'},
+          ...filteredTypeList
+        ];
       });
     }
 

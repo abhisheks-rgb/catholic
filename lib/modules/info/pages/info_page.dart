@@ -249,7 +249,6 @@ class _InfoPageState extends State<_InfoPage> {
                                 child: Image.asset(
                                   assetPath(
                                       'menu_item/${exploreItems[index]['icon']}'),
-                                  fit: BoxFit.cover,
                                 ),
                               ),
                               Text(
