@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:html/parser.dart';
 
 import '../models/mass_readings_model.dart';
 import '../../../../utils/page_specs.dart';
@@ -284,7 +285,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                   ],
                 ),
               ),
-              const SizedBox(height: 16.5),
+              const SizedBox(height: 28),
               widget.model?.loading == true &&
                       widget.model?.massReadingList != null
                   ? Container(
@@ -292,25 +293,15 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                       margin: const EdgeInsets.only(top: 20),
                       child: const Center(child: CircularProgressIndicator()),
                     )
-                  : Html(
-                      data: widget.model?.massReadingItem!['day'],
-                      style: {
-                        'html': Style(
-                          textAlign: TextAlign.start,
-                          padding: const EdgeInsets.all(0),
-                          margin: Margins.all(0),
-                          color: const Color.fromRGBO(4, 26, 82, 1),
-                          fontSize: FontSize(widget.model!.titleFontSize ?? 20),
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.normal,
-                        ),
-                        'i': Style(
-                          color: const Color.fromRGBO(4, 26, 82, 1),
-                          fontSize: FontSize(widget.model!.titleFontSize ?? 20),
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.normal,
-                        ),
-                      },
+                  : Text(
+                      textAlign: TextAlign.start,
+                      _parseHtmlString(widget.model?.massReadingItem!['day']),
+                      style: TextStyle(
+                        color: const Color.fromRGBO(4, 26, 82, 1),
+                        fontSize: widget.model!.titleFontSize ?? 20,
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.normal,
+                      ),
                     ),
               const SizedBox(height: 8),
               widget.model?.loading == true &&
@@ -374,6 +365,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                               Text(
                                                 '${data[key]['heading'] ?? ''}',
                                                 style: TextStyle(
+                                                  height: 1.4,
                                                   fontSize: widget.model!
                                                           .contentFontSize ??
                                                       17,
@@ -387,6 +379,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                             ? Text(
                                                 '${data[key]['source']}',
                                                 style: TextStyle(
+                                                  // height: 1.2,
                                                   fontSize: widget.model!
                                                           .contentFontSize ??
                                                       17,
@@ -401,6 +394,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                   data: data![key]['text'] ?? '',
                                   style: {
                                     'div': Style(
+                                      lineHeight: const LineHeight(1.4),
                                       textAlign: TextAlign.left,
                                       color: const Color.fromRGBO(4, 26, 82, 1),
                                       fontSize: FontSize(
@@ -418,6 +412,14 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
         ),
       ),
     );
+  }
+
+  String _parseHtmlString(String htmlString) {
+    final document = parse(htmlString);
+    final String parsedString =
+        parse(document.body?.text).documentElement!.text;
+
+    return parsedString;
   }
 
   void _logMassReadingEvent(String type) async {

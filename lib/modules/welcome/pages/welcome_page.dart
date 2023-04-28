@@ -187,7 +187,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       width: MediaQuery.of(context).size.width - 48,
                       height: 38,
                       child: const Text(
-                        '“The steadfast love of the LORD never ceases...” - Lam 3: 22',
+                        '“The steadfast love of the LORD never ceases...” ~ Lam 3: 22',
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(

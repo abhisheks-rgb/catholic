@@ -38,7 +38,10 @@ class ListMassReadingAction extends BaseAction {
 
       record = json.decode(instance.data['results']['items']);
 
+      print('sffasdfas $record');
+
       record.forEach((key, value) {
+        print('$key $value');
         if (key != 'number' && key != 'date' && key != 'day') {
           records2.add({key: value});
           keyList.add(key);
