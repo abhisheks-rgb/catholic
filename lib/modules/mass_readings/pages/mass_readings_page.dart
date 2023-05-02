@@ -18,6 +18,9 @@ class MassReadingsPage extends BaseStatefulPageView {
   FutureOr<bool> beforeLoad(BuildContext context) async {
     super.beforeLoad(context);
 
+    await FirebaseAnalytics.instance
+        .setCurrentScreen(screenName: 'app_mass_readings');
+
     model!.loadMassReading(DateFormat('yyyyMMdd').format(DateTime.now()));
 
     return true;

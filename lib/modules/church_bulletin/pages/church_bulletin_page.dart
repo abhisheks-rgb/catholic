@@ -19,6 +19,9 @@ class ChurchBulletinPage extends BaseStatefulPageView {
   FutureOr<bool> beforeLoad(BuildContext context) async {
     super.beforeLoad(context);
 
+    await FirebaseAnalytics.instance
+        .setCurrentScreen(screenName: 'app_church_bulletin');
+
     model!.loadData();
 
     return true;

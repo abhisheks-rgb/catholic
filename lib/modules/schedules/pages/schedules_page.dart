@@ -26,6 +26,8 @@ class SchedulesPage extends BaseStatefulPageView {
   FutureOr<bool> beforeLoad(BuildContext context) async {
     super.beforeLoad(context);
 
+    await FirebaseAnalytics.instance.setCurrentScreen(screenName: 'app_schedules');
+
     model!.loadData();
 
     return true;
