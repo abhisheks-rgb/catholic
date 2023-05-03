@@ -52,11 +52,7 @@ class _BulletinPageState extends State<_BulletinPage> {
   final ChurchBulletinModel model;
   String? _selectedParishValue = '';
   List? _bulletinItems;
-  final PdfViewerController pdfViewerController = PdfViewerController();
   var controllers = <String, PdfViewerController>{};
-  bool isFullScreen = false;
-  int? fullScreenPdfIndex;
-  int fullScreenPageNumber = 0;
 
   _BulletinPageState(this.model);
 
@@ -76,22 +72,16 @@ class _BulletinPageState extends State<_BulletinPage> {
 
   @override
   void dispose() {
-    pdfViewerController.dispose(); // Dispose of the controller object
     super.dispose();
     delayedReset();
   }
 
   void delayedReset() async {
     await widget.model.setChurchName(churchName: null);
-    await widget.model.setIsFullScreen(isFullScreen: false);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (isFullScreen && _bulletinItems!.isNotEmpty) {
-      return _renderFullScreen();
-    }
-
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -377,19 +367,9 @@ class _BulletinPageState extends State<_BulletinPage> {
                                                   materialTapTargetSize:
                                                       MaterialTapTargetSize
                                                           .shrinkWrap,
-                                                  onPressed: () async {
-                                                    if (!isFullScreen) {
-                                                      setState(() {
-                                                        fullScreenPdfIndex =
-                                                            index;
-                                                        isFullScreen = true;
-                                                      });
-
-                                                      await widget.model
-                                                          .setIsFullScreen(
-                                                              isFullScreen:
-                                                                  true);
-                                                    }
+                                                  onPressed: () {
+                                                    _showOverlay(
+                                                        context, index);
                                                   },
                                                   child: Container(
                                                     padding: const EdgeInsets
@@ -414,19 +394,9 @@ class _BulletinPageState extends State<_BulletinPage> {
                                                   materialTapTargetSize:
                                                       MaterialTapTargetSize
                                                           .shrinkWrap,
-                                                  onPressed: () async {
-                                                    if (!isFullScreen) {
-                                                      setState(() {
-                                                        fullScreenPdfIndex =
-                                                            index;
-                                                        isFullScreen = true;
-                                                      });
-
-                                                      await widget.model
-                                                          .setIsFullScreen(
-                                                              isFullScreen:
-                                                                  true);
-                                                    }
+                                                  onPressed: () {
+                                                    _showOverlay(
+                                                        context, index);
                                                   },
                                                   child: SizedBox(
                                                     width: 48,
@@ -487,7 +457,6 @@ class _BulletinPageState extends State<_BulletinPage> {
 
   void _getBulletin(String parishlink) async {
     setState(() {
-      // pdfViewerController.dispose();
       controllers = {};
     });
     final result = await FirebaseFunctions.instanceFor(region: 'asia-east2')
@@ -514,266 +483,8 @@ class _BulletinPageState extends State<_BulletinPage> {
     );
   }
 
-  Widget _renderFullScreen() {
-    // for (var e in _bulletinItems![fullScreenPdfIndex!].keys) {
-    //   Butter.d('$e: ${_bulletinItems![fullScreenPdfIndex!][e]}');
-    // }
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Stack(
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.18,
-              padding: const EdgeInsets.all(20),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.18,
-                padding: const EdgeInsets.all(20),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.67,
-                padding: const EdgeInsets.all(0),
-                child: SfPdfViewer.network(
-                  _bulletinItems![fullScreenPdfIndex!]['filelink'],
-                  controller: pdfViewerController,
-                  canShowPaginationDialog: false,
-                  canShowScrollHead: false,
-                  onDocumentLoaded: (PdfDocumentLoadedDetails details) {
-                    setState(() {
-                      fullScreenPageNumber = pdfViewerController.pageNumber;
-                    });
-                  },
-                  onPageChanged: (PdfPageChangedDetails details) {
-                    setState(() {
-                      fullScreenPageNumber = details.newPageNumber;
-                    });
-                  },
-                ),
-              ),
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.18,
-              padding: const EdgeInsets.all(20),
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [
-                    0,
-                    0.1,
-                    1,
-                  ],
-                  colors: [
-                    Colors.black,
-                    Colors.black87,
-                    Colors.transparent,
-                  ],
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      RawMaterialButton(
-                        constraints: const BoxConstraints(),
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        onPressed: () async {
-                          if (isFullScreen) {
-                            setState(() {
-                              fullScreenPdfIndex = null;
-                              isFullScreen = false;
-                              fullScreenPageNumber = 0;
-                            });
-
-                            await widget.model
-                                .setIsFullScreen(isFullScreen: false);
-                          }
-                        },
-                        child: const Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          _bulletinItems![fullScreenPdfIndex!]['title'],
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  _bulletinItems![fullScreenPdfIndex!]['description'] == null
-                      ? Container()
-                      : Text(
-                          _bulletinItems![fullScreenPdfIndex!]['description']
-                                  .isNotEmpty
-                              ? _bulletinItems![fullScreenPdfIndex!]
-                                  ['description']
-                              : '',
-                          style: const TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Posted • ${DateFormat('E, d MMM yyyy').format(DateTime.fromMillisecondsSinceEpoch(_bulletinItems![fullScreenPdfIndex!]['created'], isUtc: true))}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.18,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    stops: [
-                      0,
-                      0.9,
-                      1,
-                    ],
-                    colors: [
-                      Colors.transparent,
-                      Colors.black87,
-                      Colors.black,
-                    ],
-                  ),
-                ),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Column(
-                    children: [
-                      const Spacer(),
-                      Row(
-                        children: [
-                          RawMaterialButton(
-                            constraints: const BoxConstraints(),
-                            materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
-                            shape: const CircleBorder(),
-                            onPressed: () {
-                              pdfViewerController.previousPage();
-                              setState(() {
-                                fullScreenPageNumber =
-                                    pdfViewerController.pageNumber;
-                              });
-                            },
-                            child: SizedBox(
-                              width: 40,
-                              height: 40,
-                              child: Row(
-                                children: const [
-                                  SizedBox(width: 12.5),
-                                  Icon(
-                                    Icons.arrow_back_ios,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Page $fullScreenPageNumber / ${pdfViewerController.pageCount}',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                          ),
-                          RawMaterialButton(
-                            constraints: const BoxConstraints(),
-                            materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
-                            shape: const CircleBorder(),
-                            onPressed: () {
-                              pdfViewerController.nextPage();
-                              setState(() {
-                                fullScreenPageNumber =
-                                    pdfViewerController.pageNumber;
-                              });
-                            },
-                            child: const SizedBox(
-                              width: 40,
-                              height: 40,
-                              child: Icon(
-                                Icons.arrow_forward_ios,
-                                color: Colors.white,
-                                size: 20,
-                              ),
-                            ),
-                          ),
-                          RawMaterialButton(
-                            constraints: const BoxConstraints(),
-                            materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
-                            onPressed: () async {
-                              if (isFullScreen) {
-                                setState(() {
-                                  fullScreenPdfIndex = null;
-                                  isFullScreen = false;
-                                  fullScreenPageNumber = 0;
-                                });
-
-                                await widget.model
-                                    .setIsFullScreen(isFullScreen: false);
-                              }
-                            },
-                            child: const SizedBox(
-                              width: 40,
-                              height: 40,
-                              child: Icon(
-                                MaterialIcons.fullscreen_exit,
-                                color: Colors.white,
-                                size: 26,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+  void _showOverlay(BuildContext context, int index) {
+    Navigator.of(context).push(Overlay(_bulletinItems![index]));
   }
 
   void showAlert(BuildContext context) {
@@ -883,5 +594,296 @@ class _BulletinPageState extends State<_BulletinPage> {
     });
 
     return '${parish['name']}';
+  }
+}
+
+class Overlay extends ModalRoute<void> {
+  final dynamic bulletinItem;
+
+  Overlay(this.bulletinItem, {Key? key}) : super();
+
+  final PdfViewerController pdfViewerController = PdfViewerController();
+  int fullScreenPageNumber = 0;
+
+  @override
+  Duration get transitionDuration => const Duration(milliseconds: 500);
+
+  @override
+  bool get opaque => false;
+
+  @override
+  bool get barrierDismissible => false;
+
+  @override
+  Color get barrierColor => Colors.black.withOpacity(0.5);
+
+  @override
+  String get barrierLabel => '';
+
+  @override
+  bool get maintainState => true;
+
+  @override
+  Widget buildPage(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+  ) {
+    // This makes sure that text and other content follows the material style
+    return Material(
+      type: MaterialType.transparency,
+      // make sure that the overlay content is not cut off
+      child: SafeArea(
+        child: _buildOverlayContent(context),
+      ),
+    );
+  }
+
+  Widget _buildOverlayContent(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Stack(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.18,
+              padding: const EdgeInsets.all(20),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.18,
+                padding: const EdgeInsets.all(20),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.67,
+                padding: const EdgeInsets.all(0),
+                child: SfPdfViewer.network(
+                  bulletinItem['filelink'],
+                  controller: pdfViewerController,
+                  canShowPaginationDialog: false,
+                  canShowScrollHead: false,
+                  onDocumentLoaded: (PdfDocumentLoadedDetails details) {
+                    fullScreenPageNumber = pdfViewerController.pageNumber;
+                    changedExternalState();
+                  },
+                  onPageChanged: (PdfPageChangedDetails details) {
+                    fullScreenPageNumber = details.newPageNumber;
+                    changedExternalState();
+                  },
+                ),
+              ),
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.18,
+              padding: const EdgeInsets.all(20),
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: [
+                    0,
+                    0.1,
+                    1,
+                  ],
+                  colors: [
+                    Colors.black,
+                    Colors.black87,
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      RawMaterialButton(
+                        constraints: const BoxConstraints(),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          bulletinItem['title'],
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  bulletinItem['description'] == null
+                      ? Container()
+                      : Text(
+                          bulletinItem['description'].isNotEmpty
+                              ? bulletinItem['description']
+                              : '',
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Posted • ${DateFormat('E, d MMM yyyy').format(DateTime.fromMillisecondsSinceEpoch(bulletinItem['created'], isUtc: true))}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.18,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [
+                      0,
+                      0.9,
+                      1,
+                    ],
+                    colors: [
+                      Colors.transparent,
+                      Colors.black87,
+                      Colors.black,
+                    ],
+                  ),
+                ),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Column(
+                    children: [
+                      const Spacer(),
+                      Row(
+                        children: [
+                          RawMaterialButton(
+                            constraints: const BoxConstraints(),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            shape: const CircleBorder(),
+                            onPressed: () {
+                              pdfViewerController.previousPage();
+                              fullScreenPageNumber =
+                                  pdfViewerController.pageNumber;
+                              changedExternalState();
+                            },
+                            child: SizedBox(
+                              width: 40,
+                              height: 40,
+                              child: Row(
+                                children: const [
+                                  SizedBox(width: 12.5),
+                                  Icon(
+                                    Icons.arrow_back_ios,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Page $fullScreenPageNumber / ${pdfViewerController.pageCount}',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ),
+                          RawMaterialButton(
+                            constraints: const BoxConstraints(),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            shape: const CircleBorder(),
+                            onPressed: () {
+                              pdfViewerController.nextPage();
+                              fullScreenPageNumber =
+                                  pdfViewerController.pageNumber;
+                              changedExternalState();
+                            },
+                            child: const SizedBox(
+                              width: 40,
+                              height: 40,
+                              child: Icon(
+                                Icons.arrow_forward_ios,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                          RawMaterialButton(
+                            constraints: const BoxConstraints(),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const SizedBox(
+                              width: 40,
+                              height: 40,
+                              child: Icon(
+                                MaterialIcons.fullscreen_exit,
+                                color: Colors.white,
+                                size: 26,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+    // You can add your own animations for the overlay content
+    return FadeTransition(
+      opacity: animation,
+      child: ScaleTransition(
+        scale: animation,
+        child: child,
+      ),
+    );
   }
 }
