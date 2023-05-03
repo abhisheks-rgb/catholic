@@ -2,6 +2,7 @@
 import 'package:butter/butter.dart';
 // import 'package:flutter/services.dart';
 
+import '../actions/view_event_details_action.dart';
 import '../models/events_model.dart';
 
 class EventsState extends BasePageState<EventsModel> {
@@ -40,5 +41,7 @@ class EventsState extends BasePageState<EventsModel> {
                 ),
           ), (m) {
         // Load all your model's handlers here
+        m.viewEventDetails =
+            (event) => dispatchAction(ViewEventDetailsAction(event!));
       });
 }

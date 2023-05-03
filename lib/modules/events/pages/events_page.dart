@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 import '../components/events_view.dart';
 import '../models/events_model.dart';
@@ -15,6 +16,9 @@ class EventsPage extends BaseStatefulPageView {
   @override
   FutureOr<bool> beforeLoad(BuildContext context) async {
     await super.beforeLoad(context);
+
+    await FirebaseAnalytics.instance.setCurrentScreen(screenName: 'app_events');
+
     return true;
   }
 
