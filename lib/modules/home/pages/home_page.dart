@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import '../../../app/app.dart';
 import '../../../app/splash_screen.dart';
@@ -8,6 +9,7 @@ import '../../../utils/page_specs.dart';
 import '../../../utils/asset_path.dart';
 
 import '../models/home_model.dart';
+import '../components/events_footer.dart';
 import '../components/navbar.dart';
 
 class HomePage extends BaseStatefulPageView {
@@ -91,7 +93,6 @@ class HomePage extends BaseStatefulPageView {
                         ),
                         onPressed: () async {
                           final result = await Navigator.of(context).maybePop();
-
                           if (!result && context.mounted) {
                             // ignore: use_build_context_synchronously
                             Navigator.of(context).popAndPushNamed('/_/welcome');
@@ -172,9 +173,11 @@ class HomePage extends BaseStatefulPageView {
               ? Container(
                   width: MediaQuery.of(context).size.width,
                 )
-              : Navbar(
-                  model: model,
-                ),
+              : model!.isEventDetails || model!.isEventRegister
+                  ? EventDetailsFooter(model)
+                  : Navbar(
+                      model: model,
+                    ),
         ),
       ),
     );

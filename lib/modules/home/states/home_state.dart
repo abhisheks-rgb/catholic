@@ -71,5 +71,11 @@ class HomeState extends BasePageState<HomeModel> {
               route: route,
               selectedId: selectedId,
             ));
+        m.navigateToEventRegister = () {
+          dispatchModel<HomeModel>(HomeModel(), (m) {
+            m.isEventRegister = true;
+          });
+          pushNamed('/_/events/register');
+        };
       });
 }

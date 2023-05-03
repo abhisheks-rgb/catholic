@@ -10,6 +10,8 @@ class HomeModel extends BaseUIModel<HomeModel> {
   bool isFullScreen;
   int selectedIndex;
   DateTime? todayIsLastUpdate;
+  bool isEventDetails;
+  bool isEventRegister;
 
   void Function()? setPageFontSize;
   late Future<void> Function(BuildContext context) initialize;
@@ -22,6 +24,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
     String? selectedId,
     bool? allowSameId,
   })? selectMenuItem;
+  void Function()? navigateToEventRegister;
 
   Future<void> Function(BaseAction action)? dispatch;
   T? Function<T extends BaseUIModel>(T m)? read;
@@ -35,6 +38,8 @@ class HomeModel extends BaseUIModel<HomeModel> {
     this.isFullScreen = false,
     this.selectedIndex = 0,
     this.todayIsLastUpdate,
+    this.isEventDetails = false,
+    this.isEventRegister = false,
   });
 
   @override
@@ -50,6 +55,8 @@ class HomeModel extends BaseUIModel<HomeModel> {
         isFullScreen: isFullScreen,
         selectedIndex: selectedIndex,
         todayIsLastUpdate: todayIsLastUpdate,
+        isEventDetails: isEventDetails,
+        isEventRegister: isEventRegister,
       );
 
   @override
@@ -62,6 +69,8 @@ class HomeModel extends BaseUIModel<HomeModel> {
         isFullScreen,
         selectedIndex,
         todayIsLastUpdate,
+        isEventDetails,
+        isEventRegister,
       ]);
 
   //
@@ -79,5 +88,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
           user == other.user &&
           isFullScreen == other.isFullScreen &&
           selectedIndex == other.selectedIndex &&
-          todayIsLastUpdate == other.todayIsLastUpdate;
+          todayIsLastUpdate == other.todayIsLastUpdate &&
+          isEventDetails == other.isEventDetails &&
+          isEventRegister == other.isEventRegister;
 }
