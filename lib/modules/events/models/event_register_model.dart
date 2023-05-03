@@ -1,23 +1,22 @@
 import 'package:butter/butter.dart';
 
-class EventsModel extends BaseUIModel<EventsModel> {
+class EventRegisterModel extends BaseUIModel<EventRegisterModel> {
   //
   String? error;
   bool? loading;
 
-  EventsModel({
+  EventRegisterModel({
     this.error,
     this.loading,
   });
 
-  Future<void> Function(String route)? navigateTo;
-  Future<void> Function(Map<Object?, Object?>? event)? viewEventDetails;
+  late Function({bool? isEventRegister}) setIsEventRegister;
 
   @override
-  String get $key => '/events';
+  String get $key => '/event_register';
 
   @override
-  EventsModel clone() => EventsModel(
+  EventRegisterModel clone() => EventRegisterModel(
         error: error,
         loading: loading,
       );
@@ -31,7 +30,7 @@ class EventsModel extends BaseUIModel<EventsModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is EventsModel &&
+      other is EventRegisterModel &&
           runtimeType == other.runtimeType &&
           error == other.error &&
           loading == other.loading;
