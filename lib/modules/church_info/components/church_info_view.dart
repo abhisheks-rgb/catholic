@@ -97,7 +97,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         onPressed: () async {
                           if (widget.model!.items!.isNotEmpty) {
-                            showAlert(context);
+                            showChurchList(context);
                           }
                         },
                         child: Column(
@@ -366,11 +366,10 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                         MaterialTapTargetSize
                                                             .shrinkWrap,
                                                     onPressed: () {
-                                                      widget.model?.showPage(
-                                                          '/_/priest_info',
-                                                          null,
-                                                          null,
-                                                          null);
+                                                      if (widget.model!.priests!
+                                                          .isNotEmpty) {
+                                                        showPriestList(context);
+                                                      }
                                                     },
                                                     child: Column(
                                                       children: const [
@@ -909,7 +908,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
         ),
       );
 
-  void showAlert(BuildContext context) => showDialog(
+  void showChurchList(BuildContext context) => showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
           shape: const RoundedRectangleBorder(
@@ -985,7 +984,9 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                     ),
                   ),
                   onTap: () {
-                    widget.model!.fetchChurchInfo(orgId: index + 1);
+                    final orgId = index + 1;
+                    widget.model!.fetchChurchInfo(orgId: orgId);
+                    widget.model!.fetchPriestList(orgId: orgId);
                     setState(() {
                       _selectedParishValue =
                           widget.model!.items![index]['name'].toString();
@@ -995,6 +996,132 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
 
                     _logChurchInfoEvent(
                         widget.model!.items![index]['link'], false);
+                  },
+                );
+              },
+            ),
+          ),
+        ),
+      );
+
+  void showPriestList(BuildContext context) => showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          ),
+          contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 24),
+          title: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      '${_selectedParishValue ?? ''} Priests',
+                      style: const TextStyle(
+                        color: Color.fromRGBO(4, 26, 82, 1),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                  RawMaterialButton(
+                    constraints: const BoxConstraints(),
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    shape: const CircleBorder(),
+                    child: const SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: Icon(
+                        MaterialCommunityIcons.close_circle,
+                        color: Color.fromRGBO(130, 141, 168, 1),
+                        size: 24,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+            ],
+          ),
+          content: Container(
+            constraints: const BoxConstraints(
+              maxWidth: 600,
+              maxHeight: 600,
+            ),
+            child: ListView.separated(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: widget.model!.priests!.length,
+              separatorBuilder: (BuildContext context, int index) {
+                return Container();
+              },
+              itemBuilder: (context, index) {
+                final priestInfo = widget.model!.priests![index] as Map;
+                return InkWell(
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 12),
+                        Row(
+                          children: [
+                            Container(
+                              width: 48,
+                              height: 48,
+                              decoration: const BoxDecoration(
+                                color: Color.fromRGBO(219, 228, 251, 1),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(
+                                child: Image.asset(
+                                  assetPath('priest.png'),
+                                  color: const Color.fromRGBO(4, 26, 82, 0.5),
+                                  width: 23,
+                                  height: 23,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${priestInfo['salutation'] ?? ''} ${priestInfo['name'] ?? '---'}',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      color: Color.fromRGBO(4, 26, 82, 1),
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    priestInfo['churchrole'] ?? '',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      color: Color.fromRGBO(4, 26, 82, 1),
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    widget.model?.showPage(
+                        '/_/priest_info', priestInfo['name'], null, null);
                   },
                 );
               },

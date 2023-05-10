@@ -23,6 +23,7 @@ class ChurchInfoPage extends BaseStatefulPageView {
 
     model!.loadData();
     model!.fetchChurchInfo();
+    model!.fetchPriestList();
 
     return true;
   }
