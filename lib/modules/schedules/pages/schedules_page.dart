@@ -380,15 +380,22 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                       ];
                                     });
 
-                                    filteredTypeList.sort((a, b) =>
-                                        a['type'].compareTo(b['type']));
+                                    filteredTypeList.sort((a, b) {
+                                      if (a['type'] == 'Mass') {
+                                        return -1;
+                                      } else if (b['type'] == 'Mass') {
+                                        return 1;
+                                      } else {
+                                        return a['type'].compareTo(b['type']);
+                                      }
+                                    });
 
                                     setState(() {
                                       _selectedDate = picked;
                                       _filteredSchedules = filtered;
                                       _schedTypes = [
-                                        {'type': 'All Types'},
                                         {'type': 'Date'},
+                                        {'type': 'All Types'},
                                         ...filteredTypeList
                                       ];
                                     });
@@ -474,15 +481,23 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                             ];
                                           });
 
-                                          filteredTypeList.sort((a, b) =>
-                                              a['type'].compareTo(b['type']));
+                                          filteredTypeList.sort((a, b) {
+                                            if (a['type'] == 'Mass') {
+                                              return -1;
+                                            } else if (b['type'] == 'Mass') {
+                                              return 1;
+                                            } else {
+                                              return a['type']
+                                                  .compareTo(b['type']);
+                                            }
+                                          });
 
                                           setState(() {
                                             _selectedDate = null;
                                             _filteredSchedules = filtered;
                                             _schedTypes = [
-                                              {'type': 'All Types'},
                                               {'type': 'Date'},
+                                              {'type': 'All Types'},
                                               ...filteredTypeList
                                             ];
                                           });
@@ -1248,7 +1263,15 @@ class _SchedulesPageState extends State<_SchedulesPage> {
         .where((d) => seen.add(d['type']))
         .map((item) => {'type': item['type'], 'abbrev': item['abbrev']})
         .toList();
-    schedTypeList.sort((a, b) => a['type'].compareTo(b['type']));
+    schedTypeList.sort((a, b) {
+      if (a['type'] == 'Mass') {
+        return -1;
+      } else if (b['type'] == 'Mass') {
+        return 1;
+      } else {
+        return a['type'].compareTo(b['type']);
+      }
+    });
 
     var newMap = groupBy(itemList, (obj) {
       var k = DateFormat('yyyyMMdd').format(
@@ -1274,8 +1297,8 @@ class _SchedulesPageState extends State<_SchedulesPage> {
 
     setState(() {
       _schedTypes = [
-        {'type': 'All Types'},
         {'type': 'Date'},
+        {'type': 'All Types'},
         ...schedTypeList
       ];
       _schedules = newSchedules;
@@ -1314,13 +1337,21 @@ class _SchedulesPageState extends State<_SchedulesPage> {
         ];
       });
 
-      filteredTypeList.sort((a, b) => a['type'].compareTo(b['type']));
+      filteredTypeList.sort((a, b) {
+        if (a['type'] == 'Mass') {
+          return -1;
+        } else if (b['type'] == 'Mass') {
+          return 1;
+        } else {
+          return a['type'].compareTo(b['type']);
+        }
+      });
 
       setState(() {
         _filteredSchedules = filtered;
         _schedTypes = [
-          {'type': 'All Types'},
           {'type': 'Date'},
+          {'type': 'All Types'},
           ...filteredTypeList
         ];
       });
