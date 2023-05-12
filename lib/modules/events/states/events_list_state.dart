@@ -2,18 +2,18 @@ import 'package:butter/butter.dart';
 
 import '../actions/view_event_details_action.dart';
 import '../actions/list_events_action.dart';
-import '../models/events_model.dart';
+import '../models/events_list_model.dart';
 
-class EventsState extends BasePageState<EventsModel> {
-  EventsState();
+class EventsListState extends BasePageState<EventsListModel> {
+  EventsListState();
 
-  EventsModel? model;
+  EventsListModel? model;
 
   // This constructor form is not properly enforced. Which means, if you do not
   // follow this, no errors will be produced in butter. However, this allows you to
   // properly fillup your models with valid function handlers after being read
   // from the store and before it is being fed to the page.
-  EventsState.build(this.model, void Function(EventsModel m) f)
+  EventsListState.build(this.model, void Function(EventsListModel m) f)
       : super.build(model!, f);
 
   // Make sure to properly define this function. Otherwise, your reducers
@@ -21,7 +21,7 @@ class EventsState extends BasePageState<EventsModel> {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is EventsState &&
+        other is EventsListState &&
             runtimeType == other.runtimeType &&
             model == other.model;
   }
@@ -33,12 +33,17 @@ class EventsState extends BasePageState<EventsModel> {
       ]);
 
   @override
-  EventsState fromStore() => EventsState.build(
-          read<EventsModel>(
-            EventsModel(
+  EventsListState fromStore() => EventsListState.build(
+          read<EventsListModel>(
+            EventsListModel(
                 // Initialize your models here in case it is not available in the store yet
                 ),
           ), (m) {
         // Load all your model's handlers here
+        m.loadEvents = () async {
+          await dispatchAction(ListEventsAction());
+        };
+        m.viewEventDetails =
+            (event) => dispatchAction(ViewEventDetailsAction(event!));
       });
 }

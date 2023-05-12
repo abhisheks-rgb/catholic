@@ -4,20 +4,22 @@ import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
-import '../components/events_view.dart';
-import '../models/events_model.dart';
+import '../components/events_list_view.dart';
+import '../models/events_list_model.dart';
 import '../../../../utils/page_specs.dart';
 
-class EventsPage extends BaseStatefulPageView {
-  final EventsModel? model;
+class EventsListPage extends BaseStatefulPageView {
+  final EventsListModel? model;
 
-  EventsPage({Key? key, this.model}) : super(animationDelay: 0);
+  EventsListPage({Key? key, this.model}) : super(animationDelay: 0);
 
   @override
   FutureOr<bool> beforeLoad(BuildContext context) async {
     await super.beforeLoad(context);
 
     await FirebaseAnalytics.instance.setCurrentScreen(screenName: 'app_events');
+
+    model!.loadEvents();
     return true;
   }
 
@@ -31,5 +33,5 @@ class EventsPage extends BaseStatefulPageView {
 
   @override
   Widget build(BuildContext context, {bool loading = false}) =>
-      EventsView(model!);
+      EventsListView(model!);
 }

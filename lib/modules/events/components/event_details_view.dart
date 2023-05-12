@@ -1,6 +1,8 @@
 import 'package:butter/butter.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:html/parser.dart';
 
 import '../models/event_details_model.dart';
 import '../../../utils/asset_path.dart';
@@ -81,41 +83,60 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  const Text(
-                    'Event Title',
-                    style: TextStyle(
+                  Text(
+                    '${widget.model?.item!['eventName']}',
+                    style: const TextStyle(
                       color: Color.fromRGBO(4, 26, 82, 1),
                       fontWeight: FontWeight.w500,
                       fontSize: 18,
                     ),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
-                    '1 interested',
-                    style: TextStyle(
+                  Text(
+                    '${widget.model?.item!['interested']} interested',
+                    style: const TextStyle(
                       color: Color.fromRGBO(4, 26, 82, 1),
                       fontSize: 16,
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                    decoration: const BoxDecoration(
-                      color: Color.fromRGBO(219, 228, 251, 1),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(32),
-                      ),
-                    ),
-                    child: const Text(
-                      'Walk-In Only',
-                      style: TextStyle(
-                        color: Color.fromRGBO(62, 111, 234, 1),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
+                  widget.model?.item!['isWalkIn'] == true
+                      ? Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 4, horizontal: 8),
+                          decoration: const BoxDecoration(
+                            color: Color.fromRGBO(219, 228, 251, 1),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(32),
+                            ),
+                          ),
+                          child: const Text(
+                            'Walk-In Only',
+                            style: TextStyle(
+                              color: Color.fromRGBO(62, 111, 234, 1),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12,
+                            ),
+                          ),
+                        )
+                      : Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 4, horizontal: 8),
+                          decoration: const BoxDecoration(
+                            color: Color.fromRGBO(252, 223, 222, 1),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(32),
+                            ),
+                          ),
+                          child: const Text(
+                            'RSVP',
+                            style: TextStyle(
+                              color: Color.fromRGBO(236, 74, 70, 1),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
                   const SizedBox(height: 16),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,18 +153,18 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                       const SizedBox(width: 10),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text(
-                            'Start: Mon, 20 Mar 23 - 8:00PM',
-                            style: TextStyle(
+                            'Start: ${_dateEventFormat(widget.model?.item!['startDate'])}',
+                            style: const TextStyle(
                               color: Color.fromRGBO(4, 26, 82, 1),
                               fontSize: 16,
                             ),
                           ),
-                          SizedBox(height: 4),
+                          const SizedBox(height: 4),
                           Text(
-                            'End: Tue, 21 Mar 23 - 9:00PM',
-                            style: TextStyle(
+                            'End: ${_dateEventFormat(widget.model?.item!['endDate'])}',
+                            style: const TextStyle(
                               color: Color.fromRGBO(4, 26, 82, 1),
                               fontSize: 16,
                             ),
@@ -154,8 +175,8 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                   ),
                   const SizedBox(height: 8),
                   Row(
-                    children: const [
-                      SizedBox(
+                    children: [
+                      const SizedBox(
                         width: 20,
                         height: 20,
                         child: Icon(
@@ -164,18 +185,18 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                           size: 20,
                         ),
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Expanded(
                         child: Text(
-                          '24 Highland Road Singapore 549115',
-                          style: TextStyle(
+                          '${widget.model?.item!['eventVenue']}',
+                          style: const TextStyle(
                             color: Color.fromRGBO(4, 26, 82, 1),
                             fontSize: 16,
                           ),
                         ),
                       ),
-                      SizedBox(width: 10),
-                      SizedBox(
+                      const SizedBox(width: 10),
+                      const SizedBox(
                         width: 24,
                         height: 24,
                         child: Icon(
@@ -198,10 +219,10 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                         ),
                       ),
                       const SizedBox(width: 10),
-                      const Expanded(
+                      Expanded(
                         child: Text(
-                          '199/299 seats available',
-                          style: TextStyle(
+                          '${_getAvailableSlot(widget.model?.item!['availableSlots'])}/${widget.model?.item!['capacity']} seats available',
+                          style: const TextStyle(
                             color: Color.fromRGBO(4, 26, 82, 1),
                             fontSize: 16,
                           ),
@@ -221,10 +242,10 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                         ),
                       ),
                       const SizedBox(width: 10),
-                      const Expanded(
+                      Expanded(
                         child: Text(
-                          'Free',
-                          style: TextStyle(
+                          '${widget.model?.item!['eventCost'] == 0 ? 'Free' : widget.model?.item!['eventCost']}',
+                          style: const TextStyle(
                             color: Color.fromRGBO(4, 26, 82, 1),
                             fontSize: 16,
                           ),
@@ -235,8 +256,8 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                   const SizedBox(height: 8),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      SizedBox(
+                    children: [
+                      const SizedBox(
                         width: 20,
                         height: 20,
                         child: Icon(
@@ -245,11 +266,12 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                           size: 20,
                         ),
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Expanded(
                         child: Text(
-                          'Church of the Holy Cross invites you to join our Parish Lenten Retreat from 20-21 March 2023, for a greater appreciation of the Mystery of the Cross. Talks at Main Church (Free admission, No registration',
-                          style: TextStyle(
+                          _parseHtmlString(
+                              widget.model?.item!['eventDescription']),
+                          style: const TextStyle(
                             color: Color.fromRGBO(4, 26, 82, 1),
                             fontSize: 16,
                           ),
@@ -264,5 +286,26 @@ class _EventDetailsViewState extends State<EventDetailsView> {
         ),
       ),
     );
+  }
+
+  String _dateEventFormat(dateEvent) {
+    DateTime date = DateTime(dateEvent['_seconds']);
+    String formattedDate = DateFormat('E, d MMM yy - h:mma').format(date);
+
+    return formattedDate;
+  }
+
+  int _getAvailableSlot(availableSlots) {
+    final slots = availableSlots as List;
+
+    return slots.length;
+  }
+
+  String _parseHtmlString(htmlString) {
+    final document = parse(htmlString);
+    final String parsedString =
+        parse(document.body?.text).documentElement!.text;
+
+    return parsedString;
   }
 }

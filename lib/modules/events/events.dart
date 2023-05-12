@@ -1,9 +1,11 @@
 import 'package:butter/butter.dart';
 
 import 'pages/events_page.dart';
+import 'pages/events_list_page.dart';
 import 'pages/event_details_page.dart';
 import 'pages/event_register_page.dart';
 import 'states/events_state.dart';
+import 'states/events_list_state.dart';
 import 'states/event_details_state.dart';
 import 'states/event_register_state.dart';
 
@@ -17,6 +19,12 @@ class Events extends BaseModule {
               state: EventsState(),
               page: EventsPage(),
               getPage: (vm) => EventsPage(model: vm.model),
+            ),
+            '/_/events/list':
+                BasePageConnector<EventsListState, EventsListPage>(
+              state: EventsListState(),
+              page: EventsListPage(),
+              getPage: (vm) => EventsListPage(model: vm.model),
             ),
             '/_/events/details':
                 BasePageConnector<EventDetailsState, EventDetailsPage>(
