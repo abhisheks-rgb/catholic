@@ -8,6 +8,7 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:intl/intl.dart';
 
 import '../models/church_bulletin_model.dart';
+import '../../../utils/asset_path.dart';
 import '../../../../utils/page_specs.dart';
 
 class ChurchBulletinPage extends BaseStatefulPageView {
@@ -83,353 +84,466 @@ class _BulletinPageState extends State<_BulletinPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          color: Color.fromRGBO(255, 252, 245, 1),
-        ),
-        width: double.infinity,
-        height: MediaQuery.of(context).size.height,
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-        child: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
-                decoration: BoxDecoration(
-                  color: const Color.fromRGBO(255, 255, 255, 1),
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color.fromRGBO(208, 185, 133, 0.15),
-                      offset: Offset(0, 8),
-                      blurRadius: 16,
-                    ),
-                    BoxShadow(
-                      color: Color.fromRGBO(208, 185, 133, 0.05),
-                      offset: Offset(0, 4),
-                      blurRadius: 8,
-                    ),
-                  ],
+      body: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
+        child: Stack(
+          children: [
+            Container(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.33,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    assetPath('page-bg.png'),
+                  ),
+                  alignment: Alignment.topCenter,
+                  fit: BoxFit.cover,
                 ),
-                child: Column(
-                  children: [
-                    RawMaterialButton(
-                      constraints: const BoxConstraints(),
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      onPressed: () async {
-                        if (widget.model.items!.isNotEmpty &&
-                            _bulletinItems != null) {
-                          showAlert(context);
-                        }
-                      },
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 8),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  _selectedParishValue != null
-                                      ? _getChurchName(_selectedParishValue)
-                                      : '',
-                                  style: const TextStyle(
-                                    color: Color.fromRGBO(4, 26, 82, 1),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: Icon(
-                                  Entypo.chevron_down,
-                                  color: Color.fromRGBO(4, 26, 82, 1),
-                                  size: 20,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 8),
+              ),
+            ),
+            Container(
+              height: 350.0,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                gradient: LinearGradient(
+                  begin: FractionalOffset.topCenter,
+                  end: FractionalOffset.bottomCenter,
+                  colors: [
+                    Color.fromRGBO(255, 252, 245, 0),
+                    Color.fromRGBO(255, 252, 245, 1),
+                  ],
+                  stops: [0.0, 1.0],
+                ),
+              ),
+            ),
+            Positioned(
+              left: 0,
+              top: 0,
+              child: Align(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: const Alignment(0.957, -1.211),
+                        end: const Alignment(0.515, 1),
+                        colors: <Color>[
+                          const Color(0x51ffffff),
+                          const Color(0xffffffff).withOpacity(0.9)
                         ],
+                        stops: const <double>[0, 1],
                       ),
                     ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 0,
+              top: 0,
+              child: Align(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment(1, -1),
+                        end: Alignment(-1, 1),
+                        colors: <Color>[
+                          Color.fromRGBO(24, 77, 212, 0.5),
+                          Color.fromRGBO(255, 255, 255, 0),
+                        ],
+                        stops: <double>[0, 1],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.5,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color.fromRGBO(255, 252, 245, 0),
+                    Color.fromRGBO(255, 252, 245, 1),
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
-              _bulletinItems == null
-                  ? _renderEmptyState()
-                  : _bulletinItems!.isEmpty
-                      ? _renderEmptyState()
-                      : Flexible(
-                          child: ListView.separated(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: _bulletinItems?.length ?? 0,
-                            separatorBuilder: (context, index) {
-                              return const SizedBox(height: 16);
-                            },
-                            itemBuilder: (BuildContext context, int index) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  color: const Color.fromRGBO(255, 255, 255, 1),
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color:
-                                          Color.fromRGBO(208, 185, 133, 0.15),
-                                      offset: Offset(0, 8),
-                                      blurRadius: 16,
-                                    ),
-                                    BoxShadow(
-                                      color:
-                                          Color.fromRGBO(208, 185, 133, 0.05),
-                                      offset: Offset(0, 4),
-                                      blurRadius: 8,
-                                    ),
-                                  ],
-                                ),
-                                padding:
-                                    const EdgeInsets.fromLTRB(20, 20, 20, 12),
-                                width: double.infinity,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Container(
-                                      height: _bulletinItems![index]
-                                                  ['description'] ==
-                                              null
-                                          ? 60
-                                          : 77,
-                                      padding: const EdgeInsets.all(8),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            // _selectedParishValue!,
-                                            _bulletinItems![index]['title'],
-                                            overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500,
-                                              color:
-                                                  Color.fromRGBO(4, 26, 82, 1),
-                                            ),
-                                          ),
-                                          _bulletinItems![index]
-                                                      ['description'] ==
-                                                  null
-                                              ? Container()
-                                              : Column(
-                                                  children: [
-                                                    const SizedBox(height: 4),
-                                                    Text(
-                                                      _bulletinItems![index][
-                                                                  'description']
-                                                              .isNotEmpty
-                                                          ? _bulletinItems![
-                                                                      index][
-                                                                  'description']
-                                                              .isNotEmpty
-                                                          : '',
-                                                      style: const TextStyle(
-                                                        color: Color.fromRGBO(
-                                                            4, 26, 82, 0.5),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                          const SizedBox(height: 4),
-                                          Text(
-                                            'Posted • ${DateFormat('E, d MMM yyyy').format(DateTime.fromMillisecondsSinceEpoch(_bulletinItems![index]['created'], isUtc: true))}',
-                                            textAlign: TextAlign.left,
-                                            style: const TextStyle(
-                                              fontSize: 12,
-                                              // fontWeight: FontWeight.w400,
-                                              color: Color.fromRGBO(
-                                                  4, 26, 82, 0.5),
-                                            ),
-                                          ),
-                                        ],
+            ),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 16),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
+                    decoration: BoxDecoration(
+                      color: const Color.fromRGBO(255, 255, 255, 1),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromRGBO(208, 185, 133, 0.15),
+                          offset: Offset(0, 8),
+                          blurRadius: 16,
+                        ),
+                        BoxShadow(
+                          color: Color.fromRGBO(208, 185, 133, 0.05),
+                          offset: Offset(0, 4),
+                          blurRadius: 8,
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        RawMaterialButton(
+                          constraints: const BoxConstraints(),
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          onPressed: () async {
+                            if (widget.model.items!.isNotEmpty &&
+                                _bulletinItems != null) {
+                              showAlert(context);
+                            }
+                          },
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      _selectedParishValue != null
+                                          ? _getChurchName(_selectedParishValue)
+                                          : '',
+                                      style: const TextStyle(
+                                        color: Color.fromRGBO(4, 26, 82, 1),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18,
                                       ),
                                     ),
-                                    index > 1
-                                        ? Container()
-                                        : Container(
-                                            height: 449,
-                                            // height: 50,
-                                            decoration: const BoxDecoration(
-                                              color: Color.fromRGBO(
-                                                  204, 204, 204, 1),
-                                            ),
-                                            child: SfPdfViewer.network(
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: Icon(
+                                      Entypo.chevron_down,
+                                      color: Color.fromRGBO(4, 26, 82, 1),
+                                      size: 20,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  _bulletinItems == null
+                      ? _renderEmptyState()
+                      : _bulletinItems!.isEmpty
+                          ? _renderEmptyState()
+                          : Flexible(
+                              child: ListView.separated(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: _bulletinItems?.length ?? 0,
+                                separatorBuilder: (context, index) {
+                                  return const SizedBox(height: 16);
+                                },
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      color: const Color.fromRGBO(
+                                          255, 255, 255, 1),
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Color.fromRGBO(
+                                              208, 185, 133, 0.15),
+                                          offset: Offset(0, 8),
+                                          blurRadius: 16,
+                                        ),
+                                        BoxShadow(
+                                          color: Color.fromRGBO(
+                                              208, 185, 133, 0.05),
+                                          offset: Offset(0, 4),
+                                          blurRadius: 8,
+                                        ),
+                                      ],
+                                    ),
+                                    padding: const EdgeInsets.fromLTRB(
+                                        20, 20, 20, 12),
+                                    width: double.infinity,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Container(
+                                          height: _bulletinItems![index]
+                                                      ['description'] ==
+                                                  null
+                                              ? 60
+                                              : 77,
+                                          padding: const EdgeInsets.all(8),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                // _selectedParishValue!,
+                                                _bulletinItems![index]['title'],
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Color.fromRGBO(
+                                                      4, 26, 82, 1),
+                                                ),
+                                              ),
                                               _bulletinItems![index]
-                                                  ['filelink'],
-                                              controller: controllers[
-                                                  _bulletinItems![index]['id']],
-                                              canShowPaginationDialog: false,
-                                              canShowScrollHead: false,
-                                            ),
-                                          ),
-                                    index > 1
-                                        ? Container()
-                                        : const SizedBox(height: 8),
-                                    SizedBox(
-                                      height: 48,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          index > 1
-                                              ? const SizedBox()
-                                              : Expanded(
-                                                  child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    RawMaterialButton(
-                                                      constraints:
-                                                          const BoxConstraints(),
-                                                      materialTapTargetSize:
-                                                          MaterialTapTargetSize
-                                                              .shrinkWrap,
-                                                      shape:
-                                                          const CircleBorder(),
-                                                      onPressed: () {
-                                                        controllers[
-                                                                _bulletinItems![
-                                                                        index]
-                                                                    ['id']]
-                                                            ?.previousPage();
-                                                      },
-                                                      child: Container(
-                                                        width: 48,
-                                                        alignment:
-                                                            Alignment.center,
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(0),
-                                                        child: const Icon(
-                                                          Icons.arrow_back_ios,
-                                                          color: Colors.black,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    // ignore: avoid_unnecessary_containers
-                                                    // Container(
-                                                    //   child: Text(
-                                                    //     'Page 1 / ${controllers[_bulletinItems![index]['id']]?.pageCount}',
-                                                    //   ),
-                                                    // ),
-                                                    RawMaterialButton(
-                                                      constraints:
-                                                          const BoxConstraints(),
-                                                      materialTapTargetSize:
-                                                          MaterialTapTargetSize
-                                                              .shrinkWrap,
-                                                      shape:
-                                                          const CircleBorder(),
-                                                      onPressed: () {
-                                                        controllers[
-                                                                _bulletinItems![
-                                                                        index]
-                                                                    ['id']]
-                                                            ?.nextPage();
-                                                      },
-                                                      child: Container(
-                                                        width: 48,
-                                                        alignment:
-                                                            Alignment.center,
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(0),
-                                                        child: const Icon(
-                                                          Icons
-                                                              .arrow_forward_ios,
-                                                          color: Colors.black,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                )),
-                                          index > 1
-                                              ? RawMaterialButton(
-                                                  constraints:
-                                                      const BoxConstraints(),
-                                                  materialTapTargetSize:
-                                                      MaterialTapTargetSize
-                                                          .shrinkWrap,
-                                                  onPressed: () {
-                                                    _showOverlay(
-                                                        context, index);
-                                                  },
-                                                  child: Container(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        vertical: 8,
-                                                        horizontal: 0),
-                                                    child: const Text(
-                                                      'View Bulletin',
-                                                      style: TextStyle(
-                                                        color: Color.fromRGBO(
-                                                            12, 72, 224, 1),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 16,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
-                                              : RawMaterialButton(
-                                                  constraints:
-                                                      const BoxConstraints(),
-                                                  materialTapTargetSize:
-                                                      MaterialTapTargetSize
-                                                          .shrinkWrap,
-                                                  onPressed: () {
-                                                    _showOverlay(
-                                                        context, index);
-                                                  },
-                                                  child: SizedBox(
-                                                    width: 48,
-                                                    height: 48,
-                                                    child: Row(
+                                                          ['description'] ==
+                                                      null
+                                                  ? Container()
+                                                  : Column(
                                                       children: [
-                                                        Container(
-                                                          width: 48,
-                                                          height: 48,
-                                                          alignment:
-                                                              Alignment.center,
-                                                          child: const Icon(
-                                                            MaterialIcons
-                                                                .fullscreen,
-                                                            color: Colors.black,
-                                                            size: 32,
+                                                        const SizedBox(
+                                                            height: 4),
+                                                        Text(
+                                                          _bulletinItems![index]
+                                                                      [
+                                                                      'description']
+                                                                  .isNotEmpty
+                                                              ? _bulletinItems![
+                                                                          index]
+                                                                      [
+                                                                      'description']
+                                                                  .isNotEmpty
+                                                              : '',
+                                                          style:
+                                                              const TextStyle(
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    4,
+                                                                    26,
+                                                                    82,
+                                                                    0.5),
                                                           ),
                                                         ),
                                                       ],
                                                     ),
-                                                  ),
+                                              const SizedBox(height: 4),
+                                              Text(
+                                                'Posted • ${DateFormat('E, d MMM yyyy').format(DateTime.fromMillisecondsSinceEpoch(_bulletinItems![index]['created'], isUtc: true))}',
+                                                textAlign: TextAlign.left,
+                                                style: const TextStyle(
+                                                  fontSize: 12,
+                                                  // fontWeight: FontWeight.w400,
+                                                  color: Color.fromRGBO(
+                                                      4, 26, 82, 0.5),
                                                 ),
-                                        ],
-                                      ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        index > 1
+                                            ? Container()
+                                            : Container(
+                                                height: 449,
+                                                // height: 50,
+                                                decoration: const BoxDecoration(
+                                                  color: Color.fromRGBO(
+                                                      204, 204, 204, 1),
+                                                ),
+                                                child: SfPdfViewer.network(
+                                                  _bulletinItems![index]
+                                                      ['filelink'],
+                                                  controller: controllers[
+                                                      _bulletinItems![index]
+                                                          ['id']],
+                                                  canShowPaginationDialog:
+                                                      false,
+                                                  canShowScrollHead: false,
+                                                ),
+                                              ),
+                                        index > 1
+                                            ? Container()
+                                            : const SizedBox(height: 8),
+                                        SizedBox(
+                                          height: 48,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              index > -1
+                                                  ? const SizedBox()
+                                                  : Expanded(
+                                                      child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        RawMaterialButton(
+                                                          constraints:
+                                                              const BoxConstraints(),
+                                                          materialTapTargetSize:
+                                                              MaterialTapTargetSize
+                                                                  .shrinkWrap,
+                                                          shape:
+                                                              const CircleBorder(),
+                                                          onPressed: () {
+                                                            controllers[
+                                                                    _bulletinItems![
+                                                                            index]
+                                                                        ['id']]
+                                                                ?.previousPage();
+                                                          },
+                                                          child: Container(
+                                                            width: 48,
+                                                            alignment: Alignment
+                                                                .center,
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(0),
+                                                            child: const Icon(
+                                                              Icons
+                                                                  .arrow_back_ios,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        // ignore: avoid_unnecessary_containers
+                                                        // Container(
+                                                        //   child: Text(
+                                                        //     'Page 1 / ${controllers[_bulletinItems![index]['id']]?.pageCount}',
+                                                        //   ),
+                                                        // ),
+                                                        RawMaterialButton(
+                                                          constraints:
+                                                              const BoxConstraints(),
+                                                          materialTapTargetSize:
+                                                              MaterialTapTargetSize
+                                                                  .shrinkWrap,
+                                                          shape:
+                                                              const CircleBorder(),
+                                                          onPressed: () {
+                                                            controllers[
+                                                                    _bulletinItems![
+                                                                            index]
+                                                                        ['id']]
+                                                                ?.nextPage();
+                                                          },
+                                                          child: Container(
+                                                            width: 48,
+                                                            alignment: Alignment
+                                                                .center,
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(0),
+                                                            child: const Icon(
+                                                              Icons
+                                                                  .arrow_forward_ios,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )),
+                                              index > -1
+                                                  ? RawMaterialButton(
+                                                      constraints:
+                                                          const BoxConstraints(),
+                                                      materialTapTargetSize:
+                                                          MaterialTapTargetSize
+                                                              .shrinkWrap,
+                                                      onPressed: () {
+                                                        _showOverlay(
+                                                            context, index);
+                                                      },
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 8,
+                                                                horizontal: 0),
+                                                        child: const Text(
+                                                          'View Bulletin',
+                                                          style: TextStyle(
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    12,
+                                                                    72,
+                                                                    224,
+                                                                    1),
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize: 16,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : RawMaterialButton(
+                                                      constraints:
+                                                          const BoxConstraints(),
+                                                      materialTapTargetSize:
+                                                          MaterialTapTargetSize
+                                                              .shrinkWrap,
+                                                      onPressed: () {
+                                                        _showOverlay(
+                                                            context, index);
+                                                      },
+                                                      child: SizedBox(
+                                                        width: 48,
+                                                        height: 48,
+                                                        child: Row(
+                                                          children: [
+                                                            Container(
+                                                              width: 48,
+                                                              height: 48,
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              child: const Icon(
+                                                                MaterialIcons
+                                                                    .fullscreen,
+                                                                color: Colors
+                                                                    .black,
+                                                                size: 32,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        )
-            ],
-          ),
+                                  );
+                                },
+                              ),
+                            ),
+                  const SizedBox(height: 16),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
