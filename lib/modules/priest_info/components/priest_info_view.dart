@@ -77,79 +77,100 @@ class _PriestInfoViewState extends State<PriestInfoView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
         child: Stack(
           children: widget.model!.priestName != null &&
                   currentPriestIndex == null
               ? []
               : [
-                  // Positioned(
-                  //   top: 0,
-                  //   left: 0,
-                  //   child: Align(
-                  //     child: SizedBox(
-                  //       height: 275,
-                  //       child: Image.asset(
-                  //         assetPath('welcome_bg.png'),
-                  //         fit: BoxFit.cover,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  // Positioned(
-                  //   left: 0,
-                  //   top: 0,
-                  //   child: Align(
-                  //     child: SizedBox(
-                  //       width: 391,
-                  //       height: 275,
-                  //       child: Container(
-                  //         decoration: const BoxDecoration(
-                  //           gradient: LinearGradient(
-                  //             begin: Alignment(0.957, -1.211),
-                  //             end: Alignment(0.515, 1),
-                  //             colors: <Color>[
-                  //               Color(0x51ffffff),
-                  //               Color(0xffffffff)
-                  //             ],
-                  //             stops: <double>[0, 1],
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  // Positioned(
-                  //   left: 0,
-                  //   top: 0,
-                  //   child: Align(
-                  //     child: SizedBox(
-                  //       width: 391,
-                  //       height: 275,
-                  //       child: Container(
-                  //         decoration: const BoxDecoration(
-                  //           gradient: LinearGradient(
-                  //             begin: Alignment(1, -1),
-                  //             end: Alignment(-1, 1),
-                  //             colors: <Color>[
-                  //               Color(0xff174dd4),
-                  //               Color(0x00ffffff)
-                  //             ],
-                  //             stops: <double>[0, 1],
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  // widget.model?.loading == true
-                  //     ? Container(
-                  //         height: MediaQuery.of(context).size.height * 0.74,
-                  //         margin: const EdgeInsets.only(top: 16),
-                  //         child: const Center(
-                  //           child: CircularProgressIndicator(),
-                  //         ),
-                  //       )
-                  //     :
+                  Container(
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height * 0.33,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                          assetPath('page-bg.png'),
+                        ),
+                        alignment: Alignment.topCenter,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 350.0,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      gradient: LinearGradient(
+                        begin: FractionalOffset.topCenter,
+                        end: FractionalOffset.bottomCenter,
+                        colors: [
+                          Color.fromRGBO(255, 252, 245, 0),
+                          Color.fromRGBO(255, 252, 245, 1),
+                        ],
+                        stops: [0.0, 1.0],
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 0,
+                    top: 0,
+                    child: Align(
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.5,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: const Alignment(0.957, -1.211),
+                              end: const Alignment(0.515, 1),
+                              colors: <Color>[
+                                const Color(0x51ffffff),
+                                const Color(0xffffffff).withOpacity(0.9)
+                              ],
+                              stops: const <double>[0, 1],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 0,
+                    top: 0,
+                    child: Align(
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.5,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment(1, -1),
+                              end: Alignment(-1, 1),
+                              colors: <Color>[
+                                Color.fromRGBO(24, 77, 212, 0.5),
+                                Color.fromRGBO(255, 255, 255, 0),
+                              ],
+                              stops: <double>[0, 1],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Color.fromRGBO(255, 252, 245, 0),
+                          Color.fromRGBO(255, 252, 245, 1),
+                        ],
+                      ),
+                    ),
+                  ),
                   Column(
                     children: [
                       const SizedBox(height: 16),
