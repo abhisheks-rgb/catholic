@@ -420,20 +420,63 @@ class _OffertoryViewState extends State<OffertoryView> {
                                   ),
                                 ),
                                 const SizedBox(height: 16),
-                                Text(
-                                  widget._infos[0]['uen'],
-                                  style: const TextStyle(
-                                    color: Color.fromRGBO(233, 40, 35, 1),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  widget._infos[0]['uenlabel'],
-                                  style: const TextStyle(
-                                    color: Color.fromRGBO(4, 26, 82, 0.5),
-                                    fontSize: 14,
+                                RawMaterialButton(
+                                  constraints: const BoxConstraints(),
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  onPressed: () async {
+                                    if (widget.model!.items!.isNotEmpty) {
+                                      await Clipboard.setData(
+                                        ClipboardData(
+                                          text: widget._infos[0]['uen'],
+                                        ),
+                                      ).then((_) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                                'UEN copied to your clipboard'),
+                                          ),
+                                        );
+                                      });
+                                    }
+                                  },
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              widget._infos[0]['uen'],
+                                              style: const TextStyle(
+                                                color: Color.fromRGBO(
+                                                    233, 40, 35, 1),
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 16,
+                                            height: 16,
+                                            child: Image.asset(
+                                              assetPath('copy.png'),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        widget._infos[0]['uenlabel'],
+                                        style: const TextStyle(
+                                          color: Color.fromRGBO(4, 26, 82, 0.5),
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 const SizedBox(height: 8),
