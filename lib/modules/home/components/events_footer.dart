@@ -127,7 +127,8 @@ class EventDetailsFooter extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         onPressed: () {
-                          model?.navigateToEventRegister!();
+                          model?.navigateToEventRegister!(
+                              model?.selectedEventDetail);
                         },
                         child: Container(
                           decoration: BoxDecoration(

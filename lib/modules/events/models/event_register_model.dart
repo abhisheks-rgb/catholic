@@ -1,6 +1,7 @@
 import 'package:butter/butter.dart';
 
 class EventRegisterModel extends BaseUIModel<EventRegisterModel> {
+  Map<dynamic, dynamic>? item;
   //
   String? error;
   bool? loading;
@@ -8,6 +9,7 @@ class EventRegisterModel extends BaseUIModel<EventRegisterModel> {
   EventRegisterModel({
     this.error,
     this.loading,
+    this.item,
   });
 
   late Function({bool? isEventRegister}) setIsEventRegister;
@@ -19,12 +21,14 @@ class EventRegisterModel extends BaseUIModel<EventRegisterModel> {
   EventRegisterModel clone() => EventRegisterModel(
         error: error,
         loading: loading,
+        item: item,
       );
 
   @override
   int get hashCode => Object.hashAll([
         error,
         loading,
+        item,
       ]);
 
   @override
@@ -33,5 +37,6 @@ class EventRegisterModel extends BaseUIModel<EventRegisterModel> {
       other is EventRegisterModel &&
           runtimeType == other.runtimeType &&
           error == other.error &&
-          loading == other.loading;
+          loading == other.loading &&
+          item == other.item;
 }

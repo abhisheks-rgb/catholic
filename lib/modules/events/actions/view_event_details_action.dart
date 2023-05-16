@@ -6,7 +6,7 @@ import '../models/event_details_model.dart';
 import '../../home/models/home_model.dart';
 
 class ViewEventDetailsAction extends BaseAction {
-  final Map<Object?, Object?>? event;
+  final Map<dynamic, dynamic>? event;
 
   ViewEventDetailsAction(this.event);
 
@@ -23,6 +23,7 @@ class ViewEventDetailsAction extends BaseAction {
 
     await dispatchModel<HomeModel>(HomeModel(), (m) {
       m.isEventDetails = true;
+      m.selectedEventDetail = event;
     });
 
     pushNamed('/_/events/details');
