@@ -1,6 +1,9 @@
 import 'package:butter/butter.dart';
 
 class EventsListModel extends BaseUIModel<EventsListModel> {
+  bool isLoggedIn;
+  late void Function(String route) showPage;
+  late void Function() checkIsLoggedIn;
   //
   String? error;
   bool? loading;
@@ -10,6 +13,7 @@ class EventsListModel extends BaseUIModel<EventsListModel> {
   EventsListModel({
     this.error,
     this.loading,
+    this.isLoggedIn = false,
   });
 
   Future<void> Function(String route)? navigateTo;
@@ -22,12 +26,14 @@ class EventsListModel extends BaseUIModel<EventsListModel> {
   EventsListModel clone() => EventsListModel(
         error: error,
         loading: loading,
+        isLoggedIn: isLoggedIn,
       );
 
   @override
   int get hashCode => Object.hashAll([
         error,
         loading,
+        isLoggedIn,
       ]);
 
   @override
@@ -36,5 +42,6 @@ class EventsListModel extends BaseUIModel<EventsListModel> {
       other is EventsListModel &&
           runtimeType == other.runtimeType &&
           error == other.error &&
-          loading == other.loading;
+          loading == other.loading &&
+          isLoggedIn == other.isLoggedIn;
 }

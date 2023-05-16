@@ -120,6 +120,60 @@ class _EventsViewState extends State<EventsListView> {
                           _renderEventTypes(context, index),
                     ),
                   ),
+                  widget.model?.isLoggedIn == true
+                      ? Container()
+                      : RawMaterialButton(
+                          constraints: const BoxConstraints(),
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          shape: const CircleBorder(),
+                          onPressed: () {
+                            widget.model?.showPage('/_/login');
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            padding: const EdgeInsets.all(20),
+                            decoration: const BoxDecoration(
+                              color: Color.fromRGBO(255, 244, 219, 1),
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                  color: Color.fromRGBO(235, 235, 235, 1),
+                                  blurRadius: 15,
+                                  offset: Offset(0.0, 0.75),
+                                ),
+                              ],
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Text(
+                                  'Login Now',
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(99, 69, 4, 1),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                                SizedBox(width: 4),
+                                Text(
+                                  'to make full use of the App!',
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(99, 69, 4, 1),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                  widget.model?.isLoggedIn == true
+                      ? Container()
+                      : const SizedBox(height: 16),
                   // ignore: unnecessary_null_comparison
                   widget.model?.loading == true && widget._items != null
                       ? Container(

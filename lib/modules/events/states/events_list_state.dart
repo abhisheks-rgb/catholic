@@ -3,6 +3,7 @@ import 'package:butter/butter.dart';
 import '../actions/view_event_details_action.dart';
 import '../actions/list_events_action.dart';
 import '../models/events_list_model.dart';
+import '../../home/models/home_model.dart';
 
 class EventsListState extends BasePageState<EventsListModel> {
   EventsListState();
@@ -45,5 +46,19 @@ class EventsListState extends BasePageState<EventsListModel> {
         };
         m.viewEventDetails =
             (event) => dispatchAction(ViewEventDetailsAction(event!));
+        m.showPage = (route) async {
+          pushNamed(route);
+        };
+        m.checkIsLoggedIn = () async {
+          Map<String, dynamic>? user;
+
+          dispatchModel<HomeModel>(HomeModel(), (m) {
+            user = m.user;
+          });
+
+          await dispatchModel<EventsListModel>(EventsListModel(), (m) {
+            m.isLoggedIn = user == null ? false : true;
+          });
+        };
       });
 }

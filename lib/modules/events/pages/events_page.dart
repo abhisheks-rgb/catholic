@@ -18,6 +18,9 @@ class EventsPage extends BaseStatefulPageView {
     await super.beforeLoad(context);
 
     await FirebaseAnalytics.instance.setCurrentScreen(screenName: 'app_events');
+
+    model?.checkIsLoggedIn();
+
     return true;
   }
 
