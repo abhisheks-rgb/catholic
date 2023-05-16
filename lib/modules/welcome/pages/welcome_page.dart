@@ -1,6 +1,6 @@
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
-// import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../models/welcome_model.dart';
 import '../../home/models/home_model.dart';
@@ -290,10 +290,6 @@ class _WelcomePageState extends State<WelcomePage> {
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     onPressed: () {
                       widget.model?.showPage('/_/login');
-                      // const feedbackWebsite =
-                      //     'https://mycatholic.sg/appfeedback';
-                      // final uri = Uri.parse(feedbackWebsite);
-                      // urlLauncher(uri, 'web');
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width,
@@ -395,31 +391,90 @@ class _WelcomePageState extends State<WelcomePage> {
               }, childCount: exploreItems.length),
             ),
           ),
+          SliverToBoxAdapter(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              decoration: const BoxDecoration(
+                color: Color.fromRGBO(237, 241, 253, 1),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: Color.fromRGBO(235, 235, 235, 1),
+                    blurRadius: 15,
+                    offset: Offset(0.0, 0.75),
+                  ),
+                ],
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
+                ),
+              ),
+              child: RawMaterialButton(
+                constraints: const BoxConstraints(),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                onPressed: () {
+                  const feedbackWebsite = 'https://mycatholic.sg/appfeedback';
+                  final uri = Uri.parse(feedbackWebsite);
+                  urlLauncher(uri, 'web');
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: Image.asset(
+                          assetPath('send.png'),
+                          width: 20,
+                          height: 20,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      const Text(
+                        'Give us your feedback or suggestions!',
+                        style: TextStyle(
+                          color: Color.fromRGBO(12, 72, 224, 1),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  // void urlLauncher(Uri uri, String source) async {
-  //   bool canLaunch = false;
+  void urlLauncher(Uri uri, String source) async {
+    bool canLaunch = false;
 
-  //   if (await canLaunchUrl(uri)) {
-  //     canLaunch = true;
-  //   } else {
-  //     throw 'Could not launch $uri';
-  //   }
+    if (await canLaunchUrl(uri)) {
+      canLaunch = true;
+    } else {
+      throw 'Could not launch $uri';
+    }
 
-  //   if (canLaunch) {
-  //     switch (source) {
-  //       case 'web':
-  //         await launchUrl(
-  //           uri,
-  //           mode: LaunchMode.externalApplication,
-  //         );
-  //         break;
-  //       default:
-  //         await launchUrl(uri);
-  //     }
-  //   }
-  // }
+    if (canLaunch) {
+      switch (source) {
+        case 'web':
+          await launchUrl(
+            uri,
+            mode: LaunchMode.externalApplication,
+          );
+          break;
+        default:
+          await launchUrl(uri);
+      }
+    }
+  }
 }
