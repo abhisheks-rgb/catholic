@@ -101,5 +101,16 @@ class InfoState extends BasePageState<InfoModel> {
 
           pushNamed(newRoute);
         };
+        m.checkIsLoggedIn = () async {
+          Map<String, dynamic>? user;
+
+          dispatchModel<HomeModel>(HomeModel(), (m) {
+            user = m.user;
+          });
+
+          await dispatchModel<InfoModel>(InfoModel(), (m) {
+            m.isLoggedIn = user == null ? false : true;
+          });
+        };
       });
 }
