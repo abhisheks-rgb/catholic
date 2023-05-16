@@ -383,10 +383,11 @@ class ProfileView extends BaseStatelessPageView {
                 ),
                 const SizedBox(height: 8),
                 Container(
-                  width: double.infinity,
+                  width: MediaQuery.of(context).size.width,
                   margin:
                       const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
                   decoration: const BoxDecoration(
+                    color: Colors.white,
                     boxShadow: <BoxShadow>[
                       BoxShadow(
                         color: Color.fromRGBO(235, 235, 235, 1),
@@ -394,17 +395,72 @@ class ProfileView extends BaseStatelessPageView {
                         offset: Offset(0.0, 0.75),
                       ),
                     ],
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
                   ),
-                  child: Material(
+                  child: RawMaterialButton(
+                    constraints: const BoxConstraints(),
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    onPressed: () {
+                      const feedbackWebsite =
+                          'https://mycatholic.sg/appfeedback';
+                      final uri = Uri.parse(feedbackWebsite);
+                      urlLauncher(uri, 'web');
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: const EdgeInsets.all(16),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text(
+                            'Send Feedback',
+                            style: TextStyle(
+                              color: Color.fromRGBO(4, 26, 82, 1),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
+                  decoration: const BoxDecoration(
                     color: Colors.white,
-                    clipBehavior: Clip.antiAlias,
-                    child: MaterialButton(
-                      minWidth: double.infinity,
-                      onPressed: () async {
-                        await model?.logout!();
-                      },
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: Color.fromRGBO(235, 235, 235, 1),
+                        blurRadius: 15,
+                        offset: Offset(0.0, 0.75),
+                      ),
+                    ],
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                  ),
+                  child: RawMaterialButton(
+                    constraints: const BoxConstraints(),
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    onPressed: () async {
+                      await model?.logout!();
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: const EdgeInsets.all(16),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
