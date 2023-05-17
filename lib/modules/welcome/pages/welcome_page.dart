@@ -421,7 +421,8 @@ class _WelcomePageState extends State<WelcomePage> {
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width,
-                  padding: const EdgeInsets.all(20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
