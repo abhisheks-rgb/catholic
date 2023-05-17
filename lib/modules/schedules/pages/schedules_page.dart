@@ -1091,7 +1091,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          insetPadding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
+          contentPadding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
           content: SingleChildScrollView(
             physics: const NeverScrollableScrollPhysics(),
             child: SizedBox(
@@ -1127,12 +1127,14 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              '${schedData['title']}',
-                              style: const TextStyle(
-                                color: Color.fromRGBO(4, 26, 82, 1),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 20,
+                            Expanded(
+                              child: Text(
+                                '${schedData['title']}',
+                                style: const TextStyle(
+                                  color: Color.fromRGBO(4, 26, 82, 1),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 20,
+                                ),
                               ),
                             ),
                             _scheduleChip(
@@ -1140,7 +1142,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                 schedData['abbrev'],
                                 schedData['colorEvento'],
                                 schedData['color'],
-                                false),
+                                true),
                           ]),
                       Text(
                           '${schedData['lang'].toUpperCase()} • ${schedData['location'].toUpperCase()}',
@@ -1264,7 +1266,6 @@ class _SchedulesPageState extends State<_SchedulesPage> {
   Widget _scheduleChip(String type, String abbrev, String colorEvent,
       String colorString, bool isLongName) {
     return Container(
-      width: 32,
       height: 19,
       decoration: BoxDecoration(
         color: HexColor(colorEvent).withOpacity(1.0),
