@@ -1074,8 +1074,8 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                   ),
                   onTap: () {
                     final orgId = index + 1;
-                    widget.model!.fetchChurchInfo(orgId: orgId);
                     widget.model!.fetchPriestList(orgId: orgId);
+                    widget.model!.fetchChurchInfo(orgId: orgId);
                     setState(() {
                       _selectedParishValue =
                           widget.model!.items![index]['name'].toString();

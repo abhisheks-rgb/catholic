@@ -22,8 +22,8 @@ class ChurchInfoPage extends BaseStatefulPageView {
         .setCurrentScreen(screenName: 'app_church_info');
 
     model!.loadData();
-    model!.fetchChurchInfo();
     model!.fetchPriestList();
+    model!.fetchChurchInfo();
 
     return true;
   }
