@@ -302,11 +302,16 @@ class _EventsViewState extends State<EventsListView> {
                 children: [
                   Container(
                     width: 125,
+                    height: 140,
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
                           bottomLeft: Radius.circular(10)),
                       color: Color.fromRGBO(219, 228, 251, 1),
+                    ),
+                    child: Image.network(
+                      element['eventImageUrl'],
+                      fit: BoxFit.cover,
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -354,8 +359,8 @@ class _EventsViewState extends State<EventsListView> {
                         ),
                         const SizedBox(height: 8),
                         Row(
-                          children: const [
-                            SizedBox(
+                          children: [
+                            const SizedBox(
                               width: 20,
                               height: 20,
                               child: Icon(
@@ -367,14 +372,14 @@ class _EventsViewState extends State<EventsListView> {
                                 size: 20,
                               ),
                             ),
-                            SizedBox(width: 4),
+                            const SizedBox(width: 4),
                             Text(
-                              '1 interested',
-                              style: TextStyle(
+                              '${element['interested']} interested',
+                              style: const TextStyle(
                                 color: Color.fromRGBO(4, 26, 82, 1),
                               ),
                             ),
-                            Spacer(),
+                            const Spacer(),
                           ],
                         ),
                         const SizedBox(height: 26),

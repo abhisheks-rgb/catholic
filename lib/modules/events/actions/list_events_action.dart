@@ -23,7 +23,9 @@ class ListEventsAction extends BaseAction {
     try {
       final instance = await FirebaseFunctions.instanceFor(region: 'asia-east2')
           .httpsCallable('events')
-          .call();
+          .call({
+        'type': 'getList',
+      });
 
       List result = instance.data['results']['items'];
 

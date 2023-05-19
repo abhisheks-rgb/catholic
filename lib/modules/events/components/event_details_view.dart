@@ -81,6 +81,12 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                         Radius.circular(10),
                       ),
                     ),
+                    child: Center(
+                      child: Image.network(
+                        '${widget.model?.item!['eventImageUrl']}',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 16),
                   Text(

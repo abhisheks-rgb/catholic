@@ -12,7 +12,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
   DateTime? todayIsLastUpdate;
   bool isEventDetails;
   bool isEventRegister;
-  Map<Object?, Object?>? selectedEventDetail;
+  Map<dynamic, dynamic>? selectedEventDetail;
 
   void Function()? setPageFontSize;
   late Future<void> Function(BuildContext context) initialize;
@@ -26,6 +26,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
     bool? allowSameId,
   })? selectMenuItem;
   void Function(Map<Object?, Object?>? event)? navigateToEventRegister;
+  void Function(String parentEventId, String eventId)? setInterestEvent;
 
   Future<void> Function(BaseAction action)? dispatch;
   T? Function<T extends BaseUIModel>(T m)? read;

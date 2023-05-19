@@ -273,7 +273,9 @@ class HomePage extends BaseStatefulPageView {
                   width: MediaQuery.of(context).size.width,
                 )
               : model!.isEventDetails || model!.isEventRegister
-                  ? EventDetailsFooter(model)
+                  ? EventDetailsFooter(
+                      model: model,
+                    )
                   : Navbar(
                       model: model,
                     ),
