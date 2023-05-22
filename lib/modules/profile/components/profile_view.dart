@@ -407,7 +407,7 @@ class ProfileView extends BaseStatelessPageView {
                     ),
                     onPressed: () {
                       const feedbackWebsite =
-                          'https://mycatholic.sg/appfeedback';
+                          'https://mycatholic.sg/link/appfeedback';
                       final uri = Uri.parse(feedbackWebsite);
                       urlLauncher(uri, 'web');
                     },

@@ -415,7 +415,8 @@ class _WelcomePageState extends State<WelcomePage> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 onPressed: () {
-                  const feedbackWebsite = 'https://mycatholic.sg/appfeedback';
+                  const feedbackWebsite =
+                      'https://mycatholic.sg/link/appfeedback';
                   final uri = Uri.parse(feedbackWebsite);
                   urlLauncher(uri, 'web');
                 },
