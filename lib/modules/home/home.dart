@@ -15,6 +15,7 @@ import '../mass_readings/mass_readings.dart';
 import '../login/login.dart';
 import '../profile/profile.dart';
 import '../events/events.dart';
+import '../notification/notification.dart';
 
 class Home extends BaseModule {
   Home()
@@ -42,6 +43,7 @@ class Home extends BaseModule {
             '/_/login': Login(),
             '/_/profile': Profile(),
             '/_/events': Events(),
+            '/_/notification': Notification(),
           },
         );
 }

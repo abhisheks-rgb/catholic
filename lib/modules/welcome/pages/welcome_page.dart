@@ -1,5 +1,6 @@
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/welcome_model.dart';
@@ -218,32 +219,34 @@ class _WelcomePageState extends State<WelcomePage> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            // RawMaterialButton(
-                            //   constraints: const BoxConstraints(),
-                            //   materialTapTargetSize:
-                            //       MaterialTapTargetSize.shrinkWrap,
-                            //   onPressed: () {},
-                            //   child: Container(
-                            //     width: 32,
-                            //     height: 32,
-                            //     decoration: BoxDecoration(
-                            //       borderRadius: BorderRadius.circular(10),
-                            //       color: Colors.white,
-                            //     ),
-                            //     child: const Center(
-                            //       child: SizedBox(
-                            //         width: 20,
-                            //         height: 20,
-                            //         child: Icon(
-                            //           Octicons.bell_fill,
-                            //           color: Color.fromRGBO(130, 141, 168, 1),
-                            //           size: 20,
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
-                            // const SizedBox(width: 10),
+                            RawMaterialButton(
+                              constraints: const BoxConstraints(),
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              onPressed: () {
+                                widget.model?.showPage('/_/notification');
+                              },
+                              child: Container(
+                                width: 32,
+                                height: 32,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white,
+                                ),
+                                child: const Center(
+                                  child: SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: Icon(
+                                      Octicons.bell_fill,
+                                      color: Color.fromRGBO(130, 141, 168, 1),
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
                             RawMaterialButton(
                               constraints: const BoxConstraints(),
                               materialTapTargetSize:
