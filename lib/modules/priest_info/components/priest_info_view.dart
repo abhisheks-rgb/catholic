@@ -276,7 +276,7 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                                                   widget._infos.isNotEmpty &&
                                                   !isAllPriests &&
                                                   currentPriestIndex != null
-                                              ? '${widget._infos[currentPriestIndex!]['salutation'] ?? ''} ${widget._infos[currentPriestIndex!]['name'] ?? '---'} ${widget._infos[currentPriestIndex!]['suffix'] ?? ''}'
+                                              ? '${widget._infos[currentPriestIndex!]['salutation'] ?? ''} ${widget._infos[currentPriestIndex!]['name'] ?? ''}${widget._infos[currentPriestIndex!]['suffix'].isNotEmpty ? ', ${widget._infos[currentPriestIndex!]['suffix']}' : ''}'
                                               : 'All Priests',
                                           // overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
@@ -647,7 +647,7 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${element['salutation'] ?? ''} ${element['name'] ?? '---'} ${element['suffix'] ?? ''}',
+                        '${element['salutation'] ?? ''} ${element['name'] ?? ''}${element['suffix'].isNotEmpty ? ', ${element['suffix']}' : ''}',
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           color: Color.fromRGBO(4, 26, 82, 1),
@@ -776,7 +776,7 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                                 children: [
                                   const SizedBox(height: 8),
                                   Text(
-                                    '${widget._infos[index]['salutation'] ?? ''} ${widget._infos[index]['name'] ?? '---'} ${widget._infos[index]['suffix'] ?? ''}',
+                                    '${widget._infos[index]['salutation'] ?? ''} ${widget._infos[index]['name'] ?? ''}${widget._infos[index]['suffix'].isNotEmpty ? ', ${widget._infos[index]['suffix']}' : ''}',
                                     style: const TextStyle(
                                       color: Color.fromRGBO(4, 26, 82, 1),
                                       fontSize: 16,
@@ -804,7 +804,7 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                             children: [
                               const SizedBox(height: 8),
                               Text(
-                                '${widget._infos[index]['salutation'] ?? ''} ${widget._infos[index]['name'] ?? '---'} ${widget._infos[index]['suffix'] ?? ''}',
+                                '${widget._infos[index]['salutation'] ?? ''} ${widget._infos[index]['name'] ?? '---'}${widget._infos[index]['suffix'].isNotEmpty ? ', ${widget._infos[index]['suffix']}' : ''}',
                                 style: const TextStyle(
                                   color: Color.fromRGBO(4, 26, 82, 1),
                                   fontSize: 16,
@@ -831,7 +831,7 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                           children: [
                             const SizedBox(height: 8),
                             Text(
-                              '${widget._infos[index]['salutation'] ?? ''} ${widget._infos[index]['name'] ?? '---'} ${widget._infos[index]['suffix'] ?? ''}',
+                              '${widget._infos[index]['salutation'] ?? ''} ${widget._infos[index]['name'] ?? ''}${widget._infos[index]['suffix'].isNotEmpty ? ', ${widget._infos[index]['suffix']}' : ''}',
                               style: const TextStyle(
                                 color: Color.fromRGBO(4, 26, 82, 1),
                                 fontSize: 16,

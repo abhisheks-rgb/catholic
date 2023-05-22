@@ -1183,7 +1183,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        '${priestInfo['salutation'] ?? ''} ${priestInfo['name'] ?? '---'} ${priestInfo['suffix'] ?? ''}',
+                                        '${priestInfo['salutation'] ?? ''} ${priestInfo['name'] ?? ''}${priestInfo['suffix'].isNotEmpty ? ', ${priestInfo['suffix']}' : ''}',
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
                                           color: Color.fromRGBO(4, 26, 82, 1),
