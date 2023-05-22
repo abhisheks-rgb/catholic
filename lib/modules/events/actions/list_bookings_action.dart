@@ -6,13 +6,15 @@ import 'package:cloud_functions/cloud_functions.dart';
 import '../models/events_list_model.dart';
 import '../models/my_event_model.dart';
 
-class ListEventsAction extends BaseAction {
-  ListEventsAction();
+class ListBookingsAction extends BaseAction {
+  ListBookingsAction();
 
   // Make sure to strictly follow the guidelines found here:
   // https://pub.dev/packages/async_redux/#async-reducer
   @override
   Future<AppState?> reduce() async {
+    Butter.d('ListBookingsAction::reduce');
+
     String? error;
     await dispatchModel<EventsListModel>(EventsListModel(), (m) {
       m.error = error;
@@ -25,7 +27,7 @@ class ListEventsAction extends BaseAction {
       final instance = await FirebaseFunctions.instanceFor(region: 'asia-east2')
           .httpsCallable('events')
           .call({
-        'type': 'getList',
+        'type': 'getBookings',
       });
 
       List result = instance.data['results']['items'];
@@ -40,16 +42,10 @@ class ListEventsAction extends BaseAction {
     }
 
     await Future.delayed(const Duration(seconds: 1), () async {
-      await dispatchModel<EventsListModel>(EventsListModel(), (m) {
-        m.error = error;
-        m.loading = false;
-        m.events = records;
-      });
-
       await dispatchModel<MyEventModel>(MyEventModel(), (m) {
         m.error = error;
         m.loading = false;
-        m.events = records;
+        m.bookings = records;
       });
     });
 

@@ -28,8 +28,8 @@ class SetFontSizeAction extends BaseAction {
       titlefontsize = defaultTitleFontSize * 1.4;
       contentfontsize = defaultContentFontSize * 1.4;
     } else if (m.titleFontSize == defaultTitleFontSize * 1.4) {
-      titlefontsize = defaultTitleFontSize * 0.8;
-      contentfontsize = defaultContentFontSize * 0.8;
+      titlefontsize = defaultTitleFontSize * 1.6;
+      contentfontsize = defaultContentFontSize * 1.6;
     } else {
       titlefontsize = defaultTitleFontSize;
       contentfontsize = defaultContentFontSize;
