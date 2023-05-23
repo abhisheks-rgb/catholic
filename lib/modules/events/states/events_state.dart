@@ -1,8 +1,9 @@
-// import 'dart:convert';
 import 'package:butter/butter.dart';
-// import 'package:flutter/services.dart';
 
+// import '../actions/view_event_details_action.dart';
+// import '../actions/list_events_action.dart';
 import '../models/events_model.dart';
+import '../../home/models/home_model.dart';
 
 class EventsState extends BasePageState<EventsModel> {
   EventsState();
@@ -40,5 +41,19 @@ class EventsState extends BasePageState<EventsModel> {
                 ),
           ), (m) {
         // Load all your model's handlers here
+        m.showPage = (route) async {
+          pushNamed(route);
+        };
+        m.checkIsLoggedIn = () async {
+          Map<String, dynamic>? user;
+
+          dispatchModel<HomeModel>(HomeModel(), (m) {
+            user = m.user;
+          });
+
+          await dispatchModel<EventsModel>(EventsModel(), (m) {
+            m.isLoggedIn = user == null ? false : true;
+          });
+        };
       });
 }

@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:butter/butter.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import '../../../app/app.dart';
 import '../../../app/splash_screen.dart';
@@ -8,7 +11,10 @@ import '../../../utils/page_specs.dart';
 import '../../../utils/asset_path.dart';
 
 import '../models/home_model.dart';
+import '../components/events_footer.dart';
 import '../components/navbar.dart';
+
+String? mToken = ' ';
 
 class HomePage extends BaseStatefulPageView {
   final HomeModel? model;
@@ -29,7 +35,102 @@ class HomePage extends BaseStatefulPageView {
       await model!.initializeTodayIs();
     }
 
+    requestPermission();
+    getToken();
+    initInfo();
+
     return true;
+  }
+
+  initInfo() {
+    var androidInitialize =
+        const AndroidInitializationSettings('@mipmap/ic_launcher');
+    // var iOSInitialize = const DarwinInitializationSettings();
+    var initializationSettings = InitializationSettings(
+      android: androidInitialize,
+      // iOS: iOSInitialize,
+    );
+
+    FlutterLocalNotificationsPlugin().initialize(initializationSettings,
+        onDidReceiveNotificationResponse: (NotificationResponse payload) async {
+      try {
+        if (payload.toString().isNotEmpty) {}
+      } catch (e) {
+        Butter.d(e);
+      }
+    });
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      Butter.d('.....onMessage.....');
+      Butter.d(
+          'onMessage: ${message.notification?.title}/${message.notification?.body}');
+
+      BigTextStyleInformation bigTextStyleInformation = BigTextStyleInformation(
+        message.notification!.body.toString(),
+        htmlFormatBigText: true,
+        contentTitle: message.notification!.title.toString(),
+        htmlFormatContentTitle: true,
+      );
+
+      AndroidNotificationDetails androidNotificationDetails =
+          AndroidNotificationDetails(
+        'trcas',
+        'trcas',
+        importance: Importance.high,
+        styleInformation: bigTextStyleInformation,
+        priority: Priority.high,
+        playSound: true,
+      );
+
+      NotificationDetails platformChannelSpecifics = NotificationDetails(
+        android: androidNotificationDetails,
+      );
+
+      await FlutterLocalNotificationsPlugin().show(
+        0,
+        message.notification?.title,
+        message.notification?.body,
+        platformChannelSpecifics,
+        payload: message.data['body'],
+      );
+    });
+  }
+
+  void getToken() async {
+    await FirebaseMessaging.instance.getToken().then((token) {
+      mToken = token;
+      Butter.d('My token is $token');
+      // saveToken(token!);
+    });
+  }
+
+  // void saveToken(String token) async {
+  //   await FirebaseFirestore.instance.collection('UserTokens').doc('User1').set({
+  //     'token': token,
+  //   });
+  // }
+
+  void requestPermission() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      Butter.d('User granted permission');
+    } else if (settings.authorizationStatus ==
+        AuthorizationStatus.provisional) {
+      Butter.d('User granted provisional permission');
+    } else {
+      Butter.d('User declined or has not accepted permission');
+    }
   }
 
   /// Called while waiting for the result of [beforeLoad]
@@ -91,7 +192,6 @@ class HomePage extends BaseStatefulPageView {
                         ),
                         onPressed: () async {
                           final result = await Navigator.of(context).maybePop();
-
                           if (!result && context.mounted) {
                             // ignore: use_build_context_synchronously
                             Navigator.of(context).popAndPushNamed('/_/welcome');
@@ -172,9 +272,13 @@ class HomePage extends BaseStatefulPageView {
               ? Container(
                   width: MediaQuery.of(context).size.width,
                 )
-              : Navbar(
-                  model: model,
-                ),
+              : model!.isEventDetails || model!.isEventRegister
+                  ? EventDetailsFooter(
+                      model: model,
+                    )
+                  : Navbar(
+                      model: model,
+                    ),
         ),
       ),
     );

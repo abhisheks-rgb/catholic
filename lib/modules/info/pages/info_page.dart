@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:butter/butter.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
 import '../models/info_model.dart';
 
 import '../../../utils/asset_path.dart';
@@ -11,6 +13,17 @@ class InfoPage extends BaseStatefulPageView {
   final InfoModel? model;
 
   InfoPage({Key? key, this.model}) : super(animationDelay: 0);
+
+  @override
+  FutureOr<bool> beforeLoad(BuildContext context) async {
+    await super.beforeLoad(context);
+
+    await FirebaseAnalytics.instance.setCurrentScreen(screenName: 'app_info');
+
+    model?.checkIsLoggedIn();
+
+    return true;
+  }
 
   @override
   get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
@@ -206,6 +219,53 @@ class _InfoPageState extends State<_InfoPage> {
                     ],
                   ),
                 ),
+                widget.model.isLoggedIn == true
+                    ? Container()
+                    : RawMaterialButton(
+                        constraints: const BoxConstraints(),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: () {
+                          widget.model.showPage('/_/login');
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: const EdgeInsets.all(20),
+                          decoration: const BoxDecoration(
+                            color: Color.fromRGBO(255, 244, 219, 1),
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                color: Color.fromRGBO(235, 235, 235, 1),
+                                blurRadius: 15,
+                                offset: Offset(0.0, 0.75),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Text(
+                                'Login Now',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(99, 69, 4, 1),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                              SizedBox(width: 4),
+                              Text(
+                                'to make full use of the App!',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(99, 69, 4, 1),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                 const SizedBox(height: 10),
                 Flexible(
                     child: MasonryGridView.count(

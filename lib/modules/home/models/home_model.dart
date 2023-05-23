@@ -10,6 +10,9 @@ class HomeModel extends BaseUIModel<HomeModel> {
   bool isFullScreen;
   int selectedIndex;
   DateTime? todayIsLastUpdate;
+  bool isEventDetails;
+  bool isEventRegister;
+  Map<dynamic, dynamic>? selectedEventDetail;
 
   void Function()? setPageFontSize;
   late Future<void> Function(BuildContext context) initialize;
@@ -22,6 +25,8 @@ class HomeModel extends BaseUIModel<HomeModel> {
     String? selectedId,
     bool? allowSameId,
   })? selectMenuItem;
+  void Function(Map<Object?, Object?>? event)? navigateToEventRegister;
+  void Function(String parentEventId, String eventId)? setInterestEvent;
 
   Future<void> Function(BaseAction action)? dispatch;
   T? Function<T extends BaseUIModel>(T m)? read;
@@ -35,6 +40,9 @@ class HomeModel extends BaseUIModel<HomeModel> {
     this.isFullScreen = false,
     this.selectedIndex = 0,
     this.todayIsLastUpdate,
+    this.isEventDetails = false,
+    this.isEventRegister = false,
+    this.selectedEventDetail,
   });
 
   @override
@@ -50,6 +58,9 @@ class HomeModel extends BaseUIModel<HomeModel> {
         isFullScreen: isFullScreen,
         selectedIndex: selectedIndex,
         todayIsLastUpdate: todayIsLastUpdate,
+        isEventDetails: isEventDetails,
+        isEventRegister: isEventRegister,
+        selectedEventDetail: selectedEventDetail,
       );
 
   @override
@@ -62,6 +73,9 @@ class HomeModel extends BaseUIModel<HomeModel> {
         isFullScreen,
         selectedIndex,
         todayIsLastUpdate,
+        isEventDetails,
+        isEventRegister,
+        selectedEventDetail,
       ]);
 
   //
@@ -79,5 +93,8 @@ class HomeModel extends BaseUIModel<HomeModel> {
           user == other.user &&
           isFullScreen == other.isFullScreen &&
           selectedIndex == other.selectedIndex &&
-          todayIsLastUpdate == other.todayIsLastUpdate;
+          todayIsLastUpdate == other.todayIsLastUpdate &&
+          isEventDetails == other.isEventDetails &&
+          isEventRegister == other.isEventRegister &&
+          selectedEventDetail == other.selectedEventDetail;
 }

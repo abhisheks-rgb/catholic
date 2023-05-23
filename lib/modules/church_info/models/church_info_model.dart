@@ -11,6 +11,7 @@ class ChurchInfoModel extends BaseUIModel<ChurchInfoModel> {
   List<Object>? churchInfos;
   int? churchId;
   String? churchName;
+  List<Object>? priests;
 
   ChurchInfoModel({
     this.items,
@@ -19,10 +20,12 @@ class ChurchInfoModel extends BaseUIModel<ChurchInfoModel> {
     this.churchInfos,
     this.churchId,
     this.churchName,
+    this.priests,
   });
 
   late Future<List<Object>?> Function({int? orgId}) fetchChurchInfo;
   late Function({int? churchId}) setChurchId;
+  late Future<List<Object>?> Function({int? orgId}) fetchPriestList;
 
   @override
   String get $key => '/church_info';
@@ -35,6 +38,7 @@ class ChurchInfoModel extends BaseUIModel<ChurchInfoModel> {
         churchInfos: churchInfos == null ? [] : List.unmodifiable(churchInfos!),
         churchId: churchId,
         churchName: churchName,
+        priests: priests == null ? [] : List.unmodifiable(priests!),
       );
 
   @override
@@ -45,6 +49,7 @@ class ChurchInfoModel extends BaseUIModel<ChurchInfoModel> {
         churchInfos,
         churchId,
         churchName,
+        priests,
       ]);
 
   @override
@@ -57,5 +62,6 @@ class ChurchInfoModel extends BaseUIModel<ChurchInfoModel> {
           loading == other.loading &&
           churchInfos == other.churchInfos &&
           churchId == other.churchId &&
-          churchName == other.churchName;
+          churchName == other.churchName &&
+          priests == other.priests;
 }

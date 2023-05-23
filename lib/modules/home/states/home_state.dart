@@ -4,7 +4,9 @@ import '../actions/initialize_action.dart';
 import '../actions/initialize_todayis.dart';
 import '../actions/select_menu_item_action.dart';
 import '../actions/set_font_size_action.dart';
+import '../actions/set_interest_action.dart';
 import '../models/home_model.dart';
+import '../../events/models/event_register_model.dart';
 
 class HomeState extends BasePageState<HomeModel> {
   HomeState();
@@ -71,5 +73,17 @@ class HomeState extends BasePageState<HomeModel> {
               route: route,
               selectedId: selectedId,
             ));
+        m.navigateToEventRegister = (event) {
+          dispatchModel<HomeModel>(HomeModel(), (m) {
+            m.isEventRegister = true;
+          });
+
+          dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
+            m.item = event;
+          });
+          pushNamed('/_/events/register');
+        };
+        m.setInterestEvent = (parentEventId, eventId) => dispatchAction(
+            SetInterestAction(eventId: eventId, parentEventId: parentEventId));
       });
 }

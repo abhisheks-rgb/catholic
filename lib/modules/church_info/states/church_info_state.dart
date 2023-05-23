@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 
 import '../actions/list_church_info_action.dart';
+import '../actions/list_priests_action.dart';
 import '../actions/set_church_id_action.dart';
 import '../models/church_info_model.dart';
 import '../../church_bulletin/models/church_bulletin_model.dart';
@@ -97,6 +98,14 @@ class ChurchInfoState extends BasePageState<ChurchInfoModel> {
             throw model.error!;
           }
           return model.churchInfos;
+        };
+        m.fetchPriestList = ({orgId}) async {
+          await dispatchAction(ListPriestsAction(orgId: orgId));
+          final model = read<ChurchInfoModel>(ChurchInfoModel());
+          if (model.error != null) {
+            throw model.error!;
+          }
+          return model.priests;
         };
         m.setChurchId = ({churchId}) async {
           await dispatchAction(SetChurchIdAction(churchId: churchId));
