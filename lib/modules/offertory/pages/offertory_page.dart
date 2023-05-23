@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:butter/butter.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 
 import '../components/offertory_view.dart';
@@ -15,6 +16,9 @@ class OffertoryPage extends BaseStatefulPageView {
   @override
   FutureOr<bool> beforeLoad(BuildContext context) async {
     await super.beforeLoad(context);
+
+    await FirebaseAnalytics.instance
+        .setCurrentScreen(screenName: 'app_offertory');
 
     model!.loadData();
     model!.fetchOffertory();

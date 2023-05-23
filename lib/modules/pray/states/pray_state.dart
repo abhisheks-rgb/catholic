@@ -1,6 +1,7 @@
 import 'package:butter/butter.dart';
 
 import '../models/pray_model.dart';
+import '../../home/models/home_model.dart';
 
 class PrayState extends BasePageState<PrayModel> {
   PrayState();
@@ -40,6 +41,17 @@ class PrayState extends BasePageState<PrayModel> {
         // Load all your model's handlers here
         m.showPage = (route) async {
           pushNamed(route);
+        };
+        m.checkIsLoggedIn = () async {
+          Map<String, dynamic>? user;
+
+          dispatchModel<HomeModel>(HomeModel(), (m) {
+            user = m.user;
+          });
+
+          await dispatchModel<PrayModel>(PrayModel(), (m) {
+            m.isLoggedIn = user == null ? false : true;
+          });
         };
       });
 }

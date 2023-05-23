@@ -50,76 +50,97 @@ class _OffertoryViewState extends State<OffertoryView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
         child: Stack(
           children: [
-            // Positioned(
-            //   top: 0,
-            //   left: 0,
-            //   child: Align(
-            //     child: SizedBox(
-            //       height: 275,
-            //       child: Image.asset(
-            //         assetPath('welcome_bg.png'),
-            //         fit: BoxFit.cover,
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // Positioned(
-            //   left: 0,
-            //   top: 0,
-            //   child: Align(
-            //     child: SizedBox(
-            //       width: 391,
-            //       height: 275,
-            //       child: Container(
-            //         decoration: const BoxDecoration(
-            //           gradient: LinearGradient(
-            //             begin: Alignment(0.957, -1.211),
-            //             end: Alignment(0.515, 1),
-            //             colors: <Color>[
-            //               Color(0x51ffffff),
-            //               Color(0xffffffff)
-            //             ],
-            //             stops: <double>[0, 1],
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // Positioned(
-            //   left: 0,
-            //   top: 0,
-            //   child: Align(
-            //     child: SizedBox(
-            //       width: 391,
-            //       height: 275,
-            //       child: Container(
-            //         decoration: const BoxDecoration(
-            //           gradient: LinearGradient(
-            //             begin: Alignment(1, -1),
-            //             end: Alignment(-1, 1),
-            //             colors: <Color>[
-            //               Color(0xff174dd4),
-            //               Color(0x00ffffff)
-            //             ],
-            //             stops: <double>[0, 1],
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // widget.model?.loading == true
-            //     ? Container(
-            //         height: MediaQuery.of(context).size.height * 0.74,
-            //         margin: const EdgeInsets.only(top: 16),
-            //         child: const Center(
-            //           child: CircularProgressIndicator(),
-            //         ),
-            //       )
-            //     :
+            Container(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.33,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    assetPath('page-bg.png'),
+                  ),
+                  alignment: Alignment.topCenter,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Container(
+              height: 350.0,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                gradient: LinearGradient(
+                  begin: FractionalOffset.topCenter,
+                  end: FractionalOffset.bottomCenter,
+                  colors: [
+                    Color.fromRGBO(255, 252, 245, 0),
+                    Color.fromRGBO(255, 252, 245, 1),
+                  ],
+                  stops: [0.0, 1.0],
+                ),
+              ),
+            ),
+            Positioned(
+              left: 0,
+              top: 0,
+              child: Align(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: const Alignment(0.957, -1.211),
+                        end: const Alignment(0.515, 1),
+                        colors: <Color>[
+                          const Color(0x51ffffff),
+                          const Color(0xffffffff).withOpacity(0.9)
+                        ],
+                        stops: const <double>[0, 1],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 0,
+              top: 0,
+              child: Align(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment(1, -1),
+                        end: Alignment(-1, 1),
+                        colors: <Color>[
+                          Color.fromRGBO(24, 77, 212, 0.5),
+                          Color.fromRGBO(255, 255, 255, 0),
+                        ],
+                        stops: <double>[0, 1],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.5,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color.fromRGBO(255, 252, 245, 0),
+                    Color.fromRGBO(255, 252, 245, 1),
+                  ],
+                ),
+              ),
+            ),
             Column(
               children: [
                 const SizedBox(height: 16),
@@ -141,45 +162,6 @@ class _OffertoryViewState extends State<OffertoryView> {
                   ),
                   child: Column(
                     children: [
-                      // InputDecorator(
-                      //   decoration: const InputDecoration(
-                      //       contentPadding: EdgeInsets.all(0),
-                      //       border: OutlineInputBorder(
-                      //           borderSide: BorderSide.none,
-                      //           borderRadius: BorderRadius.all(Radius.zero))),
-                      //   child: DropdownButtonHideUnderline(
-                      //     child: DropdownButton(
-                      //       borderRadius:
-                      //           const BorderRadius.all(Radius.circular(10)),
-                      //       icon: const Icon(Icons.keyboard_arrow_down),
-                      //       elevation: 16,
-                      //       isDense: true,
-                      //       isExpanded: true,
-                      //       value: _selectedParishValue,
-                      //       hint: const Text('Select parish'),
-                      //       items: [
-                      //         ...?widget.model!.items?.map((value) {
-                      //           return DropdownMenuItem<String>(
-                      //             value: value['name'].toString(),
-                      //             child: Text(value['name'],
-                      //                 style: const TextStyle(fontSize: 16)),
-                      //           );
-                      //         }).toList()
-                      //       ],
-                      //       onChanged: (value) {
-                      //         final index = widget.model!.items?.indexWhere(
-                      //             (item) => item['name'] == value.toString());
-
-                      //         if (index != -1) {
-                      //           setState(() {
-                      //             _selectedParishValue = value.toString();
-                      //             currentParishId = index!;
-                      //           });
-                      //         }
-                      //       },
-                      //     ),
-                      //   ),
-                      // ),
                       RawMaterialButton(
                         constraints: const BoxConstraints(),
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -438,20 +420,63 @@ class _OffertoryViewState extends State<OffertoryView> {
                                   ),
                                 ),
                                 const SizedBox(height: 16),
-                                Text(
-                                  widget._infos[0]['uen'],
-                                  style: const TextStyle(
-                                    color: Color.fromRGBO(233, 40, 35, 1),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  widget._infos[0]['uenlabel'],
-                                  style: const TextStyle(
-                                    color: Color.fromRGBO(4, 26, 82, 0.5),
-                                    fontSize: 14,
+                                RawMaterialButton(
+                                  constraints: const BoxConstraints(),
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  onPressed: () async {
+                                    if (widget.model!.items!.isNotEmpty) {
+                                      await Clipboard.setData(
+                                        ClipboardData(
+                                          text: widget._infos[0]['uen'],
+                                        ),
+                                      ).then((_) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                                'UEN copied to your clipboard'),
+                                          ),
+                                        );
+                                      });
+                                    }
+                                  },
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              widget._infos[0]['uen'],
+                                              style: const TextStyle(
+                                                color: Color.fromRGBO(
+                                                    233, 40, 35, 1),
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 16,
+                                            height: 16,
+                                            child: Image.asset(
+                                              assetPath('copy.png'),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        widget._infos[0]['uenlabel'],
+                                        style: const TextStyle(
+                                          color: Color.fromRGBO(4, 26, 82, 0.5),
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 const SizedBox(height: 8),

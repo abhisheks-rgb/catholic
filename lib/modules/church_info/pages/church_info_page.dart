@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:butter/butter.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 
 import '../components/church_info_view.dart';
@@ -17,7 +18,11 @@ class ChurchInfoPage extends BaseStatefulPageView {
   FutureOr<bool> beforeLoad(BuildContext context) async {
     await super.beforeLoad(context);
 
+    await FirebaseAnalytics.instance
+        .setCurrentScreen(screenName: 'app_church_info');
+
     model!.loadData();
+    model!.fetchPriestList();
     model!.fetchChurchInfo();
 
     return true;
