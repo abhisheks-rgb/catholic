@@ -45,10 +45,10 @@ class HomePage extends BaseStatefulPageView {
   initInfo() {
     var androidInitialize =
         const AndroidInitializationSettings('@mipmap/ic_launcher');
-    // var iOSInitialize = const DarwinInitializationSettings();
+    var iOSInitialize = const DarwinInitializationSettings();
     var initializationSettings = InitializationSettings(
       android: androidInitialize,
-      // iOS: iOSInitialize,
+      iOS: iOSInitialize,
     );
 
     FlutterLocalNotificationsPlugin().initialize(initializationSettings,
