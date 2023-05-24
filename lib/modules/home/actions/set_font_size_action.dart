@@ -4,6 +4,7 @@ import 'package:butter/butter.dart';
 
 import '../../mass_readings/models/mass_readings_model.dart';
 import '../../scripture/models/scripture_details_model.dart';
+import '../../devotion/rosary/models/rosary_model.dart';
 
 class SetFontSizeAction extends BaseAction {
   SetFontSizeAction();
@@ -41,6 +42,11 @@ class SetFontSizeAction extends BaseAction {
     });
 
     dispatchModel<ScriptureDetailsModel>(ScriptureDetailsModel(), (m) {
+      m.titleFontSize = titlefontsize;
+      m.contentFontSize = contentfontsize;
+    });
+
+    dispatchModel<RosaryModel>(RosaryModel(), (m) {
       m.titleFontSize = titlefontsize;
       m.contentFontSize = contentfontsize;
     });
