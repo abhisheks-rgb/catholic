@@ -1,21 +1,21 @@
 import 'package:butter/butter.dart';
 
-class NotificationModel extends BaseUIModel<NotificationModel> {
-  late void Function(String route) showPage;
+class NotificationDetailsModel extends BaseUIModel<NotificationDetailsModel> {
+  // late void Function(String route) showPage;
   //
   String? error;
   bool? loading;
 
-  NotificationModel({
+  NotificationDetailsModel({
     this.error,
     this.loading,
   });
 
   @override
-  String get $key => '/notification';
+  String get $key => '/notification_details';
 
   @override
-  NotificationModel clone() => NotificationModel(
+  NotificationDetailsModel clone() => NotificationDetailsModel(
         error: error,
         loading: loading,
       );
@@ -29,7 +29,7 @@ class NotificationModel extends BaseUIModel<NotificationModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is NotificationModel &&
+      other is NotificationDetailsModel &&
           runtimeType == other.runtimeType &&
           error == other.error &&
           loading == other.loading;

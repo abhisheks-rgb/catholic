@@ -1,17 +1,18 @@
 import 'package:butter/butter.dart';
 
-import '../models/notification_model.dart';
+import '../models/notification_details_model.dart';
 
-class NotificationState extends BasePageState<NotificationModel> {
-  NotificationState();
+class NotificationDetailsState extends BasePageState<NotificationDetailsModel> {
+  NotificationDetailsState();
 
-  NotificationModel? model;
+  NotificationDetailsModel? model;
 
   // This constructor form is not properly enforced. Which means, if you do not
   // follow this, no errors will be produced in butter. However, this allows you to
   // properly fillup your models with valid function handlers after being read
   // from the store and before it is being fed to the page.
-  NotificationState.build(this.model, void Function(NotificationModel m) f)
+  NotificationDetailsState.build(
+      this.model, void Function(NotificationDetailsModel m) f)
       : super.build(model!, f);
 
   // Make sure to properly define this function. Otherwise, your reducers
@@ -19,7 +20,7 @@ class NotificationState extends BasePageState<NotificationModel> {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is NotificationState &&
+        other is NotificationDetailsState &&
             runtimeType == other.runtimeType &&
             model == other.model;
   }
@@ -31,15 +32,12 @@ class NotificationState extends BasePageState<NotificationModel> {
       ]);
 
   @override
-  NotificationState fromStore() => NotificationState.build(
-          read<NotificationModel>(
-            NotificationModel(
+  NotificationDetailsState fromStore() => NotificationDetailsState.build(
+          read<NotificationDetailsModel>(
+            NotificationDetailsModel(
                 // Initialize your models here in case it is not available in the store yet
                 ),
           ), (m) {
         // Load all your model's handlers here
-        m.showPage = (route) async {
-          pushNamed(route);
-        };
       });
 }
