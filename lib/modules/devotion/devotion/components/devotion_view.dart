@@ -29,16 +29,16 @@ class _DevotionPageState extends State<DevotionView> {
         'subTitle': 'Prayer Guide • What is Rosary?',
         'route': 'rosary'
       },
-      {
-        'title': 'Angelus',
-        'subTitle': 'Prayer Guide • What is Angelus?',
-        'route': 'angelus',
-      },
-      {
-        'title': 'Divine Mercy Prayer',
-        'subTitle': 'What is Rosary? • Prayer Guide',
-        'route': 'prayer',
-      },
+      // {
+      //   'title': 'Angelus',
+      //   'subTitle': 'Prayer Guide • What is Angelus?',
+      //   'route': 'angelus',
+      // },
+      // {
+      //   'title': 'Divine Mercy Prayer',
+      //   'subTitle': 'What is Rosary? • Prayer Guide',
+      //   'route': 'prayer',
+      // },
     ];
     return Scaffold(
       body: SafeArea(
@@ -66,10 +66,8 @@ class _DevotionPageState extends State<DevotionView> {
                     itemBuilder: (_, int index) {
                       return InkWell(
                         onTap: () {
-                          if (exploreItems[index]['route'] == 'rosary') {
-                            Navigator.of(context).pushNamed(
-                                '/_/devotion/${exploreItems[index]['route']}');
-                          }
+                          Navigator.of(context).pushNamed(
+                              '/_/devotion/${exploreItems[index]['route']}');
                         },
                         child: Container(
                           padding: const EdgeInsets.all(20),
