@@ -4,6 +4,7 @@ import 'package:butter/butter.dart';
 
 import '../../mass_readings/models/mass_readings_model.dart';
 import '../../scripture/models/scripture_details_model.dart';
+import '../../confession/models/confession_model.dart';
 import '../../devotion/rosary/models/rosary_model.dart';
 
 class SetFontSizeAction extends BaseAction {
@@ -47,6 +48,11 @@ class SetFontSizeAction extends BaseAction {
     });
 
     dispatchModel<RosaryModel>(RosaryModel(), (m) {
+      m.titleFontSize = titlefontsize;
+      m.contentFontSize = contentfontsize;
+    });
+
+    dispatchModel<ConfessionModel>(ConfessionModel(), (m) {
       m.titleFontSize = titlefontsize;
       m.contentFontSize = contentfontsize;
     });
