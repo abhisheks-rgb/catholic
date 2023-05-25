@@ -72,6 +72,11 @@ class _PrayPageState extends State<_PrayPage> {
         'icon': 'Scripture_Reflections.png',
         'route': 'devotion/main',
       },
+      {
+        'title': 'Confession',
+        'icon': 'Scripture_Reflections.png',
+        'route': 'confession',
+      },
     ];
     return Scaffold(
       body: SafeArea(
