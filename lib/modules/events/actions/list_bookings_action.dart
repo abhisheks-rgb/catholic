@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:butter/butter.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
-import '../models/events_list_model.dart';
 import '../models/my_event_model.dart';
 
 class ListBookingsAction extends BaseAction {
@@ -16,7 +15,7 @@ class ListBookingsAction extends BaseAction {
     Butter.d('ListBookingsAction::reduce');
 
     String? error;
-    await dispatchModel<EventsListModel>(EventsListModel(), (m) {
+    await dispatchModel<MyEventModel>(MyEventModel(), (m) {
       m.error = error;
       m.loading = true;
     });
@@ -41,12 +40,10 @@ class ListBookingsAction extends BaseAction {
       error = 'Unexpected error';
     }
 
-    await Future.delayed(const Duration(seconds: 1), () async {
-      await dispatchModel<MyEventModel>(MyEventModel(), (m) {
-        m.error = error;
-        m.loading = false;
-        m.bookings = records;
-      });
+    await dispatchModel<MyEventModel>(MyEventModel(), (m) {
+      m.error = error;
+      m.loading = false;
+      m.bookings = records;
     });
 
     return null;

@@ -16,6 +16,8 @@ class MyEventModel extends BaseUIModel<MyEventModel> {
     this.error,
     this.loading,
     this.isLoggedIn = false,
+    this.bookings,
+    this.events,
   });
 
   Future<void> Function(String route)? navigateTo;
@@ -29,6 +31,8 @@ class MyEventModel extends BaseUIModel<MyEventModel> {
         error: error,
         loading: loading,
         isLoggedIn: isLoggedIn,
+        bookings: bookings,
+        events: events,
       );
 
   @override
@@ -36,6 +40,8 @@ class MyEventModel extends BaseUIModel<MyEventModel> {
         error,
         loading,
         isLoggedIn,
+        events,
+        bookings,
       ]);
 
   @override
@@ -45,5 +51,7 @@ class MyEventModel extends BaseUIModel<MyEventModel> {
           runtimeType == other.runtimeType &&
           error == other.error &&
           loading == other.loading &&
-          isLoggedIn == other.isLoggedIn;
+          isLoggedIn == other.isLoggedIn &&
+          events == other.events &&
+          bookings == other.bookings;
 }

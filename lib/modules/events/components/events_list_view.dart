@@ -273,7 +273,7 @@ class _EventsViewState extends State<EventsListView> {
 
   Widget _renderEventItem(element) {
     DateTime eventDate = DateTime.fromMillisecondsSinceEpoch(
-        element['bookingStartDate']['_seconds'] * 1000);
+        element['startDate']['_seconds'] * 1000);
     String formattedDate = DateFormat('d MMM, hh a').format(eventDate);
 
     return Column(
@@ -360,21 +360,22 @@ class _EventsViewState extends State<EventsListView> {
                         const SizedBox(height: 8),
                         Row(
                           children: [
-                            const SizedBox(
+                            SizedBox(
                               width: 20,
                               height: 20,
                               child: Icon(
                                 Octicons.star_fill,
-                                color: Color.fromRGBO(4, 26, 82, 0.7),
-                                // color: isSelected
-                                //     ? Colors.white
-                                //     : const Color.fromRGBO(4, 26, 82, 0.7),
+                                color: element['hasLiked'] == true
+                                    ? const Color.fromRGBO(12, 72, 224, 1)
+                                    : const Color.fromRGBO(4, 26, 82, 0.7),
                                 size: 20,
                               ),
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              '${element['interested']} interested',
+                              element['hasLiked'] == true
+                                  ? 'Interested'
+                                  : '${element['interested']} interested',
                               style: const TextStyle(
                                 color: Color.fromRGBO(4, 26, 82, 1),
                               ),

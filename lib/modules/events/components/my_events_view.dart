@@ -12,7 +12,9 @@ class MyEventsView extends BaseStatefulPageView {
 
   MyEventsView(this.model, {Key? key})
       : _items = List.generate(model?.events?.length ?? 0,
-            (index) => model?.events![index] as Map),
+                (index) => model?.events![index] as Map)
+            .where((item) => item['hasLiked'] == true)
+            .toList(),
         _bookingItems = List.generate(model?.bookings?.length ?? 0,
             (index) => model?.bookings![index] as Map),
         super();
@@ -77,7 +79,7 @@ class _EventsViewState extends State<MyEventsView>
                     ),
                     Tab(
                       child: Text(
-                        'Registered',
+                        'Booked',
                       ),
                     ),
                   ],
@@ -96,35 +98,55 @@ class _EventsViewState extends State<MyEventsView>
                   controller: _controller,
                   children: [
                     // ignore: unnecessary_null_comparison
-                    widget._items == null
-                        ? _renderEmptyEvents()
-                        : Container(
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 16, horizontal: 20),
-                            child: SingleChildScrollView(
-                              physics: const ClampingScrollPhysics(),
-                              child: Column(
-                                children: widget._items.map<Widget>((e) {
-                                  return _renderEventItem(e);
-                                }).toList(),
+                    widget.model?.loading == true && widget._items != null
+                        ? Container(
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            margin: const EdgeInsets.only(top: 20),
+                            child: const Center(
+                                child: CircularProgressIndicator()),
+                          )
+                        :
+                        // ignore: unnecessary_null_comparison
+                        widget._items == null
+                            ? _renderEmptyEvents()
+                            : Container(
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 16, horizontal: 20),
+                                child: SingleChildScrollView(
+                                  physics: const ClampingScrollPhysics(),
+                                  child: Column(
+                                    children: widget._items.map<Widget>((e) {
+                                      return _renderEventItem(e);
+                                    }).toList(),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                    // ignore: unnecessary_null_comparison
-                    widget._bookingItems == null
-                        ? _renderEmptyEvents()
-                        : Container(
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 16, horizontal: 20),
-                            child: SingleChildScrollView(
-                              physics: const ClampingScrollPhysics(),
-                              child: Column(
-                                children: widget._bookingItems.map<Widget>((e) {
-                                  return _renderEventItem(e);
-                                }).toList(),
+                    widget.model?.loading == true &&
+                            // ignore: unnecessary_null_comparison
+                            widget._bookingItems != null
+                        ? Container(
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            margin: const EdgeInsets.only(top: 20),
+                            child: const Center(
+                                child: CircularProgressIndicator()),
+                          )
+                        :
+                        // ignore: unnecessary_null_comparison
+                        widget._bookingItems == null
+                            ? _renderEmptyEvents()
+                            : Container(
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 16, horizontal: 20),
+                                child: SingleChildScrollView(
+                                  physics: const ClampingScrollPhysics(),
+                                  child: Column(
+                                    children:
+                                        widget._bookingItems.map<Widget>((e) {
+                                      return _renderEventItem(e);
+                                    }).toList(),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
                   ],
                 ),
               ),
@@ -160,9 +182,13 @@ class _EventsViewState extends State<MyEventsView>
       );
 
   Widget _renderEventItem(element) {
-    DateTime eventDate = DateTime.fromMillisecondsSinceEpoch(
-        element['bookingStartDate']['_seconds'] * 1000);
-    String formattedDate = DateFormat('d MMM, hh a').format(eventDate);
+    DateTime eventDate = element['bookingStartDate'] != null
+        ? DateTime.fromMillisecondsSinceEpoch(
+            element['bookingStartDate']['_seconds'] * 1000)
+        : DateTime.now();
+    String formattedDate = element['bookingStartDate'] != null
+        ? DateFormat('d MMM, hh a').format(eventDate)
+        : '';
 
     return Column(
       children: [
@@ -197,10 +223,12 @@ class _EventsViewState extends State<MyEventsView>
                           bottomLeft: Radius.circular(10)),
                       color: Color.fromRGBO(219, 228, 251, 1),
                     ),
-                    child: Image.network(
-                      element['eventImageUrl'],
-                      fit: BoxFit.cover,
-                    ),
+                    child: element['eventImageUrl'] != null
+                        ? Image.network(
+                            element['eventImageUrl'],
+                            fit: BoxFit.cover,
+                          )
+                        : const SizedBox(),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
@@ -210,12 +238,14 @@ class _EventsViewState extends State<MyEventsView>
                         const SizedBox(height: 26),
                         Row(
                           children: [
-                            Text(
-                              formattedDate,
-                              style: const TextStyle(
-                                color: Color.fromRGBO(236, 74, 70, 1),
-                              ),
-                            ),
+                            element['bookingStartDate'] != null
+                                ? Text(
+                                    formattedDate,
+                                    style: const TextStyle(
+                                      color: Color.fromRGBO(236, 74, 70, 1),
+                                    ),
+                                  )
+                                : const SizedBox(),
                             const Spacer(),
                             Container(
                               padding: const EdgeInsets.symmetric(

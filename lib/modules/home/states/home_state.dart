@@ -59,6 +59,27 @@ class HomeState extends BasePageState<HomeModel> {
         m.setPageFontSize = () {
           dispatchAction(SetFontSizeAction());
         };
+        m.discardBooking = () {
+          dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
+            m.bookingFormView = 'bookingForm';
+          });
+        };
+        m.setBookingFormView = () {
+          final m = read<EventRegisterModel>(EventRegisterModel());
+
+          String bookingView;
+
+          if (m.bookingFormView == 'bookingForm') {
+            bookingView = 'bookingFormReview';
+          } else {
+            bookingView = 'bookingForm';
+          }
+
+          dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
+            m.bookingFormView = bookingView;
+          });
+        };
+        m.setFormInput = (formInputValue) {};
         m.selectMenuItem = ({
           allowSameId = true,
           context,

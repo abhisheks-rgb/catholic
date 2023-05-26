@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:butter/butter.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import '../models/home_model.dart';
+import '../../events/models/event_details_model.dart';
 
 class SetInterestAction extends BaseAction {
   final String parentEventId;
@@ -37,10 +38,15 @@ class SetInterestAction extends BaseAction {
       final event = m.selectedEventDetail;
 
       event!['hasLiked'] = true;
-      event['interested'] = ++event['interested'];
+      event['interested'] = event['interested'] + 1;
 
       dispatchModel<HomeModel>(HomeModel(), (m) {
         m.selectedEventDetail = event;
+        m.loading = false;
+      });
+
+      dispatchModel<EventDetailsModel>(EventDetailsModel(), (m) {
+        m.item = event;
         m.loading = false;
       });
     }

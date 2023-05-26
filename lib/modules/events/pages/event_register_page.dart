@@ -26,7 +26,7 @@ class EventRegisterPage extends BaseStatefulPageView {
   @override
   get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
         hasAppBar: true,
-        title: 'Event Register',
+        title: 'Booking Form',
       ));
 
   @override
