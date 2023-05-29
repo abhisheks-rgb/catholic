@@ -258,6 +258,33 @@ class HomePage extends BaseStatefulPageView {
                           ),
                         )
                       : Container(),
+                  specs.showInfo!
+                      ? RawMaterialButton(
+                          constraints: const BoxConstraints(),
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          onPressed: () async {
+                            model?.setShowInfo!();
+                          },
+                          child: Container(
+                            width: 40,
+                            decoration: const BoxDecoration(
+                              color: Colors.transparent,
+                            ),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: Image.asset(
+                                  assetPath('info.png'),
+                                  color: const Color.fromRGBO(4, 26, 82, 1),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
                   // ...?specs.actions,
                 ],
               )

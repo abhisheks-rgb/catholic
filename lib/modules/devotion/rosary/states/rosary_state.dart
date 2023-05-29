@@ -38,5 +38,10 @@ class RosaryState extends BasePageState<RosaryModel> {
                 ),
           ), (m) {
         // Load all your model's handlers here
+        m.setShowInfo = () {
+          dispatchModel<RosaryModel>(RosaryModel(), (m) {
+            m.showInfo = false;
+          });
+        };
       });
 }

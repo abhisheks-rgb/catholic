@@ -6,12 +6,16 @@ class RosaryModel extends BaseUIModel<RosaryModel> {
   bool? loading;
   double? titleFontSize = 20;
   double? contentFontSize = 16;
+  bool? showInfo = false;
+
+  void Function()? setShowInfo;
 
   RosaryModel({
     this.error,
     this.loading,
     this.titleFontSize,
     this.contentFontSize,
+    this.showInfo,
   });
 
   @override
@@ -23,6 +27,7 @@ class RosaryModel extends BaseUIModel<RosaryModel> {
         loading: loading,
         titleFontSize: titleFontSize,
         contentFontSize: contentFontSize,
+        showInfo: showInfo,
       );
 
   @override
@@ -31,6 +36,7 @@ class RosaryModel extends BaseUIModel<RosaryModel> {
         loading,
         titleFontSize,
         contentFontSize,
+        showInfo,
       ]);
 
   @override
@@ -41,5 +47,6 @@ class RosaryModel extends BaseUIModel<RosaryModel> {
           error == other.error &&
           loading == other.loading &&
           titleFontSize == other.titleFontSize &&
-          contentFontSize == other.contentFontSize;
+          contentFontSize == other.contentFontSize &&
+          showInfo == other.showInfo;
 }
