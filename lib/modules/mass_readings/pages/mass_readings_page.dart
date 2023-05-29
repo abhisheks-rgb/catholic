@@ -415,10 +415,22 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
 
                                 switch (key) {
                                   case 'Mass_Ps':
+                                  case 'Mass_Ps2':
+                                  case 'Mass_Ps3':
+                                  case 'Mass_Ps4':
                                     title = 'Responsorial Psalm';
                                     break;
                                   case 'Mass_R2':
                                     title = 'Second Reading';
+                                    break;
+                                  case 'Mass_R3':
+                                    title = 'Third Reading';
+                                    break;
+                                  case 'Mass_R4':
+                                    title = 'Fourth Reading';
+                                    break;
+                                  case 'Mass_R5':
+                                    title = 'Fifth Reading';
                                     break;
                                   case 'Mass_GA':
                                     title = 'Gospel Acclamation';
