@@ -45,10 +45,10 @@ class HomePage extends BaseStatefulPageView {
   initInfo() {
     var androidInitialize =
         const AndroidInitializationSettings('@mipmap/ic_launcher');
-    // var iOSInitialize = const DarwinInitializationSettings();
+    var iOSInitialize = const DarwinInitializationSettings();
     var initializationSettings = InitializationSettings(
       android: androidInitialize,
-      // iOS: iOSInitialize,
+      iOS: iOSInitialize,
     );
 
     FlutterLocalNotificationsPlugin().initialize(initializationSettings,
@@ -251,6 +251,33 @@ class HomePage extends BaseStatefulPageView {
                                 height: 20,
                                 child: Image.asset(
                                   assetPath('font-size.png'),
+                                  color: const Color.fromRGBO(4, 26, 82, 1),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
+                  specs.showInfo!
+                      ? RawMaterialButton(
+                          constraints: const BoxConstraints(),
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          onPressed: () async {
+                            model?.setShowInfo!();
+                          },
+                          child: Container(
+                            width: 40,
+                            decoration: const BoxDecoration(
+                              color: Colors.transparent,
+                            ),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: Image.asset(
+                                  assetPath('info.png'),
                                   color: const Color.fromRGBO(4, 26, 82, 1),
                                 ),
                               ),

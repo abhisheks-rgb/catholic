@@ -4,6 +4,7 @@ import 'package:butter/butter.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
 import '../models/events_list_model.dart';
+import '../models/my_event_model.dart';
 
 class ListEventsAction extends BaseAction {
   ListEventsAction();
@@ -40,6 +41,12 @@ class ListEventsAction extends BaseAction {
 
     await Future.delayed(const Duration(seconds: 1), () async {
       await dispatchModel<EventsListModel>(EventsListModel(), (m) {
+        m.error = error;
+        m.loading = false;
+        m.events = records;
+      });
+
+      await dispatchModel<MyEventModel>(MyEventModel(), (m) {
         m.error = error;
         m.loading = false;
         m.events = records;

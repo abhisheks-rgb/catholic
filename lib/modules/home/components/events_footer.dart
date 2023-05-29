@@ -34,35 +34,80 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
           ],
         ),
         child: widget.model!.isEventRegister
-            ? RawMaterialButton(
-                constraints: const BoxConstraints(),
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                onPressed: () {},
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: const Color.fromRGBO(12, 72, 224, 1),
-                    ),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                    color: const Color.fromRGBO(12, 72, 224, 1),
-                  ),
-                  child: const Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Submit',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: RawMaterialButton(
+                      constraints: const BoxConstraints(),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      onPressed: () async {
+                        await Navigator.of(context).maybePop();
+                        widget.model?.discardBooking!();
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: const Color.fromRGBO(4, 26, 82, 0.05),
+                          ),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                          color: const Color.fromRGBO(4, 26, 82, 0.05),
+                        ),
+                        child: const Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Back',
+                            style: TextStyle(
+                              color: Color.fromRGBO(4, 26, 82, 1),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: RawMaterialButton(
+                      constraints: const BoxConstraints(),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      onPressed: () {
+                        widget.model?.setBookingFormView!();
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: const Color.fromRGBO(12, 72, 224, 1),
+                          ),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                          color: const Color.fromRGBO(12, 72, 224, 1),
+                        ),
+                        child: const Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Next',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               )
             : Row(
                 children: [
@@ -170,7 +215,7 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                         child: const Align(
                           alignment: Alignment.center,
                           child: Text(
-                            'Register',
+                            'Book',
                             style: TextStyle(
                               color: Color.fromRGBO(12, 72, 224, 1),
                               fontWeight: FontWeight.w500,

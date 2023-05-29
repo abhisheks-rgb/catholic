@@ -2,17 +2,21 @@ import 'package:butter/butter.dart';
 
 class EventRegisterModel extends BaseUIModel<EventRegisterModel> {
   Map<dynamic, dynamic>? item;
+  String? bookingFormView;
   //
   String? error;
   bool? loading;
+  Map? formObj;
+  late Function({bool? isEventRegister}) setIsEventRegister;
+  late Future<void> Function(Map formObj) setFormObj;
 
   EventRegisterModel({
     this.error,
     this.loading,
     this.item,
+    this.formObj,
+    this.bookingFormView = 'bookingForm',
   });
-
-  late Function({bool? isEventRegister}) setIsEventRegister;
 
   @override
   String get $key => '/event_register';
@@ -22,6 +26,8 @@ class EventRegisterModel extends BaseUIModel<EventRegisterModel> {
         error: error,
         loading: loading,
         item: item,
+        formObj: formObj,
+        bookingFormView: bookingFormView,
       );
 
   @override
@@ -29,6 +35,8 @@ class EventRegisterModel extends BaseUIModel<EventRegisterModel> {
         error,
         loading,
         item,
+        formObj,
+        bookingFormView,
       ]);
 
   @override
@@ -38,5 +46,7 @@ class EventRegisterModel extends BaseUIModel<EventRegisterModel> {
           runtimeType == other.runtimeType &&
           error == other.error &&
           loading == other.loading &&
-          item == other.item;
+          item == other.item &&
+          formObj == other.formObj &&
+          bookingFormView == other.bookingFormView;
 }

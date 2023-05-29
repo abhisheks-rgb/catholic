@@ -4,6 +4,8 @@ import 'package:butter/butter.dart';
 
 import '../../mass_readings/models/mass_readings_model.dart';
 import '../../scripture/models/scripture_details_model.dart';
+import '../../confession/models/confession_model.dart';
+import '../../devotion/rosary/models/rosary_model.dart';
 
 class SetFontSizeAction extends BaseAction {
   SetFontSizeAction();
@@ -28,8 +30,8 @@ class SetFontSizeAction extends BaseAction {
       titlefontsize = defaultTitleFontSize * 1.4;
       contentfontsize = defaultContentFontSize * 1.4;
     } else if (m.titleFontSize == defaultTitleFontSize * 1.4) {
-      titlefontsize = defaultTitleFontSize * 0.8;
-      contentfontsize = defaultContentFontSize * 0.8;
+      titlefontsize = defaultTitleFontSize * 1.6;
+      contentfontsize = defaultContentFontSize * 1.6;
     } else {
       titlefontsize = defaultTitleFontSize;
       contentfontsize = defaultContentFontSize;
@@ -41,6 +43,16 @@ class SetFontSizeAction extends BaseAction {
     });
 
     dispatchModel<ScriptureDetailsModel>(ScriptureDetailsModel(), (m) {
+      m.titleFontSize = titlefontsize;
+      m.contentFontSize = contentfontsize;
+    });
+
+    dispatchModel<RosaryModel>(RosaryModel(), (m) {
+      m.titleFontSize = titlefontsize;
+      m.contentFontSize = contentfontsize;
+    });
+
+    dispatchModel<ConfessionModel>(ConfessionModel(), (m) {
       m.titleFontSize = titlefontsize;
       m.contentFontSize = contentfontsize;
     });

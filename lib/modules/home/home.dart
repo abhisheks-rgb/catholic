@@ -16,6 +16,8 @@ import '../login/login.dart';
 import '../profile/profile.dart';
 import '../events/events.dart';
 import '../notification/notification.dart';
+import '../devotion/devotion.dart';
+import '../confession/confession.dart';
 
 class Home extends BaseModule {
   Home()
@@ -44,6 +46,8 @@ class Home extends BaseModule {
             '/_/profile': Profile(),
             '/_/events': Events(),
             '/_/notification': Notification(),
+            '/_/devotion': Devotion(),
+            '/_/confession': Confession(),
           },
         );
 }

@@ -1,6 +1,7 @@
 import 'package:butter/butter.dart';
 
 class NotificationModel extends BaseUIModel<NotificationModel> {
+  late void Function(String route) showPage;
   //
   String? error;
   bool? loading;
