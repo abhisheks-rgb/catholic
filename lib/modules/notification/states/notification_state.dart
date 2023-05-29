@@ -38,5 +38,8 @@ class NotificationState extends BasePageState<NotificationModel> {
                 ),
           ), (m) {
         // Load all your model's handlers here
+        m.showPage = (route) async {
+          pushNamed(route);
+        };
       });
 }

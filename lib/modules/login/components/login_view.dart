@@ -16,6 +16,7 @@ class LoginView extends BaseStatefulPageView {
 
 class _LoginViewState extends State<LoginView> {
   final formKey = GlobalKey<FormState>();
+  bool obscureText = true;
   List<Map<String, dynamic>> items = [
     {
       'label': 'EMAIL',
@@ -213,8 +214,9 @@ class _LoginViewState extends State<LoginView> {
                               controller: element['label'] == 'EMAIL'
                                   ? loginEmail
                                   : loginPassword,
-                              obscureText:
-                                  element['label'] == 'EMAIL' ? false : true,
+                              obscureText: element['label'] == 'EMAIL'
+                                  ? false
+                                  : obscureText,
                               decoration: InputDecoration(
                                 hintText: element['hintText'] ?? '',
                                 border: const OutlineInputBorder(
@@ -223,6 +225,22 @@ class _LoginViewState extends State<LoginView> {
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
+                                suffixIcon: element['label'] == 'EMAIL'
+                                    ? null
+                                    : IconButton(
+                                        icon: Icon(
+                                          obscureText
+                                              ? Icons.visibility
+                                              : Icons.visibility_off,
+                                          color: const Color.fromRGBO(
+                                              4, 26, 82, 0.5),
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            obscureText = !obscureText;
+                                          });
+                                        },
+                                      ),
                               ),
                               validator: (value) {
                                 if (value!.isEmpty) {

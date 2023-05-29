@@ -15,7 +15,6 @@ class ViewEventDetailsAction extends BaseAction {
   @override
   Future<AppState?> reduce() async {
     String? error;
-
     await dispatchModel<EventDetailsModel>(EventDetailsModel(), (m) {
       m.error = error;
       m.item = event;

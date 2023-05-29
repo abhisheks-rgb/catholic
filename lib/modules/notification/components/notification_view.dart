@@ -126,8 +126,6 @@ class NotificationView extends BaseStatelessPageView {
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.symmetric(
                           vertical: 0, horizontal: 20),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 16, horizontal: 20),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: Colors.white,
@@ -139,46 +137,75 @@ class NotificationView extends BaseStatelessPageView {
                           ),
                         ],
                       ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          element['isRead']
-                              ? SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: Image.asset(
-                                    assetPath('notification_read.png'),
-                                    color: const Color.fromRGBO(4, 26, 82, 0.5),
-                                  ),
-                                )
-                              : SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: Image.asset(
-                                    assetPath('notification_unread.png'),
-                                  ),
-                                ),
-                          const SizedBox(width: 10),
-                          Flexible(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      element['from'],
-                                      style: TextStyle(
-                                        color: element['isRead']
-                                            ? const Color.fromRGBO(
-                                                4, 26, 82, 0.5)
-                                            : const Color.fromRGBO(
-                                                10, 62, 194, 1),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
+                      child: RawMaterialButton(
+                        constraints: const BoxConstraints(),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        onPressed: () {
+                          model?.showPage('/_/notification/details');
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 20),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              element['isRead']
+                                  ? SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: Image.asset(
+                                        assetPath('notification_read.png'),
+                                        color: const Color.fromRGBO(
+                                            4, 26, 82, 0.5),
+                                      ),
+                                    )
+                                  : SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: Image.asset(
+                                        assetPath('notification_unread.png'),
                                       ),
                                     ),
+                              const SizedBox(width: 10),
+                              Flexible(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          element['from'],
+                                          style: TextStyle(
+                                            color: element['isRead']
+                                                ? const Color.fromRGBO(
+                                                    4, 26, 82, 0.5)
+                                                : const Color.fromRGBO(
+                                                    10, 62, 194, 1),
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        Text(
+                                          ' posted ${element['date']}',
+                                          style: TextStyle(
+                                            color: element['isRead']
+                                                ? const Color.fromRGBO(
+                                                    4, 26, 82, 0.5)
+                                                : const Color.fromRGBO(
+                                                    10, 62, 194, 1),
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 8),
                                     Text(
-                                      ' posted ${element['date']}',
+                                      element['content'],
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
                                       style: TextStyle(
                                         color: element['isRead']
                                             ? const Color.fromRGBO(
@@ -190,22 +217,10 @@ class NotificationView extends BaseStatelessPageView {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  element['content'],
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                    color: element['isRead']
-                                        ? const Color.fromRGBO(4, 26, 82, 0.5)
-                                        : const Color.fromRGBO(10, 62, 194, 1),
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   ],

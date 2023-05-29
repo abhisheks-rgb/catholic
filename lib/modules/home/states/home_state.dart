@@ -6,6 +6,7 @@ import '../actions/select_menu_item_action.dart';
 import '../actions/set_font_size_action.dart';
 import '../actions/set_interest_action.dart';
 import '../models/home_model.dart';
+import '../../devotion/rosary/models/rosary_model.dart';
 import '../../events/models/event_register_model.dart';
 
 class HomeState extends BasePageState<HomeModel> {
@@ -58,6 +59,32 @@ class HomeState extends BasePageState<HomeModel> {
         };
         m.setPageFontSize = () {
           dispatchAction(SetFontSizeAction());
+        };
+        m.discardBooking = () {
+          dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
+            m.bookingFormView = 'bookingForm';
+          });
+        };
+        m.setBookingFormView = () {
+          final m = read<EventRegisterModel>(EventRegisterModel());
+
+          String bookingView;
+
+          if (m.bookingFormView == 'bookingForm') {
+            bookingView = 'bookingFormReview';
+          } else {
+            bookingView = 'bookingForm';
+          }
+
+          dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
+            m.bookingFormView = bookingView;
+          });
+        };
+        m.setFormInput = (formInputValue) {};
+        m.setShowInfo = () {
+          dispatchModel<RosaryModel>(RosaryModel(), (m) {
+            m.showInfo = true;
+          });
         };
         m.selectMenuItem = ({
           allowSameId = true,

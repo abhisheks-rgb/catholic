@@ -26,7 +26,7 @@ class _EventsViewState extends State<EventsView> {
       {
         'title': 'My Events',
         'icon': 'My_Events.png',
-        'route': 'mass_readings',
+        'route': 'events/myEvents',
       },
     ];
 
