@@ -7,6 +7,7 @@ class PageSpecs extends BasePageSpecs {
   bool? hasAppBar;
   bool? showProfile;
   bool? showFontSetting;
+  bool? showInfo;
   bool? leadingLogo;
   String? title;
   String? shortTitle;
@@ -25,6 +26,7 @@ class PageSpecs extends BasePageSpecs {
     this.hasAppBar = true,
     this.showProfile = false,
     this.showFontSetting = false,
+    this.showInfo = false,
     this.leadingLogo = false,
     this.shortTitle,
     this.title,

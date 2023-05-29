@@ -28,6 +28,7 @@ class RosaryPage extends BaseStatefulPageView {
         showProfile: false,
         leadingLogo: false,
         showFontSetting: true,
+        showInfo: true,
         title: 'Rosary',
       ));
 
