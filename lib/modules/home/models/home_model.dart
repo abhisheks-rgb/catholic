@@ -18,7 +18,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
   void Function()? setBookingFormView;
   void Function()? setPageFontSize;
   void Function(Map formInputValue)? setFormInput;
-  void Function()? setShowInfo;
+  void Function(String route)? setShowInfo;
 
   late Future<void> Function(BuildContext context) initialize;
   late Future<void> Function() initializeTodayIs;

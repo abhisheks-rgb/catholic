@@ -196,25 +196,6 @@ class _RosaryViewState extends State<RosaryView> {
     checkDay();
   }
 
-  @override
-  void didUpdateWidget(RosaryView oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (widget.model?.showInfo != null) {
-      if (widget.model?.showInfo == true &&
-          widget.model?.showInfo != oldWidget.model?.showInfo) {
-        widget.model!.setShowInfo!();
-        handleShowInfo();
-      }
-    }
-  }
-
-  void handleShowInfo() async {
-    await Future.delayed(const Duration(milliseconds: 500), () async {
-      showInfo();
-    });
-  }
-
   void checkDay() {
     for (var e in mystries) {
       if (e['days'].contains(DateFormat('EEEE').format(DateTime.now()))) {
@@ -228,6 +209,30 @@ class _RosaryViewState extends State<RosaryView> {
         }
       }
     }
+  }
+
+  @override
+  void didUpdateWidget(RosaryView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.model?.showInfo != null) {
+      if (widget.model?.showInfo == true &&
+          widget.model?.showInfo != oldWidget.model?.showInfo) {
+        handleShowInfo();
+      }
+    }
+  }
+
+  void handleShowInfo() async {
+    await Future.delayed(const Duration(milliseconds: 500), () async {
+      showInfo();
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    widget.model!.setShowInfo!();
   }
 
   @override
@@ -1080,5 +1085,7 @@ class _RosaryViewState extends State<RosaryView> {
             ),
           ),
         ),
-      );
+      ).then((value) {
+        widget.model!.setShowInfo!();
+      });
 }

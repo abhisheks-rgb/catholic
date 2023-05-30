@@ -6,6 +6,7 @@ import '../actions/select_menu_item_action.dart';
 import '../actions/set_font_size_action.dart';
 import '../actions/set_interest_action.dart';
 import '../models/home_model.dart';
+import '../../confession/models/confession_model.dart';
 import '../../devotion/rosary/models/rosary_model.dart';
 import '../../events/models/event_register_model.dart';
 
@@ -81,10 +82,20 @@ class HomeState extends BasePageState<HomeModel> {
           });
         };
         m.setFormInput = (formInputValue) {};
-        m.setShowInfo = () {
-          dispatchModel<RosaryModel>(RosaryModel(), (m) {
-            m.showInfo = true;
-          });
+        m.setShowInfo = (String route) {
+          switch (route) {
+            case '/_/devotion/rosary':
+              dispatchModel<RosaryModel>(RosaryModel(), (m) {
+                m.showInfo = true;
+              });
+              break;
+            case '/_/confession':
+              dispatchModel<ConfessionModel>(ConfessionModel(), (m) {
+                m.showInfo = true;
+              });
+              break;
+            default:
+          }
         };
         m.selectMenuItem = ({
           allowSameId = true,
