@@ -109,7 +109,7 @@ class _DevotionPageState extends State<DevotionView> {
                 ),
                 Container(
                   width: double.infinity,
-                  height: 165,
+                  height: 155,
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
