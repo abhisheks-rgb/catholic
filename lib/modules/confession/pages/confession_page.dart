@@ -29,6 +29,7 @@ class ConfessionPage extends BaseStatefulPageView {
         showProfile: false,
         leadingLogo: false,
         showFontSetting: true,
+        showInfo: true,
         title: 'Confession',
       ));
 

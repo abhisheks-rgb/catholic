@@ -38,5 +38,10 @@ class ConfessionState extends BasePageState<ConfessionModel> {
                 ),
           ), (m) {
         // Load all your model's handlers here
+        m.setShowInfo = () {
+          dispatchModel<ConfessionModel>(ConfessionModel(), (m) {
+            m.showInfo = false;
+          });
+        };
       });
 }
