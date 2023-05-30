@@ -149,11 +149,16 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     onPressed: () {
-                      if (widget.model?.selectedEventDetail!['hasLiked'] ==
-                          false) {
-                        widget.model?.setInterestEvent!(
-                            widget.model?.selectedEventDetail!['parentEventId'],
-                            widget.model?.selectedEventDetail!['eventId']);
+                      if (widget.model?.user != null) {
+                        if (widget.model?.selectedEventDetail!['hasLiked'] ==
+                            false) {
+                          widget.model?.setInterestEvent!(
+                              widget
+                                  .model?.selectedEventDetail!['parentEventId'],
+                              widget.model?.selectedEventDetail!['eventId']);
+                        }
+                      } else {
+                        widget.model?.showPage('/_/login');
                       }
                     },
                     child: AspectRatio(
@@ -200,8 +205,12 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       onPressed: () {
-                        widget.model?.navigateToEventRegister!(
-                            widget.model?.selectedEventDetail);
+                        if (widget.model?.user != null) {
+                          widget.model?.navigateToEventRegister!(
+                              widget.model?.selectedEventDetail);
+                        } else {
+                          widget.model?.showPage('/_/login');
+                        }
                       },
                       child: Container(
                         decoration: BoxDecoration(

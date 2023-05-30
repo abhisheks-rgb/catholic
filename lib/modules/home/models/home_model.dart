@@ -14,6 +14,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
   bool isEventRegister;
   Map<dynamic, dynamic>? selectedEventDetail;
 
+  late void Function(String route) showPage;
   void Function()? discardBooking;
   void Function()? setBookingFormView;
   void Function()? setPageFontSize;

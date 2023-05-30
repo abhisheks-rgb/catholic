@@ -47,10 +47,9 @@ class HomeState extends BasePageState<HomeModel> {
                 ),
           ), (m) {
         // Load all your model's handlers here
-        // m.dispatch = (action) => dispatchAction(action);
-        // m.read = <T extends BaseUIModel>(T o) {
-        //   return read(o);
-        // };
+        m.showPage = (route) async {
+          pushNamed(route);
+        };
         m.initialize =
             (context) => dispatchAction(InitializeAction(context: context));
         m.initializeTodayIs = () => dispatchAction(InitializeTodayIs());
