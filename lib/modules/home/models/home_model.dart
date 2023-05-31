@@ -10,15 +10,16 @@ class HomeModel extends BaseUIModel<HomeModel> {
   bool isFullScreen;
   int selectedIndex;
   DateTime? todayIsLastUpdate;
+
   bool isEventDetails;
   bool isEventRegister;
   Map<dynamic, dynamic>? selectedEventDetail;
+  String? bookingFormView;
 
   late void Function(String route) showPage;
   void Function()? discardBooking;
   void Function()? setBookingFormView;
   void Function()? setPageFontSize;
-  void Function(Map formInputValue)? setFormInput;
   void Function(String route)? setShowInfo;
 
   late Future<void> Function(BuildContext context) initialize;
@@ -33,6 +34,8 @@ class HomeModel extends BaseUIModel<HomeModel> {
   })? selectMenuItem;
   void Function(Map<Object?, Object?>? event)? navigateToEventRegister;
   void Function(String parentEventId, String eventId)? setInterestEvent;
+  late Future<void> Function()? submitFormEvent;
+  void Function()? closeSuccessPrompt;
 
   Future<void> Function(BaseAction action)? dispatch;
   T? Function<T extends BaseUIModel>(T m)? read;
@@ -49,6 +52,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
     this.isEventDetails = false,
     this.isEventRegister = false,
     this.selectedEventDetail,
+    this.bookingFormView = 'bookingForm',
   });
 
   @override
@@ -67,6 +71,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
         isEventDetails: isEventDetails,
         isEventRegister: isEventRegister,
         selectedEventDetail: selectedEventDetail,
+        bookingFormView: bookingFormView,
       );
 
   @override
@@ -82,6 +87,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
         isEventDetails,
         isEventRegister,
         selectedEventDetail,
+        bookingFormView,
       ]);
 
   //
@@ -102,5 +108,6 @@ class HomeModel extends BaseUIModel<HomeModel> {
           todayIsLastUpdate == other.todayIsLastUpdate &&
           isEventDetails == other.isEventDetails &&
           isEventRegister == other.isEventRegister &&
-          selectedEventDetail == other.selectedEventDetail;
+          selectedEventDetail == other.selectedEventDetail &&
+          bookingFormView == other.bookingFormView;
 }

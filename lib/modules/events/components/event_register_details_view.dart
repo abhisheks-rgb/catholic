@@ -166,7 +166,8 @@ class _EventRegisterDetailsViewState extends State<EventRegisterDetailsView> {
           fontSize: 16,
         ),
       );
-    } else if (element['element'] == 'RadioButtons') {
+    } else if (element['element'] == 'RadioButtons' ||
+        element['element'] == 'Dropdown') {
       return Text(
         '${element['label']}: ${_getRadioButtonValue(element['options'], widget.model?.formObj![element['field_name']])}',
         style: const TextStyle(

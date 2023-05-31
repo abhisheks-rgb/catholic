@@ -1,10 +1,12 @@
 import 'package:butter/butter.dart';
+import 'package:intl/intl.dart';
 
 import '../actions/initialize_action.dart';
 import '../actions/initialize_todayis.dart';
 import '../actions/select_menu_item_action.dart';
 import '../actions/set_font_size_action.dart';
 import '../actions/set_interest_action.dart';
+import '../actions/submit_event_form_action.dart';
 import '../models/home_model.dart';
 import '../../confession/models/confession_model.dart';
 import '../../devotion/rosary/models/rosary_model.dart';
@@ -80,8 +82,46 @@ class HomeState extends BasePageState<HomeModel> {
           dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
             m.bookingFormView = bookingView;
           });
+          dispatchModel<HomeModel>(HomeModel(), (m) {
+            m.bookingFormView = bookingView;
+          });
         };
-        m.setFormInput = (formInputValue) {};
+        m.submitFormEvent = () async {
+          final m = read<EventRegisterModel>(EventRegisterModel());
+
+          List formResponse = [];
+          m.formObj?.forEach((key, value) {
+            formResponse.add({
+              'fieldId': key,
+              'value': value.runtimeType == DateTime
+                  ? DateFormat('d MMM y').format(value)
+                  : value,
+              'label': m.item!['eventFormContent'].firstWhere((option) {
+                return option['field_name'] == key;
+              })['label'],
+            });
+          });
+
+          dispatchAction(SubmitEventFormAction(
+            eventId: m.item!['eventId'],
+            formResponse: formResponse,
+          ));
+        };
+        m.closeSuccessPrompt = () {
+          dispatchModel<HomeModel>(HomeModel(), (m) {
+            m.isEventRegister = false;
+            m.isEventDetails = false;
+            m.bookingFormView = 'bookingForm';
+            m.loading = false;
+          });
+
+          dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
+            m.bookingFormView = 'bookingForm';
+            m.formObj = {};
+          });
+
+          pushNamed('/_/events/list');
+        };
         m.setShowInfo = (String route) {
           switch (route) {
             case '/_/devotion/rosary':
