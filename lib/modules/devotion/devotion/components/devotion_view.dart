@@ -35,11 +35,11 @@ class _DevotionPageState extends State<DevotionView> {
       //   'subTitle': 'Prayer Guide • What is Angelus?',
       //   'route': 'angelus',
       // },
-      // {
-      //   'title': 'Divine Mercy Prayer',
-      //   'subTitle': 'What is Rosary? • Prayer Guide',
-      //   'route': 'prayer',
-      // },
+      {
+        'title': 'Divine Mercy Prayer',
+        'subTitle': 'What is Rosary? • Prayer Guide',
+        'route': 'divine_mercy_prayer',
+      },
     ];
     return Scaffold(
       body: SafeArea(
