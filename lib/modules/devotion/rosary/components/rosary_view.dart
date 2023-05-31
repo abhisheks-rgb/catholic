@@ -921,7 +921,7 @@ class _RosaryViewState extends State<RosaryView> {
                   children: [
                     const Expanded(
                       child: Text(
-                        'What is a Rosary?',
+                        'Select Mystery',
                         style: TextStyle(
                           color: Color.fromRGBO(4, 26, 82, 1),
                           fontWeight: FontWeight.w500,
@@ -1046,13 +1046,13 @@ class _RosaryViewState extends State<RosaryView> {
                     children: [
                       Row(
                         children: [
-                          const Expanded(
+                          Expanded(
                             child: Text(
                               'What is a Rosary?',
                               style: TextStyle(
-                                color: Color.fromRGBO(4, 26, 82, 1),
+                                color: const Color.fromRGBO(4, 26, 82, 1),
                                 fontWeight: FontWeight.w500,
-                                fontSize: 18,
+                                fontSize: widget.model!.titleFontSize ?? 20,
                               ),
                             ),
                           ),
