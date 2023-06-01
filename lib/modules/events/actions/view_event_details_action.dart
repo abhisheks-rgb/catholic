@@ -4,6 +4,7 @@ import 'package:butter/butter.dart';
 
 import '../models/event_details_model.dart';
 import '../../home/models/home_model.dart';
+import './list_event_detail_action.dart';
 
 class ViewEventDetailsAction extends BaseAction {
   final Map<dynamic, dynamic>? event;
@@ -14,16 +15,7 @@ class ViewEventDetailsAction extends BaseAction {
   // https://pub.dev/packages/async_redux/#async-reducer
   @override
   Future<AppState?> reduce() async {
-    String? error;
-    await dispatchModel<EventDetailsModel>(EventDetailsModel(), (m) {
-      m.error = error;
-      m.item = event;
-    });
-
-    await dispatchModel<HomeModel>(HomeModel(), (m) {
-      m.isEventDetails = true;
-      m.selectedEventDetail = event;
-    });
+    await dispatchAction(ListEventDetailAction(eventId: event!['eventId']));
 
     pushNamed('/_/events/details');
 

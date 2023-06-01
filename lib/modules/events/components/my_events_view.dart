@@ -14,9 +14,12 @@ class MyEventsView extends BaseStatefulPageView {
       : _items = List.generate(model?.events?.length ?? 0,
                 (index) => model?.events![index] as Map)
             .where((item) => item['hasLiked'] == true)
-            .toList(),
+            .toList()
+          ..sort((a, b) =>
+              b['startDate']['_seconds'].compareTo(a['startDate']['_seconds'])),
         _bookingItems = List.generate(model?.bookings?.length ?? 0,
-            (index) => model?.bookings![index] as Map),
+            (index) => model?.bookings![index] as Map)
+          ..sort((a, b) => b['startDateTime'].compareTo(a['startDateTime'])),
         super();
 
   @override
@@ -55,7 +58,7 @@ class _EventsViewState extends State<MyEventsView>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: const EdgeInsets.fromLTRB(54, 8, 54, 16),
+                margin: const EdgeInsets.fromLTRB(54, 8, 54, 8),
                 width: double.infinity,
                 child: TabBar(
                   controller: _controller,
@@ -93,14 +96,14 @@ class _EventsViewState extends State<MyEventsView>
                   ),
                 ),
               ),
-              Expanded(
+              Flexible(
                 child: TabBarView(
                   controller: _controller,
                   children: [
                     // ignore: unnecessary_null_comparison
                     widget.model?.loading == true && widget._items != null
                         ? Container(
-                            height: MediaQuery.of(context).size.height * 0.3,
+                            height: MediaQuery.of(context).size.height * 0.1,
                             margin: const EdgeInsets.only(top: 20),
                             child: const Center(
                                 child: CircularProgressIndicator()),
@@ -110,13 +113,13 @@ class _EventsViewState extends State<MyEventsView>
                         widget._items == null
                             ? _renderEmptyEvents()
                             : Container(
-                                margin: const EdgeInsets.symmetric(
-                                    vertical: 16, horizontal: 20),
+                                margin:
+                                    const EdgeInsets.fromLTRB(20, 16, 20, 160),
                                 child: SingleChildScrollView(
                                   physics: const ClampingScrollPhysics(),
                                   child: Column(
                                     children: widget._items.map<Widget>((e) {
-                                      return _renderEventItem(e);
+                                      return _renderEventItem(e, true);
                                     }).toList(),
                                   ),
                                 ),
@@ -125,7 +128,7 @@ class _EventsViewState extends State<MyEventsView>
                             // ignore: unnecessary_null_comparison
                             widget._bookingItems != null
                         ? Container(
-                            height: MediaQuery.of(context).size.height * 0.3,
+                            height: MediaQuery.of(context).size.height * 0.1,
                             margin: const EdgeInsets.only(top: 20),
                             child: const Center(
                                 child: CircularProgressIndicator()),
@@ -135,14 +138,14 @@ class _EventsViewState extends State<MyEventsView>
                         widget._bookingItems == null
                             ? _renderEmptyEvents()
                             : Container(
-                                margin: const EdgeInsets.symmetric(
-                                    vertical: 16, horizontal: 20),
+                                margin:
+                                    const EdgeInsets.fromLTRB(20, 16, 20, 160),
                                 child: SingleChildScrollView(
                                   physics: const ClampingScrollPhysics(),
                                   child: Column(
                                     children:
                                         widget._bookingItems.map<Widget>((e) {
-                                      return _renderEventItem(e);
+                                      return _renderEventItem(e, false);
                                     }).toList(),
                                   ),
                                 ),
@@ -181,14 +184,22 @@ class _EventsViewState extends State<MyEventsView>
         ],
       );
 
-  Widget _renderEventItem(element) {
-    DateTime eventDate = element['bookingStartDate'] != null
+  Widget _renderEventItem(element, isInterested) {
+    DateTime eventDate = element['startDate'] != null
         ? DateTime.fromMillisecondsSinceEpoch(
-            element['bookingStartDate']['_seconds'] * 1000)
+            element['startDate']['_seconds'] * 1000)
         : DateTime.now();
-    String formattedDate = element['bookingStartDate'] != null
-        ? DateFormat('d MMM, hh a').format(eventDate)
-        : '';
+
+    if (!isInterested) {
+      element['eventDate'] != null
+          ? element['eventDate']['seconds'] != null
+              ? eventDate = DateTime.fromMillisecondsSinceEpoch(
+                  element['eventDate']['seconds'] * 1000)
+              : eventDate = DateTime.fromMillisecondsSinceEpoch(
+                  element['eventDate']['_seconds'] * 1000)
+          : eventDate = DateTime.now();
+    }
+    String formattedDate = DateFormat('d MMM, hh a').format(eventDate);
 
     return Column(
       children: [
@@ -238,14 +249,12 @@ class _EventsViewState extends State<MyEventsView>
                         const SizedBox(height: 26),
                         Row(
                           children: [
-                            element['bookingStartDate'] != null
-                                ? Text(
-                                    formattedDate,
-                                    style: const TextStyle(
-                                      color: Color.fromRGBO(236, 74, 70, 1),
-                                    ),
-                                  )
-                                : const SizedBox(),
+                            Text(
+                              formattedDate,
+                              style: const TextStyle(
+                                color: Color.fromRGBO(236, 74, 70, 1),
+                              ),
+                            ),
                             const Spacer(),
                             Container(
                               padding: const EdgeInsets.symmetric(
@@ -276,30 +285,106 @@ class _EventsViewState extends State<MyEventsView>
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: Icon(
-                                Octicons.star_fill,
-                                color: Color.fromRGBO(4, 26, 82, 0.7),
-                                // color: isSelected
-                                //     ? Colors.white
-                                //     : const Color.fromRGBO(4, 26, 82, 0.7),
-                                size: 20,
+                        isInterested
+                            ? Row(
+                                children: [
+                                  SizedBox(
+                                    width: 16,
+                                    height: 16,
+                                    child: Icon(
+                                      Octicons.star_fill,
+                                      color: element['hasLiked'] == true
+                                          ? const Color.fromRGBO(12, 72, 224, 1)
+                                          : const Color.fromRGBO(
+                                              4, 26, 82, 0.7),
+                                      size: 16,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    element['hasLiked'] == true
+                                        ? 'Interested'
+                                        : '${element['interested']} interested',
+                                    style: const TextStyle(
+                                      color: Color.fromRGBO(4, 26, 82, 1),
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  element['hasBooked'] != null &&
+                                          element['hasBooked'] == true
+                                      ? const SizedBox(
+                                          width: 16,
+                                          height: 16,
+                                          child: Icon(
+                                            Ionicons.checkmark_circle,
+                                            color:
+                                                Color.fromRGBO(0, 205, 82, 1),
+                                            size: 16,
+                                          ),
+                                        )
+                                      : const SizedBox(),
+                                  element['hasBooked'] != null &&
+                                          element['hasBooked'] == true
+                                      ? const Text(
+                                          'Booked',
+                                          style: TextStyle(
+                                            color: Color.fromRGBO(4, 26, 82, 1),
+                                          ),
+                                        )
+                                      : const Spacer(),
+                                ],
+                              )
+                            : Row(
+                                children: [
+                                  element['hasBooked'] != null &&
+                                          element['hasBooked'] == true
+                                      ? const SizedBox(
+                                          width: 16,
+                                          height: 16,
+                                          child: Icon(
+                                            Ionicons.checkmark_circle,
+                                            color:
+                                                Color.fromRGBO(0, 205, 82, 1),
+                                            size: 16,
+                                          ),
+                                        )
+                                      : const SizedBox(),
+                                  element['hasBooked'] != null &&
+                                          element['hasBooked'] == true
+                                      ? const Text(
+                                          'Booked',
+                                          style: TextStyle(
+                                            color: Color.fromRGBO(4, 26, 82, 1),
+                                          ),
+                                        )
+                                      : const Spacer(),
+                                  const Spacer(),
+                                  element['hasLiked'] == true
+                                      ? SizedBox(
+                                          width: 16,
+                                          height: 16,
+                                          child: Icon(
+                                            Octicons.star_fill,
+                                            color: element['hasLiked'] == true
+                                                ? const Color.fromRGBO(
+                                                    12, 72, 224, 1)
+                                                : const Color.fromRGBO(
+                                                    4, 26, 82, 0.7),
+                                            size: 16,
+                                          ),
+                                        )
+                                      : const SizedBox(),
+                                  const SizedBox(width: 4),
+                                  element['hasLiked'] == true
+                                      ? const Text(
+                                          'Interested',
+                                          style: TextStyle(
+                                            color: Color.fromRGBO(4, 26, 82, 1),
+                                          ),
+                                        )
+                                      : const SizedBox()
+                                ],
                               ),
-                            ),
-                            const SizedBox(width: 4),
-                            Text(
-                              '${element['interested']} interested',
-                              style: const TextStyle(
-                                color: Color.fromRGBO(4, 26, 82, 1),
-                              ),
-                            ),
-                            const Spacer(),
-                          ],
-                        ),
                         const SizedBox(height: 26),
                       ],
                     ),
