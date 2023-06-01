@@ -35,11 +35,11 @@ class _DevotionPageState extends State<DevotionView> {
       //   'subTitle': 'Prayer Guide • What is Angelus?',
       //   'route': 'angelus',
       // },
-      // {
-      //   'title': 'Divine Mercy Prayer',
-      //   'subTitle': 'What is Rosary? • Prayer Guide',
-      //   'route': 'prayer',
-      // },
+      {
+        'title': 'Divine Mercy Prayer',
+        'subTitle': 'What is Rosary? • Prayer Guide',
+        'route': 'divine_mercy_prayer',
+      },
     ];
     return Scaffold(
       body: SafeArea(
@@ -109,7 +109,7 @@ class _DevotionPageState extends State<DevotionView> {
                 ),
                 Container(
                   width: double.infinity,
-                  height: 165,
+                  height: 155,
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,

@@ -78,7 +78,7 @@ class _EventsViewState extends State<EventsListView> {
             ),
             Container(
               width: double.infinity,
-              margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+              margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
               child: Column(
                 children: [
                   const TextField(
@@ -302,7 +302,7 @@ class _EventsViewState extends State<EventsListView> {
                 children: [
                   Container(
                     width: 125,
-                    height: 140,
+                    height: 125,
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
@@ -312,9 +312,11 @@ class _EventsViewState extends State<EventsListView> {
                     child: Image.network(
                       element['eventImageUrl'],
                       fit: BoxFit.cover,
+                      width: 125,
+                      height: 125,
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: 14),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -361,14 +363,14 @@ class _EventsViewState extends State<EventsListView> {
                         Row(
                           children: [
                             SizedBox(
-                              width: 20,
-                              height: 20,
+                              width: 16,
+                              height: 16,
                               child: Icon(
                                 Octicons.star_fill,
                                 color: element['hasLiked'] == true
                                     ? const Color.fromRGBO(12, 72, 224, 1)
                                     : const Color.fromRGBO(4, 26, 82, 0.7),
-                                size: 20,
+                                size: 16,
                               ),
                             ),
                             const SizedBox(width: 4),
@@ -381,6 +383,27 @@ class _EventsViewState extends State<EventsListView> {
                               ),
                             ),
                             const Spacer(),
+                            element['hasBooked'] != null &&
+                                    element['hasBooked'] == true
+                                ? const SizedBox(
+                                    width: 16,
+                                    height: 16,
+                                    child: Icon(
+                                      Ionicons.checkmark_circle,
+                                      color: Color.fromRGBO(0, 205, 82, 1),
+                                      size: 16,
+                                    ),
+                                  )
+                                : const SizedBox(),
+                            element['hasBooked'] != null &&
+                                    element['hasBooked'] == true
+                                ? const Text(
+                                    'Booked',
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(4, 26, 82, 1),
+                                    ),
+                                  )
+                                : const Spacer(),
                           ],
                         ),
                         const SizedBox(height: 26),

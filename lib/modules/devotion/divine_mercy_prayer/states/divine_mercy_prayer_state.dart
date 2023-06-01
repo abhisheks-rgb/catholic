@@ -1,17 +1,18 @@
 import 'package:butter/butter.dart';
 
-import '../models/confession_model.dart';
+import '../models/divine_mercy_prayer_model.dart';
 
-class ConfessionState extends BasePageState<ConfessionModel> {
-  ConfessionState();
+class DivineMercyPrayerState extends BasePageState<DivineMercyPrayerModel> {
+  DivineMercyPrayerState();
 
-  ConfessionModel? model;
+  DivineMercyPrayerModel? model;
 
   // This constructor form is not properly enforced. Which means, if you do not
   // follow this, no errors will be produced in butter. However, this allows you to
   // properly fillup your models with valid function handlers after being read
   // from the store and before it is being fed to the page.
-  ConfessionState.build(this.model, void Function(ConfessionModel m) f)
+  DivineMercyPrayerState.build(
+      this.model, void Function(DivineMercyPrayerModel m) f)
       : super.build(model!, f);
 
   // Make sure to properly define this function. Otherwise, your reducers
@@ -19,7 +20,7 @@ class ConfessionState extends BasePageState<ConfessionModel> {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        other is ConfessionState &&
+        other is DivineMercyPrayerState &&
             runtimeType == other.runtimeType &&
             model == other.model;
   }
@@ -31,15 +32,15 @@ class ConfessionState extends BasePageState<ConfessionModel> {
       ]);
 
   @override
-  ConfessionState fromStore() => ConfessionState.build(
-          read<ConfessionModel>(
-            ConfessionModel(
+  DivineMercyPrayerState fromStore() => DivineMercyPrayerState.build(
+          read<DivineMercyPrayerModel>(
+            DivineMercyPrayerModel(
                 // Initialize your models here in case it is not available in the store yet
                 ),
           ), (m) {
         // Load all your model's handlers here
         m.setShowInfo = () {
-          dispatchModel<ConfessionModel>(ConfessionModel(), (m) {
+          dispatchModel<DivineMercyPrayerModel>(DivineMercyPrayerModel(), (m) {
             m.showInfo = false;
           });
         };

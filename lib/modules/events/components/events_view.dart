@@ -229,8 +229,13 @@ class _EventsViewState extends State<EventsView> {
                   itemBuilder: (_, int index) {
                     return InkWell(
                       onTap: () {
-                        Navigator.of(context)
-                            .pushNamed('/_/${exploreItems[index]['route']}');
+                        if (widget.model?.isLoggedIn != true &&
+                            exploreItems[index]['route'] == 'events/myEvents') {
+                          widget.model?.showPage('/_/login');
+                        } else {
+                          Navigator.of(context)
+                              .pushNamed('/_/${exploreItems[index]['route']}');
+                        }
                       },
                       child: Container(
                           height: 88,

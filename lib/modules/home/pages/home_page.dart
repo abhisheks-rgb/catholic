@@ -264,7 +264,8 @@ class HomePage extends BaseStatefulPageView {
                           materialTapTargetSize:
                               MaterialTapTargetSize.shrinkWrap,
                           onPressed: () async {
-                            model?.setShowInfo!();
+                            model?.setShowInfo!(
+                                ModalRoute.of(context)!.settings.name!);
                           },
                           child: Container(
                             width: 40,
