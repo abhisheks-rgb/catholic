@@ -221,8 +221,13 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                       ),
                       onPressed: () {
                         if (widget.model?.user != null) {
-                          widget.model?.navigateToEventRegister!(
-                              widget.model?.selectedEventDetail);
+                          if (widget.model?.selectedEventDetail!['hasBooked'] ==
+                              false) {
+                            widget.model?.navigateToEventRegister!(
+                                widget.model?.selectedEventDetail);
+                          } else {
+                            widget.model?.cancelFormEvent!();
+                          }
                         } else {
                           widget.model?.showPage('/_/login');
                         }
