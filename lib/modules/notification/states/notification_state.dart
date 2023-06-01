@@ -1,6 +1,8 @@
 import 'package:butter/butter.dart';
 
+import '../actions/list_announcements_action.dart';
 import '../models/notification_model.dart';
+import '../models/notification_details_model.dart';
 
 class NotificationState extends BasePageState<NotificationModel> {
   NotificationState();
@@ -38,8 +40,20 @@ class NotificationState extends BasePageState<NotificationModel> {
                 ),
           ), (m) {
         // Load all your model's handlers here
-        m.showPage = (route) async {
-          pushNamed(route);
+        m.showPage = ({route, element}) async {
+          dispatchModel<NotificationDetailsModel>(NotificationDetailsModel(),
+              (m) {
+            m.item = element;
+          });
+          pushNamed(route!);
+        };
+        m.fetchChurchInfo = ({orgId}) async {
+          await dispatchAction(ListAnnouncementsAction(orgId: orgId));
+          final model = read<NotificationModel>(NotificationModel());
+          if (model.error != null) {
+            throw model.error!;
+          }
+          return model.items;
         };
       });
 }

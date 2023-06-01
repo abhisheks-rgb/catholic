@@ -20,6 +20,8 @@ class NotificationPage extends BaseStatefulPageView {
     await FirebaseAnalytics.instance
         .setCurrentScreen(screenName: 'app_notification');
 
+    model!.fetchChurchInfo();
+
     return true;
   }
 
