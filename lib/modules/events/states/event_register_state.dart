@@ -47,7 +47,6 @@ class EventRegisterState extends BasePageState<EventRegisterModel> {
         m.setIsEventRegister = ({isEventRegister}) async {
           return dispatchModel<HomeModel>(HomeModel(), (m) {
             m.isEventRegister = isEventRegister!;
-            m.isEventDetails = true;
           });
         };
       });

@@ -1,6 +1,6 @@
 import 'package:butter/butter.dart';
 
-class ConfessionModel extends BaseUIModel<ConfessionModel> {
+class DivineMercyPrayerModel extends BaseUIModel<DivineMercyPrayerModel> {
   //
   String? error;
   bool? loading;
@@ -10,7 +10,7 @@ class ConfessionModel extends BaseUIModel<ConfessionModel> {
 
   void Function()? setShowInfo;
 
-  ConfessionModel({
+  DivineMercyPrayerModel({
     this.error,
     this.loading,
     this.titleFontSize,
@@ -19,10 +19,10 @@ class ConfessionModel extends BaseUIModel<ConfessionModel> {
   });
 
   @override
-  String get $key => '/confession';
+  String get $key => '/divine_mercy_prayer';
 
   @override
-  ConfessionModel clone() => ConfessionModel(
+  DivineMercyPrayerModel clone() => DivineMercyPrayerModel(
         error: error,
         loading: loading,
         titleFontSize: titleFontSize,
@@ -42,7 +42,7 @@ class ConfessionModel extends BaseUIModel<ConfessionModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ConfessionModel &&
+      other is DivineMercyPrayerModel &&
           runtimeType == other.runtimeType &&
           error == other.error &&
           loading == other.loading &&

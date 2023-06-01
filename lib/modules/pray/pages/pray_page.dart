@@ -69,12 +69,12 @@ class _PrayPageState extends State<_PrayPage> {
       },
       {
         'title': 'Devotions',
-        'icon': 'Scripture_Reflections.png',
+        'icon': 'Devotions.png',
         'route': 'devotion/main',
       },
       {
         'title': 'Confession',
-        'icon': 'Scripture_Reflections.png',
+        'icon': 'Confession.png',
         'route': 'confession',
       },
     ];

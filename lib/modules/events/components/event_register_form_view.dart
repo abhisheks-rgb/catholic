@@ -40,6 +40,8 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
         fieldValues[field['field_name']] = DateTime.now();
       }
     }
+
+    widget.model?.setFormObj(fieldValues);
   }
 
   void initializeTextEditingControllers() {

@@ -194,7 +194,8 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                       Text(
                                         'Start: ${_dateEventFormat(widget.model?.item!['startDate'])}',
                                         style: const TextStyle(
-                                          color: Color.fromRGBO(4, 26, 82, 1),
+                                          color: Color.fromRGBO(12, 72, 224, 1),
+                                          fontWeight: FontWeight.w500,
                                           fontSize: 16,
                                         ),
                                       ),
@@ -202,7 +203,8 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                       Text(
                                         'End: ${_dateEventFormat(widget.model?.item!['endDate'])}',
                                         style: const TextStyle(
-                                          color: Color.fromRGBO(4, 26, 82, 1),
+                                          color: Color.fromRGBO(12, 72, 224, 1),
+                                          fontWeight: FontWeight.w500,
                                           fontSize: 16,
                                         ),
                                       ),
@@ -243,7 +245,8 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                     child: Text(
                                       '${widget.model?.item!['eventVenue']}',
                                       style: const TextStyle(
-                                        color: Color.fromRGBO(4, 26, 82, 1),
+                                        color: Color.fromRGBO(12, 72, 224, 1),
+                                        fontWeight: FontWeight.w500,
                                         fontSize: 16,
                                       ),
                                     ),
