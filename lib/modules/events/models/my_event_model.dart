@@ -9,6 +9,7 @@ class MyEventModel extends BaseUIModel<MyEventModel> {
   bool? loading;
   List<Object>? events;
   List<Object>? bookings;
+  List<Object>? interestedEvents;
   late void Function() loadEvents;
   late void Function() loadBookings;
 

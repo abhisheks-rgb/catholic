@@ -3,6 +3,7 @@ import 'package:butter/butter.dart';
 import '../actions/view_event_details_action.dart';
 import '../actions/list_events_action.dart';
 import '../actions/list_bookings_action.dart';
+import '../actions/list_interested_events_action.dart';
 import '../models/my_event_model.dart';
 import '../../home/models/home_model.dart';
 
@@ -43,7 +44,13 @@ class MyEventState extends BasePageState<MyEventModel> {
           ), (m) {
         // Load all your model's handlers here
         m.loadEvents = () async {
-          await dispatchAction(ListEventsAction());
+          Map<String, dynamic>? user;
+          dispatchModel<HomeModel>(HomeModel(), (m) {
+            user = m.user;
+          });
+
+          await dispatchAction(
+              ListInterestedEventsAction(userId: user!['userid']));
         };
         m.loadBookings = () async {
           await dispatchAction(ListBookingsAction());

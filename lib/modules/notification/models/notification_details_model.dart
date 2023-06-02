@@ -5,10 +5,12 @@ class NotificationDetailsModel extends BaseUIModel<NotificationDetailsModel> {
   //
   String? error;
   bool? loading;
+  Map? item;
 
   NotificationDetailsModel({
     this.error,
     this.loading,
+    this.item,
   });
 
   @override
@@ -18,12 +20,14 @@ class NotificationDetailsModel extends BaseUIModel<NotificationDetailsModel> {
   NotificationDetailsModel clone() => NotificationDetailsModel(
         error: error,
         loading: loading,
+        item: item,
       );
 
   @override
   int get hashCode => Object.hashAll([
         error,
         loading,
+        item,
       ]);
 
   @override
@@ -32,5 +36,6 @@ class NotificationDetailsModel extends BaseUIModel<NotificationDetailsModel> {
       other is NotificationDetailsModel &&
           runtimeType == other.runtimeType &&
           error == other.error &&
-          loading == other.loading;
+          loading == other.loading &&
+          item == other.item;
 }

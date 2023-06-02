@@ -3,18 +3,22 @@ import 'dart:async';
 import 'package:butter/butter.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
-import '../models/events_list_model.dart';
 import '../models/my_event_model.dart';
 
-class ListEventsAction extends BaseAction {
-  ListEventsAction();
+class ListInterestedEventsAction extends BaseAction {
+  final String userId;
+  ListInterestedEventsAction({
+    required this.userId,
+  });
 
   // Make sure to strictly follow the guidelines found here:
   // https://pub.dev/packages/async_redux/#async-reducer
   @override
   Future<AppState?> reduce() async {
+    Butter.d('ListInterestedEventsAction::reduce');
+
     String? error;
-    await dispatchModel<EventsListModel>(EventsListModel(), (m) {
+    await dispatchModel<MyEventModel>(MyEventModel(), (m) {
       m.error = error;
       m.loading = true;
     });
@@ -25,7 +29,8 @@ class ListEventsAction extends BaseAction {
       final instance = await FirebaseFunctions.instanceFor(region: 'asia-east2')
           .httpsCallable('events')
           .call({
-        'type': 'getList',
+        'type': 'getInterested',
+        'arg': userId,
       });
 
       List result = instance.data['results']['items'];
@@ -39,12 +44,10 @@ class ListEventsAction extends BaseAction {
       error = 'Unexpected error';
     }
 
-    await Future.delayed(const Duration(seconds: 1), () async {
-      await dispatchModel<EventsListModel>(EventsListModel(), (m) {
-        m.error = error;
-        m.loading = false;
-        m.events = records;
-      });
+    await dispatchModel<MyEventModel>(MyEventModel(), (m) {
+      m.error = error;
+      m.loading = false;
+      m.events = records;
     });
 
     return null;

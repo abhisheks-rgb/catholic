@@ -280,7 +280,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
-                          '${_getAvailableSlot(widget.model?.item!['availableSlots'])}/${widget.model?.item!['capacity']} seats available',
+                          '${widget.model?.item!['available']}/${widget.model?.item!['capacity']} seats available',
                           style: const TextStyle(
                             color: Color.fromRGBO(4, 26, 82, 1),
                             fontSize: 16,
@@ -360,12 +360,6 @@ class _EventDetailsViewState extends State<EventDetailsView> {
     String formattedDate = DateFormat('E, d MMM yy - h:mma').format(date);
 
     return formattedDate;
-  }
-
-  int _getAvailableSlot(availableSlots) {
-    final slots = availableSlots as List;
-
-    return slots.length;
   }
 
   String _parseHtmlString(htmlString) {
