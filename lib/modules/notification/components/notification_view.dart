@@ -5,44 +5,25 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import '../models/notification_model.dart';
 import '../../../utils/asset_path.dart';
 
-class NotificationView extends BaseStatelessPageView {
+class NotificationView extends BaseStatefulPageView {
   final NotificationModel? model;
   final List _notificationList;
 
   NotificationView(this.model, {Key? key})
-      : _notificationList = List.generate(3, (index) {
-          final item = {};
-
-          switch (index) {
-            case 0:
-              item['from'] = 'St. Joseph';
-              item['date'] = 'just now';
-              item['isRead'] = false;
-              break;
-            case 1:
-              item['from'] = 'Cathedral';
-              item['date'] = '1 hr ago';
-              item['isRead'] = false;
-              break;
-            case 2:
-              item['from'] = 'Cathedral';
-              item['date'] = 'a day ago';
-              item['isRead'] = true;
-              break;
-            default:
-          }
-
-          item['content'] =
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
-
-          return item;
-        }),
+      : _notificationList = List.generate(
+            model?.items?.length ?? 0, (index) => model?.items![index] as Map),
         super();
 
+  @override
+  State<BaseStatefulPageView> createState() => _NotificationViewState();
+}
+
+class _NotificationViewState extends State<NotificationView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 1.2,
         centerTitle: true,
         title: const Text(
           'Notifications',
@@ -118,7 +99,10 @@ class NotificationView extends BaseStatelessPageView {
         child: Stack(
           children: [
             Column(
-              children: _notificationList.map<Widget>((element) {
+              children: widget._notificationList.map<Widget>((element) {
+                // for (var e in element.keys) {
+                //   Butter.d('$e: ${element[e]}');
+                // }
                 return Column(
                   children: [
                     const SizedBox(height: 16),
@@ -144,7 +128,10 @@ class NotificationView extends BaseStatelessPageView {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         onPressed: () {
-                          model?.showPage('/_/notification/details');
+                          widget.model?.showPage(
+                            route: '/_/notification/details',
+                            element: element as Map,
+                          );
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -152,67 +139,77 @@ class NotificationView extends BaseStatelessPageView {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              element['isRead']
-                                  ? SizedBox(
-                                      width: 20,
-                                      height: 20,
-                                      child: Image.asset(
-                                        assetPath('notification_read.png'),
-                                        color: const Color.fromRGBO(
-                                            4, 26, 82, 0.5),
-                                      ),
-                                    )
-                                  : SizedBox(
-                                      width: 20,
-                                      height: 20,
-                                      child: Image.asset(
-                                        assetPath('notification_unread.png'),
-                                      ),
-                                    ),
+                              // element['isRead']
+                              //     ? SizedBox(
+                              //         width: 20,
+                              //         height: 20,
+                              //         child: Image.asset(
+                              //           assetPath('notification_read.png'),
+                              //           color: const Color.fromRGBO(
+                              //               4, 26, 82, 0.5),
+                              //         ),
+                              //       )
+                              //     : SizedBox(
+                              //         width: 20,
+                              //         height: 20,
+                              //         child: Image.asset(
+                              //           assetPath('notification_unread.png'),
+                              //         ),
+                              //       ),
+                              SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: Image.asset(
+                                  assetPath('notification_unread.png'),
+                                ),
+                              ),
                               const SizedBox(width: 10),
                               Flexible(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          element['from'],
-                                          style: TextStyle(
-                                            color: element['isRead']
-                                                ? const Color.fromRGBO(
-                                                    4, 26, 82, 0.5)
-                                                : const Color.fromRGBO(
-                                                    10, 62, 194, 1),
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                        Text(
-                                          ' posted ${element['date']}',
-                                          style: TextStyle(
-                                            color: element['isRead']
-                                                ? const Color.fromRGBO(
-                                                    4, 26, 82, 0.5)
-                                                : const Color.fromRGBO(
-                                                    10, 62, 194, 1),
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ],
+                                    Text(
+                                      element['header'],
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: const TextStyle(
+                                        // color: element['isRead']
+                                        //     ? const Color.fromRGBO(
+                                        //         4, 26, 82, 0.5)
+                                        //     : const Color.fromRGBO(
+                                        //         10, 62, 194, 1),
+                                        color: Color.fromRGBO(10, 62, 194, 1),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      _renderPostedAt(element['created']),
+                                      style: const TextStyle(
+                                        // color: element['isRead']
+                                        //     ? const Color.fromRGBO(
+                                        //         4, 26, 82, 0.5)
+                                        //     : const Color.fromRGBO(
+                                        //         10, 62, 194, 1),
+                                        color: Color.fromRGBO(4, 26, 82, 1),
+                                        fontSize: 16,
+                                      ),
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
                                       element['content'],
                                       overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                        color: element['isRead']
-                                            ? const Color.fromRGBO(
-                                                4, 26, 82, 0.5)
-                                            : const Color.fromRGBO(
-                                                10, 62, 194, 1),
+                                      maxLines: 2,
+                                      style: const TextStyle(
+                                        // color: element['isRead']
+                                        //     ? const Color.fromRGBO(
+                                        //         4, 26, 82, 0.5)
+                                        //     : const Color.fromRGBO(
+                                        //         10, 62, 194, 1),
+                                        color: Color.fromRGBO(10, 62, 194, 1),
                                         fontSize: 16,
+                                        height: 1.4,
                                       ),
                                     ),
                                   ],
@@ -231,5 +228,28 @@ class NotificationView extends BaseStatelessPageView {
         ),
       ),
     );
+  }
+
+  String _renderPostedAt(int created) {
+    DateTime now = DateTime.now();
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(created);
+
+    final differenceInMinutes = now.difference(date).inMinutes;
+    final differenceInHours = now.difference(date).inHours;
+    final differenceInDays = now.difference(date).inDays;
+
+    if (differenceInMinutes < 60) {
+      if (differenceInMinutes == 1) {
+        return 'Posted just now';
+      } else {
+        return 'Posted $differenceInMinutes minutes ago';
+      }
+    } else if (differenceInHours < 24) {
+      return 'Posted $differenceInHours hr${differenceInHours > 1 ? 's' : ''} ago';
+    } else if (differenceInDays == 1) {
+      return 'Posted a day ago';
+    } else {
+      return 'Posted $differenceInDays days ago';
+    }
   }
 }

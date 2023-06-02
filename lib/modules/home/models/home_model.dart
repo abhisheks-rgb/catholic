@@ -35,6 +35,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
   void Function(Map<Object?, Object?>? event)? navigateToEventRegister;
   void Function(String parentEventId, String eventId)? setInterestEvent;
   late Future<void> Function()? submitFormEvent;
+  late Future<void> Function()? cancelFormEvent;
   void Function()? closeSuccessPrompt;
 
   Future<void> Function(BaseAction action)? dispatch;

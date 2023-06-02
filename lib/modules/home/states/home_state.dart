@@ -7,11 +7,13 @@ import '../actions/select_menu_item_action.dart';
 import '../actions/set_font_size_action.dart';
 import '../actions/set_interest_action.dart';
 import '../actions/submit_event_form_action.dart';
+import '../actions/cancel_book_action.dart';
 import '../models/home_model.dart';
 import '../../confession/models/confession_model.dart';
 import '../../devotion/rosary/models/rosary_model.dart';
 import '../../devotion/divine_mercy_prayer/models/divine_mercy_prayer_model.dart';
 import '../../events/models/event_register_model.dart';
+import '../../events/models/event_details_model.dart';
 
 class HomeState extends BasePageState<HomeModel> {
   HomeState();
@@ -85,6 +87,11 @@ class HomeState extends BasePageState<HomeModel> {
           dispatchModel<HomeModel>(HomeModel(), (m) {
             m.bookingFormView = bookingView;
           });
+        };
+        m.cancelFormEvent = () async {
+          final m = read<EventDetailsModel>(EventDetailsModel());
+          dispatchAction(
+              CancelBookAction(eventId: m.item!['eventId'].toString()));
         };
         m.submitFormEvent = () async {
           final m = read<EventRegisterModel>(EventRegisterModel());

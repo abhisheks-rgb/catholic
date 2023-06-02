@@ -221,8 +221,13 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                       ),
                       onPressed: () {
                         if (widget.model?.user != null) {
-                          widget.model?.navigateToEventRegister!(
-                              widget.model?.selectedEventDetail);
+                          if (widget.model?.selectedEventDetail!['hasBooked'] ==
+                              false) {
+                            widget.model?.navigateToEventRegister!(
+                                widget.model?.selectedEventDetail);
+                          } else {
+                            widget.model?.cancelFormEvent!();
+                          }
                         } else {
                           widget.model?.showPage('/_/login');
                         }
@@ -251,7 +256,7 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                             widget.model?.selectedEventDetail!['hasBooked'] ==
                                     false
                                 ? 'Book'
-                                : 'Withdraw',
+                                : 'Cancel',
                             style: TextStyle(
                               color: widget.model
                                           ?.selectedEventDetail!['hasBooked'] ==
@@ -274,6 +279,7 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
 
   void _showPopup(BuildContext context) {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -299,8 +305,9 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                         padding: const EdgeInsets.all(0),
                         alignment: Alignment.centerRight,
                         icon: const Icon(Ionicons.close_circle),
-                        onPressed: () {
-                          Navigator.of(context).pop();
+                        onPressed: () async {
+                          await Navigator.of(context).maybePop();
+                          widget.model?.closeSuccessPrompt!();
                         },
                       ),
                     ],
