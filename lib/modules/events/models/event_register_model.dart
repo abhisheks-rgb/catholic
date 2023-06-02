@@ -11,7 +11,7 @@ class EventRegisterModel extends BaseUIModel<EventRegisterModel> {
 
   late Future<void> Function(Map? formErrorObj)? setFormErrorObj;
   late Function({bool? isEventRegister}) setIsEventRegister;
-  late Future<void> Function(Map formObj) setFormObj;
+  late Function(Map<dynamic, dynamic> formObj) setFormObj;
 
   EventRegisterModel({
     this.error,

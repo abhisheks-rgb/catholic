@@ -16,7 +16,7 @@ class EventRegisterFormView extends BaseStatefulPageView {
 }
 
 class _EventRegisterFormViewState extends State<EventRegisterFormView> {
-  Map<String, dynamic> fieldValues = {};
+  Map<dynamic, dynamic> fieldValues = {};
   Map<String, TextEditingController> textEditingControllerMap = {};
 
   @override
@@ -141,7 +141,10 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                 widget.model?.setFormObj(fieldValues);
                 Map? newErrorObj = widget.model?.formErrorObj;
 
-                newErrorObj!.remove(element['field_name']);
+                if (newErrorObj != null &&
+                    newErrorObj[element['field_name']] != null) {
+                  newErrorObj.remove(element['field_name']);
+                }
 
                 await widget.model?.setFormErrorObj!(newErrorObj);
               },
@@ -274,7 +277,10 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                 widget.model?.setFormObj(fieldValues);
                 Map? newErrorObj = widget.model?.formErrorObj;
 
-                newErrorObj!.remove(element['field_name']);
+                if (newErrorObj != null &&
+                    newErrorObj[element['field_name']] != null) {
+                  newErrorObj.remove(element['field_name']);
+                }
 
                 widget.model?.setFormErrorObj!(newErrorObj);
               },
@@ -342,22 +348,18 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                 filled: true,
                 fillColor: Colors.white,
               ),
-              validator: (value) {
-                if (value!.isEmpty) {
-                  // || !element['regex'].hasMatch(value)
-                  return element['error'] ?? '';
-                } else {
-                  return null;
-                }
-              },
-              onChanged: (value) {
+              onChanged: (value) async {
                 setState(() {
                   fieldValues[element['field_name']] = value;
                 });
-                widget.model?.setFormObj(fieldValues);
+
+                await widget.model?.setFormObj(fieldValues);
                 Map? newErrorObj = widget.model?.formErrorObj;
 
-                newErrorObj!.remove(element['field_name']);
+                if (newErrorObj != null &&
+                    newErrorObj[element['field_name']] != null) {
+                  newErrorObj.remove(element['field_name']);
+                }
 
                 widget.model?.setFormErrorObj!(newErrorObj);
               },
@@ -416,15 +418,18 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                   value: element['options'][index]['value'],
                   groupValue: fieldValues[element['field_name']],
                   onChanged: (value) {
+                    Map? newErrorObj = widget.model?.formErrorObj;
+
                     setState(() {
                       fieldValues[element['field_name']] = value;
                     });
 
+                    if (newErrorObj != null &&
+                        newErrorObj[element['field_name']] != null) {
+                      newErrorObj.remove(element['field_name']);
+                    }
+
                     widget.model?.setFormObj(fieldValues);
-                    Map? newErrorObj = widget.model?.formErrorObj;
-
-                    newErrorObj!.remove(element['field_name']);
-
                     widget.model?.setFormErrorObj!(newErrorObj);
                   },
                 );
@@ -482,10 +487,19 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                       )),
                   visualDensity: VisualDensity.compact,
                   controlAffinity: ListTileControlAffinity.leading,
-                  value: fieldValues[element['field_name']]
-                          .contains(element['options'][index]['value']) ??
-                      false,
+                  value: fieldValues[element['field_name']] != null
+                      ? fieldValues[element['field_name']]
+                              .contains(element['options'][index]['value']) ??
+                          false
+                      : false,
                   onChanged: (bool? value) async {
+                    Map? newErrorObj = widget.model?.formErrorObj;
+
+                    if (newErrorObj != null &&
+                        newErrorObj[element['field_name']] != null) {
+                      newErrorObj.remove(element['field_name']);
+                    }
+
                     setState(() {
                       if (value!) {
                         fieldValues[element['field_name']]
@@ -497,12 +511,6 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                     });
 
                     widget.model?.setFormObj(fieldValues);
-                    Map? newErrorObj = widget.model?.formErrorObj;
-
-                    if (newErrorObj != null &&
-                        newErrorObj[element['field_name']] != null) {
-                      newErrorObj.remove(element['field_name']);
-                    }
 
                     widget.model?.setFormErrorObj!(newErrorObj);
                   },

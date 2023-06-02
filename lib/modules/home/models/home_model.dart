@@ -36,6 +36,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
   void Function()? setBookingFormView;
   void Function()? closeSuccessPrompt;
   void Function()? gotoMyEvents;
+  void Function()? redirectToLogin;
   void Function(Map<Object?, Object?>? event)? navigateToEventRegister;
   void Function(String parentEventId, String eventId)? setInterestEvent;
   late Future<void> Function()? submitFormEvent;
@@ -56,6 +57,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
     this.isEventDetails = false,
     this.isEventRegister = false,
     this.selectedEventDetail,
+    this.formObj,
     this.bookingFormView = 'bookingForm',
   });
 
@@ -75,6 +77,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
         isEventDetails: isEventDetails,
         isEventRegister: isEventRegister,
         selectedEventDetail: selectedEventDetail,
+        formObj: formObj,
         bookingFormView: bookingFormView,
       );
 
@@ -91,6 +94,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
         isEventDetails,
         isEventRegister,
         selectedEventDetail,
+        formObj,
         bookingFormView,
       ]);
 

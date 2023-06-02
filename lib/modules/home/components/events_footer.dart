@@ -230,7 +230,7 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                             _showCancelBookingPopup(context);
                           }
                         } else {
-                          widget.model?.showPage('/_/login');
+                          widget.model?.redirectToLogin!();
                         }
                       },
                       child: Container(

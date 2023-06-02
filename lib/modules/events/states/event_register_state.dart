@@ -42,20 +42,22 @@ class EventRegisterState extends BasePageState<EventRegisterModel> {
         m.setFormObj = (formObj) {
           dispatchModel<HomeModel>(HomeModel(), (m) {
             m.formObj = formObj;
+            m.loading = false;
           });
-          return dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
+          dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
             m.formObj = formObj;
+            m.loading = false;
           });
         };
         m.setFormErrorObj = (formErrorObj) {
           return dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
             m.formErrorObj = formErrorObj;
+            m.loading = false;
           });
         };
         m.setIsEventRegister = ({isEventRegister}) async {
           return dispatchModel<HomeModel>(HomeModel(), (m) {
             m.isEventRegister = isEventRegister!;
-            m.isEventDetails = true;
           });
         };
       });
