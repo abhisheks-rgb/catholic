@@ -68,21 +68,35 @@ class HomeState extends BasePageState<HomeModel> {
         m.discardBooking = () {
           dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
             m.bookingFormView = 'bookingForm';
+            m.formErrorObj = {};
           });
         };
         m.setBookingFormView = () {
           final m = read<EventRegisterModel>(EventRegisterModel());
 
-          String bookingView;
+          String bookingView = 'bookingForm';
 
-          if (m.bookingFormView == 'bookingForm') {
+          Map errorObj = {};
+          m.item!['eventFormContent'].forEach((e) {
+            if (e['required'] == true &&
+                (m.formObj![e['field_name']] == null ||
+                    m.formObj![e['field_name']] == '')) {
+              errorObj[e['field_name']] = '${e['label']} is required.';
+            } else if (e['required'] == true &&
+                e['element'] == 'Checkboxes' &&
+                m.formObj![e['field_name']].length == 0) {
+              errorObj[e['field_name']] = '${e['label']} is required.';
+            }
+          });
+
+          if (errorObj.isEmpty) {
             bookingView = 'bookingFormReview';
-          } else {
-            bookingView = 'bookingForm';
           }
 
           dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
             m.bookingFormView = bookingView;
+            m.formErrorObj = errorObj;
+            m.loading = false;
           });
           dispatchModel<HomeModel>(HomeModel(), (m) {
             m.bookingFormView = bookingView;
@@ -128,6 +142,21 @@ class HomeState extends BasePageState<HomeModel> {
           });
 
           pushNamed('/_/events/list');
+        };
+        m.gotoMyEvents = () {
+          dispatchModel<HomeModel>(HomeModel(), (m) {
+            m.isEventRegister = false;
+            m.isEventDetails = false;
+            m.bookingFormView = 'bookingForm';
+            m.loading = false;
+          });
+
+          dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
+            m.bookingFormView = 'bookingForm';
+            m.formObj = {};
+          });
+
+          pushNamed('/_/events/myEvents');
         };
         m.setShowInfo = (String route) {
           switch (route) {
