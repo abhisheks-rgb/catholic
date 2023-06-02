@@ -39,7 +39,7 @@ class _RosaryViewState extends State<RosaryView> {
           '“In the sixth month, the angel Gabriel was sent from God to a town of Galilee called Nazareth, to a virgin betrothed to a man named Joseph, of the house of David, and the virgin\'s name was Mary.” - Luke 1:26-27'
         ],
         [
-          '“During those days Mary set out and traveled to the hill country in haste to a town of Judah, where she entered the house of Zechariah and greeted Elizabeth. When Elizabeth heard Mary’s greeting, the infant leaped in her womb, and Elizabeth, filled with the holy Spirit, cried out in a loud voice and said, \'Most blessed are you among women, and blessed is the fruit of your womb.\'” - Luke 1:39-42'
+          '“During those days Mary set out and traveled to the hill country in haste to a town of Judah, where she entered the house of Zechariah and greeted Elizabeth. When Elizabeth heard Mary’s greeting, the infant leaped in her womb, and Elizabeth, filled with the Holy Spirit, cried out in a loud voice and said, \'Most blessed are you among women, and blessed is the fruit of your womb.\'” - Luke 1:39-42'
         ],
         [
           '“In those days a decree went out from Caesar Augustus that the whole world should be enrolled. This was the first enrollment, when Quirinius was governor of Syria. So all went to be enrolled, each to his own town. And Joseph too went up from Galilee from the town of Nazareth to Judea, to the city of David that is called Bethlehem, because he was of the house and family of David, to be enrolled with Mary, his betrothed, who was with child. While they were there, the time came for her to have her child, and she gave birth to her firstborn son. She wrapped him in swaddling clothes and laid him in a manger, because there was no room for them in the inn.” - Luke 2:1-7'
@@ -101,7 +101,7 @@ class _RosaryViewState extends State<RosaryView> {
         'Mortification',
         'Courage',
         'Patience',
-        'Sorrow for our Sins',
+        'Sorrow for our sins',
       ],
     },
     {
@@ -384,7 +384,9 @@ class _RosaryViewState extends State<RosaryView> {
           ),
         ),
         const SizedBox(height: 30),
-        mystries[_currentMystery!] == null ? Container() : _renderGuide()
+        mystries[_currentMystery!] == null ? Container() : _renderGuide(),
+        _renderHailHolyQueen(),
+        _renderMemorare(),
       ],
     );
   }
@@ -442,30 +444,34 @@ class _RosaryViewState extends State<RosaryView> {
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontWeight: FontWeight.w600,
                 fontSize: widget.model!.titleFontSize ?? 20,
+                height: 1.4,
               ),
             ),
             const SizedBox(height: 16),
             Text(
-              'I believe in God, the Father almighty, creator of heaven and earth.',
+              'I believe in God, the Father Almighty, Creator of heaven and earth.',
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
             ),
             const SizedBox(height: 16),
             Text(
-              'I believe in Jesus Christ, his only Son, our Lord, who was conceived by the Holy Spirit and born of the virgin Mary. He suffered under Pontius Pilate, was crucified, died, and was buried; he descended to hell. The third day he rose again from the dead. He ascended to heaven and is seated at the right hand of God the Father almighty. From there he will come to judge the living and the dead.',
+              'I believe in Jesus Christ, his only Son, our Lord, who was conceived by the Holy Spirit and born of the Virgin Mary. He suffered under Pontius Pilate, was crucified, died, and was buried; he descended to hell. The third day he rose again from the dead. He ascended to heaven and is seated at the right hand of God the Father almighty. From there he will come to judge the living and the dead.',
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
             ),
             const SizedBox(height: 16),
             Text(
-              'I believe in the Holy Spirit, the holy catholic church, the communion of saints, the forgiveness of sins, the resurrection of the body, and the life everlasting. Amen.',
+              'I believe in the Holy Spirit, the Holy Catholic Church, the communion of saints, the forgiveness of sins, the resurrection of the body, and the life everlasting. Amen.',
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
             ),
             const SizedBox(height: 16),
@@ -492,6 +498,7 @@ class _RosaryViewState extends State<RosaryView> {
                 color: const Color.fromRGBO(8, 51, 158, 1),
                 fontWeight: FontWeight.w500,
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
               textAlign: TextAlign.center,
             ),
@@ -502,6 +509,7 @@ class _RosaryViewState extends State<RosaryView> {
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontWeight: FontWeight.w500,
                 fontSize: widget.model!.titleFontSize ?? 20,
+                height: 1.4,
               ),
               textAlign: TextAlign.center,
             ),
@@ -516,6 +524,7 @@ class _RosaryViewState extends State<RosaryView> {
                     style: TextStyle(
                       color: const Color.fromRGBO(4, 26, 82, 1),
                       fontSize: widget.model!.contentFontSize ?? 17,
+                      height: 1.4,
                     ),
                   ),
                 );
@@ -529,6 +538,7 @@ class _RosaryViewState extends State<RosaryView> {
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
                   fontSize: widget.model!.contentFontSize ?? 17,
+                  height: 1.4,
                 ),
               ),
             ),
@@ -548,6 +558,7 @@ class _RosaryViewState extends State<RosaryView> {
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontWeight: FontWeight.w600,
                 fontSize: widget.model!.titleFontSize ?? 20,
+                height: 1.4,
               ),
             ),
             const SizedBox(height: 16),
@@ -556,6 +567,7 @@ class _RosaryViewState extends State<RosaryView> {
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
             ),
             const SizedBox(height: 16),
@@ -564,6 +576,7 @@ class _RosaryViewState extends State<RosaryView> {
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
             ),
             const SizedBox(height: 16),
@@ -583,22 +596,25 @@ class _RosaryViewState extends State<RosaryView> {
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontWeight: FontWeight.w600,
                 fontSize: widget.model!.titleFontSize ?? 20,
+                height: 1.4,
               ),
             ),
             const SizedBox(height: 16),
             Text(
-              'Hail, Mary, full of grace,the Lord is with thee.Blessed art thou amongst womenand blessed is the fruit of thy womb, Jesus.',
+              'Hail, Mary, full of grace, the Lord is with thee. Blessed art thou amongst women and blessed is the fruit of thy womb, Jesus.',
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
             ),
             const SizedBox(height: 16),
             Text(
-              'Holy Mary, Mother of God,pray for us sinners,now and at the hour of our death. Amen.',
+              'Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death. Amen.',
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
             ),
             const SizedBox(height: 16),
@@ -618,6 +634,7 @@ class _RosaryViewState extends State<RosaryView> {
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontWeight: FontWeight.w600,
                 fontSize: widget.model!.titleFontSize ?? 20,
+                height: 1.4,
               ),
             ),
             const SizedBox(height: 16),
@@ -626,6 +643,7 @@ class _RosaryViewState extends State<RosaryView> {
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
             ),
             const SizedBox(height: 16),
@@ -644,7 +662,8 @@ class _RosaryViewState extends State<RosaryView> {
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontWeight: FontWeight.w600,
-                fontSize: widget.model!.contentFontSize ?? 17,
+                fontSize: widget.model!.titleFontSize ?? 20,
+                height: 1.4,
               ),
             ),
             const SizedBox(height: 16),
@@ -653,9 +672,103 @@ class _RosaryViewState extends State<RosaryView> {
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
             ),
             const SizedBox(height: 16),
+          ],
+        ),
+      );
+
+  Widget _renderHailHolyQueen() => Container(
+        margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 32),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 12),
+            Text(
+              'Hail Holy Queen',
+              style: TextStyle(
+                color: const Color.fromRGBO(4, 26, 82, 1),
+                fontWeight: FontWeight.w600,
+                fontSize: widget.model!.titleFontSize ?? 20,
+                height: 1.4,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Hail, holy Queen, Mother of mercy, our life, our sweetness and our hope. To thee do we cry, poor banished children of Eve. To thee do we send up our sighs, mourning and weeping in this valley of tears. Turn then, most gracious advocate, thine eyes of mercy toward us, and after this our exile, show unto us the blessed fruit of thy womb, Jesus. O clement, O loving, O sweet Virgin Mary!',
+              style: TextStyle(
+                color: const Color.fromRGBO(4, 26, 82, 1),
+                fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Leader: Pray for us O Holy Mother of God,',
+              style: TextStyle(
+                color: const Color.fromRGBO(4, 26, 82, 1),
+                fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
+              ),
+            ),
+            Text(
+              'All: That we may be made worthy of the promises of Christ.',
+              style: TextStyle(
+                color: const Color.fromRGBO(4, 26, 82, 1),
+                fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Leader: Let us pray.',
+              style: TextStyle(
+                color: const Color.fromRGBO(4, 26, 82, 1),
+                fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'All: O God whose only begotten Son by his life, death, and resurrection has purchased for us the rewards of eternal life, grant we beseech Thee, that meditating upon these mysteries of the Most Holy Rosary of the Blessed Virgin Mary, we may imitate what they contain and obtain what they promise through the same Christ our Lord. Amen.',
+              style: TextStyle(
+                color: const Color.fromRGBO(4, 26, 82, 1),
+                fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
+              ),
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
+      );
+
+  Widget _renderMemorare() => Container(
+        margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 32),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 12),
+            Text(
+              'Memorare',
+              style: TextStyle(
+                color: const Color.fromRGBO(4, 26, 82, 1),
+                fontWeight: FontWeight.w600,
+                fontSize: widget.model!.titleFontSize ?? 20,
+                height: 1.4,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Remember, O most gracious Virgin Mary, that never was it known that anyone who fled to thy protection, implored thy help, or sought thy intercession was left unaided. Inspired with this confidence, I fly to thee, O Virgin of virgins, my Mother; to thee do I come; before thee I stand, sinful and sorrowful. O Mother of the Word Incarnate, despise not my petitions, but in thy mercy hear and answer me. Amen',
+              style: TextStyle(
+                color: const Color.fromRGBO(4, 26, 82, 1),
+                fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
+              ),
+            ),
+            const SizedBox(height: 32),
           ],
         ),
       );
@@ -665,18 +778,20 @@ class _RosaryViewState extends State<RosaryView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'A rosary is a set of prayers and meditations in the Catholic tradition. It consists of a string of beads or knots that are used to keep track of the prayers recited. The prayers focus on the life, ministry, death, and resurrection of Jesus Christ, as well as the intercession of the Virgin Mary.',
+          'The Rosary is a set of prayers and meditations in the Catholic tradition. It consists of a string of beads or knots that are used to keep track of the prayers recited. The prayers focus on the life, ministry, death, and resurrection of Jesus Christ, as well as the intercession of the Virgin Mary.',
           style: TextStyle(
             color: const Color.fromRGBO(4, 26, 82, 1),
             fontSize: widget.model!.contentFontSize ?? 17,
+            height: 1.4,
           ),
         ),
         const SizedBox(height: 16),
         Text(
-          'The structure of the rosary includes various prayers,',
+          'The structure of the Rosary includes various prayers,',
           style: TextStyle(
             color: const Color.fromRGBO(4, 26, 82, 1),
             fontSize: widget.model!.contentFontSize ?? 17,
+            height: 1.4,
           ),
         ),
         Row(
@@ -687,6 +802,7 @@ class _RosaryViewState extends State<RosaryView> {
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
             ),
             Expanded(
@@ -695,6 +811,7 @@ class _RosaryViewState extends State<RosaryView> {
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
                   fontSize: widget.model!.contentFontSize ?? 17,
+                  height: 1.4,
                 ),
               ),
             ),
@@ -708,6 +825,7 @@ class _RosaryViewState extends State<RosaryView> {
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
             ),
             Expanded(
@@ -716,6 +834,7 @@ class _RosaryViewState extends State<RosaryView> {
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
                   fontSize: widget.model!.contentFontSize ?? 17,
+                  height: 1.4,
                 ),
               ),
             ),
@@ -729,6 +848,7 @@ class _RosaryViewState extends State<RosaryView> {
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
             ),
             Expanded(
@@ -737,6 +857,7 @@ class _RosaryViewState extends State<RosaryView> {
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
                   fontSize: widget.model!.contentFontSize ?? 17,
+                  height: 1.4,
                 ),
               ),
             ),
@@ -750,6 +871,7 @@ class _RosaryViewState extends State<RosaryView> {
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
             ),
             Expanded(
@@ -758,6 +880,7 @@ class _RosaryViewState extends State<RosaryView> {
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
                   fontSize: widget.model!.contentFontSize ?? 17,
+                  height: 1.4,
                 ),
               ),
             ),
@@ -771,14 +894,16 @@ class _RosaryViewState extends State<RosaryView> {
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
             ),
             Expanded(
               child: Text(
-                'The Mysteries: The rosary is divided into sets of mysteries, which are meditations on significant events in the lives of Jesus and Mary. The mysteries are categorized as Joyful, Sorrowful, Glorious, and Luminous (added by Pope John Paul II in 2002).',
+                'The Mysteries: The Rosary is divided into sets of mysteries, which are meditations on significant events in the lives of Jesus and Mary. The mysteries are categorized as Joyful, Sorrowful, Glorious, and Luminous (added by Pope John Paul II in 2002).',
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
                   fontSize: widget.model!.contentFontSize ?? 17,
+                  height: 1.4,
                 ),
               ),
             ),
@@ -786,10 +911,11 @@ class _RosaryViewState extends State<RosaryView> {
         ),
         const SizedBox(height: 16),
         Text(
-          'The rosary is a popular devotion among Catholics for several reasons:',
+          'The Rosary is a popular devotion among Catholics for several reasons:',
           style: TextStyle(
             color: const Color.fromRGBO(4, 26, 82, 1),
             fontSize: widget.model!.contentFontSize ?? 17,
+            height: 1.4,
           ),
         ),
         Row(
@@ -800,6 +926,7 @@ class _RosaryViewState extends State<RosaryView> {
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
             ),
             Expanded(
@@ -808,6 +935,7 @@ class _RosaryViewState extends State<RosaryView> {
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
                   fontSize: widget.model!.contentFontSize ?? 17,
+                  height: 1.4,
                 ),
               ),
             ),
@@ -821,14 +949,16 @@ class _RosaryViewState extends State<RosaryView> {
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
             ),
             Expanded(
               child: Text(
-                'It invokes the intercession of Mary: Catholics believe that Mary, as the Mother of Jesus, holds a special place in the life of the Church. Praying the rosary is a way to seek her intercession and guidance.',
+                'It invokes the intercession of Mary: Catholics believe that Mary, as the Mother of Jesus, holds a special place in the life of the Church. Praying the Rosary is a way to seek her intercession and guidance.',
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
                   fontSize: widget.model!.contentFontSize ?? 17,
+                  height: 1.4,
                 ),
               ),
             ),
@@ -842,14 +972,16 @@ class _RosaryViewState extends State<RosaryView> {
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
             ),
             Expanded(
               child: Text(
-                'It builds a sense of community: Many Catholics pray the rosary together in groups or as a family. This communal aspect strengthens bonds among believers and provides a shared spiritual experience.',
+                'It builds a sense of community: Many Catholics pray the Rosary together in groups or as a family. This communal aspect strengthens bonds among believers and provides a shared spiritual experience.',
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
                   fontSize: widget.model!.contentFontSize ?? 17,
+                  height: 1.4,
                 ),
               ),
             ),
@@ -863,14 +995,16 @@ class _RosaryViewState extends State<RosaryView> {
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
             ),
             Expanded(
               child: Text(
-                'It offers spiritual benefits: The Catholic Church teaches that the rosary brings numerous spiritual benefits, including increased faith, inner peace, and graces from God.',
+                'It offers spiritual benefits: The Catholic Church teaches that the Rosary brings numerous spiritual benefits, including increased faith, inner peace, and graces from God.',
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
                   fontSize: widget.model!.contentFontSize ?? 17,
+                  height: 1.4,
                 ),
               ),
             ),
@@ -878,10 +1012,11 @@ class _RosaryViewState extends State<RosaryView> {
         ),
         const SizedBox(height: 16),
         Text(
-          'The rosary can be a valuable spiritual practice that helps deepen their relationship with God and the Church. It allows them to engage in a structured prayer form that has been cherished by generations of Catholics. Praying the rosary can also provide a sense of belonging and connection to the broader Catholic community.',
+          'The Rosary can be a valuable spiritual practice that helps deepen one\'s relationship with God and the Church. It allows them to engage in a structured prayer form that has been cherished by generations of Catholics. Praying the Rosary can also provide a sense of belonging and connection to the broader Catholic community.',
           style: TextStyle(
             color: const Color.fromRGBO(4, 26, 82, 1),
             fontSize: widget.model!.contentFontSize ?? 17,
+            height: 1.4,
           ),
         ),
         const SizedBox(height: 16),
@@ -890,6 +1025,7 @@ class _RosaryViewState extends State<RosaryView> {
           style: TextStyle(
             color: const Color.fromRGBO(4, 26, 82, 1),
             fontSize: widget.model!.contentFontSize ?? 17,
+            height: 1.4,
           ),
         ),
         const SizedBox(height: 16),
@@ -898,6 +1034,7 @@ class _RosaryViewState extends State<RosaryView> {
           style: TextStyle(
             color: const Color.fromRGBO(4, 26, 82, 1),
             fontSize: widget.model!.contentFontSize ?? 17,
+            height: 1.4,
           ),
         ),
       ],
@@ -1048,7 +1185,7 @@ class _RosaryViewState extends State<RosaryView> {
                         children: [
                           Expanded(
                             child: Text(
-                              'What is a Rosary?',
+                              'What is the Rosary?',
                               style: TextStyle(
                                 color: const Color.fromRGBO(4, 26, 82, 1),
                                 fontWeight: FontWeight.w500,

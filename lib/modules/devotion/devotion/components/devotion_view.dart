@@ -27,7 +27,7 @@ class _DevotionPageState extends State<DevotionView> {
     List<dynamic> exploreItems = <dynamic>[
       {
         'title': 'Rosary',
-        'subTitle': 'Prayer Guide • What is Rosary?',
+        'subTitle': 'Prayer Guide • What is the Rosary?',
         'route': 'rosary'
       },
       // {
@@ -37,7 +37,7 @@ class _DevotionPageState extends State<DevotionView> {
       // },
       {
         'title': 'Divine Mercy Prayer',
-        'subTitle': 'What is Rosary? • Prayer Guide',
+        'subTitle': 'Prayer Guide • What is the Divine Mercy Prayer? ',
         'route': 'divine_mercy_prayer',
       },
     ];

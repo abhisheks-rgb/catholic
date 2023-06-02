@@ -1121,6 +1121,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 8),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -1144,6 +1145,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                                 schedData['color'],
                                 true),
                           ]),
+                      const SizedBox(height: 4),
                       Text(
                           '${schedData['lang'].toUpperCase()} • ${schedData['location'].toUpperCase()}',
                           style: const TextStyle(
@@ -1179,7 +1181,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            color: Color.fromRGBO(12, 72, 224, 1),
+                            // color: Color.fromRGBO(12, 72, 224, 1),
                           ),
                         ),
                       ),
@@ -1238,10 +1240,10 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                               padding: EdgeInsets.symmetric(
                                   horizontal: 4, vertical: 8),
                               child: Text(
-                                'Additional Notes:',
+                                'Additional Notes',
                                 style: TextStyle(
                                     fontSize: 14,
-                                    color: Color.fromRGBO(4, 26, 82, 0.3)),
+                                    color: Color.fromRGBO(4, 26, 82, 0.6)),
                               ),
                             ),
                           ],
