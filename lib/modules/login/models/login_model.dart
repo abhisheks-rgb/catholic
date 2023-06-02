@@ -2,6 +2,7 @@ import 'package:butter/butter.dart';
 
 class LoginModel extends BaseUIModel<LoginModel> {
   late void Function(String email, String password) login;
+  late void Function() resetError;
   //
   String? error;
   bool? loading;
@@ -20,25 +21,24 @@ class LoginModel extends BaseUIModel<LoginModel> {
 
   @override
   LoginModel clone() => LoginModel(
-    error: error,
-    loading: loading,
-    isLoggedIn : isLoggedIn,
-  );
+        error: error,
+        loading: loading,
+        isLoggedIn: isLoggedIn,
+      );
 
   @override
   int get hashCode => Object.hashAll([
-    error,
-    loading,
-    isLoggedIn,
-    
-  ]);
+        error,
+        loading,
+        isLoggedIn,
+      ]);
 
   @override
   bool operator ==(Object other) =>
-    identical(this, other) ||
+      identical(this, other) ||
       other is LoginModel &&
-        runtimeType == other.runtimeType &&
-        error == other.error &&
-        loading == other.loading &&
-        isLoggedIn == other.isLoggedIn;
+          runtimeType == other.runtimeType &&
+          error == other.error &&
+          loading == other.loading &&
+          isLoggedIn == other.isLoggedIn;
 }
