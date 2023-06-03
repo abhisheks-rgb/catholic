@@ -26,7 +26,7 @@ class _NavbarState extends State<Navbar> {
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Image.asset(
                   assetPath('home.png'),
-                  color: const Color.fromRGBO(205, 209, 220, 1),
+                  color: const Color.fromRGBO(4, 26, 82, 0.4),
                   height: 22,
                   width: 22,
                 )),
@@ -45,7 +45,7 @@ class _NavbarState extends State<Navbar> {
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Image.asset(
                   assetPath('pray.png'),
-                  color: const Color.fromRGBO(205, 209, 220, 1),
+                  color: const Color.fromRGBO(4, 26, 82, 0.4),
                   height: 22,
                   width: 22,
                 )),
@@ -64,7 +64,7 @@ class _NavbarState extends State<Navbar> {
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Image.asset(
                   assetPath('book.png'),
-                  color: const Color.fromRGBO(205, 209, 220, 1),
+                  color: const Color.fromRGBO(4, 26, 82, 0.4),
                   height: 22,
                   width: 22,
                 )),
@@ -83,7 +83,7 @@ class _NavbarState extends State<Navbar> {
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Image.asset(
                   assetPath('events.png'),
-                  color: const Color.fromRGBO(205, 209, 220, 1),
+                  color: const Color.fromRGBO(4, 26, 82, 0.4),
                   height: 22,
                   width: 22,
                 )),
@@ -99,7 +99,7 @@ class _NavbarState extends State<Navbar> {
           ),
         ],
         currentIndex: widget.model?.selectedIndex ?? 0,
-        unselectedItemColor: const Color.fromRGBO(205, 209, 220, 1),
+        unselectedItemColor: const Color.fromRGBO(4, 26, 82, 0.4),
         selectedItemColor: const Color.fromRGBO(4, 26, 82, 1),
         selectedLabelStyle: const TextStyle(
             fontSize: 12, fontFamily: 'FiraSans', fontWeight: FontWeight.w500),

@@ -210,7 +210,7 @@ class _ConfessionViewState extends State<ConfessionView> {
                     ),
                   ),
                   Text(
-                    '[List your sins here]',
+                    '[List down your sins here]',
                     style: TextStyle(
                       color: const Color.fromRGBO(4, 26, 82, 1),
                       fontSize: widget.model!.contentFontSize ?? 17,
@@ -308,7 +308,7 @@ class _ConfessionViewState extends State<ConfessionView> {
                                   'When invited by the priest, say Act of Contrition: '),
                           TextSpan(
                             text:
-                                '“Oh my God, I am very sorry that I have sinned against you. Because you are so good, and with your help and grace. I will try not to sin again.”',
+                                '“Oh my God, I am very sorry that I have sinned against you. Because you are so good, and with your help and grace. I will not sin again.”',
                             style: TextStyle(
                               color: Color.fromRGBO(4, 26, 82, 1),
                               fontWeight: FontWeight.w500,

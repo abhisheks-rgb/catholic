@@ -6,15 +6,19 @@ class EventRegisterModel extends BaseUIModel<EventRegisterModel> {
   //
   String? error;
   bool? loading;
-  Map? formObj;
+  Map<dynamic, dynamic>? formObj;
+  Map? formErrorObj;
+
+  late Future<void> Function(Map? formErrorObj)? setFormErrorObj;
   late Function({bool? isEventRegister}) setIsEventRegister;
-  late Future<void> Function(Map formObj) setFormObj;
+  late Function(Map<dynamic, dynamic> formObj) setFormObj;
 
   EventRegisterModel({
     this.error,
     this.loading,
     this.item,
     this.formObj,
+    this.formErrorObj,
     this.bookingFormView = 'bookingForm',
   });
 
@@ -27,6 +31,7 @@ class EventRegisterModel extends BaseUIModel<EventRegisterModel> {
         loading: loading,
         item: item,
         formObj: formObj,
+        formErrorObj: formErrorObj,
         bookingFormView: bookingFormView,
       );
 
@@ -36,6 +41,7 @@ class EventRegisterModel extends BaseUIModel<EventRegisterModel> {
         loading,
         item,
         formObj,
+        formErrorObj,
         bookingFormView,
       ]);
 
@@ -48,5 +54,6 @@ class EventRegisterModel extends BaseUIModel<EventRegisterModel> {
           loading == other.loading &&
           item == other.item &&
           formObj == other.formObj &&
+          formErrorObj == other.formErrorObj &&
           bookingFormView == other.bookingFormView;
 }

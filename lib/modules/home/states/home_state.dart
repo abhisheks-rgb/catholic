@@ -66,23 +66,45 @@ class HomeState extends BasePageState<HomeModel> {
           dispatchAction(SetFontSizeAction());
         };
         m.discardBooking = () {
+          dispatchModel<HomeModel>(HomeModel(), (m) {
+            m.bookingFormView = 'bookingForm';
+            m.formObj = {};
+          });
           dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
             m.bookingFormView = 'bookingForm';
+            m.formErrorObj = {};
+            m.formObj = {};
           });
         };
         m.setBookingFormView = () {
           final m = read<EventRegisterModel>(EventRegisterModel());
+          final h = read<HomeModel>(HomeModel());
 
-          String bookingView;
+          String bookingView = 'bookingForm';
 
-          if (m.bookingFormView == 'bookingForm') {
+          Map errorObj = {};
+          m.item!['eventFormContent'].forEach((e) {
+            if (h.formObj == null && e['required'] == true) {
+              errorObj[e['field_name']] = '${e['label']} is required.';
+            } else if (e['required'] == true &&
+                (h.formObj![e['field_name']] == null ||
+                    h.formObj![e['field_name']] == '')) {
+              errorObj[e['field_name']] = '${e['label']} is required.';
+            } else if (e['required'] == true &&
+                e['element'] == 'Checkboxes' &&
+                h.formObj![e['field_name']].length == 0) {
+              errorObj[e['field_name']] = '${e['label']} is required.';
+            }
+          });
+
+          if (errorObj.isEmpty) {
             bookingView = 'bookingFormReview';
-          } else {
-            bookingView = 'bookingForm';
           }
 
           dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
             m.bookingFormView = bookingView;
+            m.formErrorObj = errorObj;
+            m.loading = false;
           });
           dispatchModel<HomeModel>(HomeModel(), (m) {
             m.bookingFormView = bookingView;
@@ -129,6 +151,29 @@ class HomeState extends BasePageState<HomeModel> {
 
           pushNamed('/_/events/list');
         };
+        m.redirectToLogin = () {
+          dispatchModel<HomeModel>(HomeModel(), (m) {
+            m.isEventRegister = false;
+            m.isEventDetails = false;
+            m.loading = false;
+          });
+          pushNamed('/_/login');
+        };
+        m.gotoMyEvents = () {
+          pushNamed('/_/events/myEvents');
+
+          dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
+            m.bookingFormView = 'bookingForm';
+            m.formObj = {};
+          });
+
+          dispatchModel<HomeModel>(HomeModel(), (m) {
+            m.isEventRegister = false;
+            m.isEventDetails = false;
+            m.bookingFormView = 'bookingForm';
+            m.loading = false;
+          });
+        };
         m.setShowInfo = (String route) {
           switch (route) {
             case '/_/devotion/rosary':
@@ -165,14 +210,14 @@ class HomeState extends BasePageState<HomeModel> {
               selectedId: selectedId,
             ));
         m.navigateToEventRegister = (event) {
-          dispatchModel<HomeModel>(HomeModel(), (m) {
-            m.isEventRegister = true;
-          });
-
           dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
             m.item = event;
           });
           pushNamed('/_/events/register');
+
+          dispatchModel<HomeModel>(HomeModel(), (m) {
+            m.isEventRegister = true;
+          });
         };
         m.setInterestEvent = (parentEventId, eventId) => dispatchAction(
             SetInterestAction(eventId: eventId, parentEventId: parentEventId));

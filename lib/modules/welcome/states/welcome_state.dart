@@ -1,6 +1,7 @@
 import 'package:butter/butter.dart';
 
 import '../actions/initialize_qoutes.dart';
+import '../actions/list_reflection_action.dart';
 import '../models/welcome_model.dart';
 import '../../church_info/models/church_info_model.dart';
 import '../../church_bulletin/models/church_bulletin_model.dart';
@@ -50,6 +51,8 @@ class WelcomeState extends BasePageState<WelcomeModel> {
           String newRoute = route;
           Map<String, dynamic>? user;
 
+          bool canRedirect = true;
+
           dispatchModel<HomeModel>(HomeModel(), (m) {
             user = m.user;
           });
@@ -98,10 +101,16 @@ class WelcomeState extends BasePageState<WelcomeModel> {
                 m.churchLink = churchLink;
               });
               break;
+            case '/_/scripture/history':
+              await dispatchAction(ListReflectionAction());
+              canRedirect = false;
+              break;
             default:
           }
 
-          pushNamed(newRoute);
+          if (canRedirect) {
+            pushNamed(newRoute);
+          }
         };
       });
 }

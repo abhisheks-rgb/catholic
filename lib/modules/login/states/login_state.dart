@@ -42,8 +42,15 @@ class LoginState extends BasePageState<LoginModel> {
                 ),
           ), (m) {
         // Load all your model's handlers here
-        m.navigateTo = (route) => dispatchAction(NavigateToAction(route: route));
+        m.navigateTo =
+            (route) => dispatchAction(NavigateToAction(route: route));
         m.login = (email, password) =>
             dispatchAction(LoginAction(email: email, password: password));
+        m.resetError = () async {
+          await dispatchModel<LoginModel>(LoginModel(), (m) {
+            m.error = '';
+            m.loading = false;
+          });
+        };
       });
 }

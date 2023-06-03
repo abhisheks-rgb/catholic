@@ -142,7 +142,9 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                 '1. ',
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
+                  fontWeight: FontWeight.w500,
                   fontSize: widget.model!.contentFontSize ?? 17,
+                  height: 1.4,
                 ),
               ),
               Expanded(
@@ -150,7 +152,9 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                   'Make the Sign of the Cross',
                   style: TextStyle(
                     color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontWeight: FontWeight.w500,
                     fontSize: widget.model!.contentFontSize ?? 17,
+                    height: 1.4,
                   ),
                 ),
               ),
@@ -161,6 +165,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
               fontSize: widget.model!.contentFontSize ?? 17,
+              height: 1.4,
             ),
           ),
           const SizedBox(height: 16),
@@ -171,7 +176,9 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                 '2. ',
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
+                  fontWeight: FontWeight.w500,
                   fontSize: widget.model!.contentFontSize ?? 17,
+                  height: 1.4,
                 ),
               ),
               Expanded(
@@ -179,7 +186,9 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                   'Optional Opening Prayers',
                   style: TextStyle(
                     color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontWeight: FontWeight.w500,
                     fontSize: widget.model!.contentFontSize ?? 17,
+                    height: 1.4,
                   ),
                 ),
               ),
@@ -190,6 +199,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
               fontSize: widget.model!.contentFontSize ?? 17,
+              height: 1.4,
             ),
           ),
           const SizedBox(height: 16),
@@ -198,6 +208,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
               fontSize: widget.model!.contentFontSize ?? 17,
+              height: 1.4,
             ),
           ),
           const SizedBox(height: 16),
@@ -208,7 +219,9 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                 '3. ',
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
+                  fontWeight: FontWeight.w500,
                   fontSize: widget.model!.contentFontSize ?? 17,
+                  height: 1.4,
                 ),
               ),
               Expanded(
@@ -216,7 +229,9 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                   'Our Father',
                   style: TextStyle(
                     color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontWeight: FontWeight.w500,
                     fontSize: widget.model!.contentFontSize ?? 17,
+                    height: 1.4,
                   ),
                 ),
               ),
@@ -227,6 +242,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
               fontSize: widget.model!.contentFontSize ?? 17,
+              height: 1.4,
             ),
           ),
           const SizedBox(height: 16),
@@ -237,7 +253,9 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                 '4. ',
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
+                  fontWeight: FontWeight.w500,
                   fontSize: widget.model!.contentFontSize ?? 17,
+                  height: 1.4,
                 ),
               ),
               Expanded(
@@ -245,7 +263,9 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                   'Hail Mary',
                   style: TextStyle(
                     color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontWeight: FontWeight.w500,
                     fontSize: widget.model!.contentFontSize ?? 17,
+                    height: 1.4,
                   ),
                 ),
               ),
@@ -256,6 +276,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
               fontSize: widget.model!.contentFontSize ?? 17,
+              height: 1.4,
             ),
           ),
           const SizedBox(height: 16),
@@ -266,7 +287,9 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                 '5. ',
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
+                  fontWeight: FontWeight.w500,
                   fontSize: widget.model!.contentFontSize ?? 17,
+                  height: 1.4,
                 ),
               ),
               Expanded(
@@ -274,7 +297,9 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                   'The Apostles’ Creed',
                   style: TextStyle(
                     color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontWeight: FontWeight.w500,
                     fontSize: widget.model!.contentFontSize ?? 17,
+                    height: 1.4,
                   ),
                 ),
               ),
@@ -285,22 +310,41 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
               fontSize: widget.model!.contentFontSize ?? 17,
+              height: 1.4,
             ),
           ),
           const SizedBox(height: 16),
-          Text(
-            'For each of the five decades',
-            style: TextStyle(
-              color: const Color.fromRGBO(4, 26, 82, 1),
-              fontSize: widget.model!.contentFontSize ?? 17,
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '6. ',
+                style: TextStyle(
+                  color: const Color.fromRGBO(4, 26, 82, 1),
+                  fontWeight: FontWeight.w500,
+                  fontSize: widget.model!.contentFontSize ?? 17,
+                  height: 1.4,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  'For each of the five decades',
+                  style: TextStyle(
+                    color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontWeight: FontWeight.w500,
+                    fontSize: widget.model!.contentFontSize ?? 17,
+                    height: 1.4,
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 16),
           Text(
             'On each "Our Father" bead of the rosary, pray:V. Eternal Father, I offer you the Body and Blood, soul and divinity of your dearly beloved Son, our Lord Jesus Christ,R. in atonement for our sins and those of the whole world.',
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
               fontSize: widget.model!.contentFontSize ?? 17,
+              height: 1.4,
             ),
           ),
           const SizedBox(height: 16),
@@ -309,6 +353,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
               fontSize: widget.model!.contentFontSize ?? 17,
+              height: 1.4,
             ),
           ),
           Text(
@@ -316,6 +361,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
               fontSize: widget.model!.contentFontSize ?? 17,
+              height: 1.4,
             ),
           ),
           Text(
@@ -323,21 +369,41 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
               fontSize: widget.model!.contentFontSize ?? 17,
+              height: 1.4,
             ),
           ),
           const SizedBox(height: 16),
-          Text(
-            'Conclusion',
-            style: TextStyle(
-              color: const Color.fromRGBO(4, 26, 82, 1),
-              fontSize: widget.model!.contentFontSize ?? 17,
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '7. ',
+                style: TextStyle(
+                  color: const Color.fromRGBO(4, 26, 82, 1),
+                  fontWeight: FontWeight.w500,
+                  fontSize: widget.model!.contentFontSize ?? 17,
+                  height: 1.4,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  'Conclusion',
+                  style: TextStyle(
+                    color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontWeight: FontWeight.w500,
+                    fontSize: widget.model!.contentFontSize ?? 17,
+                    height: 1.4,
+                  ),
+                ),
+              ),
+            ],
           ),
           Text(
             'Holy God, Holy Mighty One, Holy Immortal One, have mercy on us and on the whole world.',
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
               fontSize: widget.model!.contentFontSize ?? 17,
+              height: 1.4,
             ),
           ),
           Text(
@@ -345,6 +411,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
               fontSize: widget.model!.contentFontSize ?? 17,
+              height: 1.4,
             ),
           ),
           const SizedBox(height: 16),
@@ -355,7 +422,9 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                 '8. ',
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
+                  fontWeight: FontWeight.w500,
                   fontSize: widget.model!.contentFontSize ?? 17,
+                  height: 1.4,
                 ),
               ),
               Expanded(
@@ -363,7 +432,9 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                   'Optional Closing Prayers',
                   style: TextStyle(
                     color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontWeight: FontWeight.w500,
                     fontSize: widget.model!.contentFontSize ?? 17,
+                    height: 1.4,
                   ),
                 ),
               ),
@@ -374,6 +445,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
               fontSize: widget.model!.contentFontSize ?? 17,
+              height: 1.4,
             ),
           ),
           Text(
@@ -381,6 +453,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
               fontSize: widget.model!.contentFontSize ?? 17,
+              height: 1.4,
             ),
           ),
           const SizedBox(height: 16),
@@ -389,6 +462,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
               fontSize: widget.model!.contentFontSize ?? 17,
+              height: 1.4,
             ),
           ),
           Text(
@@ -396,6 +470,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
               fontSize: widget.model!.contentFontSize ?? 17,
+              height: 1.4,
             ),
           ),
           Text(
@@ -403,6 +478,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
               fontSize: widget.model!.contentFontSize ?? 17,
+              height: 1.4,
             ),
           ),
           const SizedBox(height: 20),
@@ -419,6 +495,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
           style: TextStyle(
             color: const Color.fromRGBO(4, 26, 82, 1),
             fontSize: widget.model!.contentFontSize ?? 17,
+            height: 1.4,
           ),
         ),
         const SizedBox(height: 16),
@@ -427,6 +504,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
           style: TextStyle(
             color: const Color.fromRGBO(4, 26, 82, 1),
             fontSize: widget.model!.contentFontSize ?? 17,
+            height: 1.4,
           ),
         ),
         const SizedBox(height: 16),
@@ -435,6 +513,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
           style: TextStyle(
             color: const Color.fromRGBO(4, 26, 82, 1),
             fontSize: widget.model!.contentFontSize ?? 17,
+            height: 1.4,
           ),
         ),
         const SizedBox(height: 16),
@@ -443,6 +522,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
           style: TextStyle(
             color: const Color.fromRGBO(4, 26, 82, 1),
             fontSize: widget.model!.contentFontSize ?? 17,
+            height: 1.4,
           ),
         ),
         const SizedBox(height: 16),
@@ -451,6 +531,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
           style: TextStyle(
             color: const Color.fromRGBO(4, 26, 82, 1),
             fontSize: widget.model!.contentFontSize ?? 17,
+            height: 1.4,
           ),
         ),
         const SizedBox(height: 16),
@@ -459,6 +540,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
           style: TextStyle(
             color: const Color.fromRGBO(4, 26, 82, 1),
             fontSize: widget.model!.contentFontSize ?? 17,
+            height: 1.4,
           ),
         ),
       ],
@@ -493,7 +575,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                         children: [
                           Expanded(
                             child: Text(
-                              'What is Divine Mercy Prayer?',
+                              'What is the Divine Mercy Prayer?',
                               style: TextStyle(
                                 color: const Color.fromRGBO(4, 26, 82, 1),
                                 fontWeight: FontWeight.w500,

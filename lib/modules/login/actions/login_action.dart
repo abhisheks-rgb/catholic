@@ -53,9 +53,15 @@ class LoginAction extends BaseAction {
 
             for (var e in items) {
               if (e['_id'] == int.parse(user!['parish'])) {
-                user!['churchId'] = e['_id'] - 1;
                 user!['churchName'] = e['name'];
                 user!['churchLink'] = e['link'];
+              }
+
+              if (e['_id'] != null) {
+                user!['churchId'] = e['_id'] - 1;
+              } else {
+                isLoggedIn = false;
+                error = 'verify';
               }
             }
           }).onError((error, stackTrace) {
@@ -95,10 +101,20 @@ class LoginAction extends BaseAction {
 
       pushNamed('/_/welcome');
     } else {
-      await dispatchModel<LoginModel>(LoginModel(), (m) {
-        m.error = 'Incorrect email/password';
-        m.loading = false;
-      });
+      switch (error) {
+        case 'verify':
+          await dispatchModel<LoginModel>(LoginModel(), (m) {
+            m.error =
+                'To continue with the login process, please verify your account.';
+            m.loading = false;
+          });
+          break;
+        default:
+          await dispatchModel<LoginModel>(LoginModel(), (m) {
+            m.error = 'Incorrect email/password';
+            m.loading = false;
+          });
+      }
     }
 
     return null;

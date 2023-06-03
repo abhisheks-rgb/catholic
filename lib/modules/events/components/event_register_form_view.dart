@@ -16,7 +16,7 @@ class EventRegisterFormView extends BaseStatefulPageView {
 }
 
 class _EventRegisterFormViewState extends State<EventRegisterFormView> {
-  Map<String, dynamic> fieldValues = {};
+  Map<dynamic, dynamic> fieldValues = {};
   Map<String, TextEditingController> textEditingControllerMap = {};
 
   @override
@@ -76,12 +76,24 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              element['label'] ?? '',
-              style: const TextStyle(
-                color: Color.fromRGBO(4, 26, 82, 0.5),
-                fontWeight: FontWeight.w500,
-              ),
+            Row(
+              children: [
+                Text(
+                  '${element['label']}',
+                  style: const TextStyle(
+                    color: Color.fromRGBO(4, 26, 82, 0.4),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                const Text(
+                  '*',
+                  style: TextStyle(
+                    color: Color.fromRGBO(233, 40, 35, 0.4),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 4),
             TextFormField(
@@ -98,8 +110,13 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(
-                    color: Color.fromRGBO(4, 26, 82, 0.5),
+                  borderSide: BorderSide(
+                    color: widget.model?.formErrorObj != null &&
+                            widget.model
+                                    ?.formErrorObj![element['field_name']] !=
+                                null
+                        ? const Color.fromRGBO(241, 119, 116, 1)
+                        : const Color.fromRGBO(4, 26, 82, 0.5),
                   ),
                 ),
                 filled: true,
@@ -117,13 +134,32 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                   return null;
                 }
               },
-              onChanged: (value) {
+              onChanged: (value) async {
                 setState(() {
                   fieldValues[element['field_name']] = value;
                 });
                 widget.model?.setFormObj(fieldValues);
+                Map? newErrorObj = widget.model?.formErrorObj;
+
+                if (newErrorObj != null &&
+                    newErrorObj[element['field_name']] != null) {
+                  newErrorObj.remove(element['field_name']);
+                }
+
+                await widget.model?.setFormErrorObj!(newErrorObj);
               },
             ),
+            const SizedBox(height: 4),
+            widget.model?.formErrorObj != null &&
+                    widget.model?.formErrorObj![element['field_name']] != null
+                ? Text(
+                    widget.model?.formErrorObj![element['field_name']] ?? '',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Color.fromRGBO(233, 40, 35, 1),
+                    ),
+                  )
+                : const SizedBox(),
           ],
         );
       case 'Dropdown':
@@ -178,12 +214,24 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              element['label'] ?? '',
-              style: const TextStyle(
-                color: Color.fromRGBO(4, 26, 82, 0.5),
-                fontWeight: FontWeight.w500,
-              ),
+            Row(
+              children: [
+                Text(
+                  '${element['label']}',
+                  style: const TextStyle(
+                    color: Color.fromRGBO(4, 26, 82, 0.5),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                const Text(
+                  '*',
+                  style: TextStyle(
+                    color: Color.fromRGBO(233, 40, 35, 0.4),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 4),
             TextFormField(
@@ -202,8 +250,13 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(
-                    color: Color.fromRGBO(4, 26, 82, 0.5),
+                  borderSide: BorderSide(
+                    color: widget.model?.formErrorObj != null &&
+                            widget.model
+                                    ?.formErrorObj![element['field_name']] !=
+                                null
+                        ? const Color.fromRGBO(241, 119, 116, 1)
+                        : const Color.fromRGBO(4, 26, 82, 0.5),
                   ),
                 ),
                 filled: true,
@@ -222,20 +275,51 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                   fieldValues[element['field_name']] = value;
                 });
                 widget.model?.setFormObj(fieldValues);
+                Map? newErrorObj = widget.model?.formErrorObj;
+
+                if (newErrorObj != null &&
+                    newErrorObj[element['field_name']] != null) {
+                  newErrorObj.remove(element['field_name']);
+                }
+
+                widget.model?.setFormErrorObj!(newErrorObj);
               },
             ),
+            const SizedBox(height: 4),
+            widget.model?.formErrorObj != null &&
+                    widget.model?.formErrorObj![element['field_name']] != null
+                ? Text(
+                    widget.model?.formErrorObj![element['field_name']] ?? '',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Color.fromRGBO(233, 40, 35, 1),
+                    ),
+                  )
+                : const SizedBox(),
           ],
         );
       case 'TextInput':
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              element['label'] ?? '',
-              style: const TextStyle(
-                color: Color.fromRGBO(4, 26, 82, 0.5),
-                fontWeight: FontWeight.w500,
-              ),
+            Row(
+              children: [
+                Text(
+                  '${element['label']}',
+                  style: const TextStyle(
+                    color: Color.fromRGBO(4, 26, 82, 0.5),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                const Text(
+                  '*',
+                  style: TextStyle(
+                    color: Color.fromRGBO(233, 40, 35, 0.4),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 4),
             TextFormField(
@@ -252,41 +336,69 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(
-                    color: Color.fromRGBO(4, 26, 82, 0.5),
+                  borderSide: BorderSide(
+                    color: widget.model?.formErrorObj != null &&
+                            widget.model
+                                    ?.formErrorObj![element['field_name']] !=
+                                null
+                        ? const Color.fromRGBO(241, 119, 116, 1)
+                        : const Color.fromRGBO(4, 26, 82, 0.5),
                   ),
                 ),
                 filled: true,
                 fillColor: Colors.white,
               ),
-              validator: (value) {
-                if (value!.isEmpty) {
-                  // || !element['regex'].hasMatch(value)
-                  return element['error'] ?? '';
-                } else {
-                  return null;
-                }
-              },
-              onChanged: (value) {
+              onChanged: (value) async {
                 setState(() {
                   fieldValues[element['field_name']] = value;
                 });
-                widget.model?.setFormObj(fieldValues);
+
+                await widget.model?.setFormObj(fieldValues);
+                Map? newErrorObj = widget.model?.formErrorObj;
+
+                if (newErrorObj != null &&
+                    newErrorObj[element['field_name']] != null) {
+                  newErrorObj.remove(element['field_name']);
+                }
+
+                widget.model?.setFormErrorObj!(newErrorObj);
               },
             ),
+            const SizedBox(height: 4),
+            widget.model?.formErrorObj != null &&
+                    widget.model?.formErrorObj![element['field_name']] != null
+                ? Text(
+                    widget.model?.formErrorObj![element['field_name']] ?? '',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Color.fromRGBO(233, 40, 35, 1),
+                    ),
+                  )
+                : const SizedBox(),
           ],
         );
       case 'RadioButtons':
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              element['label'] ?? '',
-              style: const TextStyle(
-                fontSize: 16,
-                color: Color.fromRGBO(4, 26, 82, 1),
-                letterSpacing: 0.1,
-              ),
+            Row(
+              children: [
+                Text(
+                  '${element['label']}',
+                  style: const TextStyle(
+                    color: Color.fromRGBO(4, 26, 82, 1),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                const Text(
+                  '*',
+                  style: TextStyle(
+                    color: Color.fromRGBO(233, 40, 35, 1),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
@@ -306,25 +418,58 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                   value: element['options'][index]['value'],
                   groupValue: fieldValues[element['field_name']],
                   onChanged: (value) {
+                    Map? newErrorObj = widget.model?.formErrorObj;
+
                     setState(() {
                       fieldValues[element['field_name']] = value;
                     });
+
+                    if (newErrorObj != null &&
+                        newErrorObj[element['field_name']] != null) {
+                      newErrorObj.remove(element['field_name']);
+                    }
+
                     widget.model?.setFormObj(fieldValues);
+                    widget.model?.setFormErrorObj!(newErrorObj);
                   },
                 );
               },
             ),
+            const SizedBox(height: 4),
+            widget.model?.formErrorObj != null &&
+                    widget.model?.formErrorObj![element['field_name']] != null
+                ? Text(
+                    widget.model?.formErrorObj![element['field_name']] ?? '',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Color.fromRGBO(233, 40, 35, 1),
+                    ),
+                  )
+                : const SizedBox(),
           ],
         );
       case 'Checkboxes':
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              element['label'] ?? '',
-              style: const TextStyle(
-                fontSize: 16,
-              ),
+            Row(
+              children: [
+                Text(
+                  '${element['label']}',
+                  style: const TextStyle(
+                    color: Color.fromRGBO(4, 26, 82, 1),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                const Text(
+                  '*',
+                  style: TextStyle(
+                    color: Color.fromRGBO(233, 40, 35, 1),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
@@ -342,19 +487,47 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                       )),
                   visualDensity: VisualDensity.compact,
                   controlAffinity: ListTileControlAffinity.leading,
-                  value: fieldValues[element['field_name']]
-                          .contains(element['options'][index]['value']) ??
-                      false,
-                  onChanged: (bool? value) {
+                  value: fieldValues[element['field_name']] != null
+                      ? fieldValues[element['field_name']]
+                              .contains(element['options'][index]['value']) ??
+                          false
+                      : false,
+                  onChanged: (bool? value) async {
+                    Map? newErrorObj = widget.model?.formErrorObj;
+
+                    if (newErrorObj != null &&
+                        newErrorObj[element['field_name']] != null) {
+                      newErrorObj.remove(element['field_name']);
+                    }
+
                     setState(() {
-                      fieldValues[element['field_name']]
-                          .add(element['options'][index]['value']);
+                      if (value!) {
+                        fieldValues[element['field_name']]
+                            .add(element['options'][index]['value']);
+                      } else {
+                        fieldValues[element['field_name']]
+                            .remove(element['options'][index]['value']);
+                      }
                     });
+
                     widget.model?.setFormObj(fieldValues);
+
+                    widget.model?.setFormErrorObj!(newErrorObj);
                   },
                 );
               },
             ),
+            const SizedBox(height: 4),
+            widget.model?.formErrorObj != null &&
+                    widget.model?.formErrorObj![element['field_name']] != null
+                ? Text(
+                    widget.model?.formErrorObj![element['field_name']] ?? '',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Color.fromRGBO(233, 40, 35, 1),
+                    ),
+                  )
+                : const SizedBox(),
           ],
         );
       case 'DatePicker':
