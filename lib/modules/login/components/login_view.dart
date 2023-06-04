@@ -40,7 +40,14 @@ class _LoginViewState extends State<LoginView> {
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.model!.error != widget.model!.error) {
-      _error = widget.model!.error;
+      if (widget.model!.error == 'Incorrect email/password') {
+        _error = widget.model!.error;
+      } else if (widget.model!.loading == false &&
+          widget.model!.error!.isNotEmpty) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          showAlert();
+        });
+      }
     }
   }
 
@@ -367,4 +374,36 @@ class _LoginViewState extends State<LoginView> {
       throw 'Could not launch $uri';
     }
   }
+
+  Future showAlert() => showDialog(
+        context: context,
+        builder: (BuildContext context) => Dialog(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          ),
+          insetPadding:
+              const EdgeInsets.symmetric(vertical: 12, horizontal: 80),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
+                  child: Text(
+                    widget.model!.error!,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Color.fromRGBO(4, 26, 82, 1),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ).then((value) {
+        widget.model!.resetError();
+      });
 }

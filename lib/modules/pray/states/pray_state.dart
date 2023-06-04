@@ -2,6 +2,7 @@ import 'package:butter/butter.dart';
 
 import '../models/pray_model.dart';
 import '../../home/models/home_model.dart';
+import '../../welcome/actions/list_reflection_action.dart';
 
 class PrayState extends BasePageState<PrayModel> {
   PrayState();
@@ -40,7 +41,18 @@ class PrayState extends BasePageState<PrayModel> {
           ), (m) {
         // Load all your model's handlers here
         m.showPage = (route) async {
-          pushNamed(route);
+          bool canRedirect = true;
+          switch (route) {
+            case '/_/scripture/history':
+              await dispatchAction(ListReflectionAction());
+              canRedirect = false;
+              break;
+            default:
+          }
+
+          if (canRedirect) {
+            pushNamed(route);
+          }
         };
         m.checkIsLoggedIn = () async {
           Map<String, dynamic>? user;

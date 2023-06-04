@@ -38,7 +38,7 @@ class _WelcomePageState extends State<WelcomePage> {
       {
         'title': 'Scripture Reflection',
         'icon': 'Scripture_Reflections.png',
-        'route': 'scripture'
+        'route': 'scripture/history'
       },
       {
         'title': 'Mass Schedules',
@@ -312,7 +312,7 @@ class _WelcomePageState extends State<WelcomePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
                           Text(
-                            'Login Now',
+                            'Log in Now',
                             style: TextStyle(
                               color: Color.fromRGBO(99, 69, 4, 1),
                               fontWeight: FontWeight.w500,
@@ -442,7 +442,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       ),
                       const SizedBox(width: 10),
                       const Text(
-                        'Give us your feedback or suggestions!',
+                        'Share your feedback or suggestions.',
                         style: TextStyle(
                           color: Color.fromRGBO(12, 72, 224, 1),
                           fontWeight: FontWeight.w500,

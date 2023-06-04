@@ -195,7 +195,7 @@ class _EventsViewState extends State<EventsView> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const [
                               Text(
-                                'Login Now',
+                                'Log in Now',
                                 style: TextStyle(
                                   color: Color.fromRGBO(99, 69, 4, 1),
                                   fontWeight: FontWeight.w500,

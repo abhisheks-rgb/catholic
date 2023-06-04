@@ -26,7 +26,7 @@ class ScriptureHistoryPage extends BaseStatefulPageView {
   @override
   get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
         hasAppBar: true,
-        title: 'View All',
+        title: 'Scripture Reflections',
       ));
 
   @override

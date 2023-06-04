@@ -14,11 +14,10 @@ class HomeModel extends BaseUIModel<HomeModel> {
   bool isEventDetails;
   bool isEventRegister;
   Map<dynamic, dynamic>? selectedEventDetail;
+  Map<dynamic, dynamic>? formObj;
   String? bookingFormView;
 
   late void Function(String route) showPage;
-  void Function()? discardBooking;
-  void Function()? setBookingFormView;
   void Function()? setPageFontSize;
   void Function(String route)? setShowInfo;
 
@@ -32,11 +31,16 @@ class HomeModel extends BaseUIModel<HomeModel> {
     String? selectedId,
     bool? allowSameId,
   })? selectMenuItem;
+
+  void Function()? discardBooking;
+  void Function()? setBookingFormView;
+  void Function()? closeSuccessPrompt;
+  void Function()? gotoMyEvents;
+  void Function()? redirectToLogin;
   void Function(Map<Object?, Object?>? event)? navigateToEventRegister;
   void Function(String parentEventId, String eventId)? setInterestEvent;
   late Future<void> Function()? submitFormEvent;
   late Future<void> Function()? cancelFormEvent;
-  void Function()? closeSuccessPrompt;
 
   Future<void> Function(BaseAction action)? dispatch;
   T? Function<T extends BaseUIModel>(T m)? read;
@@ -53,6 +57,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
     this.isEventDetails = false,
     this.isEventRegister = false,
     this.selectedEventDetail,
+    this.formObj,
     this.bookingFormView = 'bookingForm',
   });
 
@@ -72,6 +77,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
         isEventDetails: isEventDetails,
         isEventRegister: isEventRegister,
         selectedEventDetail: selectedEventDetail,
+        formObj: formObj,
         bookingFormView: bookingFormView,
       );
 
@@ -88,6 +94,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
         isEventDetails,
         isEventRegister,
         selectedEventDetail,
+        formObj,
         bookingFormView,
       ]);
 
