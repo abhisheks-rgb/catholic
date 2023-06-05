@@ -5,6 +5,8 @@ import 'package:cloud_functions/cloud_functions.dart';
 
 import '../models/my_event_model.dart';
 
+import '../models/events_list_model.dart';
+
 class ListInterestedEventsAction extends BaseAction {
   final String userId;
   ListInterestedEventsAction({
@@ -48,6 +50,12 @@ class ListInterestedEventsAction extends BaseAction {
       m.error = error;
       m.loading = false;
       m.events = records;
+    });
+
+    await dispatchModel<EventsListModel>(EventsListModel(), (m) {
+      m.error = error;
+      m.loading = false;
+      m.interestedEvents = records;
     });
 
     return null;

@@ -42,14 +42,6 @@ class NotificationDetailsView extends BaseStatelessPageView {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      Text(
-                        model?.item?['content'] ?? '',
-                        style: const TextStyle(
-                          color: Color.fromRGBO(4, 26, 82, 1),
-                          fontSize: 16,
-                          height: 1.4,
-                        ),
-                      ),
                       Linkify(
                         onOpen: (link) async {
                           final website = link.url;

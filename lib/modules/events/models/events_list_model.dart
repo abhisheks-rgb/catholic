@@ -8,12 +8,16 @@ class EventsListModel extends BaseUIModel<EventsListModel> {
   String? error;
   bool? loading;
   List<Object>? events;
+  List<Object>? interestedEvents;
   late void Function() loadEvents;
+  late void Function() loadInterestedEvents;
 
   EventsListModel({
     this.error,
     this.loading,
     this.isLoggedIn = false,
+    this.events,
+    this.interestedEvents,
   });
 
   Future<void> Function(String route)? navigateTo;
@@ -27,6 +31,8 @@ class EventsListModel extends BaseUIModel<EventsListModel> {
         error: error,
         loading: loading,
         isLoggedIn: isLoggedIn,
+        events: events,
+        interestedEvents: interestedEvents,
       );
 
   @override
@@ -34,6 +40,8 @@ class EventsListModel extends BaseUIModel<EventsListModel> {
         error,
         loading,
         isLoggedIn,
+        events,
+        interestedEvents,
       ]);
 
   @override
@@ -43,5 +51,7 @@ class EventsListModel extends BaseUIModel<EventsListModel> {
           runtimeType == other.runtimeType &&
           error == other.error &&
           loading == other.loading &&
-          isLoggedIn == other.isLoggedIn;
+          isLoggedIn == other.isLoggedIn &&
+          events == other.events &&
+          interestedEvents == other.interestedEvents;
 }
