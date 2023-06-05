@@ -9,10 +9,13 @@ import '../../../utils/asset_path.dart';
 class EventsListView extends BaseStatefulPageView {
   final EventsListModel? model;
   final List<Map> _items;
+  final List<Map> _interestedItems;
 
   EventsListView(this.model, {Key? key})
       : _items = List.generate(model?.events?.length ?? 0,
             (index) => model?.events![index] as Map),
+        _interestedItems = List.generate(model?.interestedEvents?.length ?? 0,
+            (index) => model?.interestedEvents![index] as Map),
         super();
 
   @override
@@ -21,6 +24,7 @@ class EventsListView extends BaseStatefulPageView {
 
 class _EventsViewState extends State<EventsListView> {
   String? _selectedEventType;
+  String? _searchEvent = '';
   List? _eventTypes;
 
   @override
@@ -81,8 +85,8 @@ class _EventsViewState extends State<EventsListView> {
               margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
               child: Column(
                 children: [
-                  const TextField(
-                    decoration: InputDecoration(
+                  TextField(
+                    decoration: const InputDecoration(
                       hintText: 'Search Event',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -104,6 +108,11 @@ class _EventsViewState extends State<EventsListView> {
                         ),
                       ),
                     ),
+                    onChanged: (value) {
+                      setState(() {
+                        _searchEvent = value;
+                      });
+                    },
                   ),
                   Container(
                     height: 45,
@@ -113,11 +122,18 @@ class _EventsViewState extends State<EventsListView> {
                       scrollDirection: Axis.horizontal,
                       itemCount: _eventTypes?.length ?? 0,
                       separatorBuilder: (BuildContext context, int index) =>
-                          const SizedBox(
-                        width: 8,
+                          SizedBox(
+                        width: (index == 1 && widget.model?.isLoggedIn == false)
+                            ? 0
+                            : 8,
                       ),
-                      itemBuilder: (BuildContext context, int index) =>
-                          _renderEventTypes(context, index),
+                      itemBuilder: (BuildContext context, int index) {
+                        if (index == 1 && widget.model?.isLoggedIn == false) {
+                          return const SizedBox.shrink();
+                        } else {
+                          return _renderEventTypes(context, index);
+                        }
+                      },
                     ),
                   ),
                   widget.model?.isLoggedIn == true
@@ -175,22 +191,65 @@ class _EventsViewState extends State<EventsListView> {
                       ? Container()
                       : const SizedBox(height: 16),
                   // ignore: unnecessary_null_comparison
-                  widget.model?.loading == true && widget._items != null
+                  widget.model?.loading == true
                       ? Container(
                           height: MediaQuery.of(context).size.height * 0.3,
                           margin: const EdgeInsets.only(top: 20),
                           child:
                               const Center(child: CircularProgressIndicator()),
                         )
-                      :
-                      // ignore: unnecessary_null_comparison
-                      widget._items == null
-                          ? _renderEmptyEvents()
-                          : Column(
-                              children: widget._items.map<Widget>((e) {
-                                return _renderEventItem(e);
-                              }).toList(),
-                            ),
+                      : _selectedEventType == 'Favorites'
+                          ?
+                          // ignore: unnecessary_null_comparison
+                          widget._interestedItems.isEmpty
+                              ? _renderEmptyEvents()
+                              : Column(
+                                  children:
+                                      widget._interestedItems.where((element) {
+                                    bool containsSearchText = true;
+                                    if (_searchEvent != null) {
+                                      containsSearchText = element['eventName']
+                                          .contains(_searchEvent!.trim());
+                                    }
+
+                                    return true && containsSearchText;
+                                  }).map<Widget>((e) {
+                                    return _renderEventItem(e);
+                                  }).toList(),
+                                )
+                          :
+                          // ignore: unnecessary_null_comparison
+                          widget._items.where((element) {
+                              if (_selectedEventType == 'Walk-In Only') {
+                                return element['isWalkIn'] == true;
+                              } else if (_selectedEventType == 'RSVP') {
+                                return element['isWalkIn'] == false;
+                              }
+
+                              return true;
+                            }).isEmpty
+                              ? _renderEmptyEvents()
+                              : Column(
+                                  children: widget._items.where((element) {
+                                    bool containsSearchText = true;
+                                    if (_searchEvent != null) {
+                                      containsSearchText = element['eventName']
+                                          .contains(_searchEvent!.trim());
+                                    }
+
+                                    if (_selectedEventType == 'Walk-In Only') {
+                                      return element['isWalkIn'] == true &&
+                                          containsSearchText;
+                                    } else if (_selectedEventType == 'RSVP') {
+                                      return element['isWalkIn'] == false &&
+                                          containsSearchText;
+                                    }
+
+                                    return true && containsSearchText;
+                                  }).map<Widget>((e) {
+                                    return _renderEventItem(e);
+                                  }).toList(),
+                                ),
                 ],
               ),
             ),
@@ -204,7 +263,7 @@ class _EventsViewState extends State<EventsListView> {
         children: [
           Container(
             width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.77,
+            height: MediaQuery.of(context).size.height * 0.5,
             margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 28),
             decoration: const BoxDecoration(
               color: Colors.transparent,
@@ -226,6 +285,7 @@ class _EventsViewState extends State<EventsListView> {
 
   _renderEventTypes(BuildContext context, int index) {
     bool isSelected = _eventTypes?[index] == _selectedEventType;
+
     return RawMaterialButton(
       constraints: const BoxConstraints(),
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -234,6 +294,10 @@ class _EventsViewState extends State<EventsListView> {
           setState(() {
             _selectedEventType = _eventTypes?[index];
           });
+
+          if (_eventTypes?[index] == 'Favorites') {
+            widget.model!.loadInterestedEvents();
+          }
         }
       },
       child: Container(
@@ -331,21 +395,24 @@ class _EventsViewState extends State<EventsListView> {
                               ),
                             ),
                             const Spacer(),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 4, horizontal: 8),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(32),
-                                color: const Color.fromRGBO(252, 223, 222, 1),
-                              ),
-                              child: const Text(
-                                'RSVP',
-                                style: TextStyle(
-                                    color: Color.fromRGBO(236, 74, 70, 1),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 12),
-                              ),
-                            ),
+                            element['isWalkIn'] == false
+                                ? Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 4, horizontal: 8),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(32),
+                                      color: const Color.fromRGBO(
+                                          252, 223, 222, 1),
+                                    ),
+                                    child: const Text(
+                                      'RSVP',
+                                      style: TextStyle(
+                                          color: Color.fromRGBO(236, 74, 70, 1),
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 12),
+                                    ),
+                                  )
+                                : const SizedBox(),
                           ],
                         ),
                         const SizedBox(height: 8),
