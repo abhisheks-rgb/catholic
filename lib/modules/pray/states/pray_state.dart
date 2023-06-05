@@ -3,6 +3,7 @@ import 'package:butter/butter.dart';
 import '../models/pray_model.dart';
 import '../../home/models/home_model.dart';
 import '../../welcome/actions/list_reflection_action.dart';
+import '../../scripture/models/scripture_history_model.dart';
 
 class PrayState extends BasePageState<PrayModel> {
   PrayState();
@@ -44,8 +45,15 @@ class PrayState extends BasePageState<PrayModel> {
           bool canRedirect = true;
           switch (route) {
             case '/_/scripture/history':
-              await dispatchAction(ListReflectionAction());
+              pushNamed(route);
               canRedirect = false;
+
+              await dispatchModel<ScriptureHistoryModel>(
+                  ScriptureHistoryModel(), (m) {
+                m.loading = true;
+              });
+
+              await dispatchAction(ListReflectionAction());
               break;
             default:
           }
