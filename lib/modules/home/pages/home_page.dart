@@ -3,7 +3,7 @@ import 'package:butter/butter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-// import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import '../../../app/app.dart';
 import '../../../app/splash_screen.dart';
@@ -168,6 +168,7 @@ class HomePage extends BaseStatefulPageView {
       child: Scaffold(
         appBar: specs.hasAppBar! && !model!.isFullScreen
             ? AppBar(
+                elevation: 1.2,
                 centerTitle: true,
                 leading: specs.leadingLogo!
                     ? RawMaterialButton(
@@ -195,22 +196,52 @@ class HomePage extends BaseStatefulPageView {
                           if (!result && context.mounted) {
                             // ignore: use_build_context_synchronously
                             Navigator.of(context).popAndPushNamed('/_/welcome');
+                          } else {
+                            if (ModalRoute.of(context)!.settings.name ==
+                                '/_/events/details') {
+                              Navigator.of(context)
+                                  .popAndPushNamed('/_/events/list');
+                            }
                           }
                         },
                       ),
                 title: Text(specs.title!),
                 actions: [
+                  specs.showNotification!
+                      ? RawMaterialButton(
+                          constraints: const BoxConstraints(),
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          onPressed: () {
+                            model?.showPage('/_/notification');
+                          },
+                          child: Container(
+                            width: 40,
+                            decoration: const BoxDecoration(
+                              color: Colors.transparent,
+                            ),
+                            child: const Align(
+                              alignment: Alignment.center,
+                              child: SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: Icon(
+                                  Octicons.bell_fill,
+                                  color: Color.fromRGBO(4, 26, 82, 0.2),
+                                  size: 20,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(),
                   specs.showProfile!
                       ? RawMaterialButton(
                           constraints: const BoxConstraints(),
                           materialTapTargetSize:
                               MaterialTapTargetSize.shrinkWrap,
                           onPressed: () {
-                            if (model?.user == null) {
-                              Navigator.of(context).pushNamed('/_/login');
-                            } else {
-                              Navigator.of(context).pushNamed('/_/profile');
-                            }
+                            model?.showPage('/_/profile');
                           },
                           child: Container(
                             width: 40,

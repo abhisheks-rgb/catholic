@@ -545,16 +545,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
     );
   }
 
-  // const SizedBox(height: 16),
-  // Text(
-  //   '',
-  //   style: TextStyle(
-  //     color: const Color.fromRGBO(4, 26, 82, 1),
-  //     fontSize: widget.model!.contentFontSize ?? 17,
-  //   ),
-  // ),
-
-  Future showInfo() => showDialog(
+  void showInfo() => showDialog(
         context: context,
         builder: (BuildContext context) => Dialog(
           shape: const RoundedRectangleBorder(

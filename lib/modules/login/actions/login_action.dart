@@ -54,12 +54,17 @@ class LoginAction extends BaseAction {
             isLoggedIn = true;
 
             if (user != null) {
-              for (var e in items) {
-                if (e['_id'] == int.parse(user!['parish'])) {
-                  user!['churchName'] = e['name'];
-                  user!['churchLink'] = e['link'];
-                  user!['churchId'] = e['_id'] - 1;
+              if (user!['parish'] != null) {
+                for (var e in items) {
+                  if (e['_id'] == int.parse(user!['parish'])) {
+                    user!['churchName'] = e['name'];
+                    user!['churchLink'] = e['link'];
+                    user!['churchId'] = e['_id'] - 1;
+                  }
                 }
+              } else {
+                error = 'incomplete';
+                isLoggedIn = false;
               }
             } else {
               error = 'incomplete';
@@ -105,7 +110,7 @@ class LoginAction extends BaseAction {
           await FirebaseAuth.instance.signOut();
           await dispatchModel<LoginModel>(LoginModel(), (m) {
             m.error =
-                'To continue with the login process, please verify your account.';
+                'To continue with the login process, please check your email and verify your account.';
             m.loading = false;
           });
           break;

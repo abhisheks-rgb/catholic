@@ -1,5 +1,6 @@
 import 'package:butter/butter.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
 
 import '../actions/initialize_action.dart';
 import '../actions/initialize_todayis.dart';
@@ -14,6 +15,7 @@ import '../../devotion/rosary/models/rosary_model.dart';
 import '../../devotion/divine_mercy_prayer/models/divine_mercy_prayer_model.dart';
 import '../../events/models/event_register_model.dart';
 import '../../events/models/event_details_model.dart';
+import '../../profile/models/profile_model.dart';
 
 class HomeState extends BasePageState<HomeModel> {
   HomeState();
@@ -52,7 +54,27 @@ class HomeState extends BasePageState<HomeModel> {
           ), (m) {
         // Load all your model's handlers here
         m.showPage = (route) async {
-          pushNamed(route);
+          String newRoute = route;
+          Map<String, dynamic>? user;
+
+          dispatchModel<HomeModel>(HomeModel(), (m) {
+            user = m.user;
+          });
+
+          switch (route) {
+            case '/_/profile':
+              if (user == null) {
+                newRoute = '/_/login';
+              } else {
+                await dispatchModel<ProfileModel>(ProfileModel(), (m) {
+                  m.user = user;
+                });
+              }
+              break;
+            default:
+          }
+
+          pushNamed(newRoute);
         };
         m.initialize =
             (context) => dispatchAction(InitializeAction(context: context));
@@ -65,12 +87,13 @@ class HomeState extends BasePageState<HomeModel> {
         m.setPageFontSize = () {
           dispatchAction(SetFontSizeAction());
         };
-        m.discardBooking = () {
+        m.discardBooking = () async {
           dispatchModel<HomeModel>(HomeModel(), (m) {
             m.bookingFormView = 'bookingForm';
             m.formObj = {};
           });
-          dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
+
+          return dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
             m.bookingFormView = 'bookingForm';
             m.formErrorObj = {};
             m.formObj = {};
@@ -136,30 +159,30 @@ class HomeState extends BasePageState<HomeModel> {
             formResponse: formResponse,
           ));
         };
-        m.closeSuccessPrompt = () {
-          dispatchModel<HomeModel>(HomeModel(), (m) {
-            m.isEventRegister = false;
-            m.isEventDetails = false;
-            m.bookingFormView = 'bookingForm';
-            m.loading = false;
-          });
+        m.closeSuccessPrompt = () async {
+          pushNamed('/_/events/list');
 
           dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
             m.bookingFormView = 'bookingForm';
             m.formObj = {};
           });
 
-          pushNamed('/_/events/list');
+          await dispatchModel<HomeModel>(HomeModel(), (m) {
+            m.isEventRegister = false;
+            m.selectedEventDetail = {};
+            m.bookingFormView = 'bookingForm';
+            m.loading = false;
+          });
         };
         m.redirectToLogin = () {
           dispatchModel<HomeModel>(HomeModel(), (m) {
             m.isEventRegister = false;
-            m.isEventDetails = false;
+            // m.isEventDetails = false;
             m.loading = false;
           });
           pushNamed('/_/login');
         };
-        m.gotoMyEvents = () {
+        m.gotoMyEvents = () async {
           pushNamed('/_/events/myEvents');
 
           dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
@@ -167,9 +190,8 @@ class HomeState extends BasePageState<HomeModel> {
             m.formObj = {};
           });
 
-          dispatchModel<HomeModel>(HomeModel(), (m) {
-            m.isEventRegister = false;
-            m.isEventDetails = false;
+          await dispatchModel<HomeModel>(HomeModel(), (m) {
+            m.selectedEventDetail = {};
             m.bookingFormView = 'bookingForm';
             m.loading = false;
           });

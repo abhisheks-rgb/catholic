@@ -21,8 +21,9 @@ class EventDetailsView extends BaseStatefulPageView {
 class _EventDetailsViewState extends State<EventDetailsView> {
   @override
   void dispose() {
-    super.dispose();
     delayedReset();
+
+    super.dispose();
   }
 
   void delayedReset() async {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:butter/butter.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,8 @@ class RosaryView extends BaseStatefulPageView {
 }
 
 class _RosaryViewState extends State<RosaryView> {
+  Timer? myTimer;
+  bool isDisabled = true;
   int? _currentMystery;
   List<dynamic> mystries = [
     {
@@ -191,6 +195,7 @@ class _RosaryViewState extends State<RosaryView> {
     super.initState();
 
     checkDay();
+    startTimer();
   }
 
   void checkDay() {
@@ -206,6 +211,22 @@ class _RosaryViewState extends State<RosaryView> {
         }
       }
     }
+  }
+
+  void startTimer() {
+    int x = 0;
+
+    myTimer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      x += 1;
+
+      setState(() {
+        isDisabled = false;
+      });
+
+      if (x > 0) {
+        timer.cancel();
+      }
+    });
   }
 
   @override
@@ -305,7 +326,7 @@ class _RosaryViewState extends State<RosaryView> {
             ),
             Column(
               children: [
-                _renderPrayer(),
+                _renderPrayer(context),
               ],
             ),
           ],
@@ -314,7 +335,7 @@ class _RosaryViewState extends State<RosaryView> {
     );
   }
 
-  Widget _renderPrayer() {
+  Widget _renderPrayer(BuildContext context) {
     return Column(
       children: [
         const SizedBox(height: 16),
@@ -338,7 +359,9 @@ class _RosaryViewState extends State<RosaryView> {
               borderRadius: BorderRadius.circular(10),
             ),
             onPressed: () {
-              showMysteriesList(context);
+              if (!isDisabled) {
+                showMysteriesList(context);
+              }
             },
             child: Container(
               padding: const EdgeInsets.all(20),
@@ -378,9 +401,21 @@ class _RosaryViewState extends State<RosaryView> {
           ),
         ),
         const SizedBox(height: 30),
-        mystries[_currentMystery!] == null ? Container() : _renderGuide(),
-        _renderHailHolyQueen(),
-        _renderMemorare(),
+        isDisabled
+            ? Container(
+                height: MediaQuery.of(context).size.height * 0.3,
+                margin: const EdgeInsets.only(top: 20),
+                child: const Center(child: CircularProgressIndicator()),
+              )
+            : Column(
+                children: [
+                  mystries[_currentMystery!] == null
+                      ? Container()
+                      : _renderGuide(),
+                  _renderHailHolyQueen(),
+                  _renderMemorare(),
+                ],
+              ),
       ],
     );
   }
@@ -1169,7 +1204,7 @@ class _RosaryViewState extends State<RosaryView> {
         ),
       );
 
-  Future showInfo() => showDialog(
+  void showInfo() => showDialog(
         context: context,
         builder: (BuildContext context) => Dialog(
           shape: const RoundedRectangleBorder(
