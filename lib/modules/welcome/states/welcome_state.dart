@@ -3,11 +3,11 @@ import 'package:butter/butter.dart';
 import '../actions/initialize_qoutes.dart';
 import '../actions/list_reflection_action.dart';
 import '../models/welcome_model.dart';
-import '../../church_info/models/church_info_model.dart';
 import '../../church_bulletin/models/church_bulletin_model.dart';
-import '../../profile/models/profile_model.dart';
+import '../../church_info/models/church_info_model.dart';
 import '../../home/models/home_model.dart';
 import '../../offertory/models/offertory_model.dart';
+import '../../profile/models/profile_model.dart';
 import '../../schedules/models/schedules_model.dart';
 import '../../scripture/models/scripture_history_model.dart';
 

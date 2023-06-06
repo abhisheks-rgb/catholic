@@ -25,8 +25,11 @@ class ProfilePage extends BaseStatefulPageView {
 
   @override
   get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
-        hasAppBar: false,
-        title: '',
+        hasAppBar: true,
+        leadingLogo: true,
+        showNotification: true,
+        showProfile: true,
+        title: 'Profile',
       ));
 
   @override
