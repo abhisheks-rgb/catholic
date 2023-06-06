@@ -164,8 +164,6 @@ class HomePage extends BaseStatefulPageView {
       specs.title = model!.title;
     }
 
-    Butter.d(model?.user);
-
     return SafeArea(
       child: Scaffold(
         appBar: specs.hasAppBar! && !model!.isFullScreen
