@@ -378,16 +378,16 @@ class _LoginViewState extends State<LoginView> {
     }
   }
 
-  Future showAlert() => showDialog(
+  void showAlert() => showDialog(
         context: context,
         builder: (BuildContext context) => Dialog(
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
           insetPadding:
-              const EdgeInsets.symmetric(vertical: 12, horizontal: 80),
+              const EdgeInsets.symmetric(vertical: 12, horizontal: 40),
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -404,6 +404,7 @@ class _LoginViewState extends State<LoginView> {
                       color: Color.fromRGBO(4, 26, 82, 1),
                       fontWeight: FontWeight.w500,
                       fontSize: 16,
+                      height: 1.4,
                     ),
                   ),
                 ),

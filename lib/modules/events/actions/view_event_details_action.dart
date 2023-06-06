@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:butter/butter.dart';
 
-import '../models/event_details_model.dart';
-import '../../home/models/home_model.dart';
 import './list_event_detail_action.dart';
 
 class ViewEventDetailsAction extends BaseAction {

@@ -208,8 +208,12 @@ class _EventsViewState extends State<EventsListView> {
                                       widget._interestedItems.where((element) {
                                     bool containsSearchText = true;
                                     if (_searchEvent != null) {
-                                      containsSearchText = element['eventName']
-                                          .contains(_searchEvent!.trim());
+                                      containsSearchText =
+                                          (element['eventName'].toString())
+                                              .toLowerCase()
+                                              .contains(_searchEvent!
+                                                  .toLowerCase()
+                                                  .trim());
                                     }
 
                                     return true && containsSearchText;
@@ -233,8 +237,12 @@ class _EventsViewState extends State<EventsListView> {
                                   children: widget._items.where((element) {
                                     bool containsSearchText = true;
                                     if (_searchEvent != null) {
-                                      containsSearchText = element['eventName']
-                                          .contains(_searchEvent!.trim());
+                                      containsSearchText =
+                                          (element['eventName'].toString())
+                                              .toLowerCase()
+                                              .contains(_searchEvent!
+                                                  .toLowerCase()
+                                                  .trim());
                                     }
 
                                     if (_selectedEventType == 'Walk-In Only') {

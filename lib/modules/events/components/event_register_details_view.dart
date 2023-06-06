@@ -186,7 +186,7 @@ class _EventRegisterDetailsViewState extends State<EventRegisterDetailsView> {
     } else if (element['element'] != 'Header' &&
         element['element'] != 'Paragraph') {
       return Text(
-        '${element['label']}: ${widget.model?.formObj![element['field_name']]}',
+        '${element['label']}: ${widget.model?.formObj![element['field_name']] ?? ''}',
         style: const TextStyle(
           color: Color.fromRGBO(4, 26, 82, 1),
           fontSize: 16,
@@ -200,7 +200,7 @@ class _EventRegisterDetailsViewState extends State<EventRegisterDetailsView> {
   String _getRadioButtonValue(options, selectedValue) {
     Map? record = options.firstWhere(
         (option) => option['value'] == selectedValue,
-        orElse: () => '');
+        orElse: () => {'text': ''});
 
     return record!['text'];
   }

@@ -17,12 +17,13 @@ class EventRegisterView extends BaseStatefulPageView {
 class _EventRegisterViewState extends State<EventRegisterView> {
   @override
   void dispose() {
-    super.dispose();
     delayedReset();
+
+    super.dispose();
   }
 
   void delayedReset() async {
-    await widget.model!.setIsEventRegister(isEventRegister: false);
+    widget.model!.setIsEventRegister(isEventRegister: false);
   }
 
   @override

@@ -1,6 +1,5 @@
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import '../models/notification_model.dart';
 import '../../../utils/asset_path.dart';
@@ -22,79 +21,6 @@ class _NotificationViewState extends State<NotificationView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 1.2,
-        centerTitle: true,
-        title: const Text(
-          'Notifications',
-          style: TextStyle(
-            color: Color.fromRGBO(4, 26, 82, 1),
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-          ),
-        ),
-        leading: RawMaterialButton(
-          constraints: const BoxConstraints(),
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          onPressed: () {},
-          child: SizedBox(
-            width: 36,
-            height: 36,
-            child: Image.asset(
-              assetPath('icon-small.png'),
-            ),
-          ),
-        ),
-        actions: [
-          RawMaterialButton(
-            constraints: const BoxConstraints(),
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            onPressed: () {},
-            child: Container(
-              width: 40,
-              decoration: const BoxDecoration(
-                color: Colors.transparent,
-              ),
-              child: const Align(
-                alignment: Alignment.center,
-                child: SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: Icon(
-                    Octicons.bell_fill,
-                    color: Color.fromRGBO(4, 26, 82, 1),
-                    size: 20,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 4),
-          RawMaterialButton(
-            constraints: const BoxConstraints(),
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            onPressed: () {},
-            child: Container(
-              width: 40,
-              decoration: const BoxDecoration(
-                color: Colors.transparent,
-              ),
-              child: Align(
-                alignment: Alignment.center,
-                child: SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: Image.asset(
-                    assetPath('user-active-solid.png'),
-                    color: const Color.fromRGBO(4, 26, 82, 0.5),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 14),
-        ],
-      ),
       body: SingleChildScrollView(
         child: Stack(
           children: [
