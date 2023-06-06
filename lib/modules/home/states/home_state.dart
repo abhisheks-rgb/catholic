@@ -14,6 +14,7 @@ import '../../devotion/rosary/models/rosary_model.dart';
 import '../../devotion/divine_mercy_prayer/models/divine_mercy_prayer_model.dart';
 import '../../events/models/event_register_model.dart';
 import '../../events/models/event_details_model.dart';
+import '../../profile/models/profile_model.dart';
 
 class HomeState extends BasePageState<HomeModel> {
   HomeState();
@@ -52,7 +53,27 @@ class HomeState extends BasePageState<HomeModel> {
           ), (m) {
         // Load all your model's handlers here
         m.showPage = (route) async {
-          pushNamed(route);
+          String newRoute = route;
+          Map<String, dynamic>? user;
+
+          dispatchModel<HomeModel>(HomeModel(), (m) {
+            user = m.user;
+          });
+
+          switch (route) {
+            case '/_/profile':
+              if (user == null) {
+                newRoute = '/_/login';
+              } else {
+                await dispatchModel<ProfileModel>(ProfileModel(), (m) {
+                  m.user = user;
+                });
+              }
+              break;
+            default:
+          }
+
+          pushNamed(newRoute);
         };
         m.initialize =
             (context) => dispatchAction(InitializeAction(context: context));
