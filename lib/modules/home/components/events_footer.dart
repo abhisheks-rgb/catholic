@@ -227,7 +227,13 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                             widget.model?.navigateToEventRegister!(
                                 widget.model?.selectedEventDetail);
                           } else {
-                            _showCancelBookingPopup(context);
+                            if (_checkStartDateCanCancel(widget.model
+                                    ?.selectedEventDetail!['startDate']) ==
+                                true) {
+                              _showUnableCancelBookingPopup(context);
+                            } else {
+                              _showCancelBookingPopup(context);
+                            }
                           }
                         } else {
                           widget.model?.redirectToLogin!();
@@ -241,7 +247,10 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                                         ?.selectedEventDetail!['hasBooked'] ==
                                     false
                                 ? const Color.fromRGBO(4, 26, 82, 0.15)
-                                : const Color.fromRGBO(252, 223, 222, 1),
+                                : _checkStartDateCanCancel(widget.model
+                                        ?.selectedEventDetail!['startDate'])
+                                    ? const Color.fromRGBO(4, 26, 82, 0.05)
+                                    : const Color.fromRGBO(252, 223, 222, 1),
                           ),
                           borderRadius: const BorderRadius.all(
                             Radius.circular(10),
@@ -250,7 +259,10 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                               widget.model?.selectedEventDetail!['hasBooked'] ==
                                       false
                                   ? const Color.fromRGBO(255, 255, 255, 1)
-                                  : const Color.fromRGBO(252, 223, 222, 1),
+                                  : _checkStartDateCanCancel(widget.model
+                                          ?.selectedEventDetail!['startDate'])
+                                      ? const Color.fromRGBO(4, 26, 82, 0.05)
+                                      : const Color.fromRGBO(252, 223, 222, 1),
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -259,12 +271,17 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                             widget.model?.selectedEventDetail!['hasBooked'] ==
                                     false
                                 ? const SizedBox()
-                                : const SizedBox(
+                                : SizedBox(
                                     width: 20,
                                     height: 20,
                                     child: Icon(
                                       Ionicons.close_circle_outline,
-                                      color: Color.fromRGBO(233, 40, 35, 1),
+                                      color: _checkStartDateCanCancel(widget
+                                                  .model?.selectedEventDetail![
+                                              'startDate'])
+                                          ? const Color.fromRGBO(4, 26, 82, 0.5)
+                                          : const Color.fromRGBO(
+                                              233, 40, 35, 1),
                                       size: 20,
                                     ),
                                   ),
@@ -284,7 +301,10 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                                             'hasBooked'] ==
                                         false
                                     ? const Color.fromRGBO(12, 72, 224, 1)
-                                    : const Color.fromRGBO(233, 40, 35, 1),
+                                    : _checkStartDateCanCancel(widget.model
+                                            ?.selectedEventDetail!['startDate'])
+                                        ? const Color.fromRGBO(4, 26, 82, 0.5)
+                                        : const Color.fromRGBO(233, 40, 35, 1),
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16,
                               ),
@@ -297,6 +317,118 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                 ],
               ),
       ),
+    );
+  }
+
+  void _showUnableCancelBookingPopup(BuildContext context) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            child: SizedBox(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Sorry!',
+                        style: TextStyle(
+                          color: Color.fromRGBO(4, 26, 82, 1),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18,
+                        ),
+                      ),
+                      IconButton(
+                        padding: const EdgeInsets.all(0),
+                        alignment: Alignment.centerRight,
+                        icon: const Icon(
+                          Ionicons.close_circle,
+                          color: Color.fromRGBO(4, 26, 82, 0.5),
+                        ),
+                        onPressed: () async {
+                          await Navigator.of(context).maybePop();
+                        },
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Icon(
+                        MaterialCommunityIcons.emoticon_sad,
+                        color: Color.fromRGBO(233, 40, 35, 1),
+                        size: 44,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 18),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        'You can only withdraw from an\n event, 1 hour before it starts.',
+                        softWrap: true,
+                        maxLines: 2,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                          letterSpacing: 0.1,
+                          color: Color.fromRGBO(4, 26, 82, 1),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 32),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: RawMaterialButton(
+                          constraints: const BoxConstraints(),
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          onPressed: () async {
+                            await Navigator.of(context).maybePop();
+                          },
+                          child: Container(
+                            height: 50,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                              color: Color.fromRGBO(4, 26, 82, 0.05),
+                            ),
+                            child: const Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Close',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(4, 26, 82, 1),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -698,5 +830,17 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
         );
       },
     );
+  }
+
+  bool _checkStartDateCanCancel(startDate) {
+    DateTime currentTime = DateTime.now();
+    DateTime startDateTime =
+        DateTime.fromMillisecondsSinceEpoch(startDate['_seconds'] * 1000);
+    Duration difference = startDateTime.difference(currentTime);
+
+    bool isWithinOneHour = difference.inHours <= 1;
+    bool isPastSpecificTime = currentTime.isAfter(startDateTime);
+
+    return isWithinOneHour || isPastSpecificTime;
   }
 }
