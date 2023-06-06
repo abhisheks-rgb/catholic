@@ -26,7 +26,7 @@ class _DevotionPageState extends State<DevotionView> {
   Widget build(BuildContext context) {
     List<dynamic> exploreItems = <dynamic>[
       {
-        'title': 'Rosary',
+        'title': 'The Rosary',
         'subTitle': 'Prayer Guide • What is the Rosary?',
         'route': 'rosary'
       },

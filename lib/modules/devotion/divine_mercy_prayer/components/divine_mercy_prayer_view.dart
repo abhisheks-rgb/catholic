@@ -1,4 +1,5 @@
 import 'package:butter/butter.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 // import 'package:intl/intl.dart';
@@ -23,15 +24,12 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
     if (widget.model?.showInfo != null) {
       if (widget.model?.showInfo == true &&
           widget.model?.showInfo != oldWidget.model?.showInfo) {
-        handleShowInfo();
+        EasyDebounce.debounce(
+            'debounce-divine', const Duration(milliseconds: 100), () {
+          showInfo();
+        });
       }
     }
-  }
-
-  void handleShowInfo() async {
-    await Future.delayed(const Duration(milliseconds: 500), () async {
-      showInfo();
-    });
   }
 
   @override
@@ -556,7 +554,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
   //   ),
   // ),
 
-  void showInfo() => showDialog(
+  Future showInfo() => showDialog(
         context: context,
         builder: (BuildContext context) => Dialog(
           shape: const RoundedRectangleBorder(

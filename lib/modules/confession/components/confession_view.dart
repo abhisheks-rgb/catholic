@@ -1,4 +1,5 @@
 import 'package:butter/butter.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
@@ -22,15 +23,12 @@ class _ConfessionViewState extends State<ConfessionView> {
     if (widget.model?.showInfo != null) {
       if (widget.model?.showInfo == true &&
           widget.model?.showInfo != oldWidget.model?.showInfo) {
-        handleShowInfo();
+        EasyDebounce.debounce(
+            'debounce-confession', const Duration(milliseconds: 100), () {
+          showInfo();
+        });
       }
     }
-  }
-
-  void handleShowInfo() async {
-    await Future.delayed(const Duration(milliseconds: 500), () async {
-      showInfo();
-    });
   }
 
   @override
@@ -210,7 +208,7 @@ class _ConfessionViewState extends State<ConfessionView> {
                     ),
                   ),
                   Text(
-                    '[List down your sins here]',
+                    '[Tell the priest your sins]',
                     style: TextStyle(
                       color: const Color.fromRGBO(4, 26, 82, 1),
                       fontSize: widget.model!.contentFontSize ?? 17,
@@ -420,6 +418,7 @@ class _ConfessionViewState extends State<ConfessionView> {
           style: TextStyle(
             color: const Color.fromRGBO(4, 26, 82, 1),
             fontSize: widget.model!.contentFontSize ?? 17,
+            height: 1.4,
           ),
         ),
         Text(
@@ -427,6 +426,7 @@ class _ConfessionViewState extends State<ConfessionView> {
           style: TextStyle(
             color: const Color.fromRGBO(4, 26, 82, 1),
             fontSize: widget.model!.contentFontSize ?? 17,
+            height: 1.4,
           ),
         ),
         const SizedBox(height: 16),
@@ -438,6 +438,7 @@ class _ConfessionViewState extends State<ConfessionView> {
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
             ),
             Expanded(
@@ -446,6 +447,7 @@ class _ConfessionViewState extends State<ConfessionView> {
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
                   fontSize: widget.model!.contentFontSize ?? 17,
+                  height: 1.4,
                 ),
               ),
             ),
@@ -459,6 +461,7 @@ class _ConfessionViewState extends State<ConfessionView> {
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
             ),
             Expanded(
@@ -467,6 +470,7 @@ class _ConfessionViewState extends State<ConfessionView> {
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
                   fontSize: widget.model!.contentFontSize ?? 17,
+                  height: 1.4,
                 ),
               ),
             ),
@@ -480,6 +484,7 @@ class _ConfessionViewState extends State<ConfessionView> {
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
             ),
             Expanded(
@@ -488,6 +493,7 @@ class _ConfessionViewState extends State<ConfessionView> {
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
                   fontSize: widget.model!.contentFontSize ?? 17,
+                  height: 1.4,
                 ),
               ),
             ),
@@ -501,6 +507,7 @@ class _ConfessionViewState extends State<ConfessionView> {
               style: TextStyle(
                 color: const Color.fromRGBO(4, 26, 82, 1),
                 fontSize: widget.model!.contentFontSize ?? 17,
+                height: 1.4,
               ),
             ),
             Expanded(
@@ -509,6 +516,7 @@ class _ConfessionViewState extends State<ConfessionView> {
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
                   fontSize: widget.model!.contentFontSize ?? 17,
+                  height: 1.4,
                 ),
               ),
             ),
@@ -520,6 +528,7 @@ class _ConfessionViewState extends State<ConfessionView> {
           style: TextStyle(
             color: const Color.fromRGBO(4, 26, 82, 1),
             fontSize: widget.model!.contentFontSize ?? 17,
+            height: 1.4,
           ),
         ),
         const SizedBox(height: 16),
@@ -528,20 +537,23 @@ class _ConfessionViewState extends State<ConfessionView> {
           style: TextStyle(
             color: const Color.fromRGBO(4, 26, 82, 1),
             fontSize: widget.model!.contentFontSize ?? 17,
+            height: 1.4,
           ),
         ),
+        const SizedBox(height: 16),
         Text(
           'While Confession is highly encouraged in the Catholic faith, it is not obligatory for new Catholics to immediately participate. It is recommended that they undergo proper preparation, receive instruction from a priest, and discern when they are ready to receive the Sacrament of Reconciliation.',
           style: TextStyle(
             color: const Color.fromRGBO(4, 26, 82, 1),
             fontSize: widget.model!.contentFontSize ?? 17,
+            height: 1.4,
           ),
         ),
       ],
     );
   }
 
-  void showInfo() => showDialog(
+  Future showInfo() => showDialog(
         context: context,
         builder: (BuildContext context) => Dialog(
           shape: const RoundedRectangleBorder(

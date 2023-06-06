@@ -38,11 +38,13 @@ class LoginAction extends BaseAction {
     bool? isLoggedIn = false;
 
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: email!.trim(), password: password!.trim())
-          .then((value) async {
-        User? currentUser = FirebaseAuth.instance.currentUser;
+      final FirebaseAuth auth = FirebaseAuth.instance;
+
+      var authenticatedUser = await auth.signInWithEmailAndPassword(
+          email: email!.trim(), password: password!.trim());
+
+      if (authenticatedUser.user!.emailVerified) {
+        User? currentUser = auth.currentUser;
         if (currentUser != null) {
           await FirebaseFirestore.instance
               .doc('users/${currentUser.uid}')
@@ -51,32 +53,29 @@ class LoginAction extends BaseAction {
             user = value.data();
             isLoggedIn = true;
 
-            for (var e in items) {
-              if (e['_id'] == int.parse(user!['parish'])) {
-                user!['churchName'] = e['name'];
-                user!['churchLink'] = e['link'];
+            if (user != null) {
+              for (var e in items) {
+                if (e['_id'] == int.parse(user!['parish'])) {
+                  user!['churchName'] = e['name'];
+                  user!['churchLink'] = e['link'];
+                  user!['churchId'] = e['_id'] - 1;
+                }
               }
-
-              if (e['_id'] != null) {
-                user!['churchId'] = e['_id'] - 1;
-              } else {
-                isLoggedIn = false;
-                error = 'verify';
-              }
+            } else {
+              error = 'incomplete';
+              isLoggedIn = false;
             }
-          }).onError((error, stackTrace) {
-            Butter.e(error.toString());
-            Butter.e(stackTrace.toString());
-            error = error.toString();
+          }).onError((e, stacktrace) {
+            Butter.e(e.toString());
+            Butter.e(stacktrace.toString());
+            error = 'verify';
             isLoggedIn = false;
           });
         }
-      }).onError((error, stackTrace) {
-        Butter.e(error.toString());
-        Butter.e(stackTrace.toString());
-        error = error.toString();
+      } else {
+        error = 'verify';
         isLoggedIn = false;
-      });
+      }
     } catch (e, stacktrace) {
       Butter.e(e.toString());
       Butter.e(stacktrace.toString());
@@ -103,9 +102,18 @@ class LoginAction extends BaseAction {
     } else {
       switch (error) {
         case 'verify':
+          await FirebaseAuth.instance.signOut();
           await dispatchModel<LoginModel>(LoginModel(), (m) {
             m.error =
                 'To continue with the login process, please verify your account.';
+            m.loading = false;
+          });
+          break;
+        case 'incomplete':
+          await FirebaseAuth.instance.signOut();
+          await dispatchModel<LoginModel>(LoginModel(), (m) {
+            m.error =
+                'Your account is incomplete, please continue registration at https://mycatholic.sg/login';
             m.loading = false;
           });
           break;
