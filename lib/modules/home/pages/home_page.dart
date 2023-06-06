@@ -198,6 +198,12 @@ class HomePage extends BaseStatefulPageView {
                           if (!result && context.mounted) {
                             // ignore: use_build_context_synchronously
                             Navigator.of(context).popAndPushNamed('/_/welcome');
+                          } else {
+                            if (ModalRoute.of(context)!.settings.name ==
+                                '/_/events/details') {
+                              Navigator.of(context)
+                                  .popAndPushNamed('/_/events/list');
+                            }
                           }
                         },
                       ),

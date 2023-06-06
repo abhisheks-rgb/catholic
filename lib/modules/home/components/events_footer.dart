@@ -48,7 +48,8 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       onPressed: () async {
-                        await Navigator.of(context).maybePop();
+                        await Navigator.of(context)
+                            .popAndPushNamed('/_/events/details');
                         widget.model?.discardBooking!();
                       },
                       child: Container(
@@ -226,8 +227,10 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                         if (widget.model?.user != null) {
                           if (widget.model?.selectedEventDetail!['hasBooked'] ==
                               false) {
-                            widget.model?.navigateToEventRegister!(
-                                widget.model?.selectedEventDetail);
+                            if (!isWalkin) {
+                              widget.model?.navigateToEventRegister!(
+                                  widget.model?.selectedEventDetail);
+                            }
                           } else {
                             if (_checkStartDateCanCancel(widget.model
                                     ?.selectedEventDetail!['startDate']) ==
