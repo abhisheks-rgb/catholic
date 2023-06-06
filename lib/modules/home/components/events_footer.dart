@@ -19,7 +19,7 @@ class EventDetailsFooter extends StatefulWidget {
 class _EventDetailsFooterState extends State<EventDetailsFooter> {
   @override
   Widget build(BuildContext context) {
-    bool isWalkin = widget.model?.selectedEventDetail!['isWalkIn'];
+    bool isWalkin = widget.model?.selectedEventDetail!['isWalkIn'] ?? false;
 
     return SizedBox(
       height: 82,
@@ -382,15 +382,18 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
-                      Text(
-                        'You can only cancel an  event,\n 1 hour before it starts.',
-                        softWrap: true,
-                        maxLines: 2,
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: 0.1,
-                          color: Color.fromRGBO(4, 26, 82, 1),
+                      Flexible(
+                        child: Text(
+                          'You can only cancel an event, 1 hour before it starts.',
+                          softWrap: true,
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 0.1,
+                            color: Color.fromRGBO(4, 26, 82, 1),
+                          ),
                         ),
                       ),
                     ],
@@ -494,15 +497,18 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
-                      Text(
-                        'Are you sure you want to cancel \n your booking for this event?',
-                        softWrap: true,
-                        maxLines: 2,
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: 0.1,
-                          color: Color.fromRGBO(4, 26, 82, 1),
+                      Flexible(
+                        child: Text(
+                          'Are you sure you want to cancel your booking for this event?',
+                          softWrap: true,
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 0.1,
+                            color: Color.fromRGBO(4, 26, 82, 1),
+                          ),
                         ),
                       ),
                     ],
@@ -648,34 +654,33 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                     ],
                   ),
                   const SizedBox(height: 18),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        children: [
-                          const Text(
-                            'You have successfully booked for:',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
-                              letterSpacing: 0.1,
-                              color: Color.fromRGBO(4, 26, 82, 1),
-                            ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'You have successfully booked for:',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 0.1,
+                            color: Color.fromRGBO(4, 26, 82, 1),
                           ),
-                          const SizedBox(height: 8),
-                          Text(
-                            widget.model?.selectedEventDetail!['eventName'],
-                            softWrap: true,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              letterSpacing: 0.1,
-                              color: Color.fromRGBO(4, 26, 82, 1),
-                            ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          widget.model?.selectedEventDetail!['eventName'],
+                          softWrap: true,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 0.1,
+                            color: Color.fromRGBO(4, 26, 82, 1),
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 32),
                   Row(
