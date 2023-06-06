@@ -39,12 +39,14 @@ class EventRegisterState extends BasePageState<EventRegisterModel> {
                 ),
           ), (m) {
         // Load all your model's handlers here
-        m.setFormObj = (formObj) {
+        m.setFormObj = (formObj) async {
           dispatchModel<HomeModel>(HomeModel(), (m) {
             m.formObj = formObj;
             m.loading = false;
           });
-          dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
+
+          return await dispatchModel<EventRegisterModel>(EventRegisterModel(),
+              (m) {
             m.formObj = formObj;
             m.loading = false;
           });
@@ -56,8 +58,14 @@ class EventRegisterState extends BasePageState<EventRegisterModel> {
           });
         };
         m.setIsEventRegister = ({isEventRegister}) async {
+          final h = read<HomeModel>(HomeModel());
+
           return dispatchModel<HomeModel>(HomeModel(), (m) {
             m.isEventRegister = isEventRegister!;
+            m.isEventDetails =
+                h.selectedEventDetail == null || h.selectedEventDetail!.isEmpty
+                    ? false
+                    : true;
           });
         };
       });

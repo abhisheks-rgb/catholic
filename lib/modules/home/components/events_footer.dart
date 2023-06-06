@@ -19,6 +19,8 @@ class EventDetailsFooter extends StatefulWidget {
 class _EventDetailsFooterState extends State<EventDetailsFooter> {
   @override
   Widget build(BuildContext context) {
+    bool isWalkin = widget.model?.selectedEventDetail!['isWalkIn'];
+
     return SizedBox(
       height: 82,
       child: Container(
@@ -174,7 +176,7 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                               widget.model?.selectedEventDetail!['eventId']);
                         }
                       } else {
-                        widget.model?.showPage('/_/login');
+                        widget.model?.redirectToLogin!();
                       }
                     },
                     child: AspectRatio(
@@ -258,7 +260,9 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                           color:
                               widget.model?.selectedEventDetail!['hasBooked'] ==
                                       false
-                                  ? const Color.fromRGBO(255, 255, 255, 1)
+                                  ? isWalkin
+                                      ? const Color.fromRGBO(4, 26, 82, 0.05)
+                                      : const Color.fromRGBO(255, 255, 255, 1)
                                   : _checkStartDateCanCancel(widget.model
                                           ?.selectedEventDetail!['startDate'])
                                       ? const Color.fromRGBO(4, 26, 82, 0.05)
@@ -294,13 +298,17 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                             Text(
                               widget.model?.selectedEventDetail!['hasBooked'] ==
                                       false
-                                  ? 'Book'
+                                  ? isWalkin
+                                      ? 'Walk-In Only'
+                                      : 'Book'
                                   : 'Cancel',
                               style: TextStyle(
                                 color: widget.model?.selectedEventDetail![
                                             'hasBooked'] ==
                                         false
-                                    ? const Color.fromRGBO(12, 72, 224, 1)
+                                    ? isWalkin
+                                        ? const Color.fromRGBO(4, 26, 82, 0.5)
+                                        : const Color.fromRGBO(12, 72, 224, 1)
                                     : _checkStartDateCanCancel(widget.model
                                             ?.selectedEventDetail!['startDate'])
                                         ? const Color.fromRGBO(4, 26, 82, 0.5)
@@ -372,7 +380,7 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
                       Text(
-                        'You can only withdraw from an\n event, 1 hour before it starts.',
+                        'You can only cancel an  event,\n 1 hour before it starts.',
                         softWrap: true,
                         maxLines: 2,
                         style: TextStyle(
@@ -680,7 +688,7 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                           ),
                           onPressed: () async {
                             await Navigator.of(context).maybePop();
-                            widget.model?.closeSuccessPrompt!();
+                            widget.model?.gotoMyEvents!();
                           },
                           child: Container(
                             height: 50,

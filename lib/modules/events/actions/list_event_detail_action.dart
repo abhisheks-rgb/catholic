@@ -63,7 +63,6 @@ class ListEventDetailAction extends BaseAction {
     await dispatchModel<HomeModel>(HomeModel(), (m) {
       m.isEventDetails = true;
       m.selectedEventDetail = records[0] as Map<Object?, Object?>?;
-      ;
     });
 
     return null;

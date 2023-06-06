@@ -34,7 +34,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
 
   void Function()? discardBooking;
   void Function()? setBookingFormView;
-  void Function()? closeSuccessPrompt;
+  late Future<void> Function()? closeSuccessPrompt;
   void Function()? gotoMyEvents;
   void Function()? redirectToLogin;
   void Function(Map<Object?, Object?>? event)? navigateToEventRegister;

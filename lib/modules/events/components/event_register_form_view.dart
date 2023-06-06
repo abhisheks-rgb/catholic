@@ -86,13 +86,15 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                   ),
                 ),
                 const SizedBox(width: 4),
-                const Text(
-                  '*',
-                  style: TextStyle(
-                    color: Color.fromRGBO(233, 40, 35, 0.4),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                element['required'] == true
+                    ? const Text(
+                        '*',
+                        style: TextStyle(
+                          color: Color.fromRGBO(233, 40, 35, 0.4),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )
+                    : const SizedBox(),
               ],
             ),
             const SizedBox(height: 4),
@@ -126,27 +128,19 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                 FilteringTextInputFormatter.digitsOnly
               ],
               keyboardType: TextInputType.number,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  // || !element['regex'].hasMatch(value)
-                  return element['error'] ?? '';
-                } else {
-                  return null;
-                }
-              },
               onChanged: (value) async {
                 setState(() {
                   fieldValues[element['field_name']] = value;
                 });
-                widget.model?.setFormObj(fieldValues);
+                await widget.model?.setFormObj(fieldValues);
                 Map? newErrorObj = widget.model?.formErrorObj;
 
                 if (newErrorObj != null &&
                     newErrorObj[element['field_name']] != null) {
                   newErrorObj.remove(element['field_name']);
-                }
 
-                await widget.model?.setFormErrorObj!(newErrorObj);
+                  await widget.model?.setFormErrorObj!(newErrorObj);
+                }
               },
             ),
             const SizedBox(height: 4),
@@ -193,11 +187,11 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
               color: Color.fromRGBO(4, 26, 82, 0.5),
             ),
             isExpanded: false,
-            onChanged: (value) {
+            onChanged: (value) async {
               setState(() {
                 fieldValues[element['field_name']] = value;
               });
-              widget.model?.setFormObj(fieldValues);
+              await widget.model?.setFormObj(fieldValues);
             },
             value: fieldValues[element['field_name']],
             items: element['options']
@@ -224,13 +218,15 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                   ),
                 ),
                 const SizedBox(width: 4),
-                const Text(
-                  '*',
-                  style: TextStyle(
-                    color: Color.fromRGBO(233, 40, 35, 0.4),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                element['required'] == true
+                    ? const Text(
+                        '*',
+                        style: TextStyle(
+                          color: Color.fromRGBO(233, 40, 35, 0.4),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )
+                    : const SizedBox(),
               ],
             ),
             const SizedBox(height: 4),
@@ -262,27 +258,19 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                 filled: true,
                 fillColor: Colors.white,
               ),
-              validator: (value) {
-                if (value!.isEmpty) {
-                  // || !element['regex'].hasMatch(value)
-                  return element['error'] ?? '';
-                } else {
-                  return null;
-                }
-              },
-              onChanged: (value) {
+              onChanged: (value) async {
                 setState(() {
                   fieldValues[element['field_name']] = value;
                 });
-                widget.model?.setFormObj(fieldValues);
+                await widget.model?.setFormObj(fieldValues);
                 Map? newErrorObj = widget.model?.formErrorObj;
 
                 if (newErrorObj != null &&
                     newErrorObj[element['field_name']] != null) {
                   newErrorObj.remove(element['field_name']);
-                }
 
-                widget.model?.setFormErrorObj!(newErrorObj);
+                  await widget.model?.setFormErrorObj!(newErrorObj);
+                }
               },
             ),
             const SizedBox(height: 4),
@@ -312,13 +300,15 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                   ),
                 ),
                 const SizedBox(width: 4),
-                const Text(
-                  '*',
-                  style: TextStyle(
-                    color: Color.fromRGBO(233, 40, 35, 0.4),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                element['required'] == true
+                    ? const Text(
+                        '*',
+                        style: TextStyle(
+                          color: Color.fromRGBO(233, 40, 35, 0.4),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )
+                    : const SizedBox(),
               ],
             ),
             const SizedBox(height: 4),
@@ -359,9 +349,9 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                 if (newErrorObj != null &&
                     newErrorObj[element['field_name']] != null) {
                   newErrorObj.remove(element['field_name']);
-                }
 
-                widget.model?.setFormErrorObj!(newErrorObj);
+                  await widget.model?.setFormErrorObj!(newErrorObj);
+                }
               },
             ),
             const SizedBox(height: 4),
@@ -391,13 +381,15 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                   ),
                 ),
                 const SizedBox(width: 4),
-                const Text(
-                  '*',
-                  style: TextStyle(
-                    color: Color.fromRGBO(233, 40, 35, 1),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                element['required'] == true
+                    ? const Text(
+                        '*',
+                        style: TextStyle(
+                          color: Color.fromRGBO(233, 40, 35, 0.4),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )
+                    : const SizedBox(),
               ],
             ),
             ListView.builder(
@@ -417,20 +409,21 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                   controlAffinity: ListTileControlAffinity.leading,
                   value: element['options'][index]['value'],
                   groupValue: fieldValues[element['field_name']],
-                  onChanged: (value) {
+                  onChanged: (value) async {
                     Map? newErrorObj = widget.model?.formErrorObj;
 
                     setState(() {
                       fieldValues[element['field_name']] = value;
                     });
 
+                    await widget.model?.setFormObj(fieldValues);
+
                     if (newErrorObj != null &&
                         newErrorObj[element['field_name']] != null) {
                       newErrorObj.remove(element['field_name']);
-                    }
 
-                    widget.model?.setFormObj(fieldValues);
-                    widget.model?.setFormErrorObj!(newErrorObj);
+                      await widget.model?.setFormErrorObj!(newErrorObj);
+                    }
                   },
                 );
               },
@@ -462,13 +455,15 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                   ),
                 ),
                 const SizedBox(width: 4),
-                const Text(
-                  '*',
-                  style: TextStyle(
-                    color: Color.fromRGBO(233, 40, 35, 1),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                element['required'] == true
+                    ? const Text(
+                        '*',
+                        style: TextStyle(
+                          color: Color.fromRGBO(233, 40, 35, 0.4),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )
+                    : const SizedBox(),
               ],
             ),
             ListView.builder(
@@ -493,13 +488,6 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                           false
                       : false,
                   onChanged: (bool? value) async {
-                    Map? newErrorObj = widget.model?.formErrorObj;
-
-                    if (newErrorObj != null &&
-                        newErrorObj[element['field_name']] != null) {
-                      newErrorObj.remove(element['field_name']);
-                    }
-
                     setState(() {
                       if (value!) {
                         fieldValues[element['field_name']]
@@ -510,9 +498,16 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                       }
                     });
 
-                    widget.model?.setFormObj(fieldValues);
+                    await widget.model?.setFormObj(fieldValues);
 
-                    widget.model?.setFormErrorObj!(newErrorObj);
+                    Map? newErrorObj = widget.model?.formErrorObj;
+
+                    if (newErrorObj != null &&
+                        newErrorObj[element['field_name']] != null) {
+                      newErrorObj.remove(element['field_name']);
+
+                      await widget.model?.setFormErrorObj!(newErrorObj);
+                    }
                   },
                 );
               },
