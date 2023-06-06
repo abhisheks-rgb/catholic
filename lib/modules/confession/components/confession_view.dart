@@ -553,7 +553,7 @@ class _ConfessionViewState extends State<ConfessionView> {
     );
   }
 
-  Future showInfo() => showDialog(
+  void showInfo() => showDialog(
         context: context,
         builder: (BuildContext context) => Dialog(
           shape: const RoundedRectangleBorder(
