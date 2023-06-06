@@ -26,11 +26,11 @@ class ListAnnouncementsAction extends BaseAction {
     });
 
     await dispatchModel<HomeModel>(HomeModel(), (m) {
-      m.user = user;
+      user = m.user;
     });
 
     if (user != null) {
-      churchId = user['churchId'];
+      churchId = user!['churchId'] + 1;
     }
 
     List<Object> records = [];
@@ -63,12 +63,10 @@ class ListAnnouncementsAction extends BaseAction {
       error = 'Unexpected error';
     }
 
-    await Future.delayed(const Duration(seconds: 1), () async {
-      await dispatchModel<NotificationModel>(NotificationModel(), (m) {
-        m.error = error;
-        m.loading = false;
-        m.items = records;
-      });
+    await dispatchModel<NotificationModel>(NotificationModel(), (m) {
+      m.error = error;
+      m.loading = false;
+      m.items = records;
     });
 
     return null;
