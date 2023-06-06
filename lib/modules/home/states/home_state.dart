@@ -183,8 +183,6 @@ class HomeState extends BasePageState<HomeModel> {
           pushNamed('/_/login');
         };
         m.gotoMyEvents = () async {
-          pushNamed('/_/events/myEvents');
-
           dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
             m.bookingFormView = 'bookingForm';
             m.formObj = {};
@@ -195,6 +193,8 @@ class HomeState extends BasePageState<HomeModel> {
             m.bookingFormView = 'bookingForm';
             m.loading = false;
           });
+
+          pushNamed('/_/events/myEvents');
         };
         m.setShowInfo = (String route) {
           switch (route) {
