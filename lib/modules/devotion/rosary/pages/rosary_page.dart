@@ -29,7 +29,7 @@ class RosaryPage extends BaseStatefulPageView {
         leadingLogo: false,
         showFontSetting: true,
         showInfo: true,
-        title: 'Rosary',
+        title: 'The Rosary',
       ));
 
   @override

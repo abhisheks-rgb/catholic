@@ -1,5 +1,7 @@
 import 'package:butter/butter.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/login_model.dart';
@@ -44,7 +46,8 @@ class _LoginViewState extends State<LoginView> {
         _error = widget.model!.error;
       } else if (widget.model!.loading == false &&
           widget.model!.error!.isNotEmpty) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
+        EasyDebounce.debounce(
+            'debounce-login', const Duration(milliseconds: 100), () {
           showAlert();
         });
       }
@@ -389,8 +392,13 @@ class _LoginViewState extends State<LoginView> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Center(
-                  child: Text(
-                    widget.model!.error!,
+                  child: Linkify(
+                    onOpen: (link) async {
+                      final website = link.url;
+                      final uri = Uri.parse(website);
+                      urlLauncher(uri);
+                    },
+                    text: widget.model!.error ?? '',
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Color.fromRGBO(4, 26, 82, 1),

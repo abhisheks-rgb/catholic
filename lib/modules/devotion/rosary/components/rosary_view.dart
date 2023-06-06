@@ -1,4 +1,5 @@
 import 'package:butter/butter.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:intl/intl.dart';
@@ -19,8 +20,7 @@ class _RosaryViewState extends State<RosaryView> {
   int? _currentMystery;
   List<dynamic> mystries = [
     {
-      'title': 'Joyful Mysteries (Mondays and Saturdays)',
-      'title2': 'Joyful Mysteries',
+      'title': 'Joyful Mysteries',
       'subTitle':
           'Prayed on Mondays, Saturdays, and, during the season of Advent, on Sundays',
       'label': 'JOYFUL MYSTERY',
@@ -62,8 +62,7 @@ class _RosaryViewState extends State<RosaryView> {
       ],
     },
     {
-      'title': 'Sorrowful Mysteries (Tuesdays and Fridays)',
-      'title2': 'Sorrowful Mysteries',
+      'title': 'Sorrowful Mysteries',
       'subTitle':
           'Prayed on Tuesdays, Fridays, and, during the season of Lent, on Sundays',
       'label': 'SORROWFUL MYSTERY',
@@ -105,8 +104,7 @@ class _RosaryViewState extends State<RosaryView> {
       ],
     },
     {
-      'title': 'Glorious Mysteries (Wednesdays and Sundays)',
-      'title2': 'Glorious Mysteries',
+      'title': 'Glorious Mysteries',
       'subTitle':
           'Prayed on Wednesdays and, outside the seasons of Advent and Lent, on Sundays',
       'label': 'GLORIOUS MYSTERY',
@@ -147,8 +145,7 @@ class _RosaryViewState extends State<RosaryView> {
       ],
     },
     {
-      'title': 'Luminous Mysteries (Thursdays)',
-      'title2': 'Luminous Mysteries',
+      'title': 'Luminous Mysteries',
       'subTitle': 'Prayed on Thursdays',
       'label': 'LUMINOUS MYSTERY',
       'days': ['Thursday'],
@@ -218,15 +215,12 @@ class _RosaryViewState extends State<RosaryView> {
     if (widget.model?.showInfo != null) {
       if (widget.model?.showInfo == true &&
           widget.model?.showInfo != oldWidget.model?.showInfo) {
-        handleShowInfo();
+        EasyDebounce.debounce(
+            'debounce-rosary', const Duration(milliseconds: 100), () {
+          showInfo();
+        });
       }
     }
-  }
-
-  void handleShowInfo() async {
-    await Future.delayed(const Duration(milliseconds: 500), () async {
-      showInfo();
-    });
   }
 
   @override
@@ -1030,7 +1024,16 @@ class _RosaryViewState extends State<RosaryView> {
         ),
         const SizedBox(height: 16),
         Text(
-          'The question is sometimes asked, why, of all the incidents in our Lord\'s life, the Rosary only considers these particular twenty. The mysteries of the Rosary are based on the incidents in the life of Our Lord and His Mother that are celebrated in the Liturgy. There is a parallel between the main feasts honoring our Lord and his Mother in the liturgical year, and the twenty mysteries of the Rosary. Consequently, one who recites the twenty mysteries of the Rosary in one day reflects on the whole liturgical cycle that the Church commemorates during the course of each year. That is why some of the Popes have referred to the Rosary as a compendium of the Gospel. One cannot change the mysteries of the Rosary without losing the indulgences that the Church grants for the recitation of the Rosary.',
+          'The question is sometimes asked, why, of all the incidents in our Lord\'s life, the Rosary only considers these particular twenty. The mysteries of the Rosary are based on the incidents in the life of Our Lord and His Mother that are celebrated in the Liturgy. There is a parallel between the main feasts honoring our Lord and his Mother in the liturgical year, and the twenty mysteries of the Rosary.',
+          style: TextStyle(
+            color: const Color.fromRGBO(4, 26, 82, 1),
+            fontSize: widget.model!.contentFontSize ?? 17,
+            height: 1.4,
+          ),
+        ),
+        const SizedBox(height: 16),
+        Text(
+          'Consequently, one who recites the twenty mysteries of the Rosary in one day reflects on the whole liturgical cycle that the Church commemorates during the course of each year. That is why some of the Popes have referred to the Rosary as a compendium of the Gospel. One cannot change the mysteries of the Rosary without losing the indulgences that the Church grants for the recitation of the Rosary.',
           style: TextStyle(
             color: const Color.fromRGBO(4, 26, 82, 1),
             fontSize: widget.model!.contentFontSize ?? 17,
@@ -1114,7 +1117,7 @@ class _RosaryViewState extends State<RosaryView> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        mystries[index]['title2'],
+                                        mystries[index]['title'],
                                         style: const TextStyle(
                                           color: Color.fromRGBO(4, 26, 82, 1),
                                           fontWeight: FontWeight.w500,
@@ -1166,7 +1169,7 @@ class _RosaryViewState extends State<RosaryView> {
         ),
       );
 
-  void showInfo() => showDialog(
+  Future showInfo() => showDialog(
         context: context,
         builder: (BuildContext context) => Dialog(
           shape: const RoundedRectangleBorder(

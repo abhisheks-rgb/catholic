@@ -9,6 +9,7 @@ import '../../profile/models/profile_model.dart';
 import '../../home/models/home_model.dart';
 import '../../offertory/models/offertory_model.dart';
 import '../../schedules/models/schedules_model.dart';
+import '../../scripture/models/scripture_history_model.dart';
 
 class WelcomeState extends BasePageState<WelcomeModel> {
   WelcomeState();
@@ -102,8 +103,15 @@ class WelcomeState extends BasePageState<WelcomeModel> {
               });
               break;
             case '/_/scripture/history':
-              await dispatchAction(ListReflectionAction());
+              pushNamed(newRoute);
               canRedirect = false;
+
+              await dispatchModel<ScriptureHistoryModel>(
+                  ScriptureHistoryModel(), (m) {
+                m.loading = true;
+              });
+
+              await dispatchAction(ListReflectionAction());
               break;
             default:
           }

@@ -30,50 +30,16 @@ class ListReflectionAction extends BaseAction {
           .httpsCallable('reflection')
           .call(
         {
-          'type': quantity ?? 'all',
+          'type': quantity ?? 'archbishopReflection_scripture_reflection',
         },
       );
 
       var result = instance.data['results']['items'];
 
-      List<Map> items;
-
-      items = List.generate(result.length ?? 0, (index) {
-        final item = result[index] as Map;
-
-        switch (item['authorname']) {
-          case 'William SC Goh':
-            item['order'] = 0;
-            item['authorname'] = 'Cardinal ${item['authorname']}';
-            item['shortname'] = 'arch';
-            break;
-          case 'Adrian Danker':
-            item['order'] = 1;
-            item['authorname'] = 'Rev Fr ${item['authorname']}';
-            item['shortname'] = 'adrian_danker';
-            break;
-          case 'Luke Fong':
-            item['order'] = 2;
-            item['authorname'] = 'Rev Fr ${item['authorname']}';
-            item['shortname'] = 'luke_fong';
-            break;
-          case 'Stephen Yim':
-            item['order'] = 3;
-            item['authorname'] = 'Rev Fr ${item['authorname']}';
-            item['shortname'] = 'stephen_yim';
-            break;
-          default:
-        }
-
-        return item;
-      })
-        ..sort((a, b) => a['order'].compareTo(b['order']));
-
-      records = items[0]['data'].map<Object>((e) {
+      records = result['data'].map<Object>((e) {
         return e as Object;
       }).toList();
-
-      authorname = items[0]['authorname'];
+      authorname = 'Cardinal ${result['authorname']}';
     } catch (e, stacktrace) {
       Butter.e(e.toString());
       Butter.e(stacktrace.toString());
@@ -81,12 +47,11 @@ class ListReflectionAction extends BaseAction {
     }
 
     await dispatchModel<ScriptureHistoryModel>(ScriptureHistoryModel(), (m) {
+      m.loading = false;
       m.error = error;
       m.items = records;
       m.authorName = authorname;
     });
-
-    pushNamed('/_/scripture/history');
 
     return null;
   }
