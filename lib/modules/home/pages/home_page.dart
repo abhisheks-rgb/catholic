@@ -331,7 +331,9 @@ class HomePage extends BaseStatefulPageView {
               ? Container(
                   width: MediaQuery.of(context).size.width,
                 )
-              : model!.isEventDetails || model!.isEventRegister
+              : ModalRoute.of(context)!.settings.name == '/_/events/details' ||
+                      ModalRoute.of(context)!.settings.name ==
+                          '/_/events/register'
                   ? EventDetailsFooter(
                       model: model,
                     )
