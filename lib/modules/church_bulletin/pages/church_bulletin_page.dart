@@ -573,28 +573,33 @@ class _BulletinPageState extends State<_BulletinPage> {
     setState(() {
       controllers = {};
     });
-    final result = await FirebaseFunctions.instanceFor(region: 'asia-east2')
-        .httpsCallable('bulletin')
-        .call(
-      {
-        'input': parishlink,
-      },
-    );
+    try {
+      final result = await FirebaseFunctions.instanceFor(region: 'asia-east2')
+          .httpsCallable('bulletin')
+          .call(
+        {
+          'input': parishlink,
+        },
+      );
 
-    final response = result.data;
+      final response = result.data;
 
-    List bulletinList = response['results']['items'] ?? [];
-    bulletinList.map((item) {
-      controllers[item['id']] = PdfViewerController();
-    }).toList();
+      List bulletinList = response['results']['items'] ?? [];
+      bulletinList.map((item) {
+        controllers[item['id']] = PdfViewerController();
+      }).toList();
 
-    setState(() {
-      _bulletinItems = response['results']['items'] ?? [];
-    });
+      setState(() {
+        _bulletinItems = response['results']['items'] ?? [];
+      });
 
-    await FirebaseAnalytics.instance.logEvent(
-      name: 'app_bulletin_$parishlink',
-    );
+      await FirebaseAnalytics.instance.logEvent(
+        name: 'app_bulletin_$parishlink',
+      );
+    } catch (e, stacktrace) {
+      Butter.e(e.toString());
+      Butter.e(stacktrace.toString());
+    }
   }
 
   void _showOverlay(BuildContext context, int index) {
@@ -703,11 +708,15 @@ class _BulletinPageState extends State<_BulletinPage> {
   }
 
   String _getChurchName(String? selectedParish) {
-    var parish = widget.model.items?.firstWhere((element) {
-      return element['name'] == selectedParish;
-    });
+    if (widget.model.items!.isNotEmpty) {
+      var parish = widget.model.items?.firstWhere((element) {
+        return element['name'] == selectedParish;
+      });
 
-    return '${parish['name']}';
+      return '${parish['name']}';
+    }
+
+    return _selectedParishValue ?? '';
   }
 }
 
