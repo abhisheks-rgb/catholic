@@ -1,6 +1,7 @@
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 import '../models/scripture_history_model.dart';
 import '../../../utils/asset_path.dart';
@@ -141,6 +142,10 @@ class ScriptureHistoryView extends BaseStatelessPageView {
                                   onPressed: () async {
                                     await model?.viewScriptureDetails
                                         ?.call(element);
+
+                                    await FirebaseAnalytics.instance.logEvent(
+                                      name: 'app_reflect_${model?.shortName}',
+                                    );
                                   },
                                   child: Container(
                                     width: double.infinity,
