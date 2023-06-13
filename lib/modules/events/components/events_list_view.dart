@@ -15,7 +15,9 @@ class EventsListView extends BaseStatefulPageView {
       : _items = List.generate(model?.events?.length ?? 0,
             (index) => model?.events![index] as Map),
         _interestedItems = List.generate(model?.interestedEvents?.length ?? 0,
-            (index) => model?.interestedEvents![index] as Map),
+            (index) => model?.interestedEvents![index] as Map)
+          ..sort((a, b) =>
+              b['startDate']['_seconds'].compareTo(a['startDate']['_seconds'])),
         super();
 
   @override

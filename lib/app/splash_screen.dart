@@ -59,45 +59,42 @@ class _SplashScreenState extends State<SplashScreen> {
                   width: 168,
                 ),
               ),
-              const Positioned(
+              Positioned.fill(
                 left: 0,
-                right: 0,
-                bottom: 111,
-                child: SizedBox(
-                  height: 44, // specify th
-                  child: Center(
-                    child: Text(
-                      'Empowering one connected church\nto grow our faith community',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        fontStyle: FontStyle.italic,
-                        color: Color(0xff041a51),
+                bottom: 0,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: const [
+                    Center(
+                      child: Text(
+                        'Empowering one connected church\nto grow our faith community',
+                        textScaleFactor: 1,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          fontStyle: FontStyle.italic,
+                          color: Color(0xff041a51),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-              const Positioned(
-                left: 0,
-                right: 0,
-                bottom: 47,
-                child: SizedBox(
-                  height: 15, // specify th
-                  child: Center(
-                    child: Text(
-                      'DIGITAL CHURCH OFFICE',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w500,
-                        // color: Color.fromRGBO(4, 26, 82, 0.5),
-                        color: Color(0xff041a51),
+                    SizedBox(height: 29),
+                    Center(
+                      child: Text(
+                        'DIGITAL CHURCH OFFICE',
+                        textScaleFactor: 1,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w500,
+                          // color: Color.fromRGBO(4, 26, 82, 0.5),
+                          color: Color(0xff041a51),
+                        ),
                       ),
                     ),
-                  ),
+                    SizedBox(height: 27),
+                  ],
                 ),
               ),
             ],
