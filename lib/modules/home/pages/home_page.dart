@@ -164,182 +164,189 @@ class HomePage extends BaseStatefulPageView {
       specs.title = model!.title;
     }
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: specs.hasAppBar! && !model!.isFullScreen
-            ? AppBar(
-                elevation: 1.2,
-                centerTitle: true,
-                leading: specs.leadingLogo!
-                    ? RawMaterialButton(
-                        constraints: const BoxConstraints(),
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        onPressed: () {
-                          Navigator.of(context).popAndPushNamed('/_/welcome');
-                        },
-                        child: SizedBox(
-                          width: 36,
-                          height: 36,
-                          child: Image.asset(
-                            assetPath('icon-small.png'),
-                          ),
-                        ),
-                      )
-                    : IconButton(
-                        icon: const Icon(
-                          Icons.arrow_back_ios,
-                          color: Color.fromRGBO(4, 26, 82, 1),
-                          size: 24,
-                        ),
-                        onPressed: () async {
-                          final result = await Navigator.of(context).maybePop();
-                          if (!result && context.mounted) {
-                            // ignore: use_build_context_synchronously
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+      child: SafeArea(
+        child: Scaffold(
+          appBar: specs.hasAppBar! && !model!.isFullScreen
+              ? AppBar(
+                  elevation: 1.2,
+                  centerTitle: true,
+                  leading: specs.leadingLogo!
+                      ? RawMaterialButton(
+                          constraints: const BoxConstraints(),
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          onPressed: () {
                             Navigator.of(context).popAndPushNamed('/_/welcome');
-                          } else {
-                            if (ModalRoute.of(context)!.settings.name ==
-                                '/_/events/details') {
+                          },
+                          child: SizedBox(
+                            width: 36,
+                            height: 36,
+                            child: Image.asset(
+                              assetPath('icon-small.png'),
+                            ),
+                          ),
+                        )
+                      : IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back_ios,
+                            color: Color.fromRGBO(4, 26, 82, 1),
+                            size: 24,
+                          ),
+                          onPressed: () async {
+                            final result =
+                                await Navigator.of(context).maybePop();
+                            if (!result && context.mounted) {
+                              // ignore: use_build_context_synchronously
                               Navigator.of(context)
-                                  .popAndPushNamed('/_/events/list');
+                                  .popAndPushNamed('/_/welcome');
+                            } else {
+                              if (ModalRoute.of(context)!.settings.name ==
+                                  '/_/events/details') {
+                                Navigator.of(context)
+                                    .popAndPushNamed('/_/events/list');
+                              }
                             }
-                          }
-                        },
-                      ),
-                title: Text(specs.title!),
-                actions: [
-                  specs.showNotification!
-                      ? RawMaterialButton(
-                          constraints: const BoxConstraints(),
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          onPressed: () {
-                            model?.showPage('/_/notification');
                           },
-                          child: Container(
-                            width: 40,
-                            decoration: const BoxDecoration(
-                              color: Colors.transparent,
-                            ),
-                            child: const Align(
-                              alignment: Alignment.center,
-                              child: SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: Icon(
-                                  Octicons.bell_fill,
-                                  color: Color.fromRGBO(4, 26, 82, 0.2),
-                                  size: 20,
+                        ),
+                  title: Text(specs.title!),
+                  actions: [
+                    specs.showNotification!
+                        ? RawMaterialButton(
+                            constraints: const BoxConstraints(),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            onPressed: () {
+                              model?.showPage('/_/notification');
+                            },
+                            child: Container(
+                              width: 40,
+                              decoration: const BoxDecoration(
+                                color: Colors.transparent,
+                              ),
+                              child: const Align(
+                                alignment: Alignment.center,
+                                child: SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: Icon(
+                                    Octicons.bell_fill,
+                                    color: Color.fromRGBO(4, 26, 82, 0.2),
+                                    size: 20,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        )
-                      : Container(),
-                  specs.showProfile!
-                      ? RawMaterialButton(
-                          constraints: const BoxConstraints(),
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          onPressed: () {
-                            model?.showPage('/_/profile');
-                          },
-                          child: Container(
-                            width: 40,
-                            decoration: const BoxDecoration(
-                              color: Colors.transparent,
-                            ),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: Image.asset(
-                                  assetPath('user-active-solid.png'),
-                                  color: const Color.fromRGBO(4, 26, 82, 0.2),
+                          )
+                        : Container(),
+                    specs.showProfile!
+                        ? RawMaterialButton(
+                            constraints: const BoxConstraints(),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            onPressed: () {
+                              model?.showPage('/_/profile');
+                            },
+                            child: Container(
+                              width: 40,
+                              decoration: const BoxDecoration(
+                                color: Colors.transparent,
+                              ),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: Image.asset(
+                                    assetPath('user-active-solid.png'),
+                                    color: const Color.fromRGBO(4, 26, 82, 0.2),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        )
-                      : Container(),
-                  specs.showFontSetting!
-                      ? RawMaterialButton(
-                          constraints: const BoxConstraints(),
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          onPressed: () async {
-                            model?.setPageFontSize!();
-                          },
-                          child: Container(
-                            width: 40,
-                            decoration: const BoxDecoration(
-                              color: Colors.transparent,
-                            ),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: Image.asset(
-                                  assetPath('font-size.png'),
-                                  color: const Color.fromRGBO(4, 26, 82, 1),
+                          )
+                        : Container(),
+                    specs.showFontSetting!
+                        ? RawMaterialButton(
+                            constraints: const BoxConstraints(),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            onPressed: () async {
+                              model?.setPageFontSize!();
+                            },
+                            child: Container(
+                              width: 40,
+                              decoration: const BoxDecoration(
+                                color: Colors.transparent,
+                              ),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: Image.asset(
+                                    assetPath('font-size.png'),
+                                    color: const Color.fromRGBO(4, 26, 82, 1),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        )
-                      : Container(),
-                  specs.showInfo!
-                      ? RawMaterialButton(
-                          constraints: const BoxConstraints(),
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          onPressed: () async {
-                            model?.setShowInfo!(
-                                ModalRoute.of(context)!.settings.name!);
-                          },
-                          child: Container(
-                            width: 40,
-                            decoration: const BoxDecoration(
-                              color: Colors.transparent,
-                            ),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: Image.asset(
-                                  assetPath('info.png'),
-                                  color: const Color.fromRGBO(4, 26, 82, 1),
+                          )
+                        : Container(),
+                    specs.showInfo!
+                        ? RawMaterialButton(
+                            constraints: const BoxConstraints(),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            onPressed: () async {
+                              model?.setShowInfo!(
+                                  ModalRoute.of(context)!.settings.name!);
+                            },
+                            child: Container(
+                              width: 40,
+                              decoration: const BoxDecoration(
+                                color: Colors.transparent,
+                              ),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: Image.asset(
+                                    assetPath('info.png'),
+                                    color: const Color.fromRGBO(4, 26, 82, 1),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        )
-                      : Container(),
-                  // ...?specs.actions,
-                ],
-              )
-            : PreferredSize(
-                preferredSize: const Size(0.0, 0.0),
-                child: Container(),
-              ),
-        body: Container(child: module),
-        bottomNavigationBar: SizedBox(
-          height: model!.isFullScreen ? 0 : 82,
-          child: model!.isFullScreen
-              ? Container(
-                  width: MediaQuery.of(context).size.width,
+                          )
+                        : Container(),
+                    // ...?specs.actions,
+                  ],
                 )
-              : ModalRoute.of(context)!.settings.name == '/_/events/details' ||
-                      ModalRoute.of(context)!.settings.name ==
-                          '/_/events/register'
-                  ? EventDetailsFooter(
-                      model: model,
-                    )
-                  : Navbar(
-                      model: model,
-                    ),
+              : PreferredSize(
+                  preferredSize: const Size(0.0, 0.0),
+                  child: Container(),
+                ),
+          body: Container(child: module),
+          bottomNavigationBar: SizedBox(
+            height: model!.isFullScreen ? 0 : 82,
+            child: model!.isFullScreen
+                ? Container(
+                    width: MediaQuery.of(context).size.width,
+                  )
+                : ModalRoute.of(context)!.settings.name ==
+                            '/_/events/details' ||
+                        ModalRoute.of(context)!.settings.name ==
+                            '/_/events/register'
+                    ? EventDetailsFooter(
+                        model: model,
+                      )
+                    : Navbar(
+                        model: model,
+                      ),
+          ),
         ),
       ),
     );
