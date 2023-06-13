@@ -68,6 +68,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   child: Center(
                     child: Text(
                       'Empowering one connected church\nto grow our faith community',
+                      textScaleFactor: 1,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 18,
@@ -89,6 +90,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     child: Text(
                       'DIGITAL CHURCH OFFICE',
                       textAlign: TextAlign.center,
+                      textScaleFactor: 1,
                       style: TextStyle(
                         fontSize: 12,
                         fontFamily: 'Inter',
