@@ -216,7 +216,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                             ],
                           ),
                         ),
-                  widget.model?.item!['eventVenue'] == ''
+                  widget.model?.item!['eventLocation'] == ''
                       ? const SizedBox(height: 8)
                       : RawMaterialButton(
                           constraints: const BoxConstraints(),
@@ -224,7 +224,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                               MaterialTapTargetSize.shrinkWrap,
                           onPressed: () {
                             String query =
-                                widget.model?.item!['eventVenue'] as String;
+                                widget.model?.item!['eventLocation'] as String;
                             _redirectToMaps(query);
                           },
                           child: Column(
@@ -244,7 +244,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                                   const SizedBox(width: 10),
                                   Expanded(
                                     child: Text(
-                                      '${widget.model?.item!['eventVenue']}',
+                                      '${widget.model?.item!['eventLocation']}',
                                       style: const TextStyle(
                                         color: Color.fromRGBO(12, 72, 224, 1),
                                         fontWeight: FontWeight.w500,
