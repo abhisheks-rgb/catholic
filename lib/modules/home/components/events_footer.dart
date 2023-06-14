@@ -192,7 +192,11 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                                   ? Colors.white
                                   : const Color.fromRGBO(219, 228, 251, 1),
                           border: Border.all(
-                            color: const Color.fromRGBO(4, 26, 82, 0.15),
+                            color: widget.model
+                                        ?.selectedEventDetail!['hasLiked'] ==
+                                    false
+                                ? const Color.fromRGBO(4, 26, 82, 0.15)
+                                : const Color.fromRGBO(219, 228, 251, 1),
                           ),
                           borderRadius: const BorderRadius.all(
                             Radius.circular(10),
@@ -253,7 +257,9 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                             color: widget.model
                                         ?.selectedEventDetail!['hasBooked'] ==
                                     false
-                                ? const Color.fromRGBO(4, 26, 82, 0.15)
+                                ? isWalkin
+                                    ? const Color.fromRGBO(4, 26, 82, 0.05)
+                                    : const Color.fromRGBO(219, 228, 251, 1)
                                 : _checkStartDateCanCancel(widget.model
                                         ?.selectedEventDetail!['startDate'])
                                     ? const Color.fromRGBO(4, 26, 82, 0.05)
@@ -267,7 +273,7 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                                       false
                                   ? isWalkin
                                       ? const Color.fromRGBO(4, 26, 82, 0.05)
-                                      : const Color.fromRGBO(255, 255, 255, 1)
+                                      : const Color.fromRGBO(219, 228, 251, 1)
                                   : _checkStartDateCanCancel(widget.model
                                           ?.selectedEventDetail!['startDate'])
                                       ? const Color.fromRGBO(4, 26, 82, 0.05)
