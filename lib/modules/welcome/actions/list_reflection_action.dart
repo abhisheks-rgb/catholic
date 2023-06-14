@@ -24,6 +24,7 @@ class ListReflectionAction extends BaseAction {
 
     List<Object> records = [];
     String authorname = '';
+    String shortname = '';
 
     try {
       final instance = await FirebaseFunctions.instanceFor(region: 'asia-east2')
@@ -40,6 +41,7 @@ class ListReflectionAction extends BaseAction {
         return e as Object;
       }).toList();
       authorname = 'Cardinal ${result['authorname']}';
+      shortname = 'arch';
     } catch (e, stacktrace) {
       Butter.e(e.toString());
       Butter.e(stacktrace.toString());
@@ -50,6 +52,7 @@ class ListReflectionAction extends BaseAction {
       m.loading = false;
       m.error = error;
       m.items = records;
+      m.shortName = shortname;
       m.authorName = authorname;
     });
 

@@ -394,7 +394,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                       : Text(
                           textAlign: TextAlign.start,
                           _parseHtmlString(
-                              widget.model?.massReadingItem!['day']),
+                              widget.model?.massReadingItem!['day'] ?? ''),
                           style: TextStyle(
                             color: const Color.fromRGBO(4, 26, 82, 1),
                             fontSize: widget.model!.titleFontSize ?? 20,

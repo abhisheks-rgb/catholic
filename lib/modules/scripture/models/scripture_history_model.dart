@@ -3,6 +3,7 @@ import 'package:butter/butter.dart';
 class ScriptureHistoryModel extends BaseUIModel<ScriptureHistoryModel> {
   List<Object>? items;
   String? authorName;
+  String? shortName;
   //
   String? error;
   bool? loading;
@@ -10,6 +11,7 @@ class ScriptureHistoryModel extends BaseUIModel<ScriptureHistoryModel> {
   ScriptureHistoryModel({
     this.items,
     this.authorName,
+    this.shortName,
     this.error,
     this.loading,
   });
@@ -21,27 +23,30 @@ class ScriptureHistoryModel extends BaseUIModel<ScriptureHistoryModel> {
 
   @override
   ScriptureHistoryModel clone() => ScriptureHistoryModel(
-    items: items ?? [],
-    authorName: authorName,
-    error: error,
-    loading: loading,
-  );
+        items: items ?? [],
+        authorName: authorName,
+        shortName: shortName,
+        error: error,
+        loading: loading,
+      );
 
   @override
   int get hashCode => Object.hashAll([
-    items,
-    authorName,
-    error,
-    loading,
-  ]);
+        items,
+        authorName,
+        shortName,
+        error,
+        loading,
+      ]);
 
   @override
   bool operator ==(Object other) =>
-    identical(this, other) ||
+      identical(this, other) ||
       other is ScriptureHistoryModel &&
-        runtimeType == other.runtimeType &&
-        items == other.items &&
-        authorName == other.authorName &&
-        error == other.error &&
-        loading == other.loading;
+          runtimeType == other.runtimeType &&
+          items == other.items &&
+          authorName == other.authorName &&
+          shortName == other.shortName &&
+          error == other.error &&
+          loading == other.loading;
 }

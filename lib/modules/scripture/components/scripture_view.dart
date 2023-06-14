@@ -295,7 +295,7 @@ class _ScriptureViewState extends State<ScriptureView> {
                                           await FirebaseAnalytics.instance
                                               .logEvent(
                                             name:
-                                                'app_reflect  _${element['shortname']}',
+                                                'app_reflect_${element['shortname']}',
                                           );
                                         },
                                         child: Align(
