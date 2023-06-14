@@ -310,7 +310,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
 
                                       if (index != -1) {
                                         widget.model.showPage('/_/church_info',
-                                            index + 1, _selectedParishValue);
+                                            index, _selectedParishValue);
                                       }
                                     },
                                     child: const Text('Church Info',

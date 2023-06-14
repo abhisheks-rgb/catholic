@@ -243,7 +243,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                         ? DecorationImage(
                                             image: NetworkImage(widget._infos[0]
                                                 ['orgPhotoUrl']),
-                                            fit: BoxFit.cover,
+                                            fit: BoxFit.contain,
                                           )
                                         : DecorationImage(
                                             image: AssetImage(
