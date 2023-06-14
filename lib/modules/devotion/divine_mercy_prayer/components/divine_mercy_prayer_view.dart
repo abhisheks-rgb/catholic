@@ -560,7 +560,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        'What is Confession?',
+                        'What is the Divine Mercy Prayer?',
                         style: TextStyle(
                           color: const Color.fromRGBO(4, 26, 82, 1),
                           fontWeight: FontWeight.w500,

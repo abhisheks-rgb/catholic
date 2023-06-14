@@ -1220,7 +1220,7 @@ class _RosaryViewState extends State<RosaryView> {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        'What is Confession?',
+                        'What is the Rosary?',
                         style: TextStyle(
                           color: const Color.fromRGBO(4, 26, 82, 1),
                           fontWeight: FontWeight.w500,
