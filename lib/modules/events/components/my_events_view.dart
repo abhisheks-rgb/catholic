@@ -78,11 +78,15 @@ class _EventsViewState extends State<MyEventsView>
                     Tab(
                       child: Text(
                         'Interested',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     Tab(
                       child: Text(
                         'Booked',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],
