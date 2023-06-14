@@ -23,7 +23,7 @@ class SubmitEventFormAction extends BaseAction {
     Butter.d('SubmitEventFormAction::reduce');
     final m = read<HomeModel>(HomeModel());
     await dispatchModel<HomeModel>(HomeModel(), (m) {
-      m.loading = true;
+      m.submitBookingLoading = true;
     });
 
     final result = await FirebaseFunctions.instanceFor(region: 'asia-east2')
@@ -41,14 +41,26 @@ class SubmitEventFormAction extends BaseAction {
 
       event!['hasBooked'] = true;
 
-      dispatchModel<HomeModel>(HomeModel(), (m) {
+      dispatchModel<EventDetailsModel>(EventDetailsModel(), (m) {
+        m.item = event;
         m.loading = false;
+      });
+
+      dispatchModel<HomeModel>(HomeModel(), (m) {
+        m.submitBookingLoading = false;
         m.selectedEventDetail = event;
       });
+    } else {
+      Map<dynamic, dynamic>? event = m.selectedEventDetail;
 
       dispatchModel<EventDetailsModel>(EventDetailsModel(), (m) {
         m.item = event;
         m.loading = false;
+      });
+      dispatchModel<HomeModel>(HomeModel(), (m) {
+        m.submitBookingLoading = false;
+        m.bookingErrorMessage = result.data['message'].toString();
+        m.selectedEventDetail = event;
       });
     }
 

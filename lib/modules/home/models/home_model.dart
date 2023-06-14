@@ -5,6 +5,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
   String? error;
   bool initialized;
   bool loading;
+  bool submitBookingLoading;
   String? title;
   Map<String, dynamic>? user;
   bool isFullScreen;
@@ -16,6 +17,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
   Map<dynamic, dynamic>? selectedEventDetail;
   Map<dynamic, dynamic>? formObj;
   String? bookingFormView;
+  String? bookingErrorMessage;
 
   late void Function(String route) showPage;
   void Function()? setPageFontSize;
@@ -59,6 +61,8 @@ class HomeModel extends BaseUIModel<HomeModel> {
     this.selectedEventDetail,
     this.formObj,
     this.bookingFormView = 'bookingForm',
+    this.submitBookingLoading = false,
+    this.bookingErrorMessage,
   });
 
   @override
@@ -79,6 +83,8 @@ class HomeModel extends BaseUIModel<HomeModel> {
         selectedEventDetail: selectedEventDetail,
         formObj: formObj,
         bookingFormView: bookingFormView,
+        submitBookingLoading: submitBookingLoading,
+        bookingErrorMessage: bookingErrorMessage,
       );
 
   @override
@@ -96,6 +102,8 @@ class HomeModel extends BaseUIModel<HomeModel> {
         selectedEventDetail,
         formObj,
         bookingFormView,
+        submitBookingLoading,
+        bookingErrorMessage,
       ]);
 
   //
@@ -117,5 +125,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
           isEventDetails == other.isEventDetails &&
           isEventRegister == other.isEventRegister &&
           selectedEventDetail == other.selectedEventDetail &&
-          bookingFormView == other.bookingFormView;
+          bookingFormView == other.bookingFormView &&
+          submitBookingLoading == other.submitBookingLoading &&
+          bookingErrorMessage == other.bookingErrorMessage;
 }
