@@ -90,16 +90,20 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                         if (widget.model?.bookingFormView == 'bookingForm') {
                           widget.model?.setBookingFormView!();
                         } else {
-                          await widget.model?.submitFormEvent!();
+                          if (widget.model?.submitBookingLoading == false) {
+                            await widget.model?.submitFormEvent!();
 
-                          Future.delayed(const Duration(milliseconds: 1000),
-                              () {
-                            if (widget
-                                    .model?.selectedEventDetail!['hasBooked'] ==
-                                true) {
-                              _showPopup(context);
-                            }
-                          });
+                            Future.delayed(const Duration(milliseconds: 500),
+                                () {
+                              if (widget.model
+                                      ?.selectedEventDetail!['hasBooked'] ==
+                                  true) {
+                                _showPopup(context);
+                              } else {
+                                _showErrorPopup(context);
+                              }
+                            });
+                          }
                         }
                       },
                       child: Container(
@@ -114,15 +118,34 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                         ),
                         child: Align(
                           alignment: Alignment.center,
-                          child: Text(
-                            widget.model?.bookingFormView == 'bookingForm'
-                                ? 'Next'
-                                : 'Submit',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                            ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                widget.model?.bookingFormView == 'bookingForm'
+                                    ? 'Next'
+                                    : 'Submit',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              widget.model?.submitBookingLoading != null &&
+                                      widget.model?.submitBookingLoading == true
+                                  ? const SizedBox(width: 8)
+                                  : const SizedBox(),
+                              widget.model?.submitBookingLoading != null &&
+                                      widget.model?.submitBookingLoading == true
+                                  ? const SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  : const SizedBox(),
+                            ],
                           ),
                         ),
                       ),
@@ -192,7 +215,11 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                                   ? Colors.white
                                   : const Color.fromRGBO(219, 228, 251, 1),
                           border: Border.all(
-                            color: const Color.fromRGBO(4, 26, 82, 0.15),
+                            color: widget.model
+                                        ?.selectedEventDetail!['hasLiked'] ==
+                                    false
+                                ? const Color.fromRGBO(4, 26, 82, 0.15)
+                                : const Color.fromRGBO(219, 228, 251, 1),
                           ),
                           borderRadius: const BorderRadius.all(
                             Radius.circular(10),
@@ -253,7 +280,9 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                             color: widget.model
                                         ?.selectedEventDetail!['hasBooked'] ==
                                     false
-                                ? const Color.fromRGBO(4, 26, 82, 0.15)
+                                ? isWalkin
+                                    ? const Color.fromRGBO(4, 26, 82, 0.05)
+                                    : const Color.fromRGBO(219, 228, 251, 1)
                                 : _checkStartDateCanCancel(widget.model
                                         ?.selectedEventDetail!['startDate'])
                                     ? const Color.fromRGBO(4, 26, 82, 0.05)
@@ -267,7 +296,7 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                                       false
                                   ? isWalkin
                                       ? const Color.fromRGBO(4, 26, 82, 0.05)
-                                      : const Color.fromRGBO(255, 255, 255, 1)
+                                      : const Color.fromRGBO(219, 228, 251, 1)
                                   : _checkStartDateCanCancel(widget.model
                                           ?.selectedEventDetail!['startDate'])
                                       ? const Color.fromRGBO(4, 26, 82, 0.05)
@@ -852,6 +881,133 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                     ],
                   ),
                   const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: RawMaterialButton(
+                          constraints: const BoxConstraints(),
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          onPressed: () async {
+                            await Navigator.of(context).maybePop();
+                            widget.model?.closeSuccessPrompt!();
+                          },
+                          child: Container(
+                            height: 50,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                              color: Color.fromRGBO(4, 26, 82, 0.05),
+                            ),
+                            child: const Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Close',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(4, 26, 82, 1),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showErrorPopup(BuildContext context) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            child: SizedBox(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Sorry!',
+                        style: TextStyle(
+                          color: Color.fromRGBO(4, 26, 82, 1),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18,
+                        ),
+                      ),
+                      IconButton(
+                        padding: const EdgeInsets.all(0),
+                        alignment: Alignment.centerRight,
+                        icon: const Icon(
+                          Ionicons.close_circle,
+                          color: Color.fromRGBO(4, 26, 82, 0.5),
+                        ),
+                        onPressed: () async {
+                          await Navigator.of(context).maybePop();
+                          widget.model?.closeSuccessPrompt!();
+                        },
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Icon(
+                        MaterialCommunityIcons.close_circle,
+                        color: Color.fromRGBO(233, 40, 35, 1),
+                        size: 44,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 18),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'There was an error submitting the form.',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 0.1,
+                            color: Color.fromRGBO(4, 26, 82, 1),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          widget.model?.bookingErrorMessage ??
+                              'Something went wrong.',
+                          softWrap: true,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 0.1,
+                            color: Color.fromRGBO(4, 26, 82, 1),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 32),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

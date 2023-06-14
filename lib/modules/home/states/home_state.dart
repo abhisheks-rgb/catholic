@@ -170,6 +170,7 @@ class HomeState extends BasePageState<HomeModel> {
           await dispatchModel<HomeModel>(HomeModel(), (m) {
             m.isEventRegister = false;
             m.selectedEventDetail = {};
+            m.bookingErrorMessage = '';
             m.bookingFormView = 'bookingForm';
             m.loading = false;
           });

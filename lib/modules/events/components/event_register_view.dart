@@ -118,9 +118,7 @@ class _EventRegisterViewState extends State<EventRegisterView> {
                               fontSize: 18,
                             ),
                           ),
-                          Container(
-                            width: 152,
-                          ),
+                          const Spacer(),
                           Text(
                             'Review',
                             style: TextStyle(

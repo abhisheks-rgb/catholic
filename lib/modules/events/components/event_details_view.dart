@@ -334,6 +334,7 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                           style: const TextStyle(
                             color: Color.fromRGBO(4, 26, 82, 1),
                             fontSize: 16,
+                            height: 1.4,
                           ),
                         ),
                       ),
