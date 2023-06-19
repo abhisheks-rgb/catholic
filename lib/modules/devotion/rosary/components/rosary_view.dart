@@ -236,10 +236,14 @@ class _RosaryViewState extends State<RosaryView> {
     if (widget.model?.showInfo != null) {
       if (widget.model?.showInfo == true &&
           widget.model?.showInfo != oldWidget.model?.showInfo) {
-        EasyDebounce.debounce(
-            'debounce-rosary', const Duration(milliseconds: 100), () {
-          showInfo();
-        });
+        if (!isDisabled) {
+          EasyDebounce.debounce(
+              'debounce-rosary', const Duration(milliseconds: 100), () {
+            showInfo();
+          });
+        } else {
+          widget.model!.setShowInfo!();
+        }
       }
     }
   }
