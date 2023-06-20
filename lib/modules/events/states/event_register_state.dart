@@ -68,5 +68,17 @@ class EventRegisterState extends BasePageState<EventRegisterModel> {
                     : true;
           });
         };
+        m.resetBookingForm = () async {
+          dispatchModel<HomeModel>(HomeModel(), (m) {
+            m.bookingFormView = 'bookingForm';
+            m.formObj = {};
+          });
+
+          return dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
+            m.bookingFormView = 'bookingForm';
+            m.formErrorObj = {};
+            m.formObj = {};
+          });
+        };
       });
 }
