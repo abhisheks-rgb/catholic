@@ -206,17 +206,17 @@ class HomePage extends BaseStatefulPageView {
                             size: 24,
                           ),
                           onPressed: () async {
-                            final result =
-                                await Navigator.of(context).maybePop();
-                            if (!result && context.mounted) {
-                              // ignore: use_build_context_synchronously
-                              Navigator.of(context)
-                                  .popAndPushNamed('/_/welcome');
+                            if (ModalRoute.of(context)!.settings.name ==
+                                    '/_/events/register' &&
+                                model?.bookingFormView == 'bookingFormReview') {
+                              model?.discardBooking!();
                             } else {
-                              if (ModalRoute.of(context)!.settings.name ==
-                                  '/_/events/details') {
+                              final result =
+                                  await Navigator.of(context).maybePop();
+                              if (!result && context.mounted) {
+                                // ignore: use_build_context_synchronously
                                 Navigator.of(context)
-                                    .popAndPushNamed('/_/events/list');
+                                    .popAndPushNamed('/_/welcome');
                               }
                             }
                           },

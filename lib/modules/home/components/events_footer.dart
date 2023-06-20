@@ -50,9 +50,13 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       onPressed: () async {
-                        widget.model?.discardBooking!();
-                        await Navigator.of(context)
-                            .popAndPushNamed('/_/events/details');
+                        if (widget.model?.bookingFormView ==
+                            'bookingFormReview') {
+                          widget.model?.discardBooking!();
+                        } else {
+                          await Navigator.of(context)
+                              .popAndPushNamed('/_/events/details');
+                        }
                       },
                       child: Container(
                         decoration: BoxDecoration(
