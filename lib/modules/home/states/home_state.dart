@@ -1,6 +1,5 @@
 import 'package:butter/butter.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/material.dart';
 
 import '../actions/initialize_action.dart';
 import '../actions/initialize_todayis.dart';

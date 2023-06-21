@@ -16,6 +16,13 @@ class EventRegisterDetailsView extends BaseStatefulPageView {
 
 class _EventRegisterDetailsViewState extends State<EventRegisterDetailsView> {
   @override
+  void dispose() {
+    widget.model?.resetBookingForm!();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 24),

@@ -54,6 +54,7 @@ dependencies:
   html: ^0.15.2
   http: ^0.13.6
   intl: ^0.17.0
+  share_plus: ^7.0.2
   syncfusion_flutter_pdfviewer: ^20.4.52
   universal_platform: ^1.0.0+1
   url_launcher: ^6.1.10
