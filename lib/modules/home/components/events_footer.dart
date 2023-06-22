@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:add_2_calendar/add_2_calendar.dart' as a2c;
 import 'package:html/parser.dart';
+import 'package:share_plus/share_plus.dart';
 
+import '../../../config/app_config.dart';
 import '../models/home_model.dart';
 
 class EventDetailsFooter extends StatefulWidget {
@@ -50,9 +52,13 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       onPressed: () async {
-                        widget.model?.discardBooking!();
-                        await Navigator.of(context)
-                            .popAndPushNamed('/_/events/details');
+                        if (widget.model?.bookingFormView ==
+                            'bookingFormReview') {
+                          widget.model?.discardBooking!();
+                        } else {
+                          await Navigator.of(context)
+                              .popAndPushNamed('/_/events/details');
+                        }
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -161,7 +167,10 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Share.share(
+                          '${AppConfig.webUrl}/link/${widget.model?.selectedEventDetail!['parentEventId']}');
+                    },
                     child: AspectRatio(
                       aspectRatio: 1,
                       child: Container(
@@ -782,7 +791,10 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Share.share(
+                                '${AppConfig.webUrl}/link/${widget.model?.selectedEventDetail!['parentEventId']}');
+                          },
                           child: Container(
                             height: 50,
                             decoration: const BoxDecoration(

@@ -1320,11 +1320,15 @@ class _SchedulesPageState extends State<_SchedulesPage> {
     if (selectedParish == 'all') {
       return 'All Churches';
     } else {
-      var parish = widget.model.items?.firstWhere((element) {
-        return element['name'] == selectedParish;
-      });
+      if (widget.model.items!.isNotEmpty) {
+        var parish = widget.model.items?.firstWhere((element) {
+          return element['name'] == selectedParish;
+        });
 
-      return '${parish['name']}';
+        return '${parish['name']}';
+      }
+
+      return _selectedParishValue ?? '';
     }
   }
 
