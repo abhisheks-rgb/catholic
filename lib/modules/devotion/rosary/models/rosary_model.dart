@@ -6,7 +6,7 @@ class RosaryModel extends BaseUIModel<RosaryModel> {
   bool? loading;
   double? titleFontSize = 20;
   double? contentFontSize = 16;
-  bool? showInfo = false;
+  bool? showInfo;
 
   void Function()? setShowInfo;
 
@@ -15,7 +15,7 @@ class RosaryModel extends BaseUIModel<RosaryModel> {
     this.loading,
     this.titleFontSize,
     this.contentFontSize,
-    this.showInfo,
+    this.showInfo = false,
   });
 
   @override

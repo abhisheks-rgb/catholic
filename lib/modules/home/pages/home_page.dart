@@ -1,5 +1,7 @@
 import 'dart:async';
+
 import 'package:butter/butter.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import '../../../app/app.dart';
 import '../../../app/splash_screen.dart';
+import '../../../config/app_config.dart';
 import '../../../utils/page_specs.dart';
 import '../../../utils/asset_path.dart';
 
@@ -35,9 +38,12 @@ class HomePage extends BaseStatefulPageView {
       await model!.initializeTodayIs();
     }
 
-    requestPermission();
-    getToken();
-    initInfo();
+    EasyDebounce.debounce('debounce-rosary', const Duration(milliseconds: 100),
+        () {
+      requestPermission();
+      getToken();
+      initInfo();
+    });
 
     return true;
   }
@@ -111,25 +117,30 @@ class HomePage extends BaseStatefulPageView {
   // }
 
   void requestPermission() async {
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    try {
+      FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-    NotificationSettings settings = await messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
+      NotificationSettings settings = await messaging.requestPermission(
+        alert: true,
+        announcement: false,
+        badge: true,
+        carPlay: false,
+        criticalAlert: false,
+        provisional: false,
+        sound: true,
+      );
 
-    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      Butter.d('User granted permission');
-    } else if (settings.authorizationStatus ==
-        AuthorizationStatus.provisional) {
-      Butter.d('User granted provisional permission');
-    } else {
-      Butter.d('User declined or has not accepted permission');
+      if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+        Butter.d('User granted permission');
+      } else if (settings.authorizationStatus ==
+          AuthorizationStatus.provisional) {
+        Butter.d('User granted provisional permission');
+      } else {
+        Butter.d('User declined or has not accepted permission');
+      }
+    } catch (e, stacktrace) {
+      Butter.e(e.toString());
+      Butter.e(stacktrace.toString());
     }
   }
 
@@ -195,22 +206,22 @@ class HomePage extends BaseStatefulPageView {
                             size: 24,
                           ),
                           onPressed: () async {
-                            final result =
-                                await Navigator.of(context).maybePop();
-                            if (!result && context.mounted) {
-                              // ignore: use_build_context_synchronously
-                              Navigator.of(context)
-                                  .popAndPushNamed('/_/welcome');
+                            if (ModalRoute.of(context)!.settings.name ==
+                                    '/_/events/register' &&
+                                model?.bookingFormView == 'bookingFormReview') {
+                              model?.discardBooking!();
                             } else {
-                              if (ModalRoute.of(context)!.settings.name ==
-                                  '/_/events/details') {
+                              final result =
+                                  await Navigator.of(context).maybePop();
+                              if (!result && context.mounted) {
+                                // ignore: use_build_context_synchronously
                                 Navigator.of(context)
-                                    .popAndPushNamed('/_/events/list');
+                                    .popAndPushNamed('/_/welcome');
                               }
                             }
                           },
                         ),
-                  title: Text(specs.title!),
+                  title: Text(specs.title ?? AppConfig.title),
                   actions: [
                     specs.showNotification!
                         ? RawMaterialButton(

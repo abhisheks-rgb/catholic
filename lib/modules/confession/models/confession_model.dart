@@ -6,7 +6,7 @@ class ConfessionModel extends BaseUIModel<ConfessionModel> {
   bool? loading;
   double? titleFontSize = 20;
   double? contentFontSize = 16;
-  bool? showInfo = false;
+  bool? showInfo;
 
   void Function()? setShowInfo;
 
@@ -15,7 +15,7 @@ class ConfessionModel extends BaseUIModel<ConfessionModel> {
     this.loading,
     this.titleFontSize,
     this.contentFontSize,
-    this.showInfo,
+    this.showInfo = false,
   });
 
   @override

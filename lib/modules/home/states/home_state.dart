@@ -1,6 +1,5 @@
 import 'package:butter/butter.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/material.dart';
 
 import '../actions/initialize_action.dart';
 import '../actions/initialize_todayis.dart';
@@ -198,22 +197,43 @@ class HomeState extends BasePageState<HomeModel> {
           pushNamed('/_/events/myEvents');
         };
         m.setShowInfo = (String route) {
+          bool showInfo = false;
+
           switch (route) {
             case '/_/devotion/rosary':
               dispatchModel<RosaryModel>(RosaryModel(), (m) {
-                m.showInfo = true;
+                showInfo = m.showInfo == true;
               });
+
+              if (!showInfo) {
+                dispatchModel<RosaryModel>(RosaryModel(), (m) {
+                  m.showInfo = true;
+                });
+              }
               break;
             case '/_/confession':
               dispatchModel<ConfessionModel>(ConfessionModel(), (m) {
-                m.showInfo = true;
+                showInfo = m.showInfo == true;
               });
+
+              if (!showInfo) {
+                dispatchModel<ConfessionModel>(ConfessionModel(), (m) {
+                  m.showInfo = true;
+                });
+              }
               break;
             case '/_/devotion/divine_mercy_prayer':
               dispatchModel<DivineMercyPrayerModel>(DivineMercyPrayerModel(),
                   (m) {
-                m.showInfo = true;
+                showInfo = m.showInfo == true;
               });
+
+              if (!showInfo) {
+                dispatchModel<DivineMercyPrayerModel>(DivineMercyPrayerModel(),
+                    (m) {
+                  m.showInfo = true;
+                });
+              }
               break;
             default:
           }

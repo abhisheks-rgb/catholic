@@ -249,8 +249,12 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                           materialTapTargetSize:
                               MaterialTapTargetSize.shrinkWrap,
                           onPressed: () async {
+                            print(
+                                'afsasdfsdf ${widget.model.items!.isNotEmpty}');
+                            print(_schedules);
                             if (widget.model.items!.isNotEmpty &&
-                                _schedules != null) {
+                                _schedules != null &&
+                                !isLoadingSchedules) {
                               showAlert(context);
                             }
                           },
@@ -1320,11 +1324,15 @@ class _SchedulesPageState extends State<_SchedulesPage> {
     if (selectedParish == 'all') {
       return 'All Churches';
     } else {
-      var parish = widget.model.items?.firstWhere((element) {
-        return element['name'] == selectedParish;
-      });
+      if (widget.model.items!.isNotEmpty) {
+        var parish = widget.model.items?.firstWhereOrNull((element) {
+          return element['name'] == selectedParish;
+        });
 
-      return '${parish['name']}';
+        return '${parish['name']}';
+      }
+
+      return _selectedParishValue ?? '';
     }
   }
 
@@ -1332,7 +1340,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
     if (selectedParish == 'all') {
       return '';
     } else {
-      var parish = widget.model.items?.firstWhere((element) {
+      var parish = widget.model.items?.firstWhereOrNull((element) {
         return element['name'] == selectedParish;
       });
 

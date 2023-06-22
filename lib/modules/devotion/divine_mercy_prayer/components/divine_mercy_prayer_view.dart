@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:butter/butter.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,32 @@ class DivineMercyPrayerView extends BaseStatefulPageView {
 }
 
 class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
+  Timer? myTimer;
+  bool isDisabled = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    startTimer();
+  }
+
+  void startTimer() {
+    int x = 0;
+
+    myTimer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      x += 1;
+
+      setState(() {
+        isDisabled = false;
+      });
+
+      if (x > 0) {
+        timer.cancel();
+      }
+    });
+  }
+
   @override
   void didUpdateWidget(DivineMercyPrayerView oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -24,10 +52,14 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
     if (widget.model?.showInfo != null) {
       if (widget.model?.showInfo == true &&
           widget.model?.showInfo != oldWidget.model?.showInfo) {
-        EasyDebounce.debounce(
-            'debounce-divine', const Duration(milliseconds: 100), () {
-          showInfo();
-        });
+        if (!isDisabled) {
+          EasyDebounce.debounce(
+              'debounce-rosary', const Duration(milliseconds: 100), () {
+            showInfo();
+          });
+        } else {
+          widget.model!.setShowInfo!();
+        }
       }
     }
   }
