@@ -1092,124 +1092,124 @@ class _RosaryViewState extends State<RosaryView> {
           ),
           insetPadding:
               const EdgeInsets.symmetric(vertical: 12, horizontal: 40),
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(24, 16, 16, 14),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  children: [
-                    const Expanded(
-                      child: Text(
-                        'Select Mystery',
-                        textScaleFactor: 1,
-                        style: TextStyle(
-                          color: Color.fromRGBO(4, 26, 82, 1),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                    RawMaterialButton(
-                      constraints: const BoxConstraints(),
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      shape: const CircleBorder(),
-                      child: const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: Icon(
-                          MaterialCommunityIcons.close_circle,
-                          color: Color.fromRGBO(130, 141, 168, 1),
-                          size: 24,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 18, 0),
-                  constraints: BoxConstraints(
-                    maxHeight: MediaQuery.of(context).size.height * 0.75,
-                  ),
-                  child: ListView.separated(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: mystries.length,
-                    separatorBuilder: (BuildContext context, int index) {
-                      return Container();
-                    },
-                    itemBuilder: (context, index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                _currentMystery = index;
-                              });
-
-                              Navigator.pop(context);
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        mystries[index]['title'],
-                                        textScaleFactor: 1,
-                                        style: const TextStyle(
-                                          color: Color.fromRGBO(4, 26, 82, 1),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 18,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 4),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        mystries[index]['subTitle'],
-                                        textScaleFactor: 1,
-                                        style: const TextStyle(
-                                          color: Color.fromRGBO(4, 26, 82, 1),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+          child: MediaQuery(
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(24, 16, 16, 14),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          'Select Mystery',
+                          style: TextStyle(
+                            color: Color.fromRGBO(4, 26, 82, 1),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18,
                           ),
-                          index == mystries.length - 1
-                              ? Container()
-                              : Column(
-                                  children: const [
-                                    SizedBox(height: 20),
-                                    Divider(
-                                      height: 1,
-                                      thickness: 1,
-                                      indent: 0,
-                                      endIndent: 0,
-                                      color: Color.fromRGBO(4, 26, 82, 0.1),
-                                    ),
-                                  ],
-                                ),
-                          const SizedBox(height: 20),
-                        ],
-                      );
-                    },
+                        ),
+                      ),
+                      RawMaterialButton(
+                        constraints: const BoxConstraints(),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        shape: const CircleBorder(),
+                        child: const SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: Icon(
+                            MaterialCommunityIcons.close_circle,
+                            color: Color.fromRGBO(130, 141, 168, 1),
+                            size: 24,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  const SizedBox(height: 20),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 18, 0),
+                    constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(context).size.height * 0.75,
+                    ),
+                    child: ListView.separated(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: mystries.length,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return Container();
+                      },
+                      itemBuilder: (context, index) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  _currentMystery = index;
+                                });
+
+                                Navigator.pop(context);
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          mystries[index]['title'],
+                                          style: const TextStyle(
+                                            color: Color.fromRGBO(4, 26, 82, 1),
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          mystries[index]['subTitle'],
+                                          style: const TextStyle(
+                                            color: Color.fromRGBO(4, 26, 82, 1),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            index == mystries.length - 1
+                                ? Container()
+                                : Column(
+                                    children: const [
+                                      SizedBox(height: 20),
+                                      Divider(
+                                        height: 1,
+                                        thickness: 1,
+                                        indent: 0,
+                                        endIndent: 0,
+                                        color: Color.fromRGBO(4, 26, 82, 0.1),
+                                      ),
+                                    ],
+                                  ),
+                            const SizedBox(height: 20),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -1222,59 +1222,62 @@ class _RosaryViewState extends State<RosaryView> {
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
           insetPadding: const EdgeInsets.all(24),
-          child: CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                title: Row(
-                  children: [
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        'What is the Rosary?',
-                        style: TextStyle(
-                          color: const Color.fromRGBO(4, 26, 82, 1),
-                          fontWeight: FontWeight.w500,
-                          fontSize: widget.model!.titleFontSize ?? 20,
+          child: MediaQuery(
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            child: CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  title: Row(
+                    children: [
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'What is the Rosary?',
+                          style: TextStyle(
+                            color: const Color.fromRGBO(4, 26, 82, 1),
+                            fontWeight: FontWeight.w500,
+                            fontSize: widget.model!.titleFontSize ?? 20,
+                          ),
                         ),
                       ),
-                    ),
-                    RawMaterialButton(
-                      constraints: const BoxConstraints(),
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      shape: const CircleBorder(),
-                      child: const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: Icon(
-                          MaterialCommunityIcons.close_circle,
-                          color: Color.fromRGBO(130, 141, 168, 1),
-                          size: 24,
+                      RawMaterialButton(
+                        constraints: const BoxConstraints(),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        shape: const CircleBorder(),
+                        child: const SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: Icon(
+                            MaterialCommunityIcons.close_circle,
+                            color: Color.fromRGBO(130, 141, 168, 1),
+                            size: 24,
+                          ),
                         ),
                       ),
+                    ],
+                  ),
+                  pinned: true,
+                  automaticallyImplyLeading: false,
+                  elevation: 0,
+                  backgroundColor: Colors.white,
+                  shape: const ContinuousRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10.0),
+                      topRight: Radius.circular(10.0),
                     ),
-                  ],
-                ),
-                pinned: true,
-                automaticallyImplyLeading: false,
-                elevation: 0,
-                backgroundColor: Colors.white,
-                shape: const ContinuousRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.0),
-                    topRight: Radius.circular(10.0),
                   ),
                 ),
-              ),
-              SliverToBoxAdapter(
-                child: Container(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 16, 16),
-                  child: _renderRosary(),
+                SliverToBoxAdapter(
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(24, 0, 16, 16),
+                    child: _renderRosary(),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ).then((value) {
