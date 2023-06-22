@@ -81,7 +81,13 @@ class _PriestInfoViewState extends State<PriestInfoView> {
         child: Stack(
           children: widget.model!.priestName != null &&
                   currentPriestIndex == null
-              ? []
+              ? [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    margin: const EdgeInsets.only(top: 20),
+                    child: const Center(child: CircularProgressIndicator()),
+                  )
+                ]
               : [
                   Container(
                     width: double.infinity,
