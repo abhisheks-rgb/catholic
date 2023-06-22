@@ -1102,6 +1102,7 @@ class _RosaryViewState extends State<RosaryView> {
                     const Expanded(
                       child: Text(
                         'Select Mystery',
+                        textScaleFactor: 1,
                         style: TextStyle(
                           color: Color.fromRGBO(4, 26, 82, 1),
                           fontWeight: FontWeight.w500,
@@ -1131,6 +1132,9 @@ class _RosaryViewState extends State<RosaryView> {
                 const SizedBox(height: 20),
                 Container(
                   padding: const EdgeInsets.fromLTRB(10, 0, 18, 0),
+                  constraints: BoxConstraints(
+                    maxHeight: MediaQuery.of(context).size.height * 0.75,
+                  ),
                   child: ListView.separated(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
@@ -1158,6 +1162,7 @@ class _RosaryViewState extends State<RosaryView> {
                                     Expanded(
                                       child: Text(
                                         mystries[index]['title'],
+                                        textScaleFactor: 1,
                                         style: const TextStyle(
                                           color: Color.fromRGBO(4, 26, 82, 1),
                                           fontWeight: FontWeight.w500,
@@ -1173,6 +1178,7 @@ class _RosaryViewState extends State<RosaryView> {
                                     Expanded(
                                       child: Text(
                                         mystries[index]['subTitle'],
+                                        textScaleFactor: 1,
                                         style: const TextStyle(
                                           color: Color.fromRGBO(4, 26, 82, 1),
                                         ),
