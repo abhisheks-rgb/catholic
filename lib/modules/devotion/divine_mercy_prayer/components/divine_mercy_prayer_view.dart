@@ -584,59 +584,62 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
           insetPadding: const EdgeInsets.all(24),
-          child: CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                title: Row(
-                  children: [
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        'What is the Divine Mercy Prayer?',
-                        style: TextStyle(
-                          color: const Color.fromRGBO(4, 26, 82, 1),
-                          fontWeight: FontWeight.w500,
-                          fontSize: widget.model!.titleFontSize ?? 20,
+          child: MediaQuery(
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            child: CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  title: Row(
+                    children: [
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'What is the Divine Mercy Prayer?',
+                          style: TextStyle(
+                            color: const Color.fromRGBO(4, 26, 82, 1),
+                            fontWeight: FontWeight.w500,
+                            fontSize: widget.model!.titleFontSize ?? 20,
+                          ),
                         ),
                       ),
-                    ),
-                    RawMaterialButton(
-                      constraints: const BoxConstraints(),
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      shape: const CircleBorder(),
-                      child: const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: Icon(
-                          MaterialCommunityIcons.close_circle,
-                          color: Color.fromRGBO(130, 141, 168, 1),
-                          size: 24,
+                      RawMaterialButton(
+                        constraints: const BoxConstraints(),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        shape: const CircleBorder(),
+                        child: const SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: Icon(
+                            MaterialCommunityIcons.close_circle,
+                            color: Color.fromRGBO(130, 141, 168, 1),
+                            size: 24,
+                          ),
                         ),
                       ),
+                    ],
+                  ),
+                  pinned: true,
+                  automaticallyImplyLeading: false,
+                  elevation: 0,
+                  backgroundColor: Colors.white,
+                  shape: const ContinuousRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10.0),
+                      topRight: Radius.circular(10.0),
                     ),
-                  ],
-                ),
-                pinned: true,
-                automaticallyImplyLeading: false,
-                elevation: 0,
-                backgroundColor: Colors.white,
-                shape: const ContinuousRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.0),
-                    topRight: Radius.circular(10.0),
                   ),
                 ),
-              ),
-              SliverToBoxAdapter(
-                child: Container(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 16, 16),
-                  child: _renderDivineMercyPrayer(),
+                SliverToBoxAdapter(
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(24, 0, 16, 16),
+                    child: _renderDivineMercyPrayer(),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ).then((value) {
