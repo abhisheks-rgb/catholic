@@ -167,9 +167,10 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
+                      final shareUrl = await AppConfig().init();
                       Share.share(
-                          '${AppConfig.webUrl}/link/${widget.model?.selectedEventDetail!['parentEventId']}');
+                          '${shareUrl.webUrl}/link/${widget.model?.selectedEventDetail!['parentEventId']}');
                     },
                     child: AspectRatio(
                       aspectRatio: 1,
@@ -791,9 +792,10 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          onPressed: () {
+                          onPressed: () async {
+                            final shareUrl = await AppConfig().init();
                             Share.share(
-                                '${AppConfig.webUrl}/link/${widget.model?.selectedEventDetail!['parentEventId']}');
+                                '${shareUrl.webUrl}/link/${widget.model?.selectedEventDetail!['parentEventId']}');
                           },
                           child: Container(
                             height: 50,
