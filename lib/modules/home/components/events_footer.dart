@@ -170,7 +170,10 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                     onPressed: () async {
                       final shareUrl = await AppConfig().init();
                       Share.share(
-                          '${shareUrl.webUrl}/link/${widget.model?.selectedEventDetail!['parentEventId']}');
+                        'Please check out: \n${widget.model?.selectedEventDetail!['eventName']} ${shareUrl.webUrl}/link/${widget.model?.selectedEventDetail!['parentEventId']}',
+                        subject:
+                            widget.model?.selectedEventDetail!['eventName'],
+                      );
                     },
                     child: AspectRatio(
                       aspectRatio: 1,
@@ -795,7 +798,10 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                           onPressed: () async {
                             final shareUrl = await AppConfig().init();
                             Share.share(
-                                '${shareUrl.webUrl}/link/${widget.model?.selectedEventDetail!['parentEventId']}');
+                              'Please check out: \n${widget.model?.selectedEventDetail!['eventName']} ${shareUrl.webUrl}/link/${widget.model?.selectedEventDetail!['parentEventId']}',
+                              subject: widget
+                                  .model?.selectedEventDetail!['eventName'],
+                            );
                           },
                           child: Container(
                             height: 50,
