@@ -30,4 +30,8 @@ echo "{
 	\"iosBundleId\": \"$IOS_BUNDLE_ID\"
 }" > $CI_WORKSPACE/assets/firebase_config.json
 
+echo "{
+	\"webUrl\": \"$WEB_URL\"
+}" > $CI_WORKSPACE/assets/share_config.json 
+
 exit 0
