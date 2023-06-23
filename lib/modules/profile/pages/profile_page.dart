@@ -19,6 +19,9 @@ class ProfilePage extends BaseStatefulPageView {
 
     await FirebaseAnalytics.instance
         .setCurrentScreen(screenName: 'app_profile');
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'app_profile',
+    );
 
     return true;
   }

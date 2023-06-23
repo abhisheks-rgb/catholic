@@ -19,6 +19,9 @@ class DivineMercyPrayerPage extends BaseStatefulPageView {
 
     await FirebaseAnalytics.instance
         .setCurrentScreen(screenName: 'app_divine_mercy_prayer');
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'app_divine_mercy_prayer',
+    );
 
     return true;
   }

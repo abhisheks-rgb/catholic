@@ -2,6 +2,7 @@ import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 import '../models/my_event_model.dart';
 
@@ -98,6 +99,17 @@ class _EventsViewState extends State<MyEventsView>
                       ),
                     ),
                   ),
+                  onTap: (index) async {
+                    if (index == 1) {
+                      await FirebaseAnalytics.instance.logEvent(
+                        name: 'app_events_view_booked',
+                      );
+                    } else {
+                      await FirebaseAnalytics.instance.logEvent(
+                        name: 'app_evens_view_interested',
+                      );
+                    }
+                  },
                 ),
               ),
               Flexible(
