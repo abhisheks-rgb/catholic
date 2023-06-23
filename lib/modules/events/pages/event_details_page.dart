@@ -19,6 +19,9 @@ class EventDetailsPage extends BaseStatefulPageView {
 
     await FirebaseAnalytics.instance
         .setCurrentScreen(screenName: 'app_event_details');
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'app_event_view',
+    );
 
     return true;
   }

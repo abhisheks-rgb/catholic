@@ -3,6 +3,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:add_2_calendar/add_2_calendar.dart' as a2c;
 import 'package:html/parser.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 import '../../../config/app_config.dart';
 import '../models/home_model.dart';
@@ -100,10 +101,14 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                             await widget.model?.submitFormEvent!();
 
                             Future.delayed(const Duration(milliseconds: 500),
-                                () {
+                                () async {
                               if (widget.model
                                       ?.selectedEventDetail!['hasBooked'] ==
                                   true) {
+                                await FirebaseAnalytics.instance.logEvent(
+                                  name: 'app_event_book',
+                                );
+                                // ignore: use_build_context_synchronously
                                 _showPopup(context);
                               } else {
                                 _showErrorPopup(context);
@@ -173,6 +178,9 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                         'Please check out: \n${widget.model?.selectedEventDetail!['eventName']} ${shareUrl.webUrl}/link/${widget.model?.selectedEventDetail!['parentEventId']}',
                         subject:
                             widget.model?.selectedEventDetail!['eventName'],
+                      );
+                      await FirebaseAnalytics.instance.logEvent(
+                        name: 'app_event_share',
                       );
                     },
                     child: AspectRatio(
@@ -572,6 +580,11 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                           onPressed: () async {
                             widget.model?.cancelFormEvent!();
 
+                            await FirebaseAnalytics.instance.logEvent(
+                              name: 'app_event_cancel',
+                            );
+
+                            // ignore: use_build_context_synchronously
                             await Navigator.of(context).maybePop();
                           },
                           child: Container(
@@ -801,6 +814,9 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                               'Please check out: \n${widget.model?.selectedEventDetail!['eventName']} ${shareUrl.webUrl}/link/${widget.model?.selectedEventDetail!['parentEventId']}',
                               subject: widget
                                   .model?.selectedEventDetail!['eventName'],
+                            );
+                            await FirebaseAnalytics.instance.logEvent(
+                              name: 'app_event_share',
                             );
                           },
                           child: Container(

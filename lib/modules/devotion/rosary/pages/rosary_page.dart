@@ -18,6 +18,9 @@ class RosaryPage extends BaseStatefulPageView {
     await super.beforeLoad(context);
 
     await FirebaseAnalytics.instance.setCurrentScreen(screenName: 'app_rosary');
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'app_holy_rosary',
+    );
 
     return true;
   }
