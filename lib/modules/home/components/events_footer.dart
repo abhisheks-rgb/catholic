@@ -108,6 +108,7 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                                 await FirebaseAnalytics.instance.logEvent(
                                   name: 'app_event_book',
                                 );
+                                // ignore: use_build_context_synchronously
                                 _showPopup(context);
                               } else {
                                 _showErrorPopup(context);
@@ -583,6 +584,7 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                               name: 'app_event_cancel',
                             );
 
+                            // ignore: use_build_context_synchronously
                             await Navigator.of(context).maybePop();
                           },
                           child: Container(
