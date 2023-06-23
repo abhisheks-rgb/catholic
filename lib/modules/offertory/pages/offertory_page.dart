@@ -19,6 +19,9 @@ class OffertoryPage extends BaseStatefulPageView {
 
     await FirebaseAnalytics.instance
         .setCurrentScreen(screenName: 'app_offertory');
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'app_offertory_and_giving',
+    );
 
     model!.loadData();
     model!.fetchOffertory();

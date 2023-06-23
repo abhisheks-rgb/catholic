@@ -19,6 +19,9 @@ class ConfessionPage extends BaseStatefulPageView {
 
     await FirebaseAnalytics.instance
         .setCurrentScreen(screenName: 'app_confession');
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'app_confession',
+    );
 
     return true;
   }
