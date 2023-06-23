@@ -249,9 +249,6 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                           materialTapTargetSize:
                               MaterialTapTargetSize.shrinkWrap,
                           onPressed: () async {
-                            print(
-                                'afsasdfsdf ${widget.model.items!.isNotEmpty}');
-                            print(_schedules);
                             if (widget.model.items!.isNotEmpty &&
                                 _schedules != null &&
                                 !isLoadingSchedules) {

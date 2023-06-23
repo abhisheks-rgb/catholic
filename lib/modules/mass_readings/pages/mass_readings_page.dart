@@ -384,7 +384,8 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                   ),
                   const SizedBox(height: 28),
                   widget.model?.loading == true &&
-                          widget.model?.massReadingList != null
+                          widget.model?.massReadingList != null &&
+                          widget.model?.massReadingItem != null
                       ? Container(
                           height: MediaQuery.of(context).size.height * 0.3,
                           margin: const EdgeInsets.only(top: 20),
@@ -393,9 +394,10 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                         )
                       : Text(
                           textAlign: TextAlign.start,
-                          _parseHtmlString(widget.model?.massReadingItem != null
-                              ? widget.model?.massReadingItem!['day']
-                              : ''),
+                          widget.model?.massReadingItem != null
+                              ? _parseHtmlString(
+                                  widget.model?.massReadingItem?['day'] ?? '')
+                              : '',
                           style: TextStyle(
                             color: const Color.fromRGBO(4, 26, 82, 1),
                             fontSize: widget.model!.titleFontSize ?? 20,

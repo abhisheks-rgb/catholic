@@ -19,6 +19,9 @@ class NotificationDetailsPage extends BaseStatefulPageView {
 
     await FirebaseAnalytics.instance
         .setCurrentScreen(screenName: 'app_notification_details');
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'app_notification_view_individual',
+    );
 
     return true;
   }
