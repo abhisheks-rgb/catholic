@@ -36,7 +36,7 @@ class SubmitEventFormAction extends BaseAction {
       },
     });
 
-    if (int.parse(result.data['status']) == 0) {
+    if (result.data['status'] == 0) {
       Map<dynamic, dynamic>? event = m.selectedEventDetail;
 
       event!['hasBooked'] = true;
