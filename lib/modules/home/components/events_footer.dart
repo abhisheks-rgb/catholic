@@ -98,17 +98,14 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                           widget.model?.setBookingFormView!();
                         } else {
                           if (widget.model?.submitBookingLoading == false) {
-                            await widget.model?.submitFormEvent!();
-
-                            Future.delayed(const Duration(milliseconds: 500),
-                                () async {
+                            await FirebaseAnalytics.instance.logEvent(
+                              name: 'app_event_book',
+                            );
+                            await widget.model?.submitFormEvent!()
+                                .then((value) {
                               if (widget.model
                                       ?.selectedEventDetail!['hasBooked'] ==
                                   true) {
-                                await FirebaseAnalytics.instance.logEvent(
-                                  name: 'app_event_book',
-                                );
-                                // ignore: use_build_context_synchronously
                                 _showPopup(context);
                               } else {
                                 _showErrorPopup(context);
@@ -1127,8 +1124,9 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
 
   bool _checkStartDateCanCancel(startDate) {
     DateTime currentTime = DateTime.now();
-    DateTime startDateTime =
-        DateTime.fromMillisecondsSinceEpoch(startDate['_seconds'] * 1000);
+    DateTime startDateTime = startDate != null
+        ? DateTime.fromMillisecondsSinceEpoch(startDate['_seconds'] * 1000)
+        : DateTime.now();
     Duration difference = startDateTime.difference(currentTime);
 
     bool isWithinOneHour = difference.inHours <= 1;
