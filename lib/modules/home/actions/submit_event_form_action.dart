@@ -41,23 +41,23 @@ class SubmitEventFormAction extends BaseAction {
 
       event!['hasBooked'] = true;
 
-      dispatchModel<EventDetailsModel>(EventDetailsModel(), (m) {
+      await dispatchModel<EventDetailsModel>(EventDetailsModel(), (m) {
         m.item = event;
         m.loading = false;
       });
 
-      dispatchModel<HomeModel>(HomeModel(), (m) {
+      await dispatchModel<HomeModel>(HomeModel(), (m) {
         m.submitBookingLoading = false;
         m.selectedEventDetail = event;
       });
     } else {
       Map<dynamic, dynamic>? event = m.selectedEventDetail;
 
-      dispatchModel<EventDetailsModel>(EventDetailsModel(), (m) {
+      await dispatchModel<EventDetailsModel>(EventDetailsModel(), (m) {
         m.item = event;
         m.loading = false;
       });
-      dispatchModel<HomeModel>(HomeModel(), (m) {
+      await dispatchModel<HomeModel>(HomeModel(), (m) {
         m.submitBookingLoading = false;
         m.bookingErrorMessage = result.data['message'].toString();
         m.selectedEventDetail = event;
