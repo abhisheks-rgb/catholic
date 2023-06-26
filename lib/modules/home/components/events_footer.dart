@@ -103,16 +103,13 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                             );
                             await widget.model?.submitFormEvent!()
                                 .then((value) {
-                              Future.delayed(const Duration(milliseconds: 1000),
-                                  () async {
-                                if (widget.model
-                                        ?.selectedEventDetail!['hasBooked'] ==
-                                    true) {
-                                  _showPopup(context);
-                                } else {
-                                  _showErrorPopup(context);
-                                }
-                              });
+                              if (widget.model
+                                      ?.selectedEventDetail!['hasBooked'] ==
+                                  true) {
+                                _showPopup(context);
+                              } else {
+                                _showErrorPopup(context);
+                              }
                             });
                           }
                         }
