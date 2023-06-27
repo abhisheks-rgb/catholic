@@ -153,10 +153,16 @@ class HomeState extends BasePageState<HomeModel> {
             });
           });
 
-          dispatchAction(SubmitEventFormAction(
+          final action = SubmitEventFormAction(
             eventId: m.item!['eventId'],
             formResponse: formResponse,
-          ));
+          );
+
+          await dispatchAction(action);
+
+          /// read mutated model
+          final update = action.read<HomeModel>(HomeModel());
+          return update.selectedEventDetail ?? {};
         };
         m.closeSuccessPrompt = () async {
           pushNamed('/_/events/list');
