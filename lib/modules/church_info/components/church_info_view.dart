@@ -184,11 +184,13 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                       RawMaterialButton(
                         constraints: const BoxConstraints(),
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        onPressed: () async {
-                          if (widget.model!.items!.isNotEmpty) {
-                            showChurchList(context);
-                          }
-                        },
+                        onPressed: widget.model!.items == null
+                            ? null
+                            : () async {
+                                if (widget.model!.items!.isNotEmpty) {
+                                  showChurchList(context);
+                                }
+                              },
                         child: Column(
                           children: [
                             const SizedBox(height: 8),
@@ -1054,6 +1056,22 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
               },
               itemBuilder: (context, index) {
                 return InkWell(
+                  onTap: widget.model!.items == null
+                      ? null
+                      : () {
+                          final orgId = index + 1;
+                          widget.model!.fetchPriestList(orgId: orgId);
+                          widget.model!.fetchChurchInfo(orgId: orgId);
+                          setState(() {
+                            _selectedParishValue =
+                                widget.model!.items![index]['name'].toString();
+                          });
+
+                          Navigator.pop(context);
+
+                          _logChurchInfoEvent(
+                              widget.model!.items![index]['link'], false);
+                        },
                   child: Container(
                     padding:
                         const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
@@ -1072,20 +1090,6 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                       ],
                     ),
                   ),
-                  onTap: () {
-                    final orgId = index + 1;
-                    widget.model!.fetchPriestList(orgId: orgId);
-                    widget.model!.fetchChurchInfo(orgId: orgId);
-                    setState(() {
-                      _selectedParishValue =
-                          widget.model!.items![index]['name'].toString();
-                    });
-
-                    Navigator.pop(context);
-
-                    _logChurchInfoEvent(
-                        widget.model!.items![index]['link'], false);
-                  },
                 );
               },
             ),

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:butter/butter.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -231,13 +232,15 @@ class _BulletinPageState extends State<_BulletinPage> {
                           constraints: const BoxConstraints(),
                           materialTapTargetSize:
                               MaterialTapTargetSize.shrinkWrap,
-                          onPressed: () async {
-                            if (widget.model.items!.isNotEmpty &&
-                                _bulletinItems != null &&
-                                !isDisabled) {
-                              showAlert(context);
-                            }
-                          },
+                          onPressed: widget.model.items == null
+                              ? null
+                              : () async {
+                                  if (widget.model.items!.isNotEmpty &&
+                                      _bulletinItems != null &&
+                                      !isDisabled) {
+                                    showAlert(context);
+                                  }
+                                },
                           child: Column(
                             children: [
                               const SizedBox(height: 8),
@@ -782,8 +785,8 @@ class _BulletinPageState extends State<_BulletinPage> {
   }
 
   String _getChurchName(String? selectedParish) {
-    if (widget.model.items!.isNotEmpty) {
-      var parish = widget.model.items?.firstWhere((element) {
+    if (widget.model.items?.isNotEmpty ?? false) {
+      var parish = widget.model.items?.firstWhereOrNull((element) {
         return element['name'] == selectedParish;
       });
 
