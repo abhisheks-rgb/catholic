@@ -101,11 +101,9 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                             await FirebaseAnalytics.instance.logEvent(
                               name: 'app_event_book',
                             );
-                            await widget.model?.submitFormEvent!()
-                                .then((value) {
-                              if (widget.model
-                                      ?.selectedEventDetail!['hasBooked'] ==
-                                  true) {
+
+                            widget.model!.submitFormEvent!().then((value) {
+                              if (value['hasBooked'] ?? false) {
                                 _showPopup(context);
                               } else {
                                 _showErrorPopup(context);

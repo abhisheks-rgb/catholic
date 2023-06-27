@@ -248,7 +248,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
                           constraints: const BoxConstraints(),
                           materialTapTargetSize:
                               MaterialTapTargetSize.shrinkWrap,
-                          onPressed: () async {
+                          onPressed: widget.model.items == null ? null : () async {
                             if (widget.model.items!.isNotEmpty &&
                                 _schedules != null &&
                                 !isLoadingSchedules) {
@@ -1321,7 +1321,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
     if (selectedParish == 'all') {
       return 'All Churches';
     } else {
-      if (widget.model.items!.isNotEmpty) {
+      if (widget.model.items?.isNotEmpty ?? false) {
         var parish = widget.model.items?.firstWhereOrNull((element) {
           return element['name'] == selectedParish;
         });
