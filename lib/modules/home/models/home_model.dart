@@ -17,7 +17,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
   Map<dynamic, dynamic>? selectedEventDetail;
   Map<dynamic, dynamic>? formObj;
   String? bookingFormView;
-  String? bookingErrorMessage;
+  String bookingErrorMessage;
 
   late void Function(String route) showPage;
   void Function()? setPageFontSize;
@@ -41,7 +41,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
   void Function()? redirectToLogin;
   void Function(Map<Object?, Object?>? event)? navigateToEventRegister;
   void Function(String parentEventId, String eventId)? setInterestEvent;
-  late Future<void> Function()? submitFormEvent;
+  late Future<Map> Function()? submitFormEvent;
   late Future<void> Function()? cancelFormEvent;
 
   Future<void> Function(BaseAction action)? dispatch;
@@ -62,7 +62,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
     this.formObj,
     this.bookingFormView = 'bookingForm',
     this.submitBookingLoading = false,
-    this.bookingErrorMessage,
+    this.bookingErrorMessage = '',
   });
 
   @override
