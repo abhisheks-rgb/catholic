@@ -29,7 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   add_2_calendar: ^2.2.3
-  butter: ^2.2.1
+  butter: ^2.2.3
 
   cloud_firestore: ^4.5.1
   cloud_functions: ^4.0.11
