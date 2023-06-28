@@ -61,18 +61,18 @@ packages:
     dependency: "direct main"
     description:
       name: butter
-      sha256: "725fff3b498d7877b6bfe06fece6b8236ca8b1a0db2937ffc5b6e53a417c786d"
+      sha256: "36b4effc596949e51bff93ff0d35a282d3444a8bea6b26f227979646131a570e"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.1"
+    version: "2.2.3"
   butter_commons:
     dependency: transitive
     description:
       name: butter_commons
-      sha256: "8d3eb598c6379c3c7b63556174027ed2ab34a2e99196d0a8b76d7734c0e70967"
+      sha256: "89c4f96c7b8747edd3950019d78733ee4549335e3a0296a2efa093ed88706d94"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   characters:
     dependency: transitive
     description:
