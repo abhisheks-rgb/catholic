@@ -497,8 +497,7 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
     showDialog(
       barrierDismissible: false,
       context: context,
-      useRootNavigator: false,
-      routeSettings: const RouteSettings(name: '/_/events/details'),
+      routeSettings: RouteSettings(name: ModalRoute.of(context)?.settings.name),
       builder: (BuildContext context) {
         return AlertDialog(
           content: SingleChildScrollView(
