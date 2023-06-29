@@ -498,6 +498,7 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
     showDialog(
       barrierDismissible: false,
       context: context,
+      routeSettings: RouteSettings(name: ModalRoute.of(context)?.settings.name),
       builder: (BuildContext context) {
         return AlertDialog(
           content: SingleChildScrollView(
@@ -966,6 +967,7 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
   void _showErrorPopup(BuildContext context) {
     showDialog(
       barrierDismissible: false,
+      useRootNavigator: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
