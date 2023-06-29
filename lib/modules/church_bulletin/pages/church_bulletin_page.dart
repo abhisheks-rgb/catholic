@@ -55,8 +55,6 @@ class _BulletinPageState extends State<_BulletinPage> {
   String? _selectedParishValue = '';
   List? _bulletinItems;
   var controllers = <String, PdfViewerController>{};
-  Timer? myTimer;
-  bool isDisabled = true;
 
   _BulletinPageState(this.model);
 
@@ -72,30 +70,11 @@ class _BulletinPageState extends State<_BulletinPage> {
       _selectedParishValue = widget.model.churchName;
       _getBulletin(widget.model.churchLink ?? '');
     }
-
-    startTimer();
-  }
-
-  void startTimer() {
-    int x = 0;
-
-    myTimer = Timer.periodic(const Duration(seconds: 2), (Timer timer) {
-      x += 1;
-
-      setState(() {
-        isDisabled = false;
-      });
-
-      if (x > 0) {
-        timer.cancel();
-      }
-    });
   }
 
   @override
   void dispose() {
     super.dispose();
-    myTimer?.cancel();
     delayedReset();
   }
 
@@ -236,8 +215,7 @@ class _BulletinPageState extends State<_BulletinPage> {
                               ? null
                               : () async {
                                   if (widget.model.items!.isNotEmpty &&
-                                      _bulletinItems != null &&
-                                      !isDisabled) {
+                                      _bulletinItems != null) {
                                     showAlert(context);
                                   }
                                 },
@@ -687,6 +665,8 @@ class _BulletinPageState extends State<_BulletinPage> {
     List<dynamic> churchList = [...widget.model.items!];
     showDialog(
         context: context,
+        routeSettings:
+            RouteSettings(name: ModalRoute.of(context)?.settings.name),
         builder: (BuildContext context) => AlertDialog(
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:butter/butter.dart';
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:intl/intl.dart';
@@ -15,12 +14,10 @@ class RosaryView extends BaseStatefulPageView {
   RosaryView(this.model, {Key? key}) : super();
 
   @override
-  State<BaseStatefulPageView> createState() => _RosaryViewState();
+  State<BaseStatefulPageView> createState() => RosaryViewState();
 }
 
-class _RosaryViewState extends State<RosaryView> {
-  Timer? myTimer;
-  bool isDisabled = true;
+class RosaryViewState extends State<RosaryView> {
   int? _currentMystery;
   List<dynamic> mystries = [
     {
@@ -195,7 +192,6 @@ class _RosaryViewState extends State<RosaryView> {
     super.initState();
 
     checkDay();
-    startTimer();
   }
 
   void checkDay() {
@@ -211,48 +207,6 @@ class _RosaryViewState extends State<RosaryView> {
         }
       }
     }
-  }
-
-  void startTimer() {
-    int x = 0;
-
-    myTimer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-      x += 1;
-
-      setState(() {
-        isDisabled = false;
-      });
-
-      if (x > 0) {
-        timer.cancel();
-      }
-    });
-  }
-
-  @override
-  void didUpdateWidget(RosaryView oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (widget.model?.showInfo != null) {
-      if (widget.model?.showInfo == true &&
-          widget.model?.showInfo != oldWidget.model?.showInfo) {
-        if (!isDisabled) {
-          EasyDebounce.debounce(
-              'debounce-rosary', const Duration(milliseconds: 100), () {
-            showInfo();
-          });
-        } else {
-          widget.model!.setShowInfo!();
-        }
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    myTimer?.cancel();
-    widget.model!.setShowInfo!();
   }
 
   @override
@@ -364,9 +318,7 @@ class _RosaryViewState extends State<RosaryView> {
               borderRadius: BorderRadius.circular(10),
             ),
             onPressed: () {
-              if (!isDisabled) {
-                showMysteriesList(context);
-              }
+              showMysteriesList(context);
             },
             child: Container(
               padding: const EdgeInsets.all(20),
@@ -406,21 +358,13 @@ class _RosaryViewState extends State<RosaryView> {
           ),
         ),
         const SizedBox(height: 30),
-        isDisabled
-            ? Container(
-                height: MediaQuery.of(context).size.height * 0.3,
-                margin: const EdgeInsets.only(top: 20),
-                child: const Center(child: CircularProgressIndicator()),
-              )
-            : Column(
-                children: [
-                  mystries[_currentMystery!] == null
-                      ? Container()
-                      : _renderGuide(),
-                  _renderHailHolyQueen(),
-                  _renderMemorare(),
-                ],
-              ),
+        Column(
+          children: [
+            mystries[_currentMystery!] == null ? Container() : _renderGuide(),
+            _renderHailHolyQueen(),
+            _renderMemorare(),
+          ],
+        ),
       ],
     );
   }
@@ -807,285 +751,10 @@ class _RosaryViewState extends State<RosaryView> {
         ),
       );
 
-  Widget _renderRosary() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'The Rosary is a set of prayers and meditations in the Catholic tradition. It consists of a string of beads or knots that are used to keep track of the prayers recited. The prayers focus on the life, ministry, death, and resurrection of Jesus Christ, as well as the intercession of the Virgin Mary.',
-          style: TextStyle(
-            color: const Color.fromRGBO(4, 26, 82, 1),
-            fontSize: widget.model!.contentFontSize ?? 17,
-            height: 1.4,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'The structure of the Rosary includes various prayers,',
-          style: TextStyle(
-            color: const Color.fromRGBO(4, 26, 82, 1),
-            fontSize: widget.model!.contentFontSize ?? 17,
-            height: 1.4,
-          ),
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '1. ',
-              style: TextStyle(
-                color: const Color.fromRGBO(4, 26, 82, 1),
-                fontSize: widget.model!.contentFontSize ?? 17,
-                height: 1.4,
-              ),
-            ),
-            Expanded(
-              child: Text(
-                'The Apostles\' Creed: This is a statement of faith, affirming the basic beliefs of Christianity.',
-                style: TextStyle(
-                  color: const Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: widget.model!.contentFontSize ?? 17,
-                  height: 1.4,
-                ),
-              ),
-            ),
-          ],
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '2. ',
-              style: TextStyle(
-                color: const Color.fromRGBO(4, 26, 82, 1),
-                fontSize: widget.model!.contentFontSize ?? 17,
-                height: 1.4,
-              ),
-            ),
-            Expanded(
-              child: Text(
-                'The Our Father: Also known as the Lord\'s Prayer, it was taught by Jesus to his disciples.',
-                style: TextStyle(
-                  color: const Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: widget.model!.contentFontSize ?? 17,
-                  height: 1.4,
-                ),
-              ),
-            ),
-          ],
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '3. ',
-              style: TextStyle(
-                color: const Color.fromRGBO(4, 26, 82, 1),
-                fontSize: widget.model!.contentFontSize ?? 17,
-                height: 1.4,
-              ),
-            ),
-            Expanded(
-              child: Text(
-                'The Hail Mary: This prayer is a meditation on the Incarnation and seeks the intercession of the Virgin Mary.',
-                style: TextStyle(
-                  color: const Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: widget.model!.contentFontSize ?? 17,
-                  height: 1.4,
-                ),
-              ),
-            ),
-          ],
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '4. ',
-              style: TextStyle(
-                color: const Color.fromRGBO(4, 26, 82, 1),
-                fontSize: widget.model!.contentFontSize ?? 17,
-                height: 1.4,
-              ),
-            ),
-            Expanded(
-              child: Text(
-                'The Glory Be: A short prayer praising the Holy Trinity.',
-                style: TextStyle(
-                  color: const Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: widget.model!.contentFontSize ?? 17,
-                  height: 1.4,
-                ),
-              ),
-            ),
-          ],
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '5. ',
-              style: TextStyle(
-                color: const Color.fromRGBO(4, 26, 82, 1),
-                fontSize: widget.model!.contentFontSize ?? 17,
-                height: 1.4,
-              ),
-            ),
-            Expanded(
-              child: Text(
-                'The Mysteries: The Rosary is divided into sets of mysteries, which are meditations on significant events in the lives of Jesus and Mary. The mysteries are categorized as Joyful, Sorrowful, Glorious, and Luminous (added by Pope John Paul II in 2002).',
-                style: TextStyle(
-                  color: const Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: widget.model!.contentFontSize ?? 17,
-                  height: 1.4,
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'The Rosary is a popular devotion among Catholics for several reasons:',
-          style: TextStyle(
-            color: const Color.fromRGBO(4, 26, 82, 1),
-            fontSize: widget.model!.contentFontSize ?? 17,
-            height: 1.4,
-          ),
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '1. ',
-              style: TextStyle(
-                color: const Color.fromRGBO(4, 26, 82, 1),
-                fontSize: widget.model!.contentFontSize ?? 17,
-                height: 1.4,
-              ),
-            ),
-            Expanded(
-              child: Text(
-                'It fosters meditation: The repetitive nature of the prayers allows individuals to enter a contemplative state, focusing their minds on the mysteries of Christ\'s life. It provides an opportunity for spiritual reflection and deeper connection with God.',
-                style: TextStyle(
-                  color: const Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: widget.model!.contentFontSize ?? 17,
-                  height: 1.4,
-                ),
-              ),
-            ),
-          ],
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '2. ',
-              style: TextStyle(
-                color: const Color.fromRGBO(4, 26, 82, 1),
-                fontSize: widget.model!.contentFontSize ?? 17,
-                height: 1.4,
-              ),
-            ),
-            Expanded(
-              child: Text(
-                'It invokes the intercession of Mary: Catholics believe that Mary, as the Mother of Jesus, holds a special place in the life of the Church. Praying the Rosary is a way to seek her intercession and guidance.',
-                style: TextStyle(
-                  color: const Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: widget.model!.contentFontSize ?? 17,
-                  height: 1.4,
-                ),
-              ),
-            ),
-          ],
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '3. ',
-              style: TextStyle(
-                color: const Color.fromRGBO(4, 26, 82, 1),
-                fontSize: widget.model!.contentFontSize ?? 17,
-                height: 1.4,
-              ),
-            ),
-            Expanded(
-              child: Text(
-                'It builds a sense of community: Many Catholics pray the Rosary together in groups or as a family. This communal aspect strengthens bonds among believers and provides a shared spiritual experience.',
-                style: TextStyle(
-                  color: const Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: widget.model!.contentFontSize ?? 17,
-                  height: 1.4,
-                ),
-              ),
-            ),
-          ],
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '4. ',
-              style: TextStyle(
-                color: const Color.fromRGBO(4, 26, 82, 1),
-                fontSize: widget.model!.contentFontSize ?? 17,
-                height: 1.4,
-              ),
-            ),
-            Expanded(
-              child: Text(
-                'It offers spiritual benefits: The Catholic Church teaches that the Rosary brings numerous spiritual benefits, including increased faith, inner peace, and graces from God.',
-                style: TextStyle(
-                  color: const Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: widget.model!.contentFontSize ?? 17,
-                  height: 1.4,
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'The Rosary can be a valuable spiritual practice that helps deepen one\'s relationship with God and the Church. It allows them to engage in a structured prayer form that has been cherished by generations of Catholics. Praying the Rosary can also provide a sense of belonging and connection to the broader Catholic community.',
-          style: TextStyle(
-            color: const Color.fromRGBO(4, 26, 82, 1),
-            fontSize: widget.model!.contentFontSize ?? 17,
-            height: 1.4,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'The purpose of the Rosary is to help keep in memory certain principal events in the history of our salvation. There are twenty mysteries reflected upon in the Rosary, and these are divided into the five Joyful Mysteries (said on Monday and Saturday), the five Luminous Mysteries (said on Thursday), the five Sorrowful Mysteries (said on Tuesday and Friday), and the five Glorious Mysteries (said on Wednesday and Sunday). As an exception, the Joyful Mysteries may be said on Sundays during Advent and Christmas, while the Sorrowful Mysteries may be said on the Sundays of Lent.',
-          style: TextStyle(
-            color: const Color.fromRGBO(4, 26, 82, 1),
-            fontSize: widget.model!.contentFontSize ?? 17,
-            height: 1.4,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'The question is sometimes asked, why, of all the incidents in our Lord\'s life, the Rosary only considers these particular twenty. The mysteries of the Rosary are based on the incidents in the life of Our Lord and His Mother that are celebrated in the Liturgy. There is a parallel between the main feasts honoring our Lord and his Mother in the liturgical year, and the twenty mysteries of the Rosary.',
-          style: TextStyle(
-            color: const Color.fromRGBO(4, 26, 82, 1),
-            fontSize: widget.model!.contentFontSize ?? 17,
-            height: 1.4,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'Consequently, one who recites the twenty mysteries of the Rosary in one day reflects on the whole liturgical cycle that the Church commemorates during the course of each year. That is why some of the Popes have referred to the Rosary as a compendium of the Gospel. One cannot change the mysteries of the Rosary without losing the indulgences that the Church grants for the recitation of the Rosary.',
-          style: TextStyle(
-            color: const Color.fromRGBO(4, 26, 82, 1),
-            fontSize: widget.model!.contentFontSize ?? 17,
-            height: 1.4,
-          ),
-        ),
-      ],
-    );
-  }
-
   void showMysteriesList(BuildContext context) => showDialog(
         context: context,
+        routeSettings:
+            RouteSettings(name: ModalRoute.of(context)?.settings.name),
         builder: (BuildContext context) => Dialog(
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -1215,8 +884,11 @@ class _RosaryViewState extends State<RosaryView> {
         ),
       );
 
-  void showInfo() => showDialog(
-        context: context,
+  static Future<void> showInfo(
+          BuildContext cntxt, double? titleFontSize, double? contentFontSize) =>
+      showDialog(
+        context: cntxt,
+        routeSettings: RouteSettings(name: ModalRoute.of(cntxt)?.settings.name),
         builder: (BuildContext context) => Dialog(
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -1236,7 +908,7 @@ class _RosaryViewState extends State<RosaryView> {
                           style: TextStyle(
                             color: const Color.fromRGBO(4, 26, 82, 1),
                             fontWeight: FontWeight.w500,
-                            fontSize: widget.model!.titleFontSize ?? 20,
+                            fontSize: titleFontSize ?? 20,
                           ),
                         ),
                       ),
@@ -1244,7 +916,7 @@ class _RosaryViewState extends State<RosaryView> {
                         constraints: const BoxConstraints(),
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.pop(cntxt);
                         },
                         shape: const CircleBorder(),
                         child: const SizedBox(
@@ -1273,14 +945,287 @@ class _RosaryViewState extends State<RosaryView> {
                 SliverToBoxAdapter(
                   child: Container(
                     padding: const EdgeInsets.fromLTRB(24, 0, 16, 16),
-                    child: _renderRosary(),
+                    child: _renderRosary(contentFontSize),
                   ),
                 ),
               ],
             ),
           ),
         ),
-      ).then((value) {
-        widget.model!.setShowInfo!();
-      });
+      );
+
+  static Widget _renderRosary(double? contentFontSize) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'The Rosary is a set of prayers and meditations in the Catholic tradition. It consists of a string of beads or knots that are used to keep track of the prayers recited. The prayers focus on the life, ministry, death, and resurrection of Jesus Christ, as well as the intercession of the Virgin Mary.',
+            style: TextStyle(
+              color: const Color.fromRGBO(4, 26, 82, 1),
+              fontSize: contentFontSize ?? 17,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'The structure of the Rosary includes various prayers,',
+            style: TextStyle(
+              color: const Color.fromRGBO(4, 26, 82, 1),
+              fontSize: contentFontSize ?? 17,
+              height: 1.4,
+            ),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '1. ',
+                style: TextStyle(
+                  color: const Color.fromRGBO(4, 26, 82, 1),
+                  fontSize: contentFontSize ?? 17,
+                  height: 1.4,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  'The Apostles\' Creed: This is a statement of faith, affirming the basic beliefs of Christianity.',
+                  style: TextStyle(
+                    color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontSize: contentFontSize ?? 17,
+                    height: 1.4,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '2. ',
+                style: TextStyle(
+                  color: const Color.fromRGBO(4, 26, 82, 1),
+                  fontSize: contentFontSize ?? 17,
+                  height: 1.4,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  'The Our Father: Also known as the Lord\'s Prayer, it was taught by Jesus to his disciples.',
+                  style: TextStyle(
+                    color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontSize: contentFontSize ?? 17,
+                    height: 1.4,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '3. ',
+                style: TextStyle(
+                  color: const Color.fromRGBO(4, 26, 82, 1),
+                  fontSize: contentFontSize ?? 17,
+                  height: 1.4,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  'The Hail Mary: This prayer is a meditation on the Incarnation and seeks the intercession of the Virgin Mary.',
+                  style: TextStyle(
+                    color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontSize: contentFontSize ?? 17,
+                    height: 1.4,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '4. ',
+                style: TextStyle(
+                  color: const Color.fromRGBO(4, 26, 82, 1),
+                  fontSize: contentFontSize ?? 17,
+                  height: 1.4,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  'The Glory Be: A short prayer praising the Holy Trinity.',
+                  style: TextStyle(
+                    color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontSize: contentFontSize ?? 17,
+                    height: 1.4,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '5. ',
+                style: TextStyle(
+                  color: const Color.fromRGBO(4, 26, 82, 1),
+                  fontSize: contentFontSize ?? 17,
+                  height: 1.4,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  'The Mysteries: The Rosary is divided into sets of mysteries, which are meditations on significant events in the lives of Jesus and Mary. The mysteries are categorized as Joyful, Sorrowful, Glorious, and Luminous (added by Pope John Paul II in 2002).',
+                  style: TextStyle(
+                    color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontSize: contentFontSize ?? 17,
+                    height: 1.4,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'The Rosary is a popular devotion among Catholics for several reasons:',
+            style: TextStyle(
+              color: const Color.fromRGBO(4, 26, 82, 1),
+              fontSize: contentFontSize ?? 17,
+              height: 1.4,
+            ),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '1. ',
+                style: TextStyle(
+                  color: const Color.fromRGBO(4, 26, 82, 1),
+                  fontSize: contentFontSize ?? 17,
+                  height: 1.4,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  'It fosters meditation: The repetitive nature of the prayers allows individuals to enter a contemplative state, focusing their minds on the mysteries of Christ\'s life. It provides an opportunity for spiritual reflection and deeper connection with God.',
+                  style: TextStyle(
+                    color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontSize: contentFontSize ?? 17,
+                    height: 1.4,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '2. ',
+                style: TextStyle(
+                  color: const Color.fromRGBO(4, 26, 82, 1),
+                  fontSize: contentFontSize ?? 17,
+                  height: 1.4,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  'It invokes the intercession of Mary: Catholics believe that Mary, as the Mother of Jesus, holds a special place in the life of the Church. Praying the Rosary is a way to seek her intercession and guidance.',
+                  style: TextStyle(
+                    color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontSize: contentFontSize ?? 17,
+                    height: 1.4,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '3. ',
+                style: TextStyle(
+                  color: const Color.fromRGBO(4, 26, 82, 1),
+                  fontSize: contentFontSize ?? 17,
+                  height: 1.4,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  'It builds a sense of community: Many Catholics pray the Rosary together in groups or as a family. This communal aspect strengthens bonds among believers and provides a shared spiritual experience.',
+                  style: TextStyle(
+                    color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontSize: contentFontSize ?? 17,
+                    height: 1.4,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '4. ',
+                style: TextStyle(
+                  color: const Color.fromRGBO(4, 26, 82, 1),
+                  fontSize: contentFontSize ?? 17,
+                  height: 1.4,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  'It offers spiritual benefits: The Catholic Church teaches that the Rosary brings numerous spiritual benefits, including increased faith, inner peace, and graces from God.',
+                  style: TextStyle(
+                    color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontSize: contentFontSize ?? 17,
+                    height: 1.4,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'The Rosary can be a valuable spiritual practice that helps deepen one\'s relationship with God and the Church. It allows them to engage in a structured prayer form that has been cherished by generations of Catholics. Praying the Rosary can also provide a sense of belonging and connection to the broader Catholic community.',
+            style: TextStyle(
+              color: const Color.fromRGBO(4, 26, 82, 1),
+              fontSize: contentFontSize ?? 17,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'The purpose of the Rosary is to help keep in memory certain principal events in the history of our salvation. There are twenty mysteries reflected upon in the Rosary, and these are divided into the five Joyful Mysteries (said on Monday and Saturday), the five Luminous Mysteries (said on Thursday), the five Sorrowful Mysteries (said on Tuesday and Friday), and the five Glorious Mysteries (said on Wednesday and Sunday). As an exception, the Joyful Mysteries may be said on Sundays during Advent and Christmas, while the Sorrowful Mysteries may be said on the Sundays of Lent.',
+            style: TextStyle(
+              color: const Color.fromRGBO(4, 26, 82, 1),
+              fontSize: contentFontSize ?? 17,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'The question is sometimes asked, why, of all the incidents in our Lord\'s life, the Rosary only considers these particular twenty. The mysteries of the Rosary are based on the incidents in the life of Our Lord and His Mother that are celebrated in the Liturgy. There is a parallel between the main feasts honoring our Lord and his Mother in the liturgical year, and the twenty mysteries of the Rosary.',
+            style: TextStyle(
+              color: const Color.fromRGBO(4, 26, 82, 1),
+              fontSize: contentFontSize ?? 17,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Consequently, one who recites the twenty mysteries of the Rosary in one day reflects on the whole liturgical cycle that the Church commemorates during the course of each year. That is why some of the Popes have referred to the Rosary as a compendium of the Gospel. One cannot change the mysteries of the Rosary without losing the indulgences that the Church grants for the recitation of the Rosary.',
+            style: TextStyle(
+              color: const Color.fromRGBO(4, 26, 82, 1),
+              fontSize: contentFontSize ?? 17,
+              height: 1.4,
+            ),
+          ),
+        ],
+      );
 }

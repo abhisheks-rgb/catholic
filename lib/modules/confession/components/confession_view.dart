@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:butter/butter.dart';
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
@@ -14,61 +11,10 @@ class ConfessionView extends BaseStatefulPageView {
   ConfessionView(this.model, {Key? key}) : super();
 
   @override
-  State<BaseStatefulPageView> createState() => _ConfessionViewState();
+  State<BaseStatefulPageView> createState() => ConfessionViewState();
 }
 
-class _ConfessionViewState extends State<ConfessionView> {
-  Timer? myTimer;
-  bool isDisabled = true;
-
-  @override
-  void initState() {
-    super.initState();
-
-    startTimer();
-  }
-
-  void startTimer() {
-    int x = 0;
-
-    myTimer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-      x += 1;
-
-      setState(() {
-        isDisabled = false;
-      });
-
-      if (x > 0) {
-        timer.cancel();
-      }
-    });
-  }
-
-  @override
-  void didUpdateWidget(ConfessionView oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (widget.model?.showInfo != null) {
-      if (widget.model?.showInfo == true &&
-          widget.model?.showInfo != oldWidget.model?.showInfo) {
-        if (!isDisabled) {
-          EasyDebounce.debounce(
-              'debounce-rosary', const Duration(milliseconds: 100), () {
-            showInfo();
-          });
-        } else {
-          widget.model!.setShowInfo!();
-        }
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    widget.model!.setShowInfo!();
-  }
-
+class ConfessionViewState extends State<ConfessionView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -218,35 +164,37 @@ class _ConfessionViewState extends State<ConfessionView> {
                   fontSize: widget.model!.contentFontSize ?? 17,
                 ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  RichText(
-                    text: TextSpan(
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                          color: const Color.fromRGBO(4, 26, 82, 1),
+                          fontSize: widget.model!.contentFontSize ?? 17,
+                        ),
+                        children: const <TextSpan>[
+                          TextSpan(text: 'Say '),
+                          TextSpan(
+                            text: '"My sins are..."',
+                            style: TextStyle(
+                              color: Color.fromRGBO(4, 26, 82, 1),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      '[Tell the priest your sins]',
                       style: TextStyle(
                         color: const Color.fromRGBO(4, 26, 82, 1),
                         fontSize: widget.model!.contentFontSize ?? 17,
                       ),
-                      children: const <TextSpan>[
-                        TextSpan(text: 'Say '),
-                        TextSpan(
-                          text: '"My sins are..."',
-                          style: TextStyle(
-                            color: Color.fromRGBO(4, 26, 82, 1),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
                     ),
-                  ),
-                  Text(
-                    '[Tell the priest your sins]',
-                    style: TextStyle(
-                      color: const Color.fromRGBO(4, 26, 82, 1),
-                      fontSize: widget.model!.contentFontSize ?? 17,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
@@ -441,152 +389,11 @@ class _ConfessionViewState extends State<ConfessionView> {
     );
   }
 
-  Widget _renderConfession() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Confession, also known as the Sacrament of Reconciliation or Penance, is a sacrament in the Catholic Church where a person confesses their sins to a priest and receives absolution, or forgiveness, for those sins. It is an essential part of the Catholic faith and is viewed as a means of reconciling with God and the Church.',
-          style: TextStyle(
-            color: const Color.fromRGBO(4, 26, 82, 1),
-            fontSize: widget.model!.contentFontSize ?? 17,
-            height: 1.4,
-          ),
-        ),
-        Text(
-          'When a new Catholic participates in the Sacrament of Confession, they have the opportunity to:',
-          style: TextStyle(
-            color: const Color.fromRGBO(4, 26, 82, 1),
-            fontSize: widget.model!.contentFontSize ?? 17,
-            height: 1.4,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '1. ',
-              style: TextStyle(
-                color: const Color.fromRGBO(4, 26, 82, 1),
-                fontSize: widget.model!.contentFontSize ?? 17,
-                height: 1.4,
-              ),
-            ),
-            Expanded(
-              child: Text(
-                'Seek forgiveness: Confession allows individuals to acknowledge their sins and express genuine remorse for their actions. It provides a formal and sacramental way to ask for God\'s forgiveness and receive absolution.',
-                style: TextStyle(
-                  color: const Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: widget.model!.contentFontSize ?? 17,
-                  height: 1.4,
-                ),
-              ),
-            ),
-          ],
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '2. ',
-              style: TextStyle(
-                color: const Color.fromRGBO(4, 26, 82, 1),
-                fontSize: widget.model!.contentFontSize ?? 17,
-                height: 1.4,
-              ),
-            ),
-            Expanded(
-              child: Text(
-                'Receive spiritual healing: Through the Sacrament of Confession, Catholics believe they receive spiritual healing and reconciliation with both God and the Church. It is seen as a way to restore one\'s relationship with God and to strengthen the individual\'s commitment to living a holy life.',
-                style: TextStyle(
-                  color: const Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: widget.model!.contentFontSize ?? 17,
-                  height: 1.4,
-                ),
-              ),
-            ),
-          ],
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '3. ',
-              style: TextStyle(
-                color: const Color.fromRGBO(4, 26, 82, 1),
-                fontSize: widget.model!.contentFontSize ?? 17,
-                height: 1.4,
-              ),
-            ),
-            Expanded(
-              child: Text(
-                'Obtain guidance and advice: During Confession, the priest acts as a spiritual guide and advisor. They offer counsel, support, and guidance to help individuals overcome their sins and make positive changes in their lives.',
-                style: TextStyle(
-                  color: const Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: widget.model!.contentFontSize ?? 17,
-                  height: 1.4,
-                ),
-              ),
-            ),
-          ],
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '4. ',
-              style: TextStyle(
-                color: const Color.fromRGBO(4, 26, 82, 1),
-                fontSize: widget.model!.contentFontSize ?? 17,
-                height: 1.4,
-              ),
-            ),
-            Expanded(
-              child: Text(
-                'Experience peace of mind: Confessing one\'s sins and receiving absolution can bring a sense of relief, peace, and freedom from guilt. It allows individuals to let go of their past mistakes and start anew with a clean slate.',
-                style: TextStyle(
-                  color: const Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: widget.model!.contentFontSize ?? 17,
-                  height: 1.4,
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'For new Catholics, Confession can be a transformative and liberating experience. It provides an opportunity to actively participate in the sacramental life of the Church and to receive God\'s mercy and forgiveness. Confession can help new Catholics deepen their relationship with God, grow in humility and self-awareness, and strengthen their commitment to living a virtuous life.',
-          style: TextStyle(
-            color: const Color.fromRGBO(4, 26, 82, 1),
-            fontSize: widget.model!.contentFontSize ?? 17,
-            height: 1.4,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'It\'s important to note that the Seal of Confession is sacred and inviolable. The priest is bound by absolute confidentiality and cannot disclose anything revealed during Confession under any circumstances. This confidentiality ensures that individuals can approach Confession with complete trust and openness.',
-          style: TextStyle(
-            color: const Color.fromRGBO(4, 26, 82, 1),
-            fontSize: widget.model!.contentFontSize ?? 17,
-            height: 1.4,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'While Confession is highly encouraged in the Catholic faith, it is not obligatory for new Catholics to immediately participate. It is recommended that they undergo proper preparation, receive instruction from a priest, and discern when they are ready to receive the Sacrament of Reconciliation.',
-          style: TextStyle(
-            color: const Color.fromRGBO(4, 26, 82, 1),
-            fontSize: widget.model!.contentFontSize ?? 17,
-            height: 1.4,
-          ),
-        ),
-      ],
-    );
-  }
-
-  void showInfo() => showDialog(
-        context: context,
+  static Future<void> showInfo(
+          BuildContext cntxt, double? titleFontSize, double? contentFontSize) =>
+      showDialog(
+        context: cntxt,
+        routeSettings: RouteSettings(name: ModalRoute.of(cntxt)?.settings.name),
         builder: (BuildContext context) => Dialog(
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -606,7 +413,7 @@ class _ConfessionViewState extends State<ConfessionView> {
                           style: TextStyle(
                             color: const Color.fromRGBO(4, 26, 82, 1),
                             fontWeight: FontWeight.w500,
-                            fontSize: widget.model!.titleFontSize ?? 20,
+                            fontSize: titleFontSize ?? 20,
                           ),
                         ),
                       ),
@@ -614,7 +421,7 @@ class _ConfessionViewState extends State<ConfessionView> {
                         constraints: const BoxConstraints(),
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.pop(cntxt);
                         },
                         shape: const CircleBorder(),
                         child: const SizedBox(
@@ -643,14 +450,154 @@ class _ConfessionViewState extends State<ConfessionView> {
                 SliverToBoxAdapter(
                   child: Container(
                     padding: const EdgeInsets.fromLTRB(24, 0, 16, 16),
-                    child: _renderConfession(),
+                    child: _renderConfession(contentFontSize),
                   ),
                 ),
               ],
             ),
           ),
         ),
-      ).then((value) {
-        widget.model!.setShowInfo!();
-      });
+      );
+
+  static Widget _renderConfession(double? contentFontSize) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Confession, also known as the Sacrament of Reconciliation or Penance, is a sacrament in the Catholic Church where a person confesses their sins to a priest and receives absolution, or forgiveness, for those sins. It is an essential part of the Catholic faith and is viewed as a means of reconciling with God and the Church.',
+            style: TextStyle(
+              color: const Color.fromRGBO(4, 26, 82, 1),
+              fontSize: contentFontSize ?? 17,
+              height: 1.4,
+            ),
+          ),
+          Text(
+            'When a new Catholic participates in the Sacrament of Confession, they have the opportunity to:',
+            style: TextStyle(
+              color: const Color.fromRGBO(4, 26, 82, 1),
+              fontSize: contentFontSize ?? 17,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '1. ',
+                style: TextStyle(
+                  color: const Color.fromRGBO(4, 26, 82, 1),
+                  fontSize: contentFontSize ?? 17,
+                  height: 1.4,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  'Seek forgiveness: Confession allows individuals to acknowledge their sins and express genuine remorse for their actions. It provides a formal and sacramental way to ask for God\'s forgiveness and receive absolution.',
+                  style: TextStyle(
+                    color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontSize: contentFontSize ?? 17,
+                    height: 1.4,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '2. ',
+                style: TextStyle(
+                  color: const Color.fromRGBO(4, 26, 82, 1),
+                  fontSize: contentFontSize ?? 17,
+                  height: 1.4,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  'Receive spiritual healing: Through the Sacrament of Confession, Catholics believe they receive spiritual healing and reconciliation with both God and the Church. It is seen as a way to restore one\'s relationship with God and to strengthen the individual\'s commitment to living a holy life.',
+                  style: TextStyle(
+                    color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontSize: contentFontSize ?? 17,
+                    height: 1.4,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '3. ',
+                style: TextStyle(
+                  color: const Color.fromRGBO(4, 26, 82, 1),
+                  fontSize: contentFontSize ?? 17,
+                  height: 1.4,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  'Obtain guidance and advice: During Confession, the priest acts as a spiritual guide and advisor. They offer counsel, support, and guidance to help individuals overcome their sins and make positive changes in their lives.',
+                  style: TextStyle(
+                    color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontSize: contentFontSize ?? 17,
+                    height: 1.4,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '4. ',
+                style: TextStyle(
+                  color: const Color.fromRGBO(4, 26, 82, 1),
+                  fontSize: contentFontSize ?? 17,
+                  height: 1.4,
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  'Experience peace of mind: Confessing one\'s sins and receiving absolution can bring a sense of relief, peace, and freedom from guilt. It allows individuals to let go of their past mistakes and start anew with a clean slate.',
+                  style: TextStyle(
+                    color: const Color.fromRGBO(4, 26, 82, 1),
+                    fontSize: contentFontSize ?? 17,
+                    height: 1.4,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'For new Catholics, Confession can be a transformative and liberating experience. It provides an opportunity to actively participate in the sacramental life of the Church and to receive God\'s mercy and forgiveness. Confession can help new Catholics deepen their relationship with God, grow in humility and self-awareness, and strengthen their commitment to living a virtuous life.',
+            style: TextStyle(
+              color: const Color.fromRGBO(4, 26, 82, 1),
+              fontSize: contentFontSize ?? 17,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'It\'s important to note that the Seal of Confession is sacred and inviolable. The priest is bound by absolute confidentiality and cannot disclose anything revealed during Confession under any circumstances. This confidentiality ensures that individuals can approach Confession with complete trust and openness.',
+            style: TextStyle(
+              color: const Color.fromRGBO(4, 26, 82, 1),
+              fontSize: contentFontSize ?? 17,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'While Confession is highly encouraged in the Catholic faith, it is not obligatory for new Catholics to immediately participate. It is recommended that they undergo proper preparation, receive instruction from a priest, and discern when they are ready to receive the Sacrament of Reconciliation.',
+            style: TextStyle(
+              color: const Color.fromRGBO(4, 26, 82, 1),
+              fontSize: contentFontSize ?? 17,
+              height: 1.4,
+            ),
+          ),
+        ],
+      );
 }
