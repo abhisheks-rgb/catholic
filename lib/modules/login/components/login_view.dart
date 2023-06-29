@@ -380,6 +380,8 @@ class _LoginViewState extends State<LoginView> {
 
   void showAlert() => showDialog(
         context: context,
+        routeSettings:
+            RouteSettings(name: ModalRoute.of(context)?.settings.name),
         builder: (BuildContext context) => Dialog(
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
