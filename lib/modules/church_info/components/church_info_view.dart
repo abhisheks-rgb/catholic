@@ -1001,6 +1001,8 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
 
   void showChurchList(BuildContext context) => showDialog(
         context: context,
+        routeSettings:
+            RouteSettings(name: ModalRoute.of(context)?.settings.name),
         builder: (BuildContext context) => AlertDialog(
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -1099,6 +1101,8 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
 
   void showPriestList(BuildContext context) => showDialog(
         context: context,
+        routeSettings:
+            RouteSettings(name: ModalRoute.of(context)?.settings.name),
         builder: (BuildContext context) => Dialog(
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),

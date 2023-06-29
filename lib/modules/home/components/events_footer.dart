@@ -490,6 +490,7 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
           ),
         );
       },
+      routeSettings: RouteSettings(name: ModalRoute.of(context)?.settings.name),
     );
   }
 
@@ -497,7 +498,6 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
     showDialog(
       barrierDismissible: false,
       context: context,
-      routeSettings: RouteSettings(name: ModalRoute.of(context)?.settings.name),
       builder: (BuildContext context) {
         return AlertDialog(
           content: SingleChildScrollView(
@@ -959,14 +959,13 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
           ),
         );
       },
-      routeSettings: const RouteSettings(name: '/_/events/details'),
+      routeSettings: RouteSettings(name: ModalRoute.of(context)?.settings.name),
     );
   }
 
   void _showErrorPopup(BuildContext context) {
     showDialog(
       barrierDismissible: false,
-      useRootNavigator: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -1088,6 +1087,7 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
           ),
         );
       },
+      routeSettings: RouteSettings(name: ModalRoute.of(context)?.settings.name),
     );
   }
 

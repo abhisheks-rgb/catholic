@@ -980,6 +980,8 @@ class _SchedulesPageState extends State<_SchedulesPage> {
     ];
     showDialog(
         context: context,
+        routeSettings:
+            RouteSettings(name: ModalRoute.of(context)?.settings.name),
         builder: (BuildContext context) => AlertDialog(
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -1090,6 +1092,7 @@ class _SchedulesPageState extends State<_SchedulesPage> {
     });
     showDialog(
       context: context,
+      routeSettings: RouteSettings(name: ModalRoute.of(context)?.settings.name),
       builder: (BuildContext context) {
         return AlertDialog(
           contentPadding: const EdgeInsets.fromLTRB(24, 8, 24, 24),

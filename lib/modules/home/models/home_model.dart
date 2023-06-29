@@ -19,9 +19,11 @@ class HomeModel extends BaseUIModel<HomeModel> {
   String? bookingFormView;
   String bookingErrorMessage;
 
+  double? titleFontSize = 20;
+  double? contentFontSize = 16;
+
   late void Function(String route) showPage;
   void Function()? setPageFontSize;
-  void Function(String route)? setShowInfo;
 
   late Future<void> Function(BuildContext context) initialize;
   late Future<void> Function() initializeTodayIs;
@@ -63,6 +65,8 @@ class HomeModel extends BaseUIModel<HomeModel> {
     this.bookingFormView = 'bookingForm',
     this.submitBookingLoading = false,
     this.bookingErrorMessage = '',
+    this.titleFontSize,
+    this.contentFontSize,
   });
 
   @override
@@ -85,6 +89,8 @@ class HomeModel extends BaseUIModel<HomeModel> {
         bookingFormView: bookingFormView,
         submitBookingLoading: submitBookingLoading,
         bookingErrorMessage: bookingErrorMessage,
+        titleFontSize: titleFontSize,
+        contentFontSize: contentFontSize,
       );
 
   @override
@@ -104,6 +110,8 @@ class HomeModel extends BaseUIModel<HomeModel> {
         bookingFormView,
         submitBookingLoading,
         bookingErrorMessage,
+        titleFontSize,
+        contentFontSize,
       ]);
 
   //
@@ -127,5 +135,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
           selectedEventDetail == other.selectedEventDetail &&
           bookingFormView == other.bookingFormView &&
           submitBookingLoading == other.submitBookingLoading &&
-          bookingErrorMessage == other.bookingErrorMessage;
+          bookingErrorMessage == other.bookingErrorMessage &&
+          titleFontSize == other.titleFontSize &&
+          contentFontSize == other.contentFontSize;
 }

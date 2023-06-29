@@ -9,9 +9,6 @@ import '../actions/set_interest_action.dart';
 import '../actions/submit_event_form_action.dart';
 import '../actions/cancel_book_action.dart';
 import '../models/home_model.dart';
-import '../../confession/models/confession_model.dart';
-import '../../devotion/rosary/models/rosary_model.dart';
-import '../../devotion/divine_mercy_prayer/models/divine_mercy_prayer_model.dart';
 import '../../events/models/event_register_model.dart';
 import '../../events/models/event_details_model.dart';
 import '../../profile/models/profile_model.dart';
@@ -201,48 +198,6 @@ class HomeState extends BasePageState<HomeModel> {
           });
 
           pushNamed('/_/events/myEvents');
-        };
-        m.setShowInfo = (String route) {
-          bool showInfo = false;
-
-          switch (route) {
-            case '/_/devotion/rosary':
-              dispatchModel<RosaryModel>(RosaryModel(), (m) {
-                showInfo = m.showInfo == true;
-              });
-
-              if (!showInfo) {
-                dispatchModel<RosaryModel>(RosaryModel(), (m) {
-                  m.showInfo = true;
-                });
-              }
-              break;
-            case '/_/confession':
-              dispatchModel<ConfessionModel>(ConfessionModel(), (m) {
-                showInfo = m.showInfo == true;
-              });
-
-              if (!showInfo) {
-                dispatchModel<ConfessionModel>(ConfessionModel(), (m) {
-                  m.showInfo = true;
-                });
-              }
-              break;
-            case '/_/devotion/divine_mercy_prayer':
-              dispatchModel<DivineMercyPrayerModel>(DivineMercyPrayerModel(),
-                  (m) {
-                showInfo = m.showInfo == true;
-              });
-
-              if (!showInfo) {
-                dispatchModel<DivineMercyPrayerModel>(DivineMercyPrayerModel(),
-                    (m) {
-                  m.showInfo = true;
-                });
-              }
-              break;
-            default:
-          }
         };
         m.selectMenuItem = ({
           allowSameId = true,

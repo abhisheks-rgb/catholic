@@ -39,10 +39,5 @@ class DivineMercyPrayerState extends BasePageState<DivineMercyPrayerModel> {
                 ),
           ), (m) {
         // Load all your model's handlers here
-        m.setShowInfo = () {
-          dispatchModel<DivineMercyPrayerModel>(DivineMercyPrayerModel(), (m) {
-            m.showInfo = false;
-          });
-        };
       });
 }
