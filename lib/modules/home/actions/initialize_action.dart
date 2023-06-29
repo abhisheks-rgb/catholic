@@ -93,11 +93,12 @@ class InitializeAction extends BaseAction {
       m.user = user;
     });
 
-    return write<HomeModel>(HomeModel(), (m) {
+    await dispatchModel<HomeModel>(HomeModel(), (m) {
       m.error = error;
       m.loading = false;
       m.initialized = true;
       m.user = user;
     });
+    return null;
   }
 }

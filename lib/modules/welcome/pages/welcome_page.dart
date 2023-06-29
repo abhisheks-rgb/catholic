@@ -1,8 +1,9 @@
 import 'package:butter/butter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'dart:io' show Platform;
 import '../models/welcome_model.dart';
 import '../../home/models/home_model.dart';
 
@@ -61,6 +62,30 @@ class _WelcomePageState extends State<WelcomePage> {
         'route': 'offertory'
       },
     ];
+
+    bool isDownloadRequired() {
+      if (widget.model?.appVersion == null || widget.model?.dbVersion == null) {
+        return false;
+      }
+      bool result = true;
+      if (Platform.isIOS) {
+        //do ios
+        if (widget.model?.appVersion!['ios'] ==
+            widget.model?.dbVersion!['ios']) {
+          result = false;
+        }
+      } else {
+        //do android
+        if (widget.model?.appVersion!['android'] ==
+            widget.model?.dbVersion!['android']) {
+          result = false;
+        }
+      }
+      return result;
+    }
+
+    Butter.d('App Version: ${widget.model?.appVersion}');
+    Butter.d('DB Version: ${widget.model?.dbVersion}');
 
     return Scaffold(
       body: CustomScrollView(
@@ -283,11 +308,66 @@ class _WelcomePageState extends State<WelcomePage> {
               ),
             ),
           ),
-          widget.model?.user != null
+          !isDownloadRequired()
               ? SliverToBoxAdapter(
                   child: Container(),
                 )
               : SliverToBoxAdapter(
+                  child: RawMaterialButton(
+                    constraints: const BoxConstraints(),
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    onPressed: () async {
+                      if (Platform.isIOS) {
+                        //do ios link
+                        final Uri url = Uri.parse(
+                            'https://apps.apple.com/sg/app/catholicsg-app/id1151027240');
+                        await launchUrl(url);
+                      } else {
+                        //do android link
+                        final Uri url = Uri.parse(
+                            'https://play.google.com/store/apps/details?id=com.CSG.CatholicSG');
+                        await launchUrl(url);
+                      }
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: const EdgeInsets.all(20),
+                      decoration: const BoxDecoration(
+                        color: Color.fromRGBO(215, 235, 252, 1),
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: Color.fromRGBO(235, 235, 235, 1),
+                            blurRadius: 15,
+                            offset: Offset(0.0, 0.75),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            Icons.system_update,
+                            color: Color(0xff041a51),
+                            size: 18,
+                          ),
+                          SizedBox(width: 4),
+                          Text(
+                            'Download Latest Version',
+                            style: TextStyle(
+                              color: Color(0xff041a51),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+          FirebaseAuth.instance.currentUser == null
+              ? SliverToBoxAdapter(
                   child: RawMaterialButton(
                     constraints: const BoxConstraints(),
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -333,6 +413,9 @@ class _WelcomePageState extends State<WelcomePage> {
                       ),
                     ),
                   ),
+                )
+              : SliverToBoxAdapter(
+                  child: Container(),
                 ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),

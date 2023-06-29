@@ -32,6 +32,8 @@ class HomePage extends BaseStatefulPageView {
 
   @override
   FutureOr<bool> beforeLoad(BuildContext context) async {
+    model!.initializeVersion();
+
     if (!model!.initialized) {
       await model!.initialize(context);
     }

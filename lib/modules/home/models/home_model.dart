@@ -18,6 +18,8 @@ class HomeModel extends BaseUIModel<HomeModel> {
   Map<dynamic, dynamic>? formObj;
   String? bookingFormView;
   String bookingErrorMessage;
+  Map<dynamic, dynamic>? appVersion;
+  Map<dynamic, dynamic>? dbVersion;
 
   double? titleFontSize = 20;
   double? contentFontSize = 16;
@@ -27,6 +29,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
 
   late Future<void> Function(BuildContext context) initialize;
   late Future<void> Function() initializeTodayIs;
+  late Future<void> Function() initializeVersion;
   Function({int? index})? setSelectedIndex;
   void Function({
     BuildContext? context,
@@ -67,6 +70,8 @@ class HomeModel extends BaseUIModel<HomeModel> {
     this.bookingErrorMessage = '',
     this.titleFontSize,
     this.contentFontSize,
+    this.appVersion,
+    this.dbVersion,
   });
 
   @override
@@ -91,6 +96,8 @@ class HomeModel extends BaseUIModel<HomeModel> {
         bookingErrorMessage: bookingErrorMessage,
         titleFontSize: titleFontSize,
         contentFontSize: contentFontSize,
+        appVersion: appVersion,
+        dbVersion: dbVersion,
       );
 
   @override
@@ -112,6 +119,8 @@ class HomeModel extends BaseUIModel<HomeModel> {
         bookingErrorMessage,
         titleFontSize,
         contentFontSize,
+        appVersion,
+        dbVersion
       ]);
 
   //
@@ -137,5 +146,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
           submitBookingLoading == other.submitBookingLoading &&
           bookingErrorMessage == other.bookingErrorMessage &&
           titleFontSize == other.titleFontSize &&
-          contentFontSize == other.contentFontSize;
+          contentFontSize == other.contentFontSize &&
+          appVersion == other.appVersion &&
+          dbVersion == other.dbVersion;
 }
