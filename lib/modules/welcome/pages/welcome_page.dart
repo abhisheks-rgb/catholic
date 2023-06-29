@@ -81,6 +81,8 @@ class _WelcomePageState extends State<WelcomePage> {
           result = false;
         }
       }
+      //false for now
+      result = false;
       return result;
     }
 
@@ -333,7 +335,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       width: MediaQuery.of(context).size.width,
                       padding: const EdgeInsets.all(20),
                       decoration: const BoxDecoration(
-                        color: Color.fromRGBO(215, 235, 252, 1),
+                        color: Color.fromRGBO(223, 242, 255, 1),
                         boxShadow: <BoxShadow>[
                           BoxShadow(
                             color: Color.fromRGBO(235, 235, 235, 1),
