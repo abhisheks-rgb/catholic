@@ -2,6 +2,7 @@ import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:io' show Platform;
 
 import '../models/profile_model.dart';
 import '../../../utils/asset_path.dart';
@@ -346,6 +347,38 @@ class ProfileView extends BaseStatelessPageView {
                     ),
                   ),
                 ),
+                const SizedBox(height: 40),
+                Column(children: [
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                      child: Text(
+                        '© ${DateTime.now().year}\nRoman Catholic Archdiocese of Singapore\nDigital Church Office (DCO)',
+                        textScaleFactor: 1,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff041a51),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    'App Version: ${Platform.isIOS ? model!.appVersion!['ios'] : model!.appVersion!['android']}',
+                    textScaleFactor: 1,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xff041a51),
+                    ),
+                  ),
+                ]),
+                const SizedBox(height: 50),
               ],
             ),
             // model!.user != null && _items.isNotEmpty
