@@ -1,10 +1,6 @@
-import 'dart:async';
-
 import 'package:butter/butter.dart';
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-// import 'package:intl/intl.dart';
 
 import '../models/divine_mercy_prayer_model.dart';
 import '../../../../utils/asset_path.dart';
@@ -15,61 +11,10 @@ class DivineMercyPrayerView extends BaseStatefulPageView {
   DivineMercyPrayerView(this.model, {Key? key}) : super();
 
   @override
-  State<BaseStatefulPageView> createState() => _DivineMercyPrayerViewState();
+  State<BaseStatefulPageView> createState() => DivineMercyPrayerViewState();
 }
 
-class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
-  Timer? myTimer;
-  bool isDisabled = true;
-
-  @override
-  void initState() {
-    super.initState();
-
-    startTimer();
-  }
-
-  void startTimer() {
-    int x = 0;
-
-    myTimer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-      x += 1;
-
-      setState(() {
-        isDisabled = false;
-      });
-
-      if (x > 0) {
-        timer.cancel();
-      }
-    });
-  }
-
-  @override
-  void didUpdateWidget(DivineMercyPrayerView oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (widget.model?.showInfo != null) {
-      if (widget.model?.showInfo == true &&
-          widget.model?.showInfo != oldWidget.model?.showInfo) {
-        if (!isDisabled) {
-          EasyDebounce.debounce(
-              'debounce-rosary', const Duration(milliseconds: 100), () {
-            showInfo();
-          });
-        } else {
-          widget.model!.setShowInfo!();
-        }
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    widget.model!.setShowInfo!();
-  }
-
+class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -517,68 +462,11 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
     );
   }
 
-  Widget _renderDivineMercyPrayer() {
-    return Column(
-      children: [
-        Text(
-          'The message of The Divine Mercy is simple. It is that God loves us – all of us. And, He wants us to recognize that His mercy is greater than our sins, so that we will call upon Him with trust, receive His mercy, and let it flow through us to others. Thus, all will come to share His joy.',
-          style: TextStyle(
-            color: const Color.fromRGBO(4, 26, 82, 1),
-            fontSize: widget.model!.contentFontSize ?? 17,
-            height: 1.4,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'The Divine Mercy message is one we can call to mind simply by remembering ABC:',
-          style: TextStyle(
-            color: const Color.fromRGBO(4, 26, 82, 1),
-            fontSize: widget.model!.contentFontSize ?? 17,
-            height: 1.4,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'A - Ask for His Mercy. God wants us to approach Him in prayer constantly, repenting of our sins and asking Him to pour His mercy out upon us and upon the whole world.',
-          style: TextStyle(
-            color: const Color.fromRGBO(4, 26, 82, 1),
-            fontSize: widget.model!.contentFontSize ?? 17,
-            height: 1.4,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'B - Be merciful. God wants us to receive His mercy and let it flow through us to others. He wants us to extend love and forgiveness to others just as He does to us.',
-          style: TextStyle(
-            color: const Color.fromRGBO(4, 26, 82, 1),
-            fontSize: widget.model!.contentFontSize ?? 17,
-            height: 1.4,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'C - Completely trust in Jesus. God wants us to know that all the graces of His mercy can only be received by our trust. The more we open the door of our hearts and lives to Him with trust, the more we can receive.',
-          style: TextStyle(
-            color: const Color.fromRGBO(4, 26, 82, 1),
-            fontSize: widget.model!.contentFontSize ?? 17,
-            height: 1.4,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'This message and devotion to Jesus as The Divine Mercy is based on the writings of Saint Faustina Kowalska, an uneducated Polish nun who, in obedience to her spiritual director, wrote a diary of about 600 pages recording the revelations she received about God\'s mercy. Even before her death in 1938, the devotion to The Divine Mercy had begun to spread.',
-          style: TextStyle(
-            color: const Color.fromRGBO(4, 26, 82, 1),
-            fontSize: widget.model!.contentFontSize ?? 17,
-            height: 1.4,
-          ),
-        ),
-      ],
-    );
-  }
-
-  void showInfo() => showDialog(
-        context: context,
+  static Future<void> showInfo(
+          BuildContext cntxt, double? titleFontSize, double? contentFontSize) =>
+      showDialog(
+        context: cntxt,
+        routeSettings: RouteSettings(name: ModalRoute.of(cntxt)?.settings.name),
         builder: (BuildContext context) => Dialog(
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -598,7 +486,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                           style: TextStyle(
                             color: const Color.fromRGBO(4, 26, 82, 1),
                             fontWeight: FontWeight.w500,
-                            fontSize: widget.model!.titleFontSize ?? 20,
+                            fontSize: titleFontSize ?? 20,
                           ),
                         ),
                       ),
@@ -606,7 +494,7 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                         constraints: const BoxConstraints(),
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.pop(cntxt);
                         },
                         shape: const CircleBorder(),
                         child: const SizedBox(
@@ -635,14 +523,70 @@ class _DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                 SliverToBoxAdapter(
                   child: Container(
                     padding: const EdgeInsets.fromLTRB(24, 0, 16, 16),
-                    child: _renderDivineMercyPrayer(),
+                    child: _renderDivineMercyPrayer(contentFontSize),
                   ),
                 ),
               ],
             ),
           ),
         ),
-      ).then((value) {
-        widget.model!.setShowInfo!();
-      });
+      );
+
+  static Widget _renderDivineMercyPrayer(double? contentFontSize) => Column(
+        children: [
+          Text(
+            'The message of The Divine Mercy is simple. It is that God loves us – all of us. And, He wants us to recognize that His mercy is greater than our sins, so that we will call upon Him with trust, receive His mercy, and let it flow through us to others. Thus, all will come to share His joy.',
+            style: TextStyle(
+              color: const Color.fromRGBO(4, 26, 82, 1),
+              fontSize: contentFontSize ?? 17,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'The Divine Mercy message is one we can call to mind simply by remembering ABC:',
+            style: TextStyle(
+              color: const Color.fromRGBO(4, 26, 82, 1),
+              fontSize: contentFontSize ?? 17,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'A - Ask for His Mercy. God wants us to approach Him in prayer constantly, repenting of our sins and asking Him to pour His mercy out upon us and upon the whole world.',
+            style: TextStyle(
+              color: const Color.fromRGBO(4, 26, 82, 1),
+              fontSize: contentFontSize ?? 17,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'B - Be merciful. God wants us to receive His mercy and let it flow through us to others. He wants us to extend love and forgiveness to others just as He does to us.',
+            style: TextStyle(
+              color: const Color.fromRGBO(4, 26, 82, 1),
+              fontSize: contentFontSize ?? 17,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'C - Completely trust in Jesus. God wants us to know that all the graces of His mercy can only be received by our trust. The more we open the door of our hearts and lives to Him with trust, the more we can receive.',
+            style: TextStyle(
+              color: const Color.fromRGBO(4, 26, 82, 1),
+              fontSize: contentFontSize ?? 17,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'This message and devotion to Jesus as The Divine Mercy is based on the writings of Saint Faustina Kowalska, an uneducated Polish nun who, in obedience to her spiritual director, wrote a diary of about 600 pages recording the revelations she received about God\'s mercy. Even before her death in 1938, the devotion to The Divine Mercy had begun to spread.',
+            style: TextStyle(
+              color: const Color.fromRGBO(4, 26, 82, 1),
+              fontSize: contentFontSize ?? 17,
+              height: 1.4,
+            ),
+          ),
+        ],
+      );
 }

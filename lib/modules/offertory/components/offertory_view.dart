@@ -705,6 +705,8 @@ class _OffertoryViewState extends State<OffertoryView> {
 
   void showAlert(BuildContext context) => showDialog(
         context: context,
+        routeSettings:
+            RouteSettings(name: ModalRoute.of(context)?.settings.name),
         builder: (BuildContext context) => AlertDialog(
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10.0)),

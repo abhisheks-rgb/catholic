@@ -6,16 +6,12 @@ class ConfessionModel extends BaseUIModel<ConfessionModel> {
   bool? loading;
   double? titleFontSize = 20;
   double? contentFontSize = 16;
-  bool? showInfo;
-
-  void Function()? setShowInfo;
 
   ConfessionModel({
     this.error,
     this.loading,
     this.titleFontSize,
     this.contentFontSize,
-    this.showInfo = false,
   });
 
   @override
@@ -27,7 +23,6 @@ class ConfessionModel extends BaseUIModel<ConfessionModel> {
         loading: loading,
         titleFontSize: titleFontSize,
         contentFontSize: contentFontSize,
-        showInfo: showInfo,
       );
 
   @override
@@ -36,7 +31,6 @@ class ConfessionModel extends BaseUIModel<ConfessionModel> {
         loading,
         titleFontSize,
         contentFontSize,
-        showInfo,
       ]);
 
   @override
@@ -47,6 +41,5 @@ class ConfessionModel extends BaseUIModel<ConfessionModel> {
           error == other.error &&
           loading == other.loading &&
           titleFontSize == other.titleFontSize &&
-          contentFontSize == other.contentFontSize &&
-          showInfo == other.showInfo;
+          contentFontSize == other.contentFontSize;
 }

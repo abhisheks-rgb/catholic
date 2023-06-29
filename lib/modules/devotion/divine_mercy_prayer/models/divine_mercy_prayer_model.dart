@@ -6,16 +6,12 @@ class DivineMercyPrayerModel extends BaseUIModel<DivineMercyPrayerModel> {
   bool? loading;
   double? titleFontSize = 20;
   double? contentFontSize = 16;
-  bool? showInfo;
-
-  void Function()? setShowInfo;
 
   DivineMercyPrayerModel({
     this.error,
     this.loading,
     this.titleFontSize,
     this.contentFontSize,
-    this.showInfo = false,
   });
 
   @override
@@ -27,7 +23,6 @@ class DivineMercyPrayerModel extends BaseUIModel<DivineMercyPrayerModel> {
         loading: loading,
         titleFontSize: titleFontSize,
         contentFontSize: contentFontSize,
-        showInfo: showInfo,
       );
 
   @override
@@ -36,7 +31,6 @@ class DivineMercyPrayerModel extends BaseUIModel<DivineMercyPrayerModel> {
         loading,
         titleFontSize,
         contentFontSize,
-        showInfo,
       ]);
 
   @override
@@ -47,6 +41,5 @@ class DivineMercyPrayerModel extends BaseUIModel<DivineMercyPrayerModel> {
           error == other.error &&
           loading == other.loading &&
           titleFontSize == other.titleFontSize &&
-          contentFontSize == other.contentFontSize &&
-          showInfo == other.showInfo;
+          contentFontSize == other.contentFontSize;
 }

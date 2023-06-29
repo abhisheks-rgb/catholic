@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:butter/butter.dart';
+import 'package:trcas_catholic/modules/home/models/home_model.dart';
 
 import '../../mass_readings/models/mass_readings_model.dart';
 import '../../scripture/models/scripture_details_model.dart';
@@ -37,6 +38,11 @@ class SetFontSizeAction extends BaseAction {
       titlefontsize = defaultTitleFontSize;
       contentfontsize = defaultContentFontSize;
     }
+
+    dispatchModel<HomeModel>(HomeModel(), (m) {
+      m.titleFontSize = titlefontsize;
+      m.contentFontSize = contentfontsize;
+    });
 
     dispatchModel<MassReadingsModel>(MassReadingsModel(), (m) {
       m.titleFontSize = titlefontsize;
