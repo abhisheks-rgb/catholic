@@ -13,6 +13,11 @@ import '../../../config/app_config.dart';
 import '../../../utils/page_specs.dart';
 import '../../../utils/asset_path.dart';
 
+import '../../confession/components/confession_view.dart' as confession;
+import '../../devotion/rosary/components/rosary_view.dart' as rosary;
+import '../../devotion/divine_mercy_prayer/components/divine_mercy_prayer_view.dart'
+    as divine;
+
 import '../models/home_model.dart';
 import '../components/events_footer.dart';
 import '../components/navbar.dart';
@@ -38,8 +43,7 @@ class HomePage extends BaseStatefulPageView {
       await model!.initializeTodayIs();
     }
 
-    EasyDebounce.debounce('debounce-rosary', const Duration(milliseconds: 100),
-        () {
+    EasyDebounce.debounce('debounce-rosary', const Duration(seconds: 1), () {
       requestPermission();
       getToken();
       initInfo();
@@ -310,9 +314,31 @@ class HomePage extends BaseStatefulPageView {
                             constraints: const BoxConstraints(),
                             materialTapTargetSize:
                                 MaterialTapTargetSize.shrinkWrap,
-                            onPressed: () async {
-                              model?.setShowInfo!(
-                                  ModalRoute.of(context)!.settings.name!);
+                            onPressed: () {
+                              switch (ModalRoute.of(context)!.settings.name!) {
+                                case '/_/confession':
+                                  confession.ConfessionViewState.showInfo(
+                                    context,
+                                    model!.titleFontSize,
+                                    model!.contentFontSize,
+                                  );
+                                  break;
+                                case '/_/devotion/rosary':
+                                  rosary.RosaryViewState.showInfo(
+                                    context,
+                                    model!.titleFontSize,
+                                    model!.contentFontSize,
+                                  );
+                                  break;
+                                case '/_/devotion/divine_mercy_prayer':
+                                  divine.DivineMercyPrayerViewState.showInfo(
+                                    context,
+                                    model!.titleFontSize,
+                                    model!.contentFontSize,
+                                  );
+                                  break;
+                                default:
+                              }
                             },
                             child: Container(
                               width: 40,
