@@ -35,7 +35,7 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
       } else if (field['element'] == 'Checkboxes') {
         fieldValues[field['field_name']] = [];
       } else if (field['element'] == 'Dropdown') {
-        fieldValues[field['field_name']] = field['options'][0]['value'];
+        fieldValues[field['field_name']] = field['options'][0]['text'];
       } else if (field['element'] == 'DatePicker') {
         fieldValues[field['field_name']] = DateTime.now();
       }
@@ -197,7 +197,7 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
             items: element['options']
                 .map<DropdownMenuItem<String>>((dynamic optionItem) {
               return DropdownMenuItem<String>(
-                value: optionItem['value'],
+                value: optionItem['text'],
                 key: Key(optionItem['key']),
                 child: Text(optionItem['text']),
               );
@@ -484,17 +484,17 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                   controlAffinity: ListTileControlAffinity.leading,
                   value: fieldValues[element['field_name']] != null
                       ? fieldValues[element['field_name']]
-                              .contains(element['options'][index]['value']) ??
+                              .contains(element['options'][index]['text']) ??
                           false
                       : false,
                   onChanged: (bool? value) async {
                     setState(() {
                       if (value!) {
                         fieldValues[element['field_name']]
-                            .add(element['options'][index]['value']);
+                            .add(element['options'][index]['text']);
                       } else {
                         fieldValues[element['field_name']]
-                            .remove(element['options'][index]['value']);
+                            .remove(element['options'][index]['text']);
                       }
                     });
 
