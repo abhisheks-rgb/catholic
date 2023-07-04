@@ -144,7 +144,7 @@ class HomeState extends BasePageState<HomeModel> {
             formResponse.add({
               'fieldId': key,
               'value': value.runtimeType == DateTime
-                  ? DateFormat('d MMM y').format(value)
+                  ? (value).millisecondsSinceEpoch
                   : value,
               'label': m.item!['eventFormContent'].firstWhere((option) {
                 return option['field_name'] == key;
@@ -159,7 +159,7 @@ class HomeState extends BasePageState<HomeModel> {
 
           await dispatchAction(action);
 
-          /// read mutated model
+          // read mutated model
           final update = action.read<HomeModel>(HomeModel());
           return update.selectedEventDetail ?? {};
         };
