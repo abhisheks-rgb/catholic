@@ -1,6 +1,6 @@
 import 'package:butter/butter.dart';
-import 'package:intl/intl.dart';
 
+import '../../../service/package_info_service.dart';
 import '../actions/initialize_action.dart';
 import '../actions/initialize_todayis.dart';
 import '../actions/initialize_version.dart';
@@ -63,8 +63,11 @@ class HomeState extends BasePageState<HomeModel> {
               if (user == null) {
                 newRoute = '/_/login';
               } else {
+                final packageDetails =
+                    await PackageInfoService.getPackageDetails();
                 await dispatchModel<ProfileModel>(ProfileModel(), (m) {
                   m.user = user;
+                  m.packageDetails = packageDetails;
                 });
               }
               break;

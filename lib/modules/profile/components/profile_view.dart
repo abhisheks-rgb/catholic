@@ -2,7 +2,6 @@ import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:io' show Platform;
 
 import '../models/profile_model.dart';
 import '../../../utils/asset_path.dart';
@@ -268,7 +267,7 @@ class ProfileView extends BaseStatelessPageView {
                     ),
                     onPressed: () {
                       const feedbackWebsite =
-                          'https://mycatholic.sg/link/appfeedback';
+                          'https://mycatholic.sg/forms/UZGkwWYwifPZ6ob2tAig';
                       final uri = Uri.parse(feedbackWebsite);
                       urlLauncher(uri, 'web');
                     },
@@ -280,7 +279,7 @@ class ProfileView extends BaseStatelessPageView {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
                           Text(
-                            'Send Feedback',
+                            'Contact Us',
                             style: TextStyle(
                               color: Color.fromRGBO(4, 26, 82, 1),
                               fontWeight: FontWeight.w500,
@@ -367,7 +366,7 @@ class ProfileView extends BaseStatelessPageView {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    'App Version: ${Platform.isIOS ? model!.appVersion!['ios'] : model!.appVersion!['android']}',
+                    'App Version: ${model!.packageDetails?.version}',
                     textScaleFactor: 1,
                     textAlign: TextAlign.center,
                     style: const TextStyle(

@@ -88,7 +88,6 @@ class _WelcomePageState extends State<WelcomePage> {
 
     Butter.d('App Version: ${widget.model?.appVersion}');
     Butter.d('DB Version: ${widget.model?.dbVersion}');
-
     return Scaffold(
       body: CustomScrollView(
         physics: const ClampingScrollPhysics(),
@@ -508,48 +507,6 @@ class _WelcomePageState extends State<WelcomePage> {
                 ],
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
-                ),
-              ),
-              child: RawMaterialButton(
-                constraints: const BoxConstraints(),
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                onPressed: () {
-                  const feedbackWebsite =
-                      'https://mycatholic.sg/link/appfeedback';
-                  final uri = Uri.parse(feedbackWebsite);
-                  urlLauncher(uri, 'web');
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: Image.asset(
-                          assetPath('send.png'),
-                          width: 20,
-                          height: 20,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      const Text(
-                        'Share your feedback or suggestions.',
-                        style: TextStyle(
-                          color: Color.fromRGBO(12, 72, 224, 1),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
               ),
             ),

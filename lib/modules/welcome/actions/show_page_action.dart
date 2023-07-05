@@ -1,5 +1,6 @@
 import 'package:butter/butter.dart';
 
+import '../../../service/package_info_service.dart';
 import '../../church_bulletin/models/church_bulletin_model.dart';
 import '../../church_info/models/church_info_model.dart';
 import '../../home/models/home_model.dart';
@@ -44,8 +45,10 @@ class ShowPageAction extends BaseAction {
         if (user == null) {
           newRoute = '/_/login';
         } else {
+          final packageDetails = await PackageInfoService.getPackageDetails();
           await dispatchModel<ProfileModel>(ProfileModel(), (m) {
             m.user = user;
+            m.packageDetails = packageDetails;
           });
         }
         break;
