@@ -11,6 +11,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
   bool isFullScreen;
   int selectedIndex;
   DateTime? todayIsLastUpdate;
+  bool hasNotif = false;
 
   bool isEventDetails;
   bool isEventRegister;
@@ -72,6 +73,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
     this.contentFontSize,
     this.appVersion,
     this.dbVersion,
+    this.hasNotif = false,
   });
 
   @override
@@ -79,26 +81,26 @@ class HomeModel extends BaseUIModel<HomeModel> {
 
   @override
   HomeModel clone() => HomeModel(
-        error: error,
-        initialized: initialized,
-        loading: loading,
-        title: title,
-        user: user,
-        isFullScreen: isFullScreen,
-        selectedIndex: selectedIndex,
-        todayIsLastUpdate: todayIsLastUpdate,
-        isEventDetails: isEventDetails,
-        isEventRegister: isEventRegister,
-        selectedEventDetail: selectedEventDetail,
-        formObj: formObj,
-        bookingFormView: bookingFormView,
-        submitBookingLoading: submitBookingLoading,
-        bookingErrorMessage: bookingErrorMessage,
-        titleFontSize: titleFontSize,
-        contentFontSize: contentFontSize,
-        appVersion: appVersion,
-        dbVersion: dbVersion,
-      );
+      error: error,
+      initialized: initialized,
+      loading: loading,
+      title: title,
+      user: user,
+      isFullScreen: isFullScreen,
+      selectedIndex: selectedIndex,
+      todayIsLastUpdate: todayIsLastUpdate,
+      isEventDetails: isEventDetails,
+      isEventRegister: isEventRegister,
+      selectedEventDetail: selectedEventDetail,
+      formObj: formObj,
+      bookingFormView: bookingFormView,
+      submitBookingLoading: submitBookingLoading,
+      bookingErrorMessage: bookingErrorMessage,
+      titleFontSize: titleFontSize,
+      contentFontSize: contentFontSize,
+      appVersion: appVersion,
+      dbVersion: dbVersion,
+      hasNotif: hasNotif);
 
   @override
   int get hashCode => Object.hashAll([
@@ -120,7 +122,8 @@ class HomeModel extends BaseUIModel<HomeModel> {
         titleFontSize,
         contentFontSize,
         appVersion,
-        dbVersion
+        dbVersion,
+        hasNotif
       ]);
 
   //
@@ -148,5 +151,6 @@ class HomeModel extends BaseUIModel<HomeModel> {
           titleFontSize == other.titleFontSize &&
           contentFontSize == other.contentFontSize &&
           appVersion == other.appVersion &&
-          dbVersion == other.dbVersion;
+          dbVersion == other.dbVersion &&
+          hasNotif == other.hasNotif;
 }

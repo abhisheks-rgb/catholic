@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
+import 'package:badges/badges.dart' as badges;
 import '../models/welcome_model.dart';
 import '../../home/models/home_model.dart';
-
 import '../../../utils/asset_path.dart';
 import '../../../../utils/page_specs.dart';
 
@@ -250,9 +250,7 @@ class _WelcomePageState extends State<WelcomePage> {
                               constraints: const BoxConstraints(),
                               materialTapTargetSize:
                                   MaterialTapTargetSize.shrinkWrap,
-                              onPressed: () {
-                                widget.model?.showPage('/_/notification');
-                              },
+                              onPressed: widget.model!.showNotifs,
                               child: Container(
                                 width: 32,
                                 height: 32,
@@ -260,16 +258,32 @@ class _WelcomePageState extends State<WelcomePage> {
                                   borderRadius: BorderRadius.circular(10),
                                   color: Colors.white,
                                 ),
-                                child: const Center(
+                                child: Center(
                                   child: SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: Icon(
-                                      Octicons.bell_fill,
-                                      color: Color.fromRGBO(130, 141, 168, 1),
-                                      size: 20,
-                                    ),
-                                  ),
+                                      width: 20,
+                                      height: 20,
+                                      child: widget.model!.hasNotif
+                                          ? badges.Badge(
+                                              position:
+                                                  badges.BadgePosition.topEnd(
+                                                      top: -4, end: -2),
+                                              badgeStyle: badges.BadgeStyle(
+                                                badgeColor: Colors.red.shade700,
+                                                elevation: 0,
+                                              ),
+                                              child: const Icon(
+                                                Octicons.bell_fill,
+                                                color: Color.fromRGBO(
+                                                    130, 141, 168, 1),
+                                                size: 20,
+                                              ),
+                                            )
+                                          : const Icon(
+                                              Octicons.bell_fill,
+                                              color: Color.fromRGBO(
+                                                  130, 141, 168, 1),
+                                              size: 20,
+                                            )),
                                 ),
                               ),
                             ),
