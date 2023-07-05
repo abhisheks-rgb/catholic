@@ -1,4 +1,5 @@
 import 'package:butter/butter.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class ProfileModel extends BaseUIModel<ProfileModel> {
   //
@@ -7,9 +8,15 @@ class ProfileModel extends BaseUIModel<ProfileModel> {
   Map<String, dynamic>? user;
   Map<dynamic, dynamic>? appVersion;
   Map<dynamic, dynamic>? dbVersion;
+  PackageInfo? packageDetails;
 
   ProfileModel(
-      {this.error, this.loading, this.user, this.appVersion, this.dbVersion});
+      {this.error,
+      this.loading,
+      this.user,
+      this.appVersion,
+      this.dbVersion,
+      this.packageDetails});
 
   // Future<void> Function(String route)? navigateTo;
   Future<void> Function()? logout;
@@ -23,11 +30,12 @@ class ProfileModel extends BaseUIModel<ProfileModel> {
       loading: loading,
       user: user,
       appVersion: appVersion,
-      dbVersion: dbVersion);
+      dbVersion: dbVersion,
+      packageDetails: packageDetails);
 
   @override
-  int get hashCode =>
-      Object.hashAll([error, loading, user, appVersion, dbVersion]);
+  int get hashCode => Object.hashAll(
+      [error, loading, user, appVersion, dbVersion, packageDetails]);
 
   @override
   bool operator ==(Object other) =>
@@ -38,5 +46,6 @@ class ProfileModel extends BaseUIModel<ProfileModel> {
           loading == other.loading &&
           user == other.user &&
           appVersion == other.appVersion &&
-          dbVersion == other.dbVersion;
+          dbVersion == other.dbVersion &&
+          packageDetails == other.packageDetails;
 }

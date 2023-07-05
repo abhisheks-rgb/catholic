@@ -5,33 +5,40 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
   Map<String, dynamic>? user;
   Map<dynamic, dynamic>? appVersion;
   Map<dynamic, dynamic>? dbVersion;
+  // NewVersionPlus? versionPlus;
   late void Function(String route) showPage;
   late void Function() showNotifs;
   late Future<void> Function() initializeQoute;
   late Future<void> Function() initializeUser;
   bool hasNotif = false;
 
-  WelcomeModel(
-      {this.loading = false,
-      this.user,
-      this.appVersion,
-      this.dbVersion,
-      this.hasNotif = false});
+  WelcomeModel({
+    this.loading = false,
+    this.user,
+    this.appVersion,
+    this.dbVersion,
+    this.hasNotif = false,
+    // this.versionPlus
+  });
 
   @override
   String get $key => '/welcome';
 
   @override
   WelcomeModel clone() => WelcomeModel(
-      loading: loading,
-      user: user,
-      appVersion: appVersion,
-      dbVersion: dbVersion,
-      hasNotif: hasNotif);
+        loading: loading,
+        user: user,
+        appVersion: appVersion,
+        dbVersion: dbVersion,
+        hasNotif: hasNotif,
+        // versionPlus: versionPlus
+      );
 
   @override
-  int get hashCode =>
-      Object.hashAll([loading, user, appVersion, dbVersion, hasNotif]);
+  int get hashCode => Object.hashAll([
+        loading, user, appVersion, dbVersion, hasNotif,
+        // versionPlus
+      ]);
 
   @override
   bool operator ==(Object other) =>
@@ -42,5 +49,8 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
           user == other.user &&
           appVersion == other.appVersion &&
           dbVersion == other.dbVersion &&
-          hasNotif == other.hasNotif;
+          hasNotif == other.hasNotif
+      // &&
+      // versionPlus == other.versionPlus
+      ;
 }
