@@ -6,11 +6,17 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
   Map<dynamic, dynamic>? appVersion;
   Map<dynamic, dynamic>? dbVersion;
   late void Function(String route) showPage;
+  late void Function() showNotifs;
   late Future<void> Function() initializeQoute;
   late Future<void> Function() initializeUser;
+  bool hasNotif = false;
 
   WelcomeModel(
-      {this.loading = false, this.user, this.appVersion, this.dbVersion});
+      {this.loading = false,
+      this.user,
+      this.appVersion,
+      this.dbVersion,
+      this.hasNotif = false});
 
   @override
   String get $key => '/welcome';
@@ -20,10 +26,12 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
       loading: loading,
       user: user,
       appVersion: appVersion,
-      dbVersion: dbVersion);
+      dbVersion: dbVersion,
+      hasNotif: hasNotif);
 
   @override
-  int get hashCode => Object.hashAll([loading, user, appVersion]);
+  int get hashCode =>
+      Object.hashAll([loading, user, appVersion, dbVersion, hasNotif]);
 
   @override
   bool operator ==(Object other) =>
@@ -33,5 +41,6 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
           loading == other.loading &&
           user == other.user &&
           appVersion == other.appVersion &&
-          dbVersion == other.dbVersion;
+          dbVersion == other.dbVersion &&
+          hasNotif == other.hasNotif;
 }

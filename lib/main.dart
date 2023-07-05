@@ -1,18 +1,15 @@
 import 'package:butter/butter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-
+import 'package:trcas_catholic/service/firebase_service.dart';
 import 'app/app.dart';
 import 'app/persistor.dart' as p;
 import 'firebase_options.dart';
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  Butter.d('Handling a background message ${message.messageId}');
-}
+final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -36,9 +33,7 @@ void main() async {
   final navigatorKey = GlobalKey<NavigatorState>();
   NavigateAction.setNavigatorKey(navigatorKey);
 
-  // Push Notification
-  await FirebaseMessaging.instance.getInitialMessage();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await FirebaseService.initialize(store);
 
   // Firebase crashlytics
   // Pass all uncaught "fatal" errors from the framework to Crashlytics

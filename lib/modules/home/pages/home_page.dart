@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:butter/butter.dart';
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -44,13 +43,6 @@ class HomePage extends BaseStatefulPageView {
         model!.todayIsLastUpdate?.day != currentTime.day) {
       await model!.initializeTodayIs();
     }
-
-    EasyDebounce.debounce('debounce-rosary', const Duration(seconds: 1), () {
-      requestPermission();
-      getToken();
-      initInfo();
-    });
-
     return true;
   }
 
