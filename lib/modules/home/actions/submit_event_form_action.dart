@@ -32,7 +32,7 @@ class SubmitEventFormAction extends BaseAction {
       'type': 'setBooking',
       'arg': {
         'eventId': eventId,
-        'formResponse': json.encode(formResponse),
+        'formResponse': formResponse,
       },
     });
 

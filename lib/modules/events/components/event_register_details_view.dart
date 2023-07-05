@@ -173,10 +173,17 @@ class _EventRegisterDetailsViewState extends State<EventRegisterDetailsView> {
           fontSize: 16,
         ),
       );
-    } else if (element['element'] == 'RadioButtons' ||
-        element['element'] == 'Dropdown') {
+    } else if (element['element'] == 'RadioButtons') {
       return Text(
         '${element['label']}: ${_getRadioButtonValue(element['options'], widget.model?.formObj![element['field_name']])}',
+        style: const TextStyle(
+          color: Color.fromRGBO(4, 26, 82, 1),
+          fontSize: 16,
+        ),
+      );
+    } else if (element['element'] == 'Dropdown') {
+      return Text(
+        '${element['label']}: ${_getDropdownValue(element['options'], widget.model?.formObj![element['field_name']])}',
         style: const TextStyle(
           color: Color.fromRGBO(4, 26, 82, 1),
           fontSize: 16,
@@ -204,6 +211,14 @@ class _EventRegisterDetailsViewState extends State<EventRegisterDetailsView> {
     }
   }
 
+  String _getDropdownValue(options, selectedValue) {
+    Map? record = options.firstWhere(
+        (option) => option['text'] == selectedValue,
+        orElse: () => {'text': ''});
+
+    return record!['text'];
+  }
+
   String _getRadioButtonValue(options, selectedValue) {
     Map? record = options.firstWhere(
         (option) => option['value'] == selectedValue,
@@ -216,7 +231,7 @@ class _EventRegisterDetailsViewState extends State<EventRegisterDetailsView> {
     List options = optionsList;
     List itemsToMatch = selectedValue;
     List matchingRecords = options
-        .where((option) => itemsToMatch.contains(option['value']))
+        .where((option) => itemsToMatch.contains(option['text']))
         .toList();
 
     return matchingRecords.map((record) => record['text']).toList().join(', ');
