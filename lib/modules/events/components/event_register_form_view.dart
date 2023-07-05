@@ -407,7 +407,7 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                       )),
                   visualDensity: VisualDensity.compact,
                   controlAffinity: ListTileControlAffinity.leading,
-                  value: element['options'][index]['value'],
+                  value: element['options'][index]['text'],
                   groupValue: fieldValues[element['field_name']],
                   onChanged: (value) async {
                     Map? newErrorObj = widget.model?.formErrorObj;
