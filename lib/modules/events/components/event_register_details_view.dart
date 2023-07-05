@@ -221,7 +221,7 @@ class _EventRegisterDetailsViewState extends State<EventRegisterDetailsView> {
 
   String _getRadioButtonValue(options, selectedValue) {
     Map? record = options.firstWhere(
-        (option) => option['value'] == selectedValue,
+        (option) => option['text'] == selectedValue,
         orElse: () => {'text': ''});
 
     return record!['text'];
