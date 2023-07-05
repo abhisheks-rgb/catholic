@@ -177,6 +177,10 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
               labelStyle: const TextStyle(
                 color: Color.fromRGBO(4, 26, 82, 0.5),
                 fontSize: 16,
+                overflow: TextOverflow.ellipsis,
+              ),
+              floatingLabelStyle: const TextStyle(
+                overflow: TextOverflow.ellipsis,
               ),
               labelText: element['label'],
               // floatingLabelBehavior: FloatingLabelBehavior.auto,
@@ -186,7 +190,7 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
               size: 10,
               color: Color.fromRGBO(4, 26, 82, 0.5),
             ),
-            isExpanded: false,
+            isExpanded: true,
             onChanged: (value) async {
               setState(() {
                 fieldValues[element['field_name']] = value;
@@ -194,12 +198,18 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
               await widget.model?.setFormObj(fieldValues);
             },
             value: fieldValues[element['field_name']],
+            itemHeight: null,
             items: element['options']
                 .map<DropdownMenuItem<String>>((dynamic optionItem) {
               return DropdownMenuItem<String>(
                 value: optionItem['text'],
                 key: Key(optionItem['key']),
-                child: Text(optionItem['text']),
+                child: SizedBox(
+                  child: Text(
+                    optionItem['text'],
+                    // overflow: TextOverflow.ellipsis,
+                  ),
+                ),
               );
             }).toList(),
           ),
@@ -210,11 +220,13 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
           children: [
             Row(
               children: [
-                Text(
-                  '${element['label']}',
-                  style: const TextStyle(
-                    color: Color.fromRGBO(4, 26, 82, 0.5),
-                    fontWeight: FontWeight.w500,
+                Expanded(
+                  child: Text(
+                    '${element['label']}',
+                    style: const TextStyle(
+                      color: Color.fromRGBO(4, 26, 82, 0.5),
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 4),
@@ -292,11 +304,13 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
           children: [
             Row(
               children: [
-                Text(
-                  '${element['label']}',
-                  style: const TextStyle(
-                    color: Color.fromRGBO(4, 26, 82, 0.5),
-                    fontWeight: FontWeight.w500,
+                Expanded(
+                  child: Text(
+                    '${element['label']}',
+                    style: const TextStyle(
+                      color: Color.fromRGBO(4, 26, 82, 0.5),
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 4),
@@ -373,11 +387,13 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
           children: [
             Row(
               children: [
-                Text(
-                  '${element['label']}',
-                  style: const TextStyle(
-                    color: Color.fromRGBO(4, 26, 82, 1),
-                    fontWeight: FontWeight.w500,
+                Expanded(
+                  child: Text(
+                    '${element['label']}',
+                    style: const TextStyle(
+                      color: Color.fromRGBO(4, 26, 82, 1),
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 4),
@@ -447,11 +463,13 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
           children: [
             Row(
               children: [
-                Text(
-                  '${element['label']}',
-                  style: const TextStyle(
-                    color: Color.fromRGBO(4, 26, 82, 1),
-                    fontWeight: FontWeight.w500,
+                Expanded(
+                  child: Text(
+                    '${element['label']}',
+                    style: const TextStyle(
+                      color: Color.fromRGBO(4, 26, 82, 1),
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 4),
