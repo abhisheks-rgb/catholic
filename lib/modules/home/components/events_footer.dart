@@ -665,299 +665,307 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
       useRootNavigator: false,
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          content: SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
-            child: SizedBox(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Congratulations!',
-                        style: TextStyle(
-                          color: Color.fromRGBO(4, 26, 82, 1),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18,
-                        ),
-                      ),
-                      IconButton(
-                        padding: const EdgeInsets.all(0),
-                        alignment: Alignment.centerRight,
-                        icon: const Icon(
-                          Ionicons.close_circle,
-                          color: Color.fromRGBO(4, 26, 82, 0.5),
-                        ),
-                        onPressed: () async {
-                          await Navigator.of(context).maybePop();
-                          widget.model?.closeSuccessPrompt!();
-                        },
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(
-                        Ionicons.checkmark_circle,
-                        color: Colors.green,
-                        size: 44,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 18),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+        return WillPopScope(
+          child: AlertDialog(
+            content: SingleChildScrollView(
+              physics: const NeverScrollableScrollPhysics(),
+              child: SizedBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
-                          'You have successfully booked for:',
+                          'Congratulations!',
                           style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400,
-                            letterSpacing: 0.1,
                             color: Color.fromRGBO(4, 26, 82, 1),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          widget.model?.selectedEventDetail!['eventName'],
-                          softWrap: true,
-                          style: const TextStyle(
-                            fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            letterSpacing: 0.1,
-                            color: Color.fromRGBO(4, 26, 82, 1),
+                            fontSize: 18,
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: RawMaterialButton(
-                          constraints: const BoxConstraints(),
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          onPressed: () async {
-                            await Navigator.of(context).maybePop();
-                            widget.model?.gotoMyEvents!();
-                          },
-                          child: Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: const Color.fromRGBO(12, 72, 224, 1),
-                              ),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              color: const Color.fromRGBO(12, 72, 224, 1),
-                            ),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: Icon(
-                                      Ionicons.close_circle_outline,
-                                      color: Color.fromRGBO(12, 72, 224, 1),
-                                      size: 20,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Go to My Events',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: RawMaterialButton(
-                          constraints: const BoxConstraints(),
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          onPressed: () async {
-                            final shareUrl = await AppConfig().init();
-                            Share.share(
-                              'Please check out: \n${widget.model?.selectedEventDetail!['eventName']} ${shareUrl.webUrl}/link/${widget.model?.selectedEventDetail!['parentEventId']}',
-                              subject: widget
-                                  .model?.selectedEventDetail!['eventName'],
-                            );
-                            await FirebaseAnalytics.instance.logEvent(
-                              name: 'app_event_share',
-                            );
-                          },
-                          child: Container(
-                            height: 50,
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              color: Color.fromRGBO(219, 228, 251, 1),
-                            ),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  SizedBox(
-                                    width: 18,
-                                    height: 18,
-                                    child: Icon(
-                                      FontAwesome5Solid.share_alt,
-                                      color: Color.fromRGBO(12, 72, 224, 1),
-                                      size: 18,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 4,
-                                  ),
-                                  Text(
-                                    'Share',
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(12, 72, 224, 1),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: RawMaterialButton(
-                          constraints: const BoxConstraints(),
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          onPressed: () {
-                            _addEventToCalendar();
-                          },
-                          child: Container(
-                            height: 50,
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              color: Color.fromRGBO(219, 228, 251, 1),
-                            ),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  SizedBox(
-                                    width: 18,
-                                    height: 18,
-                                    child: Icon(
-                                      FontAwesome5Solid.calendar_plus,
-                                      color: Color.fromRGBO(12, 72, 224, 1),
-                                      size: 18,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 4,
-                                  ),
-                                  Text(
-                                    'Add to Calendar',
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(12, 72, 224, 1),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: RawMaterialButton(
-                          constraints: const BoxConstraints(),
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                        IconButton(
+                          padding: const EdgeInsets.all(0),
+                          alignment: Alignment.centerRight,
+                          icon: const Icon(
+                            Ionicons.close_circle,
+                            color: Color.fromRGBO(4, 26, 82, 0.5),
                           ),
                           onPressed: () async {
                             await Navigator.of(context).maybePop();
                             widget.model?.closeSuccessPrompt!();
                           },
-                          child: Container(
-                            height: 50,
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              color: Color.fromRGBO(4, 26, 82, 0.05),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(
+                          Ionicons.checkmark_circle,
+                          color: Colors.green,
+                          size: 44,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 18),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'You have successfully booked for:',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: 0.1,
+                              color: Color.fromRGBO(4, 26, 82, 1),
                             ),
-                            child: const Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Close',
-                                style: TextStyle(
-                                  color: Color.fromRGBO(4, 26, 82, 1),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            widget.model?.selectedEventDetail!['eventName'],
+                            softWrap: true,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 0.1,
+                              color: Color.fromRGBO(4, 26, 82, 1),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: RawMaterialButton(
+                            constraints: const BoxConstraints(),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            onPressed: () async {
+                              await Navigator.of(context).maybePop();
+                              widget.model?.gotoMyEvents!();
+                            },
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: const Color.fromRGBO(12, 72, 224, 1),
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                                color: const Color.fromRGBO(12, 72, 224, 1),
+                              ),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: Icon(
+                                        Ionicons.close_circle_outline,
+                                        color: Color.fromRGBO(12, 72, 224, 1),
+                                        size: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Go to My Events',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: RawMaterialButton(
+                            constraints: const BoxConstraints(),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            onPressed: () async {
+                              final shareUrl = await AppConfig().init();
+                              Share.share(
+                                'Please check out: \n${widget.model?.selectedEventDetail!['eventName']} ${shareUrl.webUrl}/link/${widget.model?.selectedEventDetail!['parentEventId']}',
+                                subject: widget
+                                    .model?.selectedEventDetail!['eventName'],
+                              );
+                              await FirebaseAnalytics.instance.logEvent(
+                                name: 'app_event_share',
+                              );
+                            },
+                            child: Container(
+                              height: 50,
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                                color: Color.fromRGBO(219, 228, 251, 1),
+                              ),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    SizedBox(
+                                      width: 18,
+                                      height: 18,
+                                      child: Icon(
+                                        FontAwesome5Solid.share_alt,
+                                        color: Color.fromRGBO(12, 72, 224, 1),
+                                        size: 18,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                    Text(
+                                      'Share',
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(12, 72, 224, 1),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: RawMaterialButton(
+                            constraints: const BoxConstraints(),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            onPressed: () {
+                              _addEventToCalendar();
+                            },
+                            child: Container(
+                              height: 50,
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                                color: Color.fromRGBO(219, 228, 251, 1),
+                              ),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    SizedBox(
+                                      width: 18,
+                                      height: 18,
+                                      child: Icon(
+                                        FontAwesome5Solid.calendar_plus,
+                                        color: Color.fromRGBO(12, 72, 224, 1),
+                                        size: 18,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                    Text(
+                                      'Add to Calendar',
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(12, 72, 224, 1),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: RawMaterialButton(
+                            constraints: const BoxConstraints(),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            onPressed: () async {
+                              await Navigator.of(context).maybePop();
+                              widget.model?.closeSuccessPrompt!();
+                            },
+                            child: Container(
+                              height: 50,
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                                color: Color.fromRGBO(4, 26, 82, 0.05),
+                              ),
+                              child: const Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'Close',
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(4, 26, 82, 1),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
+          onWillPop: () async {
+            Navigator.of(context).pop();
+            widget.model?.closeSuccessPrompt!();
+
+            return true;
+          },
         );
       },
       routeSettings: RouteSettings(name: ModalRoute.of(context)?.settings.name),

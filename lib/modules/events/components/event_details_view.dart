@@ -78,18 +78,20 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                 children: [
                   Container(
                     height: 160,
+                    width: MediaQuery.of(context).size.width,
                     decoration: const BoxDecoration(
                       color: Color.fromRGBO(219, 228, 251, 1),
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
                       ),
                     ),
-                    child: Center(
-                      child: Image.network(
-                        '${widget.model?.item!['eventImageUrl']}',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                    child: widget.model?.item!['eventImageUrl'] != null
+                        ? Center(
+                            child: Image.network(
+                            '${widget.model?.item!['eventImageUrl']}',
+                            fit: BoxFit.cover,
+                          ))
+                        : const SizedBox(),
                   ),
                   const SizedBox(height: 16),
                   Text(
