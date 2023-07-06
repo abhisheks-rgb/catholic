@@ -118,16 +118,21 @@ class _EventsViewState extends State<MyEventsView>
                   children: [
                     // ignore: unnecessary_null_comparison
                     widget.model?.loading == true && widget._items != null
-                        ? Container(
-                            height: MediaQuery.of(context).size.height * 0.1,
-                            margin: const EdgeInsets.only(top: 20),
-                            child: const Center(
-                                child: CircularProgressIndicator()),
+                        ? Column(
+                            children: [
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.6,
+                                margin: const EdgeInsets.only(top: 20),
+                                child: const Center(
+                                    child: CircularProgressIndicator()),
+                              ),
+                            ],
                           )
                         :
                         // ignore: unnecessary_null_comparison
-                        widget._items == null
-                            ? _renderEmptyEvents()
+                        widget._items == null || widget._items.isEmpty
+                            ? _renderEmptyEvents(true)
                             : Container(
                                 margin:
                                     const EdgeInsets.fromLTRB(20, 16, 20, 160),
@@ -143,16 +148,22 @@ class _EventsViewState extends State<MyEventsView>
                     widget.model?.loading == true &&
                             // ignore: unnecessary_null_comparison
                             widget._bookingItems != null
-                        ? Container(
-                            height: MediaQuery.of(context).size.height * 0.1,
-                            margin: const EdgeInsets.only(top: 20),
-                            child: const Center(
-                                child: CircularProgressIndicator()),
+                        ? Column(
+                            children: [
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.6,
+                                margin: const EdgeInsets.only(top: 20),
+                                child: const Center(
+                                    child: CircularProgressIndicator()),
+                              ),
+                            ],
                           )
                         :
                         // ignore: unnecessary_null_comparison
-                        widget._bookingItems == null
-                            ? _renderEmptyEvents()
+                        widget._bookingItems == null ||
+                                widget._bookingItems.isEmpty
+                            ? _renderEmptyEvents(false)
                             : Container(
                                 margin:
                                     const EdgeInsets.fromLTRB(20, 16, 20, 160),
@@ -176,21 +187,21 @@ class _EventsViewState extends State<MyEventsView>
     );
   }
 
-  Widget _renderEmptyEvents() => Column(
+  Widget _renderEmptyEvents(isInterested) => Column(
         children: [
           Container(
             width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.77,
+            height: MediaQuery.of(context).size.height * 0.7,
             margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 28),
             decoration: const BoxDecoration(
               color: Colors.transparent,
             ),
-            child: const Align(
+            child: Align(
               alignment: Alignment.center,
               child: Text(
-                'Sorry, there are currently no available events',
+                isInterested ? 'No records found' : 'No bookings found',
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color.fromRGBO(4, 26, 82, 0.5),
                   fontSize: 20,
                 ),
