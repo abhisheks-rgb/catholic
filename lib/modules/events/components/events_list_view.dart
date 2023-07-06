@@ -383,12 +383,14 @@ class _EventsViewState extends State<EventsListView> {
                           bottomLeft: Radius.circular(10)),
                       color: Color.fromRGBO(219, 228, 251, 1),
                     ),
-                    child: Image.network(
-                      element['eventImageUrl'],
-                      fit: BoxFit.cover,
-                      width: 125,
-                      height: 125,
-                    ),
+                    child: element['eventImageUrl'] == null
+                        ? const SizedBox()
+                        : Image.network(
+                            element['eventImageUrl'],
+                            fit: BoxFit.cover,
+                            width: 125,
+                            height: 125,
+                          ),
                   ),
                   const SizedBox(width: 14),
                   Expanded(
