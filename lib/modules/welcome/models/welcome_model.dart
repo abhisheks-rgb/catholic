@@ -5,6 +5,7 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
   Map<String, dynamic>? user;
   Map<dynamic, dynamic>? appVersion;
   Map<dynamic, dynamic>? dbVersion;
+  bool canUpdate = false;
   // NewVersionPlus? versionPlus;
   late void Function(String route) showPage;
   late void Function() showNotifs;
@@ -12,31 +13,33 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
   late Future<void> Function() initializeUser;
   bool hasNotif = false;
 
-  WelcomeModel({
-    this.loading = false,
-    this.user,
-    this.appVersion,
-    this.dbVersion,
-    this.hasNotif = false,
-    // this.versionPlus
-  });
+  WelcomeModel(
+      {this.loading = false,
+      this.user,
+      this.appVersion,
+      this.dbVersion,
+      this.hasNotif = false,
+      this.canUpdate = false
+      // this.versionPlus
+      });
 
   @override
   String get $key => '/welcome';
 
   @override
   WelcomeModel clone() => WelcomeModel(
-        loading: loading,
-        user: user,
-        appVersion: appVersion,
-        dbVersion: dbVersion,
-        hasNotif: hasNotif,
-        // versionPlus: versionPlus
+      loading: loading,
+      user: user,
+      appVersion: appVersion,
+      dbVersion: dbVersion,
+      hasNotif: hasNotif,
+      canUpdate: canUpdate
+      // versionPlus: versionPlus
       );
 
   @override
   int get hashCode => Object.hashAll([
-        loading, user, appVersion, dbVersion, hasNotif,
+        loading, user, appVersion, dbVersion, hasNotif, canUpdate
         // versionPlus
       ]);
 
@@ -49,7 +52,8 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
           user == other.user &&
           appVersion == other.appVersion &&
           dbVersion == other.dbVersion &&
-          hasNotif == other.hasNotif
+          hasNotif == other.hasNotif &&
+          canUpdate == other.canUpdate
       // &&
       // versionPlus == other.versionPlus
       ;
