@@ -38,7 +38,7 @@ class InitializeVersion extends BaseAction {
       await dispatchModel<WelcomeModel>(WelcomeModel(), (m) {
         m.appVersion = appVersion;
         m.dbVersion = dbVersion;
-        m.canUpdate = status!.canUpdate;
+        m.versionPlus = status;
       });
     });
 
