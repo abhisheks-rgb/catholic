@@ -64,26 +64,7 @@ class _WelcomePageState extends State<WelcomePage> {
     ];
 
     bool isDownloadRequired() {
-      if (widget.model?.appVersion == null || widget.model?.dbVersion == null) {
-        return false;
-      }
-      bool result = true;
-      if (Platform.isIOS) {
-        //do ios
-        if (widget.model?.appVersion!['ios'] ==
-            widget.model?.dbVersion!['ios']) {
-          result = false;
-        }
-      } else {
-        //do android
-        if (widget.model?.appVersion!['android'] ==
-            widget.model?.dbVersion!['android']) {
-          result = false;
-        }
-      }
-      //false for now
-      result = false;
-      return result;
+      return widget.model!.canUpdate;
     }
 
     Butter.d('App Version: ${widget.model?.appVersion}');
@@ -348,7 +329,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       width: MediaQuery.of(context).size.width,
                       padding: const EdgeInsets.all(20),
                       decoration: const BoxDecoration(
-                        color: Color.fromRGBO(223, 242, 255, 1),
+                        color: Color.fromRGBO(222, 255, 238, 1),
                         boxShadow: <BoxShadow>[
                           BoxShadow(
                             color: Color.fromRGBO(235, 235, 235, 1),
@@ -363,14 +344,14 @@ class _WelcomePageState extends State<WelcomePage> {
                         children: const [
                           Icon(
                             Icons.system_update,
-                            color: Color(0xff041a51),
+                            color: Color.fromARGB(255, 3, 65, 20),
                             size: 18,
                           ),
                           SizedBox(width: 4),
                           Text(
                             'Download Latest Version',
                             style: TextStyle(
-                              color: Color(0xff041a51),
+                              color: Color.fromARGB(255, 3, 65, 20),
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
                               decoration: TextDecoration.underline,

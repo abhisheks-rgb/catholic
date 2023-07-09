@@ -6,17 +6,9 @@ class ProfileModel extends BaseUIModel<ProfileModel> {
   String? error;
   bool? loading;
   Map<String, dynamic>? user;
-  Map<dynamic, dynamic>? appVersion;
-  Map<dynamic, dynamic>? dbVersion;
   PackageInfo? packageDetails;
 
-  ProfileModel(
-      {this.error,
-      this.loading,
-      this.user,
-      this.appVersion,
-      this.dbVersion,
-      this.packageDetails});
+  ProfileModel({this.error, this.loading, this.user, this.packageDetails});
 
   // Future<void> Function(String route)? navigateTo;
   Future<void> Function()? logout;
@@ -29,13 +21,10 @@ class ProfileModel extends BaseUIModel<ProfileModel> {
       error: error,
       loading: loading,
       user: user,
-      appVersion: appVersion,
-      dbVersion: dbVersion,
       packageDetails: packageDetails);
 
   @override
-  int get hashCode => Object.hashAll(
-      [error, loading, user, appVersion, dbVersion, packageDetails]);
+  int get hashCode => Object.hashAll([error, loading, user, packageDetails]);
 
   @override
   bool operator ==(Object other) =>
@@ -45,7 +34,5 @@ class ProfileModel extends BaseUIModel<ProfileModel> {
           error == other.error &&
           loading == other.loading &&
           user == other.user &&
-          appVersion == other.appVersion &&
-          dbVersion == other.dbVersion &&
           packageDetails == other.packageDetails;
 }
