@@ -329,7 +329,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       width: MediaQuery.of(context).size.width,
                       padding: const EdgeInsets.all(20),
                       decoration: const BoxDecoration(
-                        color: Color.fromRGBO(222, 255, 238, 1),
+                        color: Color.fromRGBO(204, 229, 255, 1),
                         boxShadow: <BoxShadow>[
                           BoxShadow(
                             color: Color.fromRGBO(235, 235, 235, 1),
@@ -344,14 +344,14 @@ class _WelcomePageState extends State<WelcomePage> {
                         children: const [
                           Icon(
                             Icons.system_update,
-                            color: Color.fromARGB(255, 3, 65, 20),
+                            color: Color.fromRGBO(4, 26, 82, 1),
                             size: 18,
                           ),
                           SizedBox(width: 4),
                           Text(
                             'Download Latest Version',
                             style: TextStyle(
-                              color: Color.fromARGB(255, 3, 65, 20),
+                              color: Color.fromRGBO(4, 26, 82, 1),
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
                               decoration: TextDecoration.underline,
