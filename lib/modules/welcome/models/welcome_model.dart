@@ -1,4 +1,5 @@
 import 'package:butter/butter.dart';
+import 'package:new_version_plus/new_version_plus.dart';
 
 class WelcomeModel extends BaseUIModel<WelcomeModel> {
   bool loading;
@@ -6,7 +7,7 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
   Map<dynamic, dynamic>? appVersion;
   Map<dynamic, dynamic>? dbVersion;
   bool canUpdate = false;
-  // NewVersionPlus? versionPlus;
+  VersionStatus? versionPlus;
   late void Function(String route) showPage;
   late void Function() showNotifs;
   late Future<void> Function() initializeQoute;
@@ -19,9 +20,8 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
       this.appVersion,
       this.dbVersion,
       this.hasNotif = false,
-      this.canUpdate = false
-      // this.versionPlus
-      });
+      this.canUpdate = false,
+      this.versionPlus});
 
   @override
   String get $key => '/welcome';
@@ -33,15 +33,12 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
       appVersion: appVersion,
       dbVersion: dbVersion,
       hasNotif: hasNotif,
-      canUpdate: canUpdate
-      // versionPlus: versionPlus
-      );
+      canUpdate: canUpdate,
+      versionPlus: versionPlus);
 
   @override
-  int get hashCode => Object.hashAll([
-        loading, user, appVersion, dbVersion, hasNotif, canUpdate
-        // versionPlus
-      ]);
+  int get hashCode => Object.hashAll(
+      [loading, user, appVersion, dbVersion, hasNotif, canUpdate, versionPlus]);
 
   @override
   bool operator ==(Object other) =>
@@ -53,8 +50,6 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
           appVersion == other.appVersion &&
           dbVersion == other.dbVersion &&
           hasNotif == other.hasNotif &&
-          canUpdate == other.canUpdate
-      // &&
-      // versionPlus == other.versionPlus
-      ;
+          canUpdate == other.canUpdate &&
+          versionPlus == other.versionPlus;
 }

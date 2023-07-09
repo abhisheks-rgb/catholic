@@ -64,7 +64,10 @@ class _WelcomePageState extends State<WelcomePage> {
     ];
 
     bool isDownloadRequired() {
-      return widget.model!.canUpdate;
+      if (widget.model!.versionPlus != null) {
+        return widget.model!.versionPlus!.canUpdate;
+      }
+      return false;
     }
 
     Butter.d('App Version: ${widget.model?.appVersion}');
@@ -316,13 +319,15 @@ class _WelcomePageState extends State<WelcomePage> {
                       if (Platform.isIOS) {
                         //do ios link
                         final Uri url = Uri.parse(
-                            'https://apps.apple.com/sg/app/catholicsg-app/id1151027240');
-                        await launchUrl(url);
+                            'https://apps.apple.com/sg/app/mycatholicsg-app/id1151027240');
+                        await launchUrl(url,
+                            mode: LaunchMode.externalApplication);
                       } else {
                         //do android link
                         final Uri url = Uri.parse(
                             'https://play.google.com/store/apps/details?id=com.CSG.CatholicSG');
-                        await launchUrl(url);
+                        await launchUrl(url,
+                            mode: LaunchMode.externalNonBrowserApplication);
                       }
                     },
                     child: Container(
