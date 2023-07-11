@@ -38,6 +38,10 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
         fieldValues[field['field_name']] = field['options'][0]['text'];
       } else if (field['element'] == 'DatePicker') {
         fieldValues[field['field_name']] = DateTime.now();
+      } else if (field['element'] == 'NumberInput' ||
+          field['element'] == 'TextArea' ||
+          field['element'] == 'TextInput') {
+        fieldValues[field['field_name']] = '';
       }
     }
 
