@@ -146,6 +146,8 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                   await widget.model?.setFormErrorObj!(newErrorObj);
                 }
               },
+              onTapOutside: (_) =>
+                  FocusManager.instance.primaryFocus?.unfocus(),
             ),
             const SizedBox(height: 4),
             widget.model?.formErrorObj != null &&
@@ -288,6 +290,8 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                   await widget.model?.setFormErrorObj!(newErrorObj);
                 }
               },
+              onTapOutside: (_) =>
+                  FocusManager.instance.primaryFocus?.unfocus(),
             ),
             const SizedBox(height: 4),
             widget.model?.formErrorObj != null &&
@@ -371,6 +375,8 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                   await widget.model?.setFormErrorObj!(newErrorObj);
                 }
               },
+              onTapOutside: (_) =>
+                  FocusManager.instance.primaryFocus?.unfocus(),
             ),
             const SizedBox(height: 4),
             widget.model?.formErrorObj != null &&
