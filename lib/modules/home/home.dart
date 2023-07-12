@@ -46,7 +46,7 @@ class Home extends BaseModule {
             '/_/profile': Profile(),
             '/_/events': Events(),
             '/_/notification': Notification(),
-            '/_/devotion/main': Devotion(),
+            '/_/devotion': Devotion(),
             '/_/confession': Confession(),
           },
         );

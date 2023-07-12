@@ -6,7 +6,7 @@ import 'states/devotion_state.dart';
 class Devotion extends BaseModule {
   Devotion()
       : super(
-          routeName: '/main',
+          routeName: '/devotion',
           routes: {
             // This is the root route of the module ('/').
             '/': BasePageConnector<DevotionState, DevotionPage>(
