@@ -188,6 +188,7 @@ class HomePage extends BaseStatefulPageView {
                               MaterialTapTargetSize.shrinkWrap,
                           onPressed: () {
                             Navigator.of(context).popAndPushNamed('/_/welcome');
+                            model!.setSelectedIndex!(index: 0);
                           },
                           child: SizedBox(
                             width: 36,

@@ -5,6 +5,8 @@ class DevotionModel extends BaseUIModel<DevotionModel> {
   String? error;
   bool? loading;
 
+  late void Function(String route) showPage;
+
   DevotionModel({
     this.error,
     this.loading,
