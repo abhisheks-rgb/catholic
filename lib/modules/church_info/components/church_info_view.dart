@@ -234,28 +234,24 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                   color: Color.fromRGBO(4, 26, 82, 0.1),
                                 ),
                                 const SizedBox(height: 16),
-                                Container(
-                                  height: 120,
-                                  decoration: BoxDecoration(
-                                    color:
-                                        const Color.fromRGBO(219, 228, 251, 1),
-                                    shape: BoxShape.circle,
-                                    image: widget
+                                SizedBox(
+                                    height: 120,
+                                    child: widget
                                             ._infos[0]['orgPhotoUrl'].isNotEmpty
-                                        ? DecorationImage(
-                                            image: NetworkImage(widget._infos[0]
-                                                ['orgPhotoUrl']),
-                                            fit: BoxFit.contain,
+                                        ? ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            child: Image.network(widget
+                                                ._infos[0]['orgPhotoUrl']),
                                           )
-                                        : DecorationImage(
-                                            image: AssetImage(
+                                        : ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            child: Image.asset(
                                               assetPath(
                                                   'church-placeholder-img.png'),
                                             ),
-                                            fit: BoxFit.contain,
-                                          ),
-                                  ),
-                                ),
+                                          )),
                                 const SizedBox(height: 8),
                                 widget._infos[0]['address'].isEmpty
                                     ? Container()
