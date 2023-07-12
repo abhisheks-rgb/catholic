@@ -137,7 +137,7 @@ class _DevotionPageState extends State<DevotionView> {
                         itemBuilder: (_, int index) {
                           return InkWell(
                             onTap: () {
-                              Navigator.of(context).pushNamed(
+                              widget.model?.showPage(
                                   '/_/devotion/${exploreItems[index]['route']}');
                             },
                             child: Container(
