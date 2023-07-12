@@ -118,7 +118,8 @@ class ScriptureHistoryView extends BaseStatelessPageView {
                               padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child: Image.asset('assets/cardinal-small.jpg'),
+                                child:
+                                    Image.asset('assets/cardinal-medium.jpg'),
                               ),
                             ),
                             Column(
