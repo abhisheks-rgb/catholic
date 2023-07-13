@@ -64,14 +64,14 @@ class _WelcomePageState extends State<WelcomePage> {
     ];
 
     bool isDownloadRequired() {
-      if (widget.model!.versionPlus != null) {
-        Butter.d(widget.model!.versionPlus?.appStoreLink ?? '');
-        Butter.d(widget.model!.versionPlus?.localVersion ?? '');
-        Butter.d(widget.model!.versionPlus?.originalStoreVersion ?? '');
-        Butter.d(widget.model!.versionPlus?.storeVersion ?? '');
-        Butter.d(widget.model!.versionPlus?.canUpdate ?? '');
-        return widget.model!.versionPlus!.canUpdate;
-      }
+      // if (widget.model!.versionPlus != null) {
+      //   Butter.d(widget.model!.versionPlus?.appStoreLink ?? '');
+      //   Butter.d(widget.model!.versionPlus?.localVersion ?? '');
+      //   Butter.d(widget.model!.versionPlus?.originalStoreVersion ?? '');
+      //   Butter.d(widget.model!.versionPlus?.storeVersion ?? '');
+      //   Butter.d(widget.model!.versionPlus?.canUpdate ?? '');
+      //   return widget.model!.versionPlus!.canUpdate;
+      // }
       return false;
     }
 

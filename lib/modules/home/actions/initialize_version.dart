@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:butter/butter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
-import 'package:new_version_plus/new_version_plus.dart';
+// import 'package:new_version_plus/new_version_plus.dart';
 
 import '../../welcome/models/welcome_model.dart';
 
@@ -15,12 +15,12 @@ class InitializeVersion extends BaseAction {
   @override
   Future<AppState?> reduce() async {
     Butter.d('InitializeVersion::reduce');
-    final newVersionPlus = NewVersionPlus(
-        androidId: 'com.CSG.CatholicSG',
-        iOSId: 'com.CSG.CatholicSG',
-        iOSAppStoreCountry: 'SG',
-        androidPlayStoreCountry: 'SG');
-    final status = await newVersionPlus.getVersionStatus();
+    // final newVersionPlus = NewVersionPlus(
+    //     androidId: 'com.CSG.CatholicSG',
+    //     iOSId: 'com.CSG.CatholicSG',
+    //     iOSAppStoreCountry: 'SG',
+    //     androidPlayStoreCountry: 'SG');
+    // final status = await newVersionPlus.getVersionStatus();
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
     await firestore
         .collection('version')
@@ -42,7 +42,7 @@ class InitializeVersion extends BaseAction {
       await dispatchModel<WelcomeModel>(WelcomeModel(), (m) {
         m.appVersion = appVersion;
         m.dbVersion = dbVersion;
-        m.versionPlus = status;
+        // m.versionPlus = status;
       });
     });
 
