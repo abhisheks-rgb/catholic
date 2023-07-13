@@ -218,15 +218,25 @@ class HomeState extends BasePageState<HomeModel> {
               route: route,
               selectedId: selectedId,
             ));
-        m.navigateToEventRegister = (event) {
-          dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
+        m.navigateToEventRegister = (event) async {
+          await dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
             m.item = event;
           });
-          pushNamed('/_/events/register');
 
-          dispatchModel<HomeModel>(HomeModel(), (m) {
-            m.isEventRegister = true;
-          });
+          final homemodel = read<HomeModel>(HomeModel());
+
+          pushNamed('/_/events/register');
+          if (homemodel.selectedEventDetail?['eventFormContent'].isEmpty) {
+            await dispatchModel<EventRegisterModel>(EventRegisterModel(), (m) {
+              m.bookingFormView = 'bookingFormReview';
+              m.item = event;
+            });
+
+            await dispatchModel<HomeModel>(HomeModel(), (m) {
+              m.bookingFormView = 'bookingFormReview';
+              m.loading = false;
+            });
+          }
         };
         m.setInterestEvent = (parentEventId, eventId) => dispatchAction(
             SetInterestAction(eventId: eventId, parentEventId: parentEventId));

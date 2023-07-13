@@ -43,97 +43,121 @@ class _EventRegisterViewState extends State<EventRegisterView> {
                 Container(
                   width: double.infinity,
                   padding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                      const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 30,
-                            width: 30,
-                            margin: const EdgeInsetsDirectional.symmetric(
-                                horizontal: 8),
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: CircleAvatar(
-                              backgroundColor:
-                                  widget.model?.bookingFormView == 'bookingForm'
-                                      ? const Color.fromRGBO(12, 72, 224, 1)
-                                      : const Color.fromRGBO(164, 187, 244, 1),
-                              radius: 15,
-                              child: const Text(
-                                '1',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: 2,
-                            width: 180,
-                            color:
-                                widget.model?.bookingFormView == 'bookingForm'
-                                    ? const Color.fromRGBO(4, 26, 82, 0.3)
-                                    : const Color.fromRGBO(12, 72, 224, 1),
-                          ),
-                          Container(
-                            height: 30,
-                            width: 30,
-                            margin: const EdgeInsetsDirectional.symmetric(
-                                horizontal: 8),
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: CircleAvatar(
-                              backgroundColor:
-                                  widget.model?.bookingFormView == 'bookingForm'
-                                      ? const Color.fromRGBO(4, 26, 82, 0.5)
+                      widget.model?.item != null &&
+                              widget.model?.item?['eventFormContent'].isNotEmpty
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 30,
+                                  width: 30,
+                                  margin: const EdgeInsetsDirectional.symmetric(
+                                      horizontal: 8),
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: CircleAvatar(
+                                    backgroundColor: widget
+                                                .model?.bookingFormView ==
+                                            'bookingForm'
+                                        ? const Color.fromRGBO(12, 72, 224, 1)
+                                        : const Color.fromRGBO(
+                                            164, 187, 244, 1),
+                                    radius: 15,
+                                    child: const Text(
+                                      '1',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  height: 2,
+                                  width: 180,
+                                  color: widget.model?.bookingFormView ==
+                                          'bookingForm'
+                                      ? const Color.fromRGBO(4, 26, 82, 0.3)
                                       : const Color.fromRGBO(12, 72, 224, 1),
-                              radius: 15,
-                              child: const Text(
-                                '2',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
+                                ),
+                                Container(
+                                  height: 30,
+                                  width: 30,
+                                  margin: const EdgeInsetsDirectional.symmetric(
+                                      horizontal: 8),
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: CircleAvatar(
+                                    backgroundColor: widget
+                                                .model?.bookingFormView ==
+                                            'bookingForm'
+                                        ? const Color.fromRGBO(4, 26, 82, 0.5)
+                                        : const Color.fromRGBO(12, 72, 224, 1),
+                                    radius: 15,
+                                    child: const Text(
+                                      '2',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : const SizedBox(),
+                      widget.model?.item != null &&
+                              widget.model?.item?['eventFormContent'].isNotEmpty
+                          ? const SizedBox(height: 18)
+                          : const SizedBox(),
+                      widget.model?.item != null &&
+                              widget.model?.item?['eventFormContent'].isNotEmpty
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Fill In Form',
+                                  style: TextStyle(
+                                    color: widget.model?.bookingFormView ==
+                                            'bookingForm'
+                                        ? const Color.fromRGBO(12, 72, 224, 1)
+                                        : const Color.fromRGBO(
+                                            164, 187, 244, 1),
+                                    fontWeight: widget.model?.bookingFormView ==
+                                            'bookingForm'
+                                        ? FontWeight.w500
+                                        : FontWeight.w400,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                const Spacer(),
+                                Text(
+                                  'Review',
+                                  style: TextStyle(
+                                    color: widget.model?.bookingFormView ==
+                                            'bookingForm'
+                                        ? const Color.fromRGBO(4, 26, 82, 0.5)
+                                        : const Color.fromRGBO(12, 72, 224, 1),
+                                    fontWeight: widget.model?.bookingFormView ==
+                                            'bookingForm'
+                                        ? FontWeight.w400
+                                        : FontWeight.w500,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : const SizedBox(),
+                      const Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Review Your Booking',
+                          style: TextStyle(
+                            color: Color.fromRGBO(12, 72, 224, 1),
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 18),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Fill In Form',
-                            style: TextStyle(
-                              color:
-                                  widget.model?.bookingFormView == 'bookingForm'
-                                      ? const Color.fromRGBO(12, 72, 224, 1)
-                                      : const Color.fromRGBO(164, 187, 244, 1),
-                              fontWeight:
-                                  widget.model?.bookingFormView == 'bookingForm'
-                                      ? FontWeight.w500
-                                      : FontWeight.w400,
-                              fontSize: 18,
-                            ),
-                          ),
-                          const Spacer(),
-                          Text(
-                            'Review',
-                            style: TextStyle(
-                              color:
-                                  widget.model?.bookingFormView == 'bookingForm'
-                                      ? const Color.fromRGBO(4, 26, 82, 0.5)
-                                      : const Color.fromRGBO(12, 72, 224, 1),
-                              fontWeight:
-                                  widget.model?.bookingFormView == 'bookingForm'
-                                      ? FontWeight.w400
-                                      : FontWeight.w500,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                       IndexedStack(
                         index: widget.model?.bookingFormView == 'bookingForm'
