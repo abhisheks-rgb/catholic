@@ -54,7 +54,11 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                       ),
                       onPressed: () async {
                         if (widget.model?.bookingFormView ==
-                            'bookingFormReview') {
+                                'bookingFormReview' &&
+                            widget
+                                .model
+                                ?.selectedEventDetail?['eventFormContent']
+                                .isNotEmpty) {
                           widget.model?.discardBooking!();
                         } else {
                           await Navigator.of(context)

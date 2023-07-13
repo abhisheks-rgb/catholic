@@ -48,7 +48,7 @@ class _EventRegisterDetailsViewState extends State<EventRegisterDetailsView> {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    widget.model?.item!['eventName'],
+                    widget.model?.item!['eventName'] ?? '',
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
@@ -106,7 +106,7 @@ class _EventRegisterDetailsViewState extends State<EventRegisterDetailsView> {
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        '${widget.model?.item!['eventVenue']}',
+                        '${widget.model?.item!['eventLocation']}',
                         style: const TextStyle(
                           color: Color.fromRGBO(4, 26, 82, 1),
                           fontSize: 16,
@@ -119,46 +119,49 @@ class _EventRegisterDetailsViewState extends State<EventRegisterDetailsView> {
             ),
           ),
           const SizedBox(height: 12),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: const Color.fromRGBO(255, 255, 255, 1),
-              boxShadow: const <BoxShadow>[
-                BoxShadow(
-                  color: Color.fromRGBO(235, 235, 235, 1),
-                  blurRadius: 15,
-                  offset: Offset(0.0, 0.75),
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Form Details',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                ...widget.model?.item!['eventFormContent']
-                    .map<Widget>((element) {
-                  return Column(
-                    children: [
-                      _renderFormField(element),
-                      const SizedBox(height: 8),
+          widget.model?.item != null &&
+                  widget.model?.item?['eventFormContent'].isNotEmpty
+              ? Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color.fromRGBO(255, 255, 255, 1),
+                    boxShadow: const <BoxShadow>[
+                      BoxShadow(
+                        color: Color.fromRGBO(235, 235, 235, 1),
+                        blurRadius: 15,
+                        offset: Offset(0.0, 0.75),
+                      ),
                     ],
-                  );
-                }).toList(),
-              ],
-            ),
-          ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Form Details',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      ...widget.model?.item!['eventFormContent']
+                          .map<Widget>((element) {
+                        return Column(
+                          children: [
+                            _renderFormField(element),
+                            const SizedBox(height: 8),
+                          ],
+                        );
+                      }).toList(),
+                    ],
+                  ),
+                )
+              : const SizedBox(),
         ],
       ),
     );
