@@ -43,7 +43,7 @@ class _EventRegisterViewState extends State<EventRegisterView> {
                 Container(
                   width: double.infinity,
                   padding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                      const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -148,6 +148,17 @@ class _EventRegisterViewState extends State<EventRegisterView> {
                               ],
                             )
                           : const SizedBox(),
+                      const Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Review Your Booking',
+                          style: TextStyle(
+                            color: Color.fromRGBO(12, 72, 224, 1),
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
                       IndexedStack(
                         index: widget.model?.bookingFormView == 'bookingForm'
                             ? 0
