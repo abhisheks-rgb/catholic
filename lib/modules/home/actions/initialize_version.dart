@@ -16,7 +16,10 @@ class InitializeVersion extends BaseAction {
   Future<AppState?> reduce() async {
     Butter.d('InitializeVersion::reduce');
     final newVersionPlus = NewVersionPlus(
-        androidId: 'com.CSG.CatholicSG', iOSId: 'com.CSG.CatholicSG');
+        androidId: 'com.CSG.CatholicSG',
+        iOSId: 'com.CSG.CatholicSG',
+        iOSAppStoreCountry: 'SG',
+        androidPlayStoreCountry: 'SG');
     final status = await newVersionPlus.getVersionStatus();
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
     await firestore
