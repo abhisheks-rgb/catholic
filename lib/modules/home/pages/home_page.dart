@@ -207,7 +207,9 @@ class HomePage extends BaseStatefulPageView {
                           onPressed: () async {
                             if (ModalRoute.of(context)!.settings.name ==
                                     '/_/events/register' &&
-                                model?.bookingFormView == 'bookingFormReview') {
+                                model?.bookingFormView == 'bookingFormReview' &&
+                                model?.selectedEventDetail?['eventFormContent']
+                                    .isNotEmpty) {
                               model?.discardBooking!();
                             } else {
                               final result =
