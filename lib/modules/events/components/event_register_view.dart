@@ -148,17 +148,20 @@ class _EventRegisterViewState extends State<EventRegisterView> {
                               ],
                             )
                           : const SizedBox(),
-                      const Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Review Your Booking',
-                          style: TextStyle(
-                            color: Color.fromRGBO(12, 72, 224, 1),
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
+                      widget.model?.item != null &&
+                              widget.model?.item?['eventFormContent'].isNotEmpty
+                          ? const SizedBox()
+                          : const Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Review Your Booking',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(12, 72, 224, 1),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
                       IndexedStack(
                         index: widget.model?.bookingFormView == 'bookingForm'
                             ? 0
