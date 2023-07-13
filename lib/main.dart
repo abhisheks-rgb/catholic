@@ -4,10 +4,10 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:trcas_catholic/service/firebase_service.dart';
 import 'app/app.dart';
 import 'app/persistor.dart' as p;
 import 'firebase_options.dart';
+// import 'service/firebase_service.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -33,7 +33,7 @@ void main() async {
   final navigatorKey = GlobalKey<NavigatorState>();
   NavigateAction.setNavigatorKey(navigatorKey);
 
-  await FirebaseService.initialize(store);
+  // await FirebaseService.initialize(store);
 
   // Firebase crashlytics
   // Pass all uncaught "fatal" errors from the framework to Crashlytics
