@@ -66,6 +66,9 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
         'route': 'offertory'
       },
     ];
+    if (widget._infos.isNotEmpty) {
+      Butter.d(widget._infos[0]);
+    }
     return Scaffold(
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
@@ -234,28 +237,24 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                   color: Color.fromRGBO(4, 26, 82, 0.1),
                                 ),
                                 const SizedBox(height: 16),
-                                Container(
-                                  height: 120,
-                                  decoration: BoxDecoration(
-                                    color:
-                                        const Color.fromRGBO(219, 228, 251, 1),
-                                    shape: BoxShape.circle,
-                                    image: widget
+                                SizedBox(
+                                    height: 120,
+                                    child: widget
                                             ._infos[0]['orgPhotoUrl'].isNotEmpty
-                                        ? DecorationImage(
-                                            image: NetworkImage(widget._infos[0]
-                                                ['orgPhotoUrl']),
-                                            fit: BoxFit.contain,
+                                        ? ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            child: Image.network(widget
+                                                ._infos[0]['orgPhotoUrl']),
                                           )
-                                        : DecorationImage(
-                                            image: AssetImage(
+                                        : ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            child: Image.asset(
                                               assetPath(
                                                   'church-placeholder-img.png'),
                                             ),
-                                            fit: BoxFit.contain,
-                                          ),
-                                  ),
-                                ),
+                                          )),
                                 const SizedBox(height: 8),
                                 widget._infos[0]['address'].isEmpty
                                     ? Container()
@@ -395,6 +394,29 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                   child: SizedBox(
                                                     width: 20,
                                                     height: 20,
+                                                    // child: widget
+                                                    //         ._infos[0]['photo']
+                                                    //         .isEmpty
+                                                    //     ? Image.asset(
+                                                    //         assetPath(
+                                                    //             'priest.png'),
+                                                    //         color: const Color
+                                                    //                 .fromRGBO(
+                                                    //             4, 26, 82, 0.5),
+                                                    //         width: 23,
+                                                    //         height: 23,
+                                                    //       )
+                                                    //     : ClipRRect(
+                                                    //         borderRadius:
+                                                    //             BorderRadius
+                                                    //                 .circular(
+                                                    //                     10),
+                                                    //         child:
+                                                    //             Image.network(
+                                                    //           widget._infos[0]
+                                                    //               ['photo'],
+                                                    //         ),
+                                                    //       ),
                                                     child: Image.asset(
                                                       assetPath('priest.png'),
                                                       color:
@@ -1174,13 +1196,40 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                     color: Color.fromRGBO(219, 228, 251, 1),
                                     shape: BoxShape.circle,
                                   ),
-                                  child: Center(
-                                    child: Image.asset(
-                                      assetPath('priest.png'),
-                                      color:
-                                          const Color.fromRGBO(4, 26, 82, 0.5),
-                                      width: 23,
-                                      height: 23,
+                                  // child: Center(
+                                  //   child: Image.asset(
+                                  //     assetPath('priest.png'),
+                                  //     color:
+                                  //         const Color.fromRGBO(4, 26, 82, 0.5),
+                                  //     width: 23,
+                                  //     height: 23,
+                                  //   ),
+                                  // )
+                                  child: Container(
+                                    width: 48,
+                                    height: 48,
+                                    decoration: BoxDecoration(
+                                        color: const Color.fromRGBO(
+                                            219, 228, 251, 1),
+                                        shape: BoxShape.rectangle,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Center(
+                                      child: priestInfo['photo'].isEmpty
+                                          ? Image.asset(
+                                              assetPath('priest.png'),
+                                              color: const Color.fromRGBO(
+                                                  4, 26, 82, 0.5),
+                                              width: 23,
+                                              height: 23,
+                                            )
+                                          : ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: Image.network(
+                                                priestInfo['photo'],
+                                              ),
+                                            ),
                                     ),
                                   ),
                                 ),

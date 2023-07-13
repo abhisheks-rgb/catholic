@@ -112,18 +112,36 @@ class ScriptureHistoryView extends BaseStatelessPageView {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 24),
-                        Text(model?.authorName ?? '---',
-                            style: const TextStyle(
-                              color: Color.fromRGBO(4, 26, 82, 1),
-                              fontWeight: FontWeight.w500,
-                              fontSize: 20,
-                            )),
-                        const SizedBox(height: 4),
-                        Text('Reflection & Homilies - ${_items.length}',
-                            style: const TextStyle(
-                              color: Color.fromRGBO(4, 26, 82, 0.5),
-                              fontSize: 14,
-                            )),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.asset('assets/cardinal-medium.jpg',
+                                    width: 40, height: 40),
+                              ),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(model?.authorName ?? '---',
+                                    style: const TextStyle(
+                                      color: Color.fromRGBO(4, 26, 82, 1),
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 20,
+                                    )),
+                                const SizedBox(height: 4),
+                                Text('Reflection & Homilies - ${_items.length}',
+                                    style: const TextStyle(
+                                      color: Color.fromRGBO(4, 26, 82, 0.5),
+                                      fontSize: 14,
+                                    )),
+                              ],
+                            ),
+                          ],
+                        ),
                         const SizedBox(height: 16),
                         Column(
                           children: _items.map<Widget>((element) {
