@@ -388,28 +388,34 @@ class _PriestInfoViewState extends State<PriestInfoView> {
           color: Color.fromRGBO(4, 26, 82, 0.1),
         ),
         const SizedBox(height: 16),
-        Align(
-          alignment: Alignment.center,
-          child: Container(
-            height: 100,
-            width: 100,
-            decoration: BoxDecoration(
-              color: const Color.fromRGBO(219, 228, 251, 1),
-              shape: BoxShape.circle,
-              image: widget._infos[currentPriestIndex!]['photo'] != ''
-                  ? DecorationImage(
-                      image: NetworkImage(
-                          widget._infos[currentPriestIndex!]['photo'] ?? ''),
-                      fit: BoxFit.contain,
-                    )
-                  : DecorationImage(
-                      image: AssetImage(
-                        assetPath('priest-placeholder-img.png'),
+        Center(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                widget._infos[currentPriestIndex!]['photo'].isNotEmpty
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          widget._infos[currentPriestIndex!]['photo'],
+                          width: 100,
+                        ),
+                      )
+                    : Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                            color: const Color.fromRGBO(219, 228, 251, 1),
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Center(
+                            child: Image.asset(
+                          assetPath('priest.png'),
+                          color: const Color.fromRGBO(4, 26, 82, 0.5),
+                          width: 100,
+                        )),
                       ),
-                      fit: BoxFit.cover,
-                    ),
-            ),
-          ),
+              ]),
         ),
         priestParish.isEmpty
             ? Container()
@@ -634,17 +640,24 @@ class _PriestInfoViewState extends State<PriestInfoView> {
                 Container(
                   width: 48,
                   height: 48,
-                  decoration: const BoxDecoration(
-                    color: Color.fromRGBO(219, 228, 251, 1),
-                    shape: BoxShape.circle,
-                  ),
+                  decoration: BoxDecoration(
+                      color: const Color.fromRGBO(219, 228, 251, 1),
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(10)),
                   child: Center(
-                    child: Image.asset(
-                      assetPath('priest.png'),
-                      color: const Color.fromRGBO(4, 26, 82, 0.5),
-                      width: 23,
-                      height: 23,
-                    ),
+                    child: element['photo'].isEmpty
+                        ? Image.asset(
+                            assetPath('priest.png'),
+                            color: const Color.fromRGBO(4, 26, 82, 0.5),
+                            width: 23,
+                            height: 23,
+                          )
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.network(
+                              element['photo'],
+                            ),
+                          ),
                   ),
                 ),
                 const SizedBox(width: 8),
