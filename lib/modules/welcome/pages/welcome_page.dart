@@ -430,6 +430,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 crossAxisCount: 2,
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
+                childAspectRatio: 0.78,
               ),
               delegate: SliverChildBuilderDelegate((_, int index) {
                 return InkWell(
@@ -438,7 +439,6 @@ class _WelcomePageState extends State<WelcomePage> {
                         ?.showPage('/_/${exploreItems[index]['route']}');
                   },
                   child: Container(
-                    height: 185,
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: const Color(0xffffffff),
@@ -451,32 +451,31 @@ class _WelcomePageState extends State<WelcomePage> {
                         ),
                       ],
                     ),
-                    child: Align(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                            width: 72,
-                            height: 100,
-                            child: Image.asset(
-                              assetPath(
-                                  'menu_item/${exploreItems[index]['icon']}'),
-                              // fit: BoxFit.cover,
-                            ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                          child: Image.asset(
+                            assetPath(
+                                'menu_item/${exploreItems[index]['icon']}'),
+                            excludeFromSemantics: true,
+                            cacheWidth: 72,
+                            cacheHeight: 100,
                           ),
-                          Text(
-                            exploreItems[index]['title'],
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Color(0xff041a51),
-                            ),
+                        ),
+                        Text(
+                          exploreItems[index]['title'],
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xff041a51),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 );
