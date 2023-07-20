@@ -35,8 +35,41 @@ void main() async {
   NavigateAction.setNavigatorKey(navigatorKey);
 
   // await FirebaseService.initialize(store);
+// Push Notification
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-  await _initFirebase(store);
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
+  if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+    Butter.d('User granted permission');
+  } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+    Butter.d('User granted provisional permission');
+  } else {
+    Butter.d('User declined or has not accepted permission');
+  }
+
+  final token = await FirebaseMessaging.instance.getToken();
+
+  Butter.d('My token is $token');
+  // saveToken(token!);
+
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true, badge: true, sound: true);
+
+  FirebaseMessaging.instance.getInitialMessage().then(_handleMessage);
+
+  FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  // FirebaseMessaging.onMessage.listen(_handleMessage);
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   // Firebase crashlytics
   // Pass all uncaught "fatal" errors from the framework to Crashlytics
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
@@ -74,45 +107,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // navigatorKey.currentState
   //     ?.pushNamed('/_/notification', arguments: 'notification');
   // NavigateAction.pushNamed('/_/notification', arguments: {});
-}
-
-Future<void> _initFirebase(Store<AppState> store) async {
-// Push Notification
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-  NotificationSettings settings = await messaging.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
-    sound: true,
-  );
-
-  if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-    Butter.d('User granted permission');
-  } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
-    Butter.d('User granted provisional permission');
-  } else {
-    Butter.d('User declined or has not accepted permission');
-  }
-
-  final token = await FirebaseMessaging.instance.getToken();
-
-  Butter.d('My token is $token');
-  // saveToken(token!);
-
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-      alert: true, badge: true, sound: true);
-
-  final msg = await FirebaseMessaging.instance.getInitialMessage();
-  _handleMessage(msg);
-
-  FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
-  FirebaseMessaging.onMessage.listen(_handleMessage);
-
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 }
 
 void run(Store<AppState> store, GlobalKey<NavigatorState> navigatorKey) =>
