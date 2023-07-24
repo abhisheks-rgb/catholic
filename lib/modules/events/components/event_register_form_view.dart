@@ -163,62 +163,95 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
           ],
         );
       case 'Dropdown':
-        return Container(
-          margin: const EdgeInsets.only(top: 8),
-          child: DropdownButtonFormField<String>(
-            key: Key(element['id']),
-            decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                  color: Color.fromRGBO(4, 26, 82, 0.5),
-                ),
-                borderRadius: BorderRadius.circular(6.0),
-              ),
-              border: OutlineInputBorder(
-                borderSide: const BorderSide(
-                  color: Color.fromRGBO(4, 26, 82, 0.5),
-                ),
-                borderRadius: BorderRadius.circular(6.0),
-              ),
-              labelStyle: const TextStyle(
-                color: Color.fromRGBO(4, 26, 82, 0.5),
-                fontSize: 16,
-                overflow: TextOverflow.ellipsis,
-              ),
-              floatingLabelStyle: const TextStyle(
-                overflow: TextOverflow.ellipsis,
-              ),
-              labelText: element['label'],
-              // floatingLabelBehavior: FloatingLabelBehavior.auto,
-            ),
-            icon: const Icon(
-              SimpleLineIcons.arrow_down,
-              size: 10,
-              color: Color.fromRGBO(4, 26, 82, 0.5),
-            ),
-            isExpanded: true,
-            onChanged: (value) async {
-              setState(() {
-                fieldValues[element['field_name']] = value;
-              });
-              await widget.model?.setFormObj(fieldValues);
-            },
-            value: fieldValues[element['field_name']],
-            itemHeight: null,
-            items: element['options']
-                .map<DropdownMenuItem<String>>((dynamic optionItem) {
-              return DropdownMenuItem<String>(
-                value: optionItem['text'],
-                key: Key(optionItem['key']),
-                child: SizedBox(
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
                   child: Text(
-                    optionItem['text'],
-                    // overflow: TextOverflow.ellipsis,
+                    '${element['label']}',
+                    style: const TextStyle(
+                      color: Color.fromRGBO(4, 26, 82, 0.4),
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
-              );
-            }).toList(),
-          ),
+                const SizedBox(width: 4),
+                element['required'] == true
+                    ? const Text(
+                        '*',
+                        style: TextStyle(
+                          color: Color.fromRGBO(233, 40, 35, 0.4),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )
+                    : const SizedBox(),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
+              decoration: BoxDecoration(
+                color: const Color.fromRGBO(255, 255, 255, 1),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: const Color.fromRGBO(4, 26, 82, 0.5)),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color.fromRGBO(208, 185, 133, 0.15),
+                    offset: Offset(0, 8),
+                    blurRadius: 16,
+                  ),
+                  BoxShadow(
+                    color: Color.fromRGBO(208, 185, 133, 0.05),
+                    offset: Offset(0, 4),
+                    blurRadius: 8,
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  RawMaterialButton(
+                    constraints: const BoxConstraints(),
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    onPressed: () {
+                      showAlert(context, element);
+                    },
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                fieldValues[element['field_name']],
+                                style: const TextStyle(
+                                  color: Color.fromRGBO(4, 26, 82, 1),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: Icon(
+                                Entypo.chevron_down,
+                                color: Color.fromRGBO(4, 26, 82, 1),
+                                size: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         );
       case 'TextArea':
         return Column(
@@ -584,5 +617,99 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
           ),
         );
     }
+  }
+
+  void showAlert(BuildContext context, element) {
+    showDialog(
+        context: context,
+        routeSettings:
+            RouteSettings(name: ModalRoute.of(context)?.settings.name),
+        builder: (BuildContext context) => AlertDialog(
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              ),
+              contentPadding: const EdgeInsets.all(0),
+              title: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          element['label'],
+                          style: const TextStyle(
+                            color: Color.fromRGBO(4, 26, 82, 1),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                      RawMaterialButton(
+                        constraints: const BoxConstraints(),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        shape: const CircleBorder(),
+                        child: const SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: Icon(
+                            MaterialCommunityIcons.close_circle,
+                            color: Color.fromRGBO(130, 141, 168, 1),
+                            size: 24,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                ],
+              ),
+              content: Container(
+                constraints: const BoxConstraints(
+                  maxWidth: 600,
+                  maxHeight: 600,
+                ),
+                child: ListView.separated(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: 2,
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Container();
+                  },
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 3, horizontal: 24),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 8),
+                            Text(
+                              element['options'][index]['text'],
+                              style: const TextStyle(
+                                color: Color.fromRGBO(4, 26, 82, 1),
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                          ],
+                        ),
+                      ),
+                      onTap: () async {
+                        setState(() {
+                          fieldValues[element['field_name']] =
+                              element['options'][index]['text'];
+                        });
+                        await widget.model?.setFormObj(fieldValues);
+                        // ignore: use_build_context_synchronously
+                        Navigator.pop(context);
+                      },
+                    );
+                  },
+                ),
+              ),
+            ));
   }
 }
