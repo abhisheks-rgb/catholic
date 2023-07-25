@@ -673,7 +673,7 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                 child: ListView.separated(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  itemCount: 2,
+                  itemCount: element['options'].length,
                   separatorBuilder: (BuildContext context, int index) {
                     return Container();
                   },
@@ -681,7 +681,7 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                     return InkWell(
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 3, horizontal: 24),
+                            vertical: 4, horizontal: 36),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -693,6 +693,20 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
                                 fontSize: 16,
                               ),
                             ),
+                            index == element['options'].length - 1
+                                ? Container()
+                                : Column(
+                                    children: const [
+                                      SizedBox(height: 20),
+                                      Divider(
+                                        height: 1,
+                                        thickness: 1,
+                                        indent: 0,
+                                        endIndent: 0,
+                                        color: Color.fromRGBO(4, 26, 82, 0.1),
+                                      ),
+                                    ],
+                                  ),
                             const SizedBox(height: 8),
                           ],
                         ),
