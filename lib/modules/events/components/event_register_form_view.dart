@@ -628,7 +628,7 @@ class _EventRegisterFormViewState extends State<EventRegisterFormView> {
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
               ),
-              contentPadding: const EdgeInsets.all(0),
+              contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
               title: Column(
                 children: [
                   Row(
