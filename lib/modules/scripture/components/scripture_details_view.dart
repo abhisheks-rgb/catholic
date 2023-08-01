@@ -164,6 +164,12 @@ class ScriptureDetailsView extends BaseStatelessPageView {
                               textAlign: TextAlign.left,
                               lineHeight: const LineHeight(1.4),
                             ),
+                            'span': Style(
+                              color: const Color.fromRGBO(4, 26, 82, 1),
+                              fontSize: FontSize(model!.titleFontSize ?? 16),
+                              textAlign: TextAlign.left,
+                              lineHeight: const LineHeight(1.4),
+                            ),
                           },
                         ),
                       ],
