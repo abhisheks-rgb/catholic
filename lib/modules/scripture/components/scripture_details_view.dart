@@ -25,6 +25,8 @@ class ScriptureDetailsView extends BaseStatelessPageView {
       }
     }
 
+    print('asdfasdfadfasdf ${content}');
+
     return Scaffold(
       body: model?.loading == true
           ? Container(
@@ -159,6 +161,12 @@ class ScriptureDetailsView extends BaseStatelessPageView {
                               lineHeight: const LineHeight(1.4),
                             ),
                             'p': Style(
+                              color: const Color.fromRGBO(4, 26, 82, 1),
+                              fontSize: FontSize(model!.titleFontSize ?? 16),
+                              textAlign: TextAlign.left,
+                              lineHeight: const LineHeight(1.4),
+                            ),
+                            'span': Style(
                               color: const Color.fromRGBO(4, 26, 82, 1),
                               fontSize: FontSize(model!.titleFontSize ?? 16),
                               textAlign: TextAlign.left,
