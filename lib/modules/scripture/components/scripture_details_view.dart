@@ -25,8 +25,6 @@ class ScriptureDetailsView extends BaseStatelessPageView {
       }
     }
 
-    print('asdfasdfadfasdf ${content}');
-
     return Scaffold(
       body: model?.loading == true
           ? Container(
