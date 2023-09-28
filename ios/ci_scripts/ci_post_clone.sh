@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # The default execution directory of this script is the ci_scripts directory.
-cd $CI_WORKSPACE
+cd $CI_PRIMARY_REPOSITORY_PATH
 
 # Install Flutter using git.
 git clone --depth 1 --single-branch https://github.com/flutter/flutter.git -b 3.7.10 $HOME/flutter
@@ -28,10 +28,10 @@ echo "{
 	\"storageBucket\": \"$BUCKET_NAME\",
 	\"iosClientId\": \"$IOS_CLIENT_ID\",
 	\"iosBundleId\": \"$IOS_BUNDLE_ID\"
-}" > $CI_WORKSPACE/assets/firebase_config.json
+}" > $CI_PRIMARY_REPOSITORY_PATH/assets/firebase_config.json
 
 echo "{
 	\"webUrl\": \"$WEB_URL\"
-}" > $CI_WORKSPACE/assets/share_config.json 
+}" > $CI_PRIMARY_REPOSITORY_PATH/assets/share_config.json 
 
 exit 0
