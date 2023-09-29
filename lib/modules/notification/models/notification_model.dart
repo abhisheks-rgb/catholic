@@ -5,15 +5,13 @@ class NotificationModel extends BaseUIModel<NotificationModel> {
   //
   String? error;
   bool? loading;
+  bool? showNotification;
   List<Object>? items;
 
   late Future<List<Object>?> Function({int? orgId}) fetchChurchInfo;
 
-  NotificationModel({
-    this.error,
-    this.loading,
-    this.items,
-  });
+  NotificationModel(
+      {this.error, this.loading, this.items, this.showNotification});
 
   @override
   String get $key => '/notification';
@@ -23,6 +21,7 @@ class NotificationModel extends BaseUIModel<NotificationModel> {
         error: error,
         loading: loading,
         items: items,
+        showNotification: showNotification,
       );
 
   @override
@@ -30,6 +29,7 @@ class NotificationModel extends BaseUIModel<NotificationModel> {
         error,
         loading,
         items,
+        showNotification,
       ]);
 
   @override
@@ -39,5 +39,6 @@ class NotificationModel extends BaseUIModel<NotificationModel> {
           runtimeType == other.runtimeType &&
           error == other.error &&
           loading == other.loading &&
-          items == other.items;
+          items == other.items &&
+          showNotification == other.showNotification;
 }

@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:butter/butter.dart';
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:trcas_catholic/api/firebase_notifications.dart';
 
 import '../../../app/app.dart';
 import '../../../app/splash_screen.dart';
@@ -49,58 +49,59 @@ class HomePage extends BaseStatefulPageView {
     //   getToken();
     //   initInfo();
     // });
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    await FirebaseNotifications().initNotifications();
+    // FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-    NotificationSettings settings = await messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
+    // NotificationSettings settings = await messaging.requestPermission(
+    //   alert: true,
+    //   announcement: false,
+    //   badge: true,
+    //   carPlay: false,
+    //   criticalAlert: false,
+    //   provisional: false,
+    //   sound: true,
+    // );
 
-    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      Butter.d('User granted permission');
-    } else if (settings.authorizationStatus ==
-        AuthorizationStatus.provisional) {
-      Butter.d('User granted provisional permission');
-    } else {
-      Butter.d('User declined or has not accepted permission');
-    }
+    // if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+    //   Butter.d('User granted permission');
+    // } else if (settings.authorizationStatus ==
+    //     AuthorizationStatus.provisional) {
+    //   Butter.d('User granted provisional permission');
+    // } else {
+    //   Butter.d('User declined or has not accepted permission');
+    // }
 
-    final token = await FirebaseMessaging.instance.getToken();
+    // final token = await FirebaseMessaging.instance.getToken();
 
-    Butter.d('My token is $token');
+    // Butter.d('My token is $token');
     // saveToken(token!);
 
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
-            alert: true, badge: true, sound: true);
+    // await FirebaseMessaging.instance
+    //     .setForegroundNotificationPresentationOptions(
+    //         alert: true, badge: true, sound: true);
 
-    FirebaseMessaging.instance.getInitialMessage().then(_handleMessage);
+    // FirebaseMessaging.instance.getInitialMessage().then(_handleMessage);
 
-    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
-    FirebaseMessaging.onMessage.listen(_handleMessage);
+    // FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+    // FirebaseMessaging.onMessage.listen(_handleMessage);
     return true;
   }
 
-  void _handleMessage(RemoteMessage? message) {
-    if (message == null) return;
+//   void _handleMessage(RemoteMessage? message) {
+//     if (message == null) return;
 
-    String? title = message.notification!.title;
-    String? body = message.notification!.body;
+//     String? title = message.notification!.title;
+//     String? body = message.notification!.body;
 
-    Butter.d('**************$title');
-    Butter.d('**************$body');
-//   // navigatorKey.currentState?.pushNamed(NotificationPage.route,
-//   //     arguments: {'title': title, 'body': body});
-//   // navigatorKey.currentState?.pushNamed('/_/notification', arguments: 'notif');
-//   // NavigateAction.pushNamed('/_/notification');
+//     Butter.d('**************$title');
+//     Butter.d('**************$body');
+// //   // navigatorKey.currentState?.pushNamed(NotificationPage.route,
+// //   //     arguments: {'title': title, 'body': body});
+// //   // navigatorKey.currentState?.pushNamed('/_/notification', arguments: 'notif');
+// //   // NavigateAction.pushNamed('/_/notification');
 
-//   // FirebaseService._store.dispatch(NotifReceivedAction());
-  }
+// //   // FirebaseService._store.dispatch(NotifReceivedAction());
+//   }
 
   initInfo() {
     var androidInitialize =

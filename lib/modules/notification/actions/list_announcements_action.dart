@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:butter/butter.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:trcas_catholic/api/firebase_notifications.dart';
 
 import '../models/notification_model.dart';
 import '../../home/models/home_model.dart';
@@ -62,11 +63,13 @@ class ListAnnouncementsAction extends BaseAction {
       Butter.e(stacktrace.toString());
       error = 'Unexpected error';
     }
-
+    //check if user has declined notification
+    bool showNotifications = await FirebaseNotifications().hasUserDeclined();
     await dispatchModel<NotificationModel>(NotificationModel(), (m) {
       m.error = error;
       m.loading = false;
       m.items = records;
+      m.showNotification = showNotifications;
     });
 
     return null;
