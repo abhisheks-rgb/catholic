@@ -57,6 +57,7 @@ dependencies:
   intl: ^0.17.0
   # new_version_plus: ^0.0.10
   package_info_plus: ^4.0.2
+  permission_handler: ^11.0.0
   share_plus: ^7.0.2
   syncfusion_flutter_pdfviewer: ^20.4.52
   universal_platform: ^1.0.0+1

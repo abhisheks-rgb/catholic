@@ -1,6 +1,6 @@
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
-// import 'package:permission_handler/permission_handler.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../models/notification_model.dart';
 import '../../../utils/asset_path.dart';
@@ -24,21 +24,21 @@ class _NotificationViewState extends State<NotificationView> {
     // Function to request notification permissions
     Future<void> requestNotificationPermission() async {
       Butter.d('Requesting notification permissions...');
-      // final status = await Permission.notification.status;
-      // Butter.d('Notification permissions status: $status');
-      // if (status.isDenied || status.isPermanentlyDenied) {
-      //   final isGranted = await openAppSettings();
-      //   Butter.d(isGranted);
-      //   if (isGranted) {
-      //     // Permissions have been granted.
-      //     // Handle this case as needed.
-      //     Butter.d('Notification permissions  granted.');
-      //   }
-      // } else {
-      //   // Permissions have already been granted.
-      //   // Handle this case as needed.
-      //   Butter.d('Notification permissions already granted.');
-      // }
+      final status = await Permission.notification.status;
+      Butter.d('Notification permissions status: $status');
+      if (status.isDenied || status.isPermanentlyDenied) {
+        final isGranted = await openAppSettings();
+        Butter.d(isGranted);
+        if (isGranted) {
+          // Permissions have been granted.
+          // Handle this case as needed.
+          Butter.d('Notification permissions  granted.');
+        }
+      } else {
+        // Permissions have already been granted.
+        // Handle this case as needed.
+        Butter.d('Notification permissions already granted.');
+      }
     }
 
     return Scaffold(

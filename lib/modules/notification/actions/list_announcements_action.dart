@@ -65,6 +65,7 @@ class ListAnnouncementsAction extends BaseAction {
     }
     //check if user has declined notification
     bool showNotifications = await FirebaseNotifications().hasUserDeclined();
+    Butter.d('showNotifications $showNotifications');
     await dispatchModel<NotificationModel>(NotificationModel(), (m) {
       m.error = error;
       m.loading = false;
