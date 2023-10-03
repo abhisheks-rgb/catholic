@@ -44,6 +44,8 @@ class HomePage extends BaseStatefulPageView {
         model!.todayIsLastUpdate?.day != currentTime.day) {
       await model!.initializeTodayIs();
     }
+
+    model!.initializeNotification();
     // EasyDebounce.debounce('debounce-rosary', const Duration(seconds: 1), () {
     //   requestPermission();
     //   getToken();

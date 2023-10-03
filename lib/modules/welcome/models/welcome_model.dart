@@ -13,6 +13,7 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
   late Future<void> Function() initializeQoute;
   late Future<void> Function() initializeUser;
   bool hasNotif = false;
+  String notifId = '';
 
   WelcomeModel({
     this.loading = false,
@@ -20,6 +21,7 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
     this.appVersion,
     this.dbVersion,
     this.hasNotif = false,
+    this.notifId = '',
     this.canUpdate = false,
     // this.versionPlus
   });
@@ -34,13 +36,16 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
         appVersion: appVersion,
         dbVersion: dbVersion,
         hasNotif: hasNotif,
+        notifId: notifId,
         canUpdate: canUpdate,
         // versionPlus: versionPlus
       );
 
   @override
   int get hashCode => Object.hashAll([
-        loading, user, appVersion, dbVersion, hasNotif, canUpdate,
+        loading, user, appVersion, dbVersion, hasNotif,
+        notifId,
+        canUpdate,
         //  versionPlus
       ]);
 
@@ -54,6 +59,7 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
           appVersion == other.appVersion &&
           dbVersion == other.dbVersion &&
           hasNotif == other.hasNotif &&
+          notifId == other.notifId &&
           canUpdate == other.canUpdate
       //  &&
       // versionPlus == other.versionPlus

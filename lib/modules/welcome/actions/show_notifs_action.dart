@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:butter/butter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trcas_catholic/modules/welcome/models/welcome_model.dart';
 
-import '../models/welcome_model.dart';
 import 'show_page_action.dart';
 
 class ShowNotifsAction extends BaseAction {
@@ -13,9 +14,14 @@ class ShowNotifsAction extends BaseAction {
   @override
   Future<AppState?> reduce() async {
     Butter.d('ShowNotifsAction::reduce');
+    String notifId = '';
+    await dispatchModel<WelcomeModel>(WelcomeModel(), (m) {
+      notifId = m.notifId;
+    });
+    Butter.d('ShowNotifsAction::reduce::notifId:: $notifId');
 
-    await dispatchModel<WelcomeModel>(
-        WelcomeModel(), (m) => m.hasNotif = false);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('announcementId', notifId);
 
     await dispatchAction(ShowPageAction('/_/notification'));
 

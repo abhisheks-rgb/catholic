@@ -30,6 +30,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
 
   late Future<void> Function(BuildContext context) initialize;
   late Future<void> Function() initializeTodayIs;
+  late Future<void> Function() initializeNotification;
   late Future<void> Function() initializeVersion;
   Function({int? index})? setSelectedIndex;
   void Function({
