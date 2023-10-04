@@ -136,7 +136,8 @@ class ScriptureDetailsView extends BaseStatelessPageView {
                           const SizedBox(height: 24),
                           Html(
                             data: content,
-                            onLinkTap: (url, _, __) async {
+                            onLinkTap:
+                                (url, context, attributes, element) async {
                               final uri = Uri.parse(url ?? '');
                               if (await canLaunchUrl(uri)) {
                                 await launchUrl(
