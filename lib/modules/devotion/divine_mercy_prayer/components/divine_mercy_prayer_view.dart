@@ -93,7 +93,9 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
               padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 32),
               child: Column(
                 children: [
-                  _renderGuide(),
+                  SelectionArea(
+                      selectionControls: MaterialTextSelectionControls(),
+                      child: _renderGuide()),
                 ],
               ),
             ),
@@ -523,7 +525,9 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                 SliverToBoxAdapter(
                   child: Container(
                     padding: const EdgeInsets.fromLTRB(24, 0, 16, 16),
-                    child: _renderDivineMercyPrayer(contentFontSize),
+                    child: SelectionArea(
+                        selectionControls: MaterialTextSelectionControls(),
+                        child: _renderDivineMercyPrayer(contentFontSize)),
                   ),
                 ),
               ],

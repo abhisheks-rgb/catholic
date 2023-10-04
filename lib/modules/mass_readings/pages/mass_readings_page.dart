@@ -382,152 +382,173 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 28),
-                  widget.model?.loading == true &&
-                          widget.model?.massReadingList != null &&
-                          widget.model?.massReadingItem != null
-                      ? Container(
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          margin: const EdgeInsets.only(top: 20),
-                          child:
-                              const Center(child: CircularProgressIndicator()),
-                        )
-                      : Text(
-                          textAlign: TextAlign.start,
-                          widget.model?.massReadingItem != null
-                              ? _parseHtmlString(
-                                  widget.model?.massReadingItem?['day'] ?? '')
-                              : '',
-                          style: TextStyle(
-                            color: const Color.fromRGBO(4, 26, 82, 1),
-                            fontSize: widget.model!.titleFontSize ?? 20,
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.normal,
-                          ),
-                        ),
-                  const SizedBox(height: 8),
-                  widget.model?.loading == true &&
-                          widget.model?.massReadingList != null
-                      ? const SizedBox()
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: widget.model?.massReadingList?.map((item) {
-                                Map? data = item as Map?;
-                                String key = data?.keys.elementAt(0);
-                                String title;
+                  SelectionArea(
+                    selectionControls: MaterialTextSelectionControls(),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 28),
+                        widget.model?.loading == true &&
+                                widget.model?.massReadingList != null &&
+                                widget.model?.massReadingItem != null
+                            ? Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.3,
+                                margin: const EdgeInsets.only(top: 20),
+                                child: const Center(
+                                    child: CircularProgressIndicator()),
+                              )
+                            : Text(
+                                textAlign: TextAlign.start,
+                                widget.model?.massReadingItem != null
+                                    ? _parseHtmlString(
+                                        widget.model?.massReadingItem?['day'] ??
+                                            '')
+                                    : '',
+                                style: TextStyle(
+                                  color: const Color.fromRGBO(4, 26, 82, 1),
+                                  fontSize: widget.model!.titleFontSize ?? 20,
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.normal,
+                                ),
+                              ),
+                        const SizedBox(height: 8),
+                        widget.model?.loading == true &&
+                                widget.model?.massReadingList != null
+                            ? const SizedBox()
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: widget.model?.massReadingList
+                                        ?.map((item) {
+                                      Map? data = item as Map?;
+                                      String key = data?.keys.elementAt(0);
+                                      String title;
 
-                                switch (key) {
-                                  case 'Mass_Ps':
-                                  case 'Mass_Ps2':
-                                  case 'Mass_Ps3':
-                                  case 'Mass_Ps4':
-                                    title = 'Responsorial Psalm';
-                                    break;
-                                  case 'Mass_R2':
-                                    title = 'Second Reading';
-                                    break;
-                                  case 'Mass_R3':
-                                    title = 'Third Reading';
-                                    break;
-                                  case 'Mass_R4':
-                                    title = 'Fourth Reading';
-                                    break;
-                                  case 'Mass_R5':
-                                    title = 'Fifth Reading';
-                                    break;
-                                  case 'Mass_GA':
-                                    title = 'Gospel Acclamation';
-                                    break;
-                                  case 'Mass_G':
-                                    title = 'Gospel';
-                                    break;
-                                  case 'copyright':
-                                    title = '';
-                                    break;
-                                  default:
-                                    title = 'First Reading';
-                                }
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                        height: key != 'copyright' ? 16 : 0),
-                                    Text(title,
-                                        style: TextStyle(
-                                          fontSize:
-                                              widget.model!.contentFontSize ??
-                                                  17,
-                                          fontWeight: FontWeight.bold,
-                                          color: const Color.fromRGBO(
-                                              8, 51, 158, 1),
-                                        )),
-                                    key != 'copyright'
-                                        ? data![key]['heading'] != null
-                                            ? Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    '${data[key]['source'] ?? ''}',
-                                                    style: TextStyle(
-                                                      fontSize: widget.model!
-                                                              .contentFontSize ??
-                                                          17,
-                                                      color:
-                                                          const Color.fromRGBO(
-                                                              4, 26, 82, 1),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(height: 15),
-                                                  Text(
-                                                    '${data[key]['heading'] ?? ''}',
-                                                    style: TextStyle(
-                                                      height: 1.4,
-                                                      fontSize: widget.model!
-                                                              .contentFontSize ??
-                                                          17,
-                                                      color:
-                                                          const Color.fromRGBO(
-                                                              4, 26, 82, 1),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )
-                                            : data[key]['source'] != null
-                                                ? Text(
-                                                    '${data[key]['source']}',
-                                                    style: TextStyle(
-                                                      // height: 1.2,
-                                                      fontSize: widget.model!
-                                                              .contentFontSize ??
-                                                          17,
-                                                      color:
-                                                          const Color.fromRGBO(
-                                                              4, 26, 82, 1),
-                                                    ),
-                                                  )
-                                                : const SizedBox()
-                                        : const SizedBox(),
-                                    SizedBox(
-                                        height: key != 'copyright' ? 15 : 0),
-                                    Html(
-                                      data: data![key]['text'] ?? '',
-                                      style: {
-                                        'div': Style(
-                                          lineHeight: const LineHeight(1.4),
-                                          textAlign: TextAlign.left,
-                                          color: const Color.fromRGBO(
-                                              4, 26, 82, 1),
-                                          fontSize: FontSize(
-                                            widget.model!.contentFontSize ?? 17,
+                                      switch (key) {
+                                        case 'Mass_Ps':
+                                        case 'Mass_Ps2':
+                                        case 'Mass_Ps3':
+                                        case 'Mass_Ps4':
+                                          title = 'Responsorial Psalm';
+                                          break;
+                                        case 'Mass_R2':
+                                          title = 'Second Reading';
+                                          break;
+                                        case 'Mass_R3':
+                                          title = 'Third Reading';
+                                          break;
+                                        case 'Mass_R4':
+                                          title = 'Fourth Reading';
+                                          break;
+                                        case 'Mass_R5':
+                                          title = 'Fifth Reading';
+                                          break;
+                                        case 'Mass_GA':
+                                          title = 'Gospel Acclamation';
+                                          break;
+                                        case 'Mass_G':
+                                          title = 'Gospel';
+                                          break;
+                                        case 'copyright':
+                                          title = '';
+                                          break;
+                                        default:
+                                          title = 'First Reading';
+                                      }
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                              height:
+                                                  key != 'copyright' ? 16 : 0),
+                                          Text(title,
+                                              style: TextStyle(
+                                                fontSize: widget.model!
+                                                        .contentFontSize ??
+                                                    17,
+                                                fontWeight: FontWeight.bold,
+                                                color: const Color.fromRGBO(
+                                                    8, 51, 158, 1),
+                                              )),
+                                          key != 'copyright'
+                                              ? data![key]['heading'] != null
+                                                  ? Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          '${data[key]['source'] ?? ''}',
+                                                          style: TextStyle(
+                                                            fontSize: widget
+                                                                    .model!
+                                                                    .contentFontSize ??
+                                                                17,
+                                                            color: const Color
+                                                                    .fromRGBO(
+                                                                4, 26, 82, 1),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                            height: 15),
+                                                        Text(
+                                                          '${data[key]['heading'] ?? ''}',
+                                                          style: TextStyle(
+                                                            height: 1.4,
+                                                            fontSize: widget
+                                                                    .model!
+                                                                    .contentFontSize ??
+                                                                17,
+                                                            color: const Color
+                                                                    .fromRGBO(
+                                                                4, 26, 82, 1),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  : data[key]['source'] != null
+                                                      ? Text(
+                                                          '${data[key]['source']}',
+                                                          style: TextStyle(
+                                                            // height: 1.2,
+                                                            fontSize: widget
+                                                                    .model!
+                                                                    .contentFontSize ??
+                                                                17,
+                                                            color: const Color
+                                                                    .fromRGBO(
+                                                                4, 26, 82, 1),
+                                                          ),
+                                                        )
+                                                      : const SizedBox()
+                                              : const SizedBox(),
+                                          SizedBox(
+                                              height:
+                                                  key != 'copyright' ? 15 : 0),
+                                          Html(
+                                            data: data![key]['text'] ?? '',
+                                            style: {
+                                              'div': Style(
+                                                lineHeight:
+                                                    const LineHeight(1.4),
+                                                textAlign: TextAlign.left,
+                                                color: const Color.fromRGBO(
+                                                    4, 26, 82, 1),
+                                                fontSize: FontSize(
+                                                  widget.model!
+                                                          .contentFontSize ??
+                                                      17,
+                                                ),
+                                              ),
+                                            },
                                           ),
-                                        ),
-                                      },
-                                    ),
-                                  ],
-                                );
-                              }).toList() ??
-                              []),
+                                        ],
+                                      );
+                                    }).toList() ??
+                                    []),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

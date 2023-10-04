@@ -93,7 +93,9 @@ class ConfessionViewState extends State<ConfessionView> {
               padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 32),
               child: Column(
                 children: [
-                  _renderGuide(),
+                  SelectionArea(
+                      selectionControls: MaterialTextSelectionControls(),
+                      child: _renderGuide()),
                 ],
               ),
             ),
@@ -450,7 +452,9 @@ class ConfessionViewState extends State<ConfessionView> {
                 SliverToBoxAdapter(
                   child: Container(
                     padding: const EdgeInsets.fromLTRB(24, 0, 16, 16),
-                    child: _renderConfession(contentFontSize),
+                    child: SelectionArea(
+                        selectionControls: MaterialTextSelectionControls(),
+                        child: _renderConfession(contentFontSize)),
                   ),
                 ),
               ],

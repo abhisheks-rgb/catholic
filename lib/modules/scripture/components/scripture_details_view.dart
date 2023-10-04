@@ -116,63 +116,66 @@ class ScriptureDetailsView extends BaseStatelessPageView {
                     width: double.infinity,
                     margin: const EdgeInsets.symmetric(
                         vertical: 24, horizontal: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 0, horizontal: 8),
-                          child: Text(
-                            _item['contentTitle'],
-                            style: TextStyle(
-                              color: const Color.fromRGBO(4, 26, 82, 1),
-                              fontWeight: FontWeight.w500,
-                              fontSize: model!.titleFontSize ?? 20,
+                    child: SelectionArea(
+                      selectionControls: MaterialTextSelectionControls(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 0, horizontal: 8),
+                            child: Text(
+                              _item['contentTitle'],
+                              style: TextStyle(
+                                color: const Color.fromRGBO(4, 26, 82, 1),
+                                fontWeight: FontWeight.w500,
+                                fontSize: model!.titleFontSize ?? 20,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 24),
-                        Html(
-                          data: content,
-                          onLinkTap: (url, context, attributes, element) async {
-                            final uri = Uri.parse(url ?? '');
-                            if (await canLaunchUrl(uri)) {
-                              await launchUrl(
-                                uri,
-                                mode: LaunchMode.externalApplication,
-                              );
-                            } else {
-                              throw 'Could not launch $uri';
-                            }
-                          },
-                          style: {
-                            'body': Style(
-                              color: const Color.fromRGBO(4, 26, 82, 1),
-                              fontSize: FontSize(model!.titleFontSize ?? 16),
-                              textAlign: TextAlign.left,
-                              lineHeight: const LineHeight(1.4),
-                            ),
-                            'div': Style(
-                              color: const Color.fromRGBO(4, 26, 82, 1),
-                              fontSize: FontSize(model!.titleFontSize ?? 16),
-                              textAlign: TextAlign.left,
-                              lineHeight: const LineHeight(1.4),
-                            ),
-                            'p': Style(
-                              color: const Color.fromRGBO(4, 26, 82, 1),
-                              fontSize: FontSize(model!.titleFontSize ?? 16),
-                              textAlign: TextAlign.left,
-                              lineHeight: const LineHeight(1.4),
-                            ),
-                            'span': Style(
-                              color: const Color.fromRGBO(4, 26, 82, 1),
-                              fontSize: FontSize(model!.titleFontSize ?? 16),
-                              textAlign: TextAlign.left,
-                              lineHeight: const LineHeight(1.4),
-                            ),
-                          },
-                        ),
-                      ],
+                          const SizedBox(height: 24),
+                          Html(
+                            data: content,
+                            onLinkTap: (url, _, __) async {
+                              final uri = Uri.parse(url ?? '');
+                              if (await canLaunchUrl(uri)) {
+                                await launchUrl(
+                                  uri,
+                                  mode: LaunchMode.externalApplication,
+                                );
+                              } else {
+                                throw 'Could not launch $uri';
+                              }
+                            },
+                            style: {
+                              'body': Style(
+                                color: const Color.fromRGBO(4, 26, 82, 1),
+                                fontSize: FontSize(model!.titleFontSize ?? 16),
+                                textAlign: TextAlign.left,
+                                lineHeight: const LineHeight(1.4),
+                              ),
+                              'div': Style(
+                                color: const Color.fromRGBO(4, 26, 82, 1),
+                                fontSize: FontSize(model!.titleFontSize ?? 16),
+                                textAlign: TextAlign.left,
+                                lineHeight: const LineHeight(1.4),
+                              ),
+                              'p': Style(
+                                color: const Color.fromRGBO(4, 26, 82, 1),
+                                fontSize: FontSize(model!.titleFontSize ?? 16),
+                                textAlign: TextAlign.left,
+                                lineHeight: const LineHeight(1.4),
+                              ),
+                              'span': Style(
+                                color: const Color.fromRGBO(4, 26, 82, 1),
+                                fontSize: FontSize(model!.titleFontSize ?? 16),
+                                textAlign: TextAlign.left,
+                                lineHeight: const LineHeight(1.4),
+                              ),
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

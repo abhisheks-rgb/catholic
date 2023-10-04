@@ -358,12 +358,15 @@ class RosaryViewState extends State<RosaryView> {
           ),
         ),
         const SizedBox(height: 30),
-        Column(
-          children: [
-            mystries[_currentMystery!] == null ? Container() : _renderGuide(),
-            _renderHailHolyQueen(),
-            _renderMemorare(),
-          ],
+        SelectionArea(
+          selectionControls: MaterialTextSelectionControls(),
+          child: Column(
+            children: [
+              mystries[_currentMystery!] == null ? Container() : _renderGuide(),
+              _renderHailHolyQueen(),
+              _renderMemorare(),
+            ],
+          ),
         ),
       ],
     );
@@ -945,7 +948,9 @@ class RosaryViewState extends State<RosaryView> {
                 SliverToBoxAdapter(
                   child: Container(
                     padding: const EdgeInsets.fromLTRB(24, 0, 16, 16),
-                    child: _renderRosary(contentFontSize),
+                    child: SelectionArea(
+                        selectionControls: MaterialTextSelectionControls(),
+                        child: _renderRosary(contentFontSize)),
                   ),
                 ),
               ],
