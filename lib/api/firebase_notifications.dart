@@ -45,11 +45,29 @@ class FirebaseNotifications {
     //save token here
     if (FirebaseAuth.instance.currentUser != null) {
       String userId = FirebaseAuth.instance.currentUser!.uid;
+      //subscribe to topic here
+      //get user
+      final userDoc =
+          FirebaseFirestore.instance.collection('users').doc(userId);
+      final userDocSnapshot = await userDoc.get();
+      final userParish = userDocSnapshot.data()?['parish'];
+      final channel = userDocSnapshot.data()?['channel'];
+      Butter.d('Channel: $channel');
+      if (channel == null) {
+        await _firebaseMessaging.subscribeToTopic(userParish.toString());
+      } else {
+        //check if channel is the same as the user's parish, if not, unsub and sub to the new parish
+        if (channel != userParish.toString()) {
+          await _firebaseMessaging.unsubscribeFromTopic(channel);
+          await _firebaseMessaging.subscribeToTopic(userParish.toString());
+        }
+      }
       //also let's store the version of the app this user is using
       final packageDetails = await PackageInfoService.getPackageDetails();
       await FirebaseFirestore.instance.collection('users').doc(userId).update({
         'tokens': FieldValue.arrayUnion([token]),
         'appversion': packageDetails.version,
+        'channel': userParish.toString()
       });
     }
   }
