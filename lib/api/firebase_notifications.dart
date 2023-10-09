@@ -1,5 +1,8 @@
 import 'package:butter/butter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:trcas_catholic/service/package_info_service.dart';
 
 class FirebaseNotifications {
   final _firebaseMessaging = FirebaseMessaging.instance;
@@ -39,6 +42,16 @@ class FirebaseNotifications {
 
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
     FirebaseMessaging.onMessage.listen(_handleMessage);
+    //save token here
+    if (FirebaseAuth.instance.currentUser != null) {
+      String userId = FirebaseAuth.instance.currentUser!.uid;
+      //also let's store the version of the app this user is using
+      final packageDetails = await PackageInfoService.getPackageDetails();
+      await FirebaseFirestore.instance.collection('users').doc(userId).update({
+        'tokens': FieldValue.arrayUnion([token]),
+        'appversion': packageDetails.version,
+      });
+    }
   }
 
   Future<bool> hasUserDeclined() {

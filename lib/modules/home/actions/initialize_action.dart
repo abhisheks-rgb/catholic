@@ -56,7 +56,7 @@ class InitializeAction extends BaseAction {
         User? currentUser = FirebaseAuth.instance.currentUser;
 
         if (currentUser != null) {
-          await FirebaseFirestore.instance
+          FirebaseFirestore.instance
               .doc('users/${currentUser.uid}')
               .get()
               .then((value) {
