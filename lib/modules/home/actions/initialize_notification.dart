@@ -40,7 +40,6 @@ class InitializeNotification extends BaseAction {
         'org': '$churchId',
       };
     }
-    Butter.d('ChurchId: $churchId');
     try {
       final instance = await FirebaseFunctions.instanceFor(region: 'asia-east2')
           .httpsCallable('announcements')
@@ -54,13 +53,10 @@ class InitializeNotification extends BaseAction {
 
       // Get the first element of the records list
       Object? firstRecord = records.first;
-      Butter.d('First Record: $firstRecord');
 
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final storedId = prefs.getString('announcementId');
-      Butter.d('Stored Id: $storedId');
       final first = (firstRecord as Map<Object?, Object?>)['id'].toString();
-      Butter.d('First Id: $first');
       if (storedId != null) {
         if (first == storedId) {
           hasNotif = false;
