@@ -11,6 +11,12 @@ import 'app/persistor.dart' as p;
 import 'firebase_options.dart';
 // import 'service/firebase_service.dart';
 
+/*
+When using Flutter version 3.3.0 or higher, 
+the message handler must be annotated with @pragma('vm:entry-point') right above the function declaration 
+(otherwise it may be removed during tree shaking for release mode).
+See: https://firebase.google.com/docs/cloud-messaging/flutter/receive
+*/
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();

@@ -59,8 +59,8 @@ class FirebaseNotifications {
         //check if channel is the same as the user's parish, if not, unsub and sub to the new parish
         if (channel != userParish.toString()) {
           await _firebaseMessaging.unsubscribeFromTopic(channel);
-          await _firebaseMessaging.subscribeToTopic(userParish.toString());
         }
+        await _firebaseMessaging.subscribeToTopic(userParish.toString());
       }
       //also let's store the version of the app this user is using
       final packageDetails = await PackageInfoService.getPackageDetails();
