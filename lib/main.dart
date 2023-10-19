@@ -11,6 +11,7 @@ import 'app/persistor.dart' as p;
 import 'firebase_options.dart';
 // import 'service/firebase_service.dart';
 
+@pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   Butter.d('Handling a background message ${message.messageId}');
