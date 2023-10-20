@@ -3,13 +3,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:trcas_catholic/main.dart';
+import 'package:trcas_catholic/modules/welcome/actions/notif_received_action.dart';
 import 'package:trcas_catholic/service/package_info_service.dart';
 
 class FirebaseNotifications {
   final _firebaseMessaging = FirebaseMessaging.instance;
+  static late final Store<AppState> _store;
 
-  Future<void> initNotifications() async {
+  Future<void> initNotifications(Store<AppState> store) async {
+    FirebaseNotifications._store = store;
+
     try {
       NotificationSettings settings =
           await _firebaseMessaging.requestPermission(
@@ -81,6 +84,38 @@ class FirebaseNotifications {
       return settings.authorizationStatus == AuthorizationStatus.denied;
     });
   }
+
+  void _handleMessage(RemoteMessage? message) {
+    if (message == null) return;
+
+    String? title = message.notification!.title;
+    String? body = message.notification!.body;
+
+    Butter.d('_handleMessage **************$title');
+    Butter.d('_handleMessage **************$body');
+    final element = {
+      'showNotifications': false,
+      'youtube': '',
+      'postas': 'ArchComms',
+      'author': 'Jeyner Gil Caga',
+      'parish': '99999',
+      'created': 1696859680498,
+      'header': 'Catechesis e-Service Now Fixed!',
+      'id': '999991696859680498',
+      'content': 'Dear Brothers and Sisters in Christ,'
+    };
+    // navigatorKey.currentState
+    //     ?.pushNamed('/_/notification/details', arguments: element);
+    FirebaseNotifications._store.dispatch(NotifReceivedAction());
+
+    // NavigateAction.pushNamed('/_/notification', arguments: {});
+    //   // navigatorKey.currentState?.pushNamed(NotificationPage.route,
+    //   //     arguments: {'title': title, 'body': body});
+    //   // navigatorKey.currentState?.pushNamed('/_/notification', arguments: 'notif');
+    //   // NavigateAction.pushNamed('/_/notification');
+
+    //   // FirebaseService._store.dispatch(NotifReceivedAction());
+  }
 }
 
 /*
@@ -92,24 +127,6 @@ See: https://firebase.google.com/docs/cloud-messaging/flutter/receive
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  Butter.d('Handling a background message ${message.messageId}');
-}
-
-void _handleMessage(RemoteMessage? message) {
-  if (message == null) return;
-
-  String? title = message.notification!.title;
-  String? body = message.notification!.body;
-
-  Butter.d('**************$title');
-  Butter.d('**************$body');
-  navigatorKey.currentState
-      ?.pushNamed('/_/notification', arguments: 'notification');
-  // NavigateAction.pushNamed('/_/notification', arguments: {});
-  //   // navigatorKey.currentState?.pushNamed(NotificationPage.route,
-  //   //     arguments: {'title': title, 'body': body});
-  //   // navigatorKey.currentState?.pushNamed('/_/notification', arguments: 'notif');
-  //   // NavigateAction.pushNamed('/_/notification');
-
-  //   // FirebaseService._store.dispatch(NotifReceivedAction());
+  Butter.d(
+      '_firebaseMessagingBackgroundHandler Handling a background message ${message.messageId}');
 }

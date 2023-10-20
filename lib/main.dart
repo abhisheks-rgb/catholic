@@ -5,6 +5,9 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:trcas_catholic/api/firebase_notifications.dart';
+import 'package:trcas_catholic/modules/welcome/actions/notif_received_action.dart';
+import 'package:trcas_catholic/service/firebase_service.dart';
 import 'app/app.dart';
 import 'app/persistor.dart' as p;
 import 'firebase_options.dart';
@@ -33,8 +36,8 @@ void main() async {
   );
   NavigateAction.setNavigatorKey(navigatorKey);
 
-  // await FirebaseNotifications().initNotifications();
-
+  await FirebaseNotifications().initNotifications(store);
+  // store.dispatch(NotifReceivedAction());
   // await FirebaseService.initialize(store);
   // // Push Notification
   //   FirebaseMessaging messaging = FirebaseMessaging.instance;
