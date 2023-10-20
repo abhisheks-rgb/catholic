@@ -6,22 +6,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import '../api/firebase_notifications.dart';
 import 'app/app.dart';
 import 'app/persistor.dart' as p;
 import 'firebase_options.dart';
 // import 'service/firebase_service.dart';
-
-/*
-When using Flutter version 3.3.0 or higher, 
-the message handler must be annotated with @pragma('vm:entry-point') right above the function declaration 
-(otherwise it may be removed during tree shaking for release mode).
-See: https://firebase.google.com/docs/cloud-messaging/flutter/receive
-*/
-@pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-  Butter.d('Handling a background message ${message.messageId}');
-}
 
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -45,46 +34,45 @@ void main() async {
   final navigatorKey = GlobalKey<NavigatorState>();
   NavigateAction.setNavigatorKey(navigatorKey);
 
-  // Push Notification
-  await FirebaseMessaging.instance.getInitialMessage();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // await FirebaseNotifications().initNotifications();
 
   // await FirebaseService.initialize(store);
-// // Push Notification
-//   FirebaseMessaging messaging = FirebaseMessaging.instance;
+  // // Push Notification
+  //   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-//   NotificationSettings settings = await messaging.requestPermission(
-//     alert: true,
-//     announcement: false,
-//     badge: true,
-//     carPlay: false,
-//     criticalAlert: false,
-//     provisional: false,
-//     sound: true,
-//   );
+  //   NotificationSettings settings = await messaging.requestPermission(
+  //     alert: true,
+  //     announcement: false,
+  //     badge: true,
+  //     carPlay: false,
+  //     criticalAlert: false,
+  //     provisional: false,
+  //     sound: true,
+  //   );
 
-//   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-//     Butter.d('User granted permission');
-//   } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
-//     Butter.d('User granted provisional permission');
-//   } else {
-//     Butter.d('User declined or has not accepted permission');
-//   }
+  //   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+  //     Butter.d('User granted permission');
+  //   } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+  //     Butter.d('User granted provisional permission');
+  //   } else {
+  //     Butter.d('User declined or has not accepted permission');
+  //   }
 
-//   final token = await FirebaseMessaging.instance.getToken();
+  final token = await FirebaseMessaging.instance.getToken();
 
-//   Butter.d('My token is $token');
-//   // saveToken(token!);
+  Butter.d('***********My token is $token');
+  //   // saveToken(token!);
 
-//   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-//       alert: true, badge: true, sound: true);
+  //   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+  //       alert: true, badge: true, sound: true);
 
-//   FirebaseMessaging.instance.getInitialMessage().then(_handleMessage);
+  //   FirebaseMessaging.instance.getInitialMessage().then(_handleMessage);
 
-//   FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
-//   // FirebaseMessaging.onMessage.listen(_handleMessage);
+  //   FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  //   // FirebaseMessaging.onMessage.listen(_handleMessage);
 
-//   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  //   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
   // Firebase crashlytics
   // Pass all uncaught "fatal" errors from the framework to Crashlytics
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;

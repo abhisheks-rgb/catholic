@@ -1,5 +1,6 @@
 import 'package:butter/butter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:trcas_catholic/service/package_info_service.dart';
@@ -42,6 +43,8 @@ class FirebaseNotifications {
 
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
     FirebaseMessaging.onMessage.listen(_handleMessage);
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
     //save token here
     if (FirebaseAuth.instance.currentUser != null) {
       String userId = FirebaseAuth.instance.currentUser!.uid;
@@ -77,6 +80,18 @@ class FirebaseNotifications {
       return settings.authorizationStatus == AuthorizationStatus.denied;
     });
   }
+}
+
+/*
+When using Flutter version 3.3.0 or higher, 
+the message handler must be annotated with @pragma('vm:entry-point') right above the function declaration 
+(otherwise it may be removed during tree shaking for release mode).
+See: https://firebase.google.com/docs/cloud-messaging/flutter/receive
+*/
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  Butter.d('Handling a background message ${message.messageId}');
 }
 
 void _handleMessage(RemoteMessage? message) {
