@@ -1,16 +1,16 @@
 import 'package:butter/butter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import '../api/firebase_notifications.dart';
 import 'app/app.dart';
 import 'app/persistor.dart' as p;
 import 'firebase_options.dart';
 // import 'service/firebase_service.dart';
+
+final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +31,6 @@ void main() async {
     initialState: initialState,
     persistor: persistor,
   );
-  final navigatorKey = GlobalKey<NavigatorState>();
   NavigateAction.setNavigatorKey(navigatorKey);
 
   // await FirebaseNotifications().initNotifications();

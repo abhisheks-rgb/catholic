@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:trcas_catholic/main.dart';
 import 'package:trcas_catholic/service/package_info_service.dart';
 
 class FirebaseNotifications {
@@ -102,6 +103,9 @@ void _handleMessage(RemoteMessage? message) {
 
   Butter.d('**************$title');
   Butter.d('**************$body');
+  navigatorKey.currentState
+      ?.pushNamed('/_/notification', arguments: 'notification');
+  // NavigateAction.pushNamed('/_/notification', arguments: {});
   //   // navigatorKey.currentState?.pushNamed(NotificationPage.route,
   //   //     arguments: {'title': title, 'body': body});
   //   // navigatorKey.currentState?.pushNamed('/_/notification', arguments: 'notif');
