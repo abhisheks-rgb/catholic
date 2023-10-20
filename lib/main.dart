@@ -58,9 +58,9 @@ void main() async {
   //     Butter.d('User declined or has not accepted permission');
   //   }
 
-  final token = await FirebaseMessaging.instance.getToken();
+  // final token = await FirebaseMessaging.instance.getToken();
 
-  Butter.d('***********My token is $token');
+  // Butter.d('***********My token is $token');
   //   // saveToken(token!);
 
   //   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
