@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:butter/butter.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -216,7 +217,7 @@ class _PrayPageState extends State<_PrayPage> {
                     ],
                   ),
                 ),
-                widget.model.isLoggedIn == true
+                FirebaseAuth.instance.currentUser != null
                     ? Container()
                     : RawMaterialButton(
                         constraints: const BoxConstraints(),

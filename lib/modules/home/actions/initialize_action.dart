@@ -56,26 +56,26 @@ class InitializeAction extends BaseAction {
         User? currentUser = FirebaseAuth.instance.currentUser;
 
         if (currentUser != null) {
-          FirebaseFirestore.instance
+          final value = await FirebaseFirestore.instance
               .doc('users/${currentUser.uid}')
-              .get()
-              .then((value) {
-            user = value.data();
+              .get();
+          // .then((value) {
+          user = value.data();
 
-            for (var e in items) {
-              if (e['_id'] == int.parse(user!['parish'])) {
-                user!['churchId'] = e['_id'] - 1;
-                user!['churchName'] = e['name'];
-                user!['churchLink'] = e['link'];
-              }
+          for (var e in items) {
+            if (e['_id'] == int.parse(user!['parish'])) {
+              user!['churchId'] = e['_id'] - 1;
+              user!['churchName'] = e['name'];
+              user!['churchLink'] = e['link'];
             }
+          }
 
-            Butter.d('InitializeAction::reduce::is_logged_in');
-          }).onError((error, stackTrace) {
-            Butter.e(error.toString());
-            Butter.e(stackTrace.toString());
-            error = error.toString();
-          });
+          Butter.d('InitializeAction::reduce::is_logged_in');
+          // }).onError((error, stackTrace) {
+          //   Butter.e(error.toString());
+          //   Butter.e(stackTrace.toString());
+          //   error = error.toString();
+          // });
         } else {
           Butter.d('InitializeAction::reduce::not_logged_in');
         }
