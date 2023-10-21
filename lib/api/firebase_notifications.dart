@@ -97,16 +97,16 @@ class FirebaseNotifications {
       'showNotifications': false,
       'youtube': '',
       'postas': 'ArchComms',
-      'author': 'Jeyner Gil Caga',
+      'author': 'ArchComms',
       'parish': '99999',
       'created': 1696859680498,
-      'header': 'Catechesis e-Service Now Fixed!',
+      'header': title,
       'id': '999991696859680498',
-      'content': 'Dear Brothers and Sisters in Christ,'
+      'content': body
     };
     // navigatorKey.currentState
     //     ?.pushNamed('/_/notification/details', arguments: element);
-    FirebaseNotifications._store.dispatch(NotifReceivedAction());
+    FirebaseNotifications._store.dispatch(NotifReceivedAction(element, true));
 
     // NavigateAction.pushNamed('/_/notification', arguments: {});
     //   // navigatorKey.currentState?.pushNamed(NotificationPage.route,

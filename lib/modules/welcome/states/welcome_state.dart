@@ -1,4 +1,5 @@
 import 'package:butter/butter.dart';
+import 'package:trcas_catholic/modules/welcome/actions/notif_received_action.dart';
 import 'package:trcas_catholic/modules/welcome/actions/show_notifs_action.dart';
 
 import '../actions/initialize_qoutes.dart';
@@ -43,6 +44,8 @@ class WelcomeState extends BasePageState<WelcomeModel> {
         // Load all your model's handlers here
         m.initializeQoute = () => dispatchAction(InitializeQoutes());
         m.showPage = (route) => dispatchAction(ShowPageAction(route));
+        m.setNotification =
+            (obj, show) => dispatchAction(NotifReceivedAction(obj, show));
         m.showNotifs = () => dispatchAction(ShowNotifsAction());
       });
 }

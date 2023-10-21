@@ -1,6 +1,7 @@
 import 'package:butter/butter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
@@ -27,6 +28,7 @@ class WelcomePage extends BaseStatefulPageView {
 
 class _WelcomePageState extends State<WelcomePage> {
   final ScrollController _scrollController = ScrollController();
+  bool showAll = false;
 
   @override
   Widget build(BuildContext context) {
@@ -75,8 +77,141 @@ class _WelcomePageState extends State<WelcomePage> {
       return false;
     }
 
-    Butter.d('App Version: ${widget.model?.appVersion}');
-    Butter.d('DB Version: ${widget.model?.dbVersion}');
+    // Butter.d('App Version: ${widget.model?.appVersion}');
+    // Butter.d('DB Version: ${widget.model?.dbVersion}');
+    Butter.d('Notification Object: ${widget.model!.notificationObject}');
+
+    // Schedule a callback after the frame has been rendered
+    // SchedulerBinding.instance.addPostFrameCallback((_) {
+    //   if (widget.model!.dialogCount <= 2 &&
+    //       widget.model!.notificationObject != null &&
+    //       widget.model!.hasNotif) {
+    //     String header = (widget.model!.notificationObject!
+    //         as Map<String, dynamic>)['header'];
+    //     String content = (widget.model!.notificationObject!
+    //         as Map<String, dynamic>)['content'];
+    //     showDialog(
+    //       context: context,
+    //       builder: (BuildContext ctx) => Dialog(
+    //         shape: const RoundedRectangleBorder(
+    //           borderRadius: BorderRadius.all(Radius.circular(10.0)),
+    //         ),
+    //         insetPadding: const EdgeInsets.all(24),
+    //         child: FractionallySizedBox(
+    //           widthFactor: 0.9,
+    //           heightFactor: 2 / 3,
+    //           child: CustomScrollView(
+    //             slivers: [
+    //               SliverAppBar(
+    //                 title: Row(
+    //                   mainAxisAlignment: MainAxisAlignment.center,
+    //                   children: [
+    //                     const SizedBox(width: 8),
+    //                     SizedBox(
+    //                       width: 36,
+    //                       height: 36,
+    //                       child: Image.asset(
+    //                         assetPath('icon-small.png'),
+    //                       ),
+    //                     ),
+    //                     const SizedBox(width: 10),
+    //                   ],
+    //                 ),
+    //                 pinned: true,
+    //                 automaticallyImplyLeading: false,
+    //                 elevation: 0,
+    //                 backgroundColor: Colors.white,
+    //                 shape: const ContinuousRectangleBorder(
+    //                   borderRadius: BorderRadius.only(
+    //                     topLeft: Radius.circular(10.0),
+    //                     topRight: Radius.circular(10.0),
+    //                   ),
+    //                 ),
+    //               ),
+    //               SliverToBoxAdapter(
+    //                 child: Container(
+    //                   padding: const EdgeInsets.fromLTRB(24, 0, 16, 16),
+    //                   child: SelectionArea(
+    //                     selectionControls: MaterialTextSelectionControls(),
+    //                     child: Column(
+    //                       mainAxisAlignment: MainAxisAlignment.start,
+    //                       children: [
+    //                         Text(
+    //                           header,
+    //                           style: const TextStyle(
+    //                             color: Color.fromRGBO(4, 26, 82, 1),
+    //                             fontWeight: FontWeight.w500,
+    //                             fontSize: 20,
+    //                           ),
+    //                         ),
+    //                         const SizedBox(height: 10),
+    //                         Text(
+    //                           content,
+    //                           style: const TextStyle(
+    //                             color: Color.fromRGBO(4, 26, 82, 1),
+    //                             fontSize: 17,
+    //                             height: 1.4,
+    //                           ),
+    //                         ),
+    //                         //create a button at the center will the label "Got it" that will close the dialog
+    //                         const SizedBox(height: 20),
+    //                         Row(
+    //                           mainAxisAlignment: MainAxisAlignment.center,
+    //                           children: [
+    //                             RawMaterialButton(
+    //                               constraints: const BoxConstraints(),
+    //                               materialTapTargetSize:
+    //                                   MaterialTapTargetSize.shrinkWrap,
+    //                               onPressed: () {
+    //                                 widget.model?.setNotification(null, true);
+    //                                 Navigator.pop(ctx);
+    //                                 // Pop all the routes until you reach the root route
+    //                                 // Navigator.popUntil(
+    //                                 //     context, (route) => route.isFirst);
+    //                               },
+    //                               shape: RoundedRectangleBorder(
+    //                                 borderRadius: BorderRadius.circular(10),
+    //                               ),
+    //                               child: Container(
+    //                                 width: 120,
+    //                                 height: 40,
+    //                                 decoration: BoxDecoration(
+    //                                   borderRadius: BorderRadius.circular(10),
+    //                                   color: const Color.fromRGBO(4, 26, 82, 1),
+    //                                 ),
+    //                                 child: const Center(
+    //                                   child: Text(
+    //                                     'Got it',
+    //                                     style: TextStyle(
+    //                                       color: Colors.white,
+    //                                       fontWeight: FontWeight.w500,
+    //                                       fontSize: 16,
+    //                                     ),
+    //                                   ),
+    //                                 ),
+    //                               ),
+    //                             ),
+    //                           ],
+    //                         ),
+    //                       ],
+    //                     ),
+    //                   ),
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //       ),
+    //     ).then((value) {
+    //       Butter.d('Dialog: $value');
+    //       widget.model?.setNotification(null, true);
+    //       // Pop all the routes until you reach the root route
+    //       // Navigator.popUntil(context, (route) => route.isFirst);
+    //       // Navigator.pop(context);
+    //     });
+    //   }
+    // });
+
     return Scaffold(
       body: CustomScrollView(
         physics: const ClampingScrollPhysics(),
@@ -423,8 +558,118 @@ class _WelcomePageState extends State<WelcomePage> {
               : SliverToBoxAdapter(
                   child: Container(),
                 ),
+          widget.model!.notificationObject != null
+              ? SliverToBoxAdapter(
+                  child: Container(
+                  margin: const EdgeInsets.fromLTRB(15, 10, 15, 0),
+                  alignment: Alignment.centerLeft,
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 253, 244, 244),
+                    borderRadius: BorderRadius.circular(
+                        10), // Adjust the radius for rounded corners
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color(0x142c0807),
+                        offset: Offset(0, 2),
+                        blurRadius: 8,
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 15, 20, 20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              showAll = !showAll;
+                            });
+                          },
+                          child: Row(
+                            children: [
+                              badges.Badge(
+                                badgeStyle: badges.BadgeStyle(
+                                  badgeColor: Colors.red.shade900,
+                                ),
+                                position: badges.BadgePosition.topEnd(
+                                    top: -5, end: -5),
+                                showBadge: true,
+                                ignorePointer: false,
+                                badgeAnimation:
+                                    const badges.BadgeAnimation.scale(
+                                  animationDuration:
+                                      Duration(milliseconds: 200),
+                                  loopAnimation:
+                                      false, // Keep the animation looping
+                                  curve: Curves
+                                      .linear, // Linear curve for a continuous rotation
+                                ),
+                                badgeContent: const Icon(
+                                  Octicons.bell_fill,
+                                  color: Colors.white,
+                                  size: 14,
+                                ),
+                              ),
+                              const SizedBox(width: 5),
+                              Text(
+                                (widget.model!.notificationObject!
+                                    as Map<String, dynamic>)['header'],
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color.fromRGBO(4, 26, 82, 1),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        showAll == true
+                            ? Column(children: [
+                                const SizedBox(height: 10),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(25, 0, 0, 0),
+                                  child: Text(
+                                    (widget.model!.notificationObject!
+                                        as Map<String, dynamic>)['content'],
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Color.fromRGBO(4, 26, 82, 1),
+                                    ),
+                                    // maxLines: 0,
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    GestureDetector(
+                                        onTap: () {
+                                          widget.model
+                                              ?.setNotification(null, true);
+                                          setState(() {
+                                            showAll = false;
+                                          });
+                                        },
+                                        child: const Icon(
+                                          Icons.close,
+                                          color: Colors.black54,
+                                          size: 20,
+                                        )),
+                                  ],
+                                )
+                              ])
+                            : Container(),
+                      ],
+                    ),
+                  ),
+                ))
+              : SliverToBoxAdapter(
+                  child: Container(),
+                ),
           SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             sliver: SliverGrid(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,

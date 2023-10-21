@@ -91,9 +91,9 @@ class _NotificationViewState extends State<NotificationView> {
                             )
                           : Container(),
                       ...widget._notificationList.map<Widget>((element) {
-                        for (var e in element.keys) {
-                          Butter.d('$e: ${element[e]}');
-                        }
+                        // for (var e in element.keys) {
+                        //   Butter.d('$e: ${element[e]}');
+                        // }
                         return Column(
                           children: [
                             const SizedBox(height: 16),

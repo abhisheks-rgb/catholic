@@ -9,11 +9,13 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
   bool canUpdate = false;
   // VersionStatus? versionPlus;
   late void Function(String route) showPage;
+  late void Function(Object? notificationObject, bool show) setNotification;
   late void Function() showNotifs;
   late Future<void> Function() initializeQoute;
   late Future<void> Function() initializeUser;
   bool hasNotif = false;
   String notifId = '';
+  Object? notificationObject;
 
   WelcomeModel({
     this.loading = false,
@@ -21,6 +23,7 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
     this.appVersion,
     this.dbVersion,
     this.hasNotif = false,
+    this.notificationObject,
     this.notifId = '',
     this.canUpdate = false,
     // this.versionPlus
@@ -36,6 +39,7 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
         appVersion: appVersion,
         dbVersion: dbVersion,
         hasNotif: hasNotif,
+        notificationObject: notificationObject,
         notifId: notifId,
         canUpdate: canUpdate,
         // versionPlus: versionPlus
@@ -44,6 +48,7 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
   @override
   int get hashCode => Object.hashAll([
         loading, user, appVersion, dbVersion, hasNotif,
+        notificationObject,
         notifId,
         canUpdate,
         //  versionPlus
@@ -59,6 +64,7 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
           appVersion == other.appVersion &&
           dbVersion == other.dbVersion &&
           hasNotif == other.hasNotif &&
+          notificationObject == other.notificationObject &&
           notifId == other.notifId &&
           canUpdate == other.canUpdate
       //  &&

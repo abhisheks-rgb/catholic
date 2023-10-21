@@ -74,6 +74,6 @@ class FirebaseService {
     // navigatorKey.currentState?.pushNamed('/_/notification', arguments: 'notif');
     // NavigateAction.pushNamed('/_/notification');
 
-    FirebaseService._store.dispatch(NotifReceivedAction());
+    FirebaseService._store.dispatch(NotifReceivedAction(null, true));
   }
 }
