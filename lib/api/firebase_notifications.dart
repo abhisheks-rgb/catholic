@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:trcas_catholic/modules/welcome/actions/notif_received_action.dart';
 import 'package:trcas_catholic/service/package_info_service.dart';
@@ -43,6 +45,23 @@ class FirebaseNotifications {
     Butter.d('My token is $token');
     await _firebaseMessaging.setForegroundNotificationPresentationOptions(
         alert: true, badge: true, sound: true);
+
+    var androidInitialize =
+        const AndroidInitializationSettings('@drawable/mycatholicsg_white');
+    var iOSInitialize = const DarwinInitializationSettings();
+    var initializationSettings = InitializationSettings(
+      android: androidInitialize,
+      iOS: iOSInitialize,
+    );
+
+    FlutterLocalNotificationsPlugin().initialize(initializationSettings,
+        onDidReceiveNotificationResponse: (NotificationResponse payload) async {
+      try {
+        if (payload.toString().isNotEmpty) {}
+      } catch (e) {
+        Butter.d(e);
+      }
+    });
 
     _firebaseMessaging.getInitialMessage().then(_handleMessage);
 
@@ -122,6 +141,36 @@ class FirebaseNotifications {
     //   // NavigateAction.pushNamed('/_/notification');
 
     //   // FirebaseService._store.dispatch(NotifReceivedAction());
+
+    BigTextStyleInformation bigTextStyleInformation = BigTextStyleInformation(
+      message.notification!.body.toString(),
+      htmlFormatBigText: true,
+      contentTitle: message.notification!.title.toString(),
+      htmlFormatContentTitle: true,
+    );
+
+    AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails(
+      'trcas',
+      'trcas',
+      importance: Importance.high,
+      styleInformation: bigTextStyleInformation,
+      priority: Priority.high,
+      playSound: true,
+      color: Colors.red.shade900,
+    );
+
+    NotificationDetails platformChannelSpecifics = NotificationDetails(
+      android: androidNotificationDetails,
+    );
+
+    await FlutterLocalNotificationsPlugin().show(
+      0,
+      message.notification?.title,
+      message.notification?.body,
+      platformChannelSpecifics,
+      payload: message.data['body'],
+    );
   }
 }
 
