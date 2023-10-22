@@ -13,6 +13,7 @@ import 'app/persistor.dart' as p;
 import 'firebase_options.dart';
 // import 'service/firebase_service.dart';
 
+late Store<AppState> store;
 final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
@@ -30,7 +31,7 @@ void main() async {
     await persistor.saveInitialState(initialState);
   }
 
-  final store = Store<AppState>(
+  store = Store<AppState>(
     initialState: initialState,
     persistor: persistor,
   );
