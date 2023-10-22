@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trcas_catholic/modules/home/pages/home_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 import 'package:badges/badges.dart' as badges;
@@ -616,116 +617,237 @@ class _WelcomePageState extends State<WelcomePage> {
           //     }
           //   },
           // ),
-          widget.model!.notificationObject != null
-              ? SliverToBoxAdapter(
-                  child: Container(
-                  margin: const EdgeInsets.fromLTRB(15, 10, 15, 0),
-                  alignment: Alignment.centerLeft,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 253, 244, 244),
-                    borderRadius: BorderRadius.circular(
-                        10), // Adjust the radius for rounded corners
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color(0x142c0807),
-                        offset: Offset(0, 2),
-                        blurRadius: 8,
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 15, 20, 20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              showAll = !showAll;
-                            });
-                          },
-                          child: Row(
-                            children: [
-                              badges.Badge(
-                                badgeStyle: badges.BadgeStyle(
-                                  badgeColor: Colors.red.shade900,
-                                ),
-                                position: badges.BadgePosition.topEnd(
-                                    top: -5, end: -5),
-                                showBadge: true,
-                                ignorePointer: false,
-                                badgeAnimation:
-                                    const badges.BadgeAnimation.scale(
-                                  animationDuration:
-                                      Duration(milliseconds: 200),
-                                  loopAnimation:
-                                      false, // Keep the animation looping
-                                  curve: Curves
-                                      .linear, // Linear curve for a continuous rotation
-                                ),
-                                badgeContent: const Icon(
-                                  Octicons.bell_fill,
-                                  color: Colors.white,
-                                  size: 14,
-                                ),
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                (widget.model!.notificationObject!
-                                    as Map<String, dynamic>)['header'],
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color.fromRGBO(4, 26, 82, 1),
-                                ),
+          ValueListenableBuilder(
+            valueListenable: objectNotifier,
+            builder: (context, value, child) {
+              final header =
+                  (value as Map<dynamic, dynamic>)['header'].toString();
+              final content = value['content'].toString();
+
+              return SliverToBoxAdapter(
+                  child: header != 'null'
+                      ? Container(
+                          margin: const EdgeInsets.fromLTRB(15, 10, 15, 0),
+                          alignment: Alignment.centerLeft,
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 253, 244, 244),
+                            borderRadius: BorderRadius.circular(
+                                10), // Adjust the radius for rounded corners
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color(0x142c0807),
+                                offset: Offset(0, 2),
+                                blurRadius: 8,
                               ),
                             ],
                           ),
-                        ),
-                        showAll == true
-                            ? Column(children: [
-                                const SizedBox(height: 10),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(25, 0, 0, 0),
-                                  child: Text(
-                                    (widget.model!.notificationObject!
-                                        as Map<String, dynamic>)['content'],
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      color: Color.fromRGBO(4, 26, 82, 1),
-                                    ),
-                                    // maxLines: 0,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 15, 20, 20),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      showAll = !showAll;
+                                    });
+                                  },
+                                  child: Row(
+                                    children: [
+                                      badges.Badge(
+                                        badgeStyle: badges.BadgeStyle(
+                                          badgeColor: Colors.red.shade900,
+                                        ),
+                                        position: badges.BadgePosition.topEnd(
+                                            top: -5, end: -5),
+                                        showBadge: true,
+                                        ignorePointer: false,
+                                        badgeAnimation:
+                                            const badges.BadgeAnimation.scale(
+                                          animationDuration:
+                                              Duration(milliseconds: 200),
+                                          loopAnimation:
+                                              false, // Keep the animation looping
+                                          curve: Curves
+                                              .linear, // Linear curve for a continuous rotation
+                                        ),
+                                        badgeContent: const Icon(
+                                          Octicons.bell_fill,
+                                          color: Colors.white,
+                                          size: 14,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Text(
+                                        header,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color.fromRGBO(4, 26, 82, 1),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                const SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    GestureDetector(
-                                        onTap: () {
-                                          widget.model
-                                              ?.setNotification(null, true);
-                                          setState(() {
-                                            showAll = false;
-                                          });
-                                        },
-                                        child: const Icon(
-                                          Icons.close,
-                                          color: Colors.black54,
-                                          size: 20,
-                                        )),
-                                  ],
-                                )
-                              ])
-                            : Container(),
-                      ],
-                    ),
-                  ),
-                ))
-              : SliverToBoxAdapter(
-                  child: Container(),
-                ),
+                                showAll == true
+                                    ? Column(children: [
+                                        const SizedBox(height: 10),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              25, 0, 0, 0),
+                                          child: Text(
+                                            content,
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              color:
+                                                  Color.fromRGBO(4, 26, 82, 1),
+                                            ),
+                                            // maxLines: 0,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            GestureDetector(
+                                                onTap: () {
+                                                  // widget.model?.setNotification(
+                                                  //     null, true);
+                                                  objectNotifier.value = {
+                                                    'header': 'null',
+                                                    'content': 'null'
+                                                  };
+                                                  setState(() {
+                                                    showAll = false;
+                                                  });
+                                                },
+                                                child: const Icon(
+                                                  Icons.close,
+                                                  color: Colors.black54,
+                                                  size: 20,
+                                                )),
+                                          ],
+                                        )
+                                      ])
+                                    : Container(),
+                              ],
+                            ),
+                          ),
+                        )
+                      : Container());
+            },
+          ),
+          // widget.model!.notificationObject != null
+          //     ? SliverToBoxAdapter(
+          //         child: Container(
+          //         margin: const EdgeInsets.fromLTRB(15, 10, 15, 0),
+          //         alignment: Alignment.centerLeft,
+          //         decoration: BoxDecoration(
+          //           color: const Color.fromARGB(255, 253, 244, 244),
+          //           borderRadius: BorderRadius.circular(
+          //               10), // Adjust the radius for rounded corners
+          //           boxShadow: const [
+          //             BoxShadow(
+          //               color: Color(0x142c0807),
+          //               offset: Offset(0, 2),
+          //               blurRadius: 8,
+          //             ),
+          //           ],
+          //         ),
+          //         child: Padding(
+          //           padding: const EdgeInsets.fromLTRB(15, 15, 20, 20),
+          //           child: Column(
+          //             mainAxisAlignment: MainAxisAlignment.start,
+          //             children: [
+          //               GestureDetector(
+          //                 onTap: () {
+          //                   setState(() {
+          //                     showAll = !showAll;
+          //                   });
+          //                 },
+          //                 child: Row(
+          //                   children: [
+          //                     badges.Badge(
+          //                       badgeStyle: badges.BadgeStyle(
+          //                         badgeColor: Colors.red.shade900,
+          //                       ),
+          //                       position: badges.BadgePosition.topEnd(
+          //                           top: -5, end: -5),
+          //                       showBadge: true,
+          //                       ignorePointer: false,
+          //                       badgeAnimation:
+          //                           const badges.BadgeAnimation.scale(
+          //                         animationDuration:
+          //                             Duration(milliseconds: 200),
+          //                         loopAnimation:
+          //                             false, // Keep the animation looping
+          //                         curve: Curves
+          //                             .linear, // Linear curve for a continuous rotation
+          //                       ),
+          //                       badgeContent: const Icon(
+          //                         Octicons.bell_fill,
+          //                         color: Colors.white,
+          //                         size: 14,
+          //                       ),
+          //                     ),
+          //                     const SizedBox(width: 5),
+          //                     Text(
+          //                       (widget.model!.notificationObject!
+          //                           as Map<String, dynamic>)['header'],
+          //                       style: const TextStyle(
+          //                         fontSize: 16,
+          //                         fontWeight: FontWeight.w500,
+          //                         color: Color.fromRGBO(4, 26, 82, 1),
+          //                       ),
+          //                     ),
+          //                   ],
+          //                 ),
+          //               ),
+          //               showAll == true
+          //                   ? Column(children: [
+          //                       const SizedBox(height: 10),
+          //                       Padding(
+          //                         padding:
+          //                             const EdgeInsets.fromLTRB(25, 0, 0, 0),
+          //                         child: Text(
+          //                           (widget.model!.notificationObject!
+          //                               as Map<String, dynamic>)['content'],
+          //                           style: const TextStyle(
+          //                             fontSize: 16,
+          //                             color: Color.fromRGBO(4, 26, 82, 1),
+          //                           ),
+          //                           // maxLines: 0,
+          //                         ),
+          //                       ),
+          //                       const SizedBox(height: 10),
+          //                       Row(
+          //                         mainAxisAlignment: MainAxisAlignment.end,
+          //                         children: [
+          //                           GestureDetector(
+          //                               onTap: () {
+          //                                 widget.model
+          //                                     ?.setNotification(null, true);
+          //                                 setState(() {
+          //                                   showAll = false;
+          //                                 });
+          //                               },
+          //                               child: const Icon(
+          //                                 Icons.close,
+          //                                 color: Colors.black54,
+          //                                 size: 20,
+          //                               )),
+          //                         ],
+          //                       )
+          //                     ])
+          //                   : Container(),
+          //             ],
+          //           ),
+          //         ),
+          //       ))
+          //     : SliverToBoxAdapter(
+          //         child: Container(),
+          //       ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             sliver: SliverGrid(

@@ -24,6 +24,8 @@ import '../components/events_footer.dart';
 import '../components/navbar.dart';
 
 String? mToken = ' ';
+// late final ValueNotifier<Object>? objectNotifier;
+final objectNotifier = ValueNotifier<Object>({});
 
 class HomePage extends BaseStatefulPageView {
   final HomeModel? model;
@@ -53,7 +55,7 @@ class HomePage extends BaseStatefulPageView {
     //   initInfo();
     // });
     try {
-      await FirebaseNotifications().initNotifications();
+      await FirebaseNotifications().initNotifications(objectNotifier);
     } catch (e) {
       Butter.e(e);
     }
