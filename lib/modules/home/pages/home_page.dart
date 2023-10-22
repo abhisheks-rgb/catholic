@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:trcas_catholic/api/firebase_notifications.dart';
+import 'package:trcas_catholic/main.dart';
 
 import '../../../app/app.dart';
 import '../../../app/splash_screen.dart';
@@ -51,7 +52,7 @@ class HomePage extends BaseStatefulPageView {
     //   getToken();
     //   initInfo();
     // });
-    // await FirebaseNotifications().initNotifications();
+    await FirebaseNotifications().initNotifications(store);
     // FirebaseMessaging messaging = FirebaseMessaging.instance;
 
     // NotificationSettings settings = await messaging.requestPermission(

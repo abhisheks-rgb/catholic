@@ -37,7 +37,7 @@ void main() async {
   );
   NavigateAction.setNavigatorKey(navigatorKey);
 
-  await FirebaseNotifications().initNotifications(store);
+  // await FirebaseNotifications().initNotifications(store);
   // store.dispatch(NotifReceivedAction());
   // await FirebaseService.initialize(store);
   // // Push Notification
