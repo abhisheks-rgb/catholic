@@ -52,7 +52,11 @@ class HomePage extends BaseStatefulPageView {
     //   getToken();
     //   initInfo();
     // });
-    await FirebaseNotifications().initNotifications(store);
+    try {
+      await FirebaseNotifications().initNotifications();
+    } catch (e) {
+      Butter.e(e);
+    }
     // FirebaseMessaging messaging = FirebaseMessaging.instance;
 
     // NotificationSettings settings = await messaging.requestPermission(

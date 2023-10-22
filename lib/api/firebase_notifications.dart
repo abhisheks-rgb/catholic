@@ -3,15 +3,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:trcas_catholic/modules/welcome/actions/notif_received_action.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:trcas_catholic/modules/welcome/actions/notif_received_action.dart';
 import 'package:trcas_catholic/service/package_info_service.dart';
 
 class FirebaseNotifications {
   final _firebaseMessaging = FirebaseMessaging.instance;
-  static late final Store<AppState> _store;
+  // static late final Store<AppState> _store;
 
-  Future<void> initNotifications(Store<AppState> store) async {
-    FirebaseNotifications._store = store;
+  Future<void> initNotifications() async {
+    // FirebaseNotifications._store = store;
 
     try {
       NotificationSettings settings =
@@ -85,7 +86,7 @@ class FirebaseNotifications {
     });
   }
 
-  void _handleMessage(RemoteMessage? message) {
+  void _handleMessage(RemoteMessage? message) async {
     if (message == null) return;
 
     String? title = message.notification!.title;
@@ -93,21 +94,27 @@ class FirebaseNotifications {
 
     Butter.d('_handleMessage **************$title');
     Butter.d('_handleMessage **************$body');
-    final element = {
-      'showNotifications': false,
-      'youtube': '',
-      'postas': 'ArchComms',
-      'author': 'ArchComms',
-      'parish': '99999',
-      'created': 1696859680498,
-      'header': title,
-      'id': '999991696859680498',
-      'content': body
-    };
+    // final element = {
+    //   'showNotifications': false,
+    //   'youtube': '',
+    //   'postas': 'ArchComms',
+    //   'author': 'ArchComms',
+    //   'parish': '99999',
+    //   'created': 1696859680498,
+    //   'header': title,
+    //   'id': '999991696859680498',
+    //   'content': body
+    // };
+    // Butter.d('_handleMessage **************$element');
     // navigatorKey.currentState
     //     ?.pushNamed('/_/notification/details', arguments: element);
-    FirebaseNotifications._store.dispatch(NotifReceivedAction(element, true));
-
+    // FirebaseNotifications._store.dispatch(NotifReceivedAction(element, true));
+    // final prefs = await SharedPreferences.getInstance();
+    // // .then((value) {
+    // await prefs.setString(
+    //     'notificationMessage', {title: 'hello', body: 'there'}.toString());
+    // Butter.d('Saved notification message');
+    // });
     // NavigateAction.pushNamed('/_/notification', arguments: {});
     //   // navigatorKey.currentState?.pushNamed(NotificationPage.route,
     //   //     arguments: {'title': title, 'body': body});

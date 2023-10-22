@@ -1,8 +1,12 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:butter/butter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 import 'package:badges/badges.dart' as badges;
@@ -17,6 +21,18 @@ class WelcomePage extends BaseStatefulPageView {
 
   WelcomePage({Key? key, this.model, this.homeModel}) : super();
 
+  // @override
+  // FutureOr<bool> beforeLoad(BuildContext context) async {
+  //   //
+  //   Butter.d('=========================WelcomePage::beforeLoad');
+  //   SharedPreferences.getInstance().then((value) {
+  //     final notificationMessage =
+  //         jsonDecode(value.getString('notificationMessage').toString());
+  //     Butter.d('notificationMessage: $notificationMessage');
+  //   });
+  //   return true;
+  // }
+
   @override
   get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
         hasAppBar: false,
@@ -29,6 +45,26 @@ class WelcomePage extends BaseStatefulPageView {
 class _WelcomePageState extends State<WelcomePage> {
   final ScrollController _scrollController = ScrollController();
   bool showAll = false;
+  //  final _prefsController = StreamController<String>();
+  // Object? notifObject;
+
+  // void getNotificationObject() {
+  //   SharedPreferences.getInstance().then((value) {
+  //     final notificationMessage =
+  //         (value.getString('notificationMessage').toString());
+  //     Butter.d('notificationMessage: $notificationMessage');
+  //     setState(() {
+  //       notifObject = notificationMessage;
+  //     });
+  //   });
+  // }
+
+// //initState here
+//   @override
+//   void initState() {
+//     super.initState();
+//     // getNotificationObject();
+//   }
 
   @override
   Widget build(BuildContext context) {
@@ -77,9 +113,17 @@ class _WelcomePageState extends State<WelcomePage> {
       return false;
     }
 
+//   Future<String> _loadData() async {
+//   final prefs = await SharedPreferences.getInstance();
+//   _prefsController.add(prefs.getString('myData') ?? 'No data');
+//   prefs.onValue.listen((event) {
+//     _prefsController.add(event.newValue ?? 'No data');
+//   });
+// }
+
     // Butter.d('App Version: ${widget.model?.appVersion}');
     // Butter.d('DB Version: ${widget.model?.dbVersion}');
-    Butter.d('Notification Object: ${widget.model!.notificationObject}');
+    // Butter.d('Notification Object: ${widget.model!.notificationObject}');
 
     // Schedule a callback after the frame has been rendered
     // SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -211,7 +255,8 @@ class _WelcomePageState extends State<WelcomePage> {
     //     });
     //   }
     // });
-
+    // getNotificationObject();
+    // Butter.d('Notification Object: $notifObject');
     return Scaffold(
       body: CustomScrollView(
         physics: const ClampingScrollPhysics(),
@@ -558,6 +603,19 @@ class _WelcomePageState extends State<WelcomePage> {
               : SliverToBoxAdapter(
                   child: Container(),
                 ),
+          // StreamBuilder<String>(
+          //   stream: _loadData(),
+          //   builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          //     if (snapshot.hasData) {
+          //       return SliverToBoxAdapter(child: Text(snapshot.data!));
+          //     } else if (snapshot.hasError) {
+          //       return SliverToBoxAdapter(
+          //           child: Text('Error: ${snapshot.error}'));
+          //     } else {
+          //       return SliverToBoxAdapter(child: Container());
+          //     }
+          //   },
+          // ),
           widget.model!.notificationObject != null
               ? SliverToBoxAdapter(
                   child: Container(
