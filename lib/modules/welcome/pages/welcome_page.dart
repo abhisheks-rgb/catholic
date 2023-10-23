@@ -459,28 +459,33 @@ class _WelcomePageState extends State<WelcomePage> {
                                 ListTile(
                                   dense: true,
                                   minLeadingWidth: 10,
-                                  leading: badges.Badge(
-                                    badgeStyle: badges.BadgeStyle(
-                                      badgeColor: Colors.red.shade900,
-                                    ),
-                                    position: badges.BadgePosition.topEnd(
-                                        top: -5, end: -5),
-                                    showBadge: true,
-                                    ignorePointer: false,
-                                    badgeAnimation:
-                                        const badges.BadgeAnimation.scale(
-                                      animationDuration:
-                                          Duration(milliseconds: 200),
-                                      loopAnimation:
-                                          false, // Keep the animation looping
-                                      curve: Curves
-                                          .linear, // Linear curve for a continuous rotation
-                                    ),
-                                    badgeContent: const Icon(
-                                      Octicons.bell_fill,
-                                      color: Colors.white,
-                                      size: 14,
-                                    ),
+                                  leading: Column(
+                                    children: [
+                                      const SizedBox(height: 14),
+                                      badges.Badge(
+                                        badgeStyle: badges.BadgeStyle(
+                                          badgeColor: Colors.red.shade800,
+                                        ),
+                                        position: badges.BadgePosition.topEnd(
+                                            top: -5, end: -5),
+                                        showBadge: true,
+                                        ignorePointer: false,
+                                        badgeAnimation:
+                                            const badges.BadgeAnimation.scale(
+                                          animationDuration:
+                                              Duration(milliseconds: 200),
+                                          loopAnimation:
+                                              false, // Keep the animation looping
+                                          curve: Curves
+                                              .linear, // Linear curve for a continuous rotation
+                                        ),
+                                        badgeContent: const Icon(
+                                          Octicons.bell_fill,
+                                          color: Colors.white,
+                                          size: 14,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   title: RichText(
                                     text: TextSpan(
@@ -499,7 +504,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 10),
+                                const SizedBox(height: 8),
                                 showAll == true
                                     ? Column(
                                         mainAxisAlignment:
@@ -508,7 +513,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                             Padding(
                                               padding:
                                                   const EdgeInsets.fromLTRB(
-                                                      15, 0, 15, 10),
+                                                      15, 0, 15, 0),
                                               child: Text(
                                                 content,
                                                 style: const TextStyle(
@@ -552,10 +557,10 @@ class _WelcomePageState extends State<WelcomePage> {
                                                     ),
                                                   ),
                                                 ),
-                                                const SizedBox(width: 10)
+                                                const SizedBox(width: 15)
                                               ],
                                             ),
-                                            const SizedBox(height: 10)
+                                            const SizedBox(height: 15)
                                           ])
                                     : Container(),
                               ],
