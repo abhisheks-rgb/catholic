@@ -492,7 +492,6 @@ class _WelcomePageState extends State<WelcomePage> {
                                         TextSpan(
                                           text: header,
                                           style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
                                             height: 1.4,
                                           ),
                                         ),
