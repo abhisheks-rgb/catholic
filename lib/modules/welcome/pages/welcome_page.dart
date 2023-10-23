@@ -453,102 +453,113 @@ class _WelcomePageState extends State<WelcomePage> {
                                 ),
                               ],
                             ),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(15, 15, 20, 20),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      badges.Badge(
-                                        badgeStyle: badges.BadgeStyle(
-                                          badgeColor: Colors.red.shade900,
-                                        ),
-                                        position: badges.BadgePosition.topEnd(
-                                            top: -5, end: -5),
-                                        showBadge: true,
-                                        ignorePointer: false,
-                                        badgeAnimation:
-                                            const badges.BadgeAnimation.scale(
-                                          animationDuration:
-                                              Duration(milliseconds: 200),
-                                          loopAnimation:
-                                              false, // Keep the animation looping
-                                          curve: Curves
-                                              .linear, // Linear curve for a continuous rotation
-                                        ),
-                                        badgeContent: const Icon(
-                                          Octicons.bell_fill,
-                                          color: Colors.white,
-                                          size: 14,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 5),
-                                      Text(
-                                        header,
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500,
-                                          color: Color.fromRGBO(4, 26, 82, 1),
-                                        ),
-                                      ),
-                                    ],
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                ListTile(
+                                  dense: true,
+                                  minLeadingWidth: 10,
+                                  leading: badges.Badge(
+                                    badgeStyle: badges.BadgeStyle(
+                                      badgeColor: Colors.red.shade900,
+                                    ),
+                                    position: badges.BadgePosition.topEnd(
+                                        top: -5, end: -5),
+                                    showBadge: true,
+                                    ignorePointer: false,
+                                    badgeAnimation:
+                                        const badges.BadgeAnimation.scale(
+                                      animationDuration:
+                                          Duration(milliseconds: 200),
+                                      loopAnimation:
+                                          false, // Keep the animation looping
+                                      curve: Curves
+                                          .linear, // Linear curve for a continuous rotation
+                                    ),
+                                    badgeContent: const Icon(
+                                      Octicons.bell_fill,
+                                      color: Colors.white,
+                                      size: 14,
+                                    ),
                                   ),
-                                  showAll == true
-                                      ? Column(children: [
-                                          Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                25, 10, 0, 0),
-                                            child: Text(
-                                              content,
-                                              style: const TextStyle(
-                                                fontSize: 16,
-                                                color: Color.fromRGBO(
-                                                    4, 26, 82, 1),
+                                  title: RichText(
+                                    text: TextSpan(
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          height: 1.4,
+                                          color: Color.fromRGBO(4, 26, 82, 1)),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: header,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            height: 1.4,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                showAll == true
+                                    ? Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      15, 0, 15, 10),
+                                              child: Text(
+                                                content,
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  color: Color.fromRGBO(
+                                                      4, 26, 82, 1),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              RawMaterialButton(
-                                                enableFeedback: true,
-                                                elevation: 0,
-                                                constraints:
-                                                    const BoxConstraints(),
-                                                materialTapTargetSize:
-                                                    MaterialTapTargetSize
-                                                        .shrinkWrap,
-                                                onPressed: () {
-                                                  objectNotifier.value = {
-                                                    'header': 'null',
-                                                    'content': 'null'
-                                                  };
-                                                  setState(() {
-                                                    showAll = false;
-                                                  });
-                                                },
-                                                shape: const CircleBorder(),
-                                                child: const SizedBox(
-                                                  width: 24,
-                                                  height: 24,
-                                                  child: Icon(
-                                                    MaterialCommunityIcons
-                                                        .close,
-                                                    color: Color.fromARGB(
-                                                        255, 135, 135, 135),
-                                                    weight: .1,
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                RawMaterialButton(
+                                                  enableFeedback: true,
+                                                  elevation: 0,
+                                                  constraints:
+                                                      const BoxConstraints(),
+                                                  materialTapTargetSize:
+                                                      MaterialTapTargetSize
+                                                          .shrinkWrap,
+                                                  onPressed: () {
+                                                    objectNotifier.value = {
+                                                      'header': 'null',
+                                                      'content': 'null'
+                                                    };
+                                                    setState(() {
+                                                      showAll = false;
+                                                    });
+                                                  },
+                                                  shape: const CircleBorder(),
+                                                  child: const SizedBox(
+                                                    width: 24,
+                                                    height: 24,
+                                                    child: Icon(
+                                                      MaterialCommunityIcons
+                                                          .close,
+                                                      color: Color.fromARGB(
+                                                          255, 135, 135, 135),
+                                                      weight: .1,
+                                                    ),
                                                   ),
                                                 ),
-                                              )
-                                            ],
-                                          )
-                                        ])
-                                      : Container(),
-                                ],
-                              ),
+                                                const SizedBox(width: 10)
+                                              ],
+                                            ),
+                                            const SizedBox(height: 10)
+                                          ])
+                                    : Container(),
+                              ],
                             ),
                           ),
                         )
