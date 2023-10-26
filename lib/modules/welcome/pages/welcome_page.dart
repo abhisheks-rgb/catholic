@@ -1,6 +1,7 @@
 import 'package:butter/butter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:trcas_catholic/modules/home/pages/home_page.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -511,18 +512,33 @@ class _WelcomePageState extends State<WelcomePage> {
                                             MainAxisAlignment.start,
                                         children: [
                                             Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      15, 0, 15, 0),
-                                              child: Text(
-                                                content,
-                                                style: const TextStyle(
-                                                  fontSize: 16,
-                                                  color: Color.fromRGBO(
-                                                      4, 26, 82, 1),
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        15, 0, 15, 0),
+                                                child: Linkify(
+                                                  onOpen: (link) async {
+                                                    final website = link.url;
+                                                    final uri =
+                                                        Uri.parse(website);
+                                                    urlLauncher(uri, 'web');
+                                                  },
+                                                  text: content,
+                                                  style: const TextStyle(
+                                                    fontSize: 16,
+                                                    color: Color.fromRGBO(
+                                                        4, 26, 82, 1),
+                                                  ),
+                                                )
+
+                                                // Text(
+                                                //   content,
+                                                //   style: const TextStyle(
+                                                //     fontSize: 16,
+                                                //     color: Color.fromRGBO(
+                                                //         4, 26, 82, 1),
+                                                //   ),
+                                                // ),
                                                 ),
-                                              ),
-                                            ),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,
