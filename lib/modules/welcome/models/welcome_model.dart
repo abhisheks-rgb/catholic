@@ -6,6 +6,7 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
   Map<String, dynamic>? user;
   Map<dynamic, dynamic>? appVersion;
   Map<dynamic, dynamic>? dbVersion;
+  Map<dynamic, dynamic>? dbOjects;
   bool canUpdate = false;
   // VersionStatus? versionPlus;
   late void Function(String route) showPage;
@@ -22,6 +23,7 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
     this.user,
     this.appVersion,
     this.dbVersion,
+    this.dbOjects,
     this.hasNotif = false,
     this.notificationObject,
     this.notifId = '',
@@ -38,6 +40,7 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
         user: user,
         appVersion: appVersion,
         dbVersion: dbVersion,
+        dbOjects: dbOjects,
         hasNotif: hasNotif,
         notificationObject: notificationObject,
         notifId: notifId,
@@ -47,10 +50,9 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
 
   @override
   int get hashCode => Object.hashAll([
-        loading, user, appVersion, dbVersion, hasNotif,
+        loading, user, appVersion, dbVersion, dbOjects, hasNotif,
         notificationObject,
-        notifId,
-        canUpdate,
+        notifId, canUpdate,
         //  versionPlus
       ]);
 
@@ -63,6 +65,7 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
           user == other.user &&
           appVersion == other.appVersion &&
           dbVersion == other.dbVersion &&
+          dbOjects == other.dbOjects &&
           hasNotif == other.hasNotif &&
           notificationObject == other.notificationObject &&
           notifId == other.notifId &&
