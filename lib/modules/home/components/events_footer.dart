@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:add_2_calendar/add_2_calendar.dart' as a2c;
+// import 'package:add_2_calendar/add_2_calendar.dart' as a2c;
 import 'package:html/parser.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -876,7 +876,7 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             onPressed: () {
-                              _addEventToCalendar();
+                              // _addEventToCalendar();
                             },
                             child: Container(
                               height: 50,
@@ -1105,23 +1105,23 @@ class _EventDetailsFooterState extends State<EventDetailsFooter> {
     );
   }
 
-  void _addEventToCalendar() {
-    final startDate =
-        _dateEvent(widget.model?.selectedEventDetail!['startDate']);
-    final endDate = _dateEvent(widget.model?.selectedEventDetail!['endDate']);
+  // void _addEventToCalendar() {
+  //   final startDate =
+  //       _dateEvent(widget.model?.selectedEventDetail!['startDate']);
+  //   final endDate = _dateEvent(widget.model?.selectedEventDetail!['endDate']);
 
-    final a2c.Event event = a2c.Event(
-      title: widget.model?.selectedEventDetail!['eventName'] as String,
-      description: _parseHtmlString(
-          widget.model?.selectedEventDetail!['eventDescription']),
-      location: widget.model?.selectedEventDetail!['eventVenue'] as String,
-      startDate: startDate,
-      endDate: endDate,
-      allDay: false,
-    );
+  //   final a2c.Event event = a2c.Event(
+  //     title: widget.model?.selectedEventDetail!['eventName'] as String,
+  //     description: _parseHtmlString(
+  //         widget.model?.selectedEventDetail!['eventDescription']),
+  //     location: widget.model?.selectedEventDetail!['eventVenue'] as String,
+  //     startDate: startDate,
+  //     endDate: endDate,
+  //     allDay: false,
+  //   );
 
-    a2c.Add2Calendar.addEvent2Cal(event);
-  }
+  //   a2c.Add2Calendar.addEvent2Cal(event);
+  // }
 
   DateTime _dateEvent(dateEvent) {
     DateTime date =

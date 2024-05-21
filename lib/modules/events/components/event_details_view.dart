@@ -1,4 +1,4 @@
-import 'package:add_2_calendar/add_2_calendar.dart' as a2c;
+// import 'package:add_2_calendar/add_2_calendar.dart' as a2c;
 import 'package:butter/butter.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
@@ -156,23 +156,23 @@ class _EventDetailsViewState extends State<EventDetailsView> {
                           materialTapTargetSize:
                               MaterialTapTargetSize.shrinkWrap,
                           onPressed: () {
-                            final startDate =
-                                _dateEvent(widget.model?.item!['startDate']);
-                            final endDate =
-                                _dateEvent(widget.model?.item!['endDate']);
+                            // final startDate =
+                            //     _dateEvent(widget.model?.item!['startDate']);
+                            // final endDate =
+                            //     _dateEvent(widget.model?.item!['endDate']);
 
-                            final a2c.Event event = a2c.Event(
-                              title: widget.model?.item!['eventName'] as String,
-                              description: _parseHtmlString(
-                                  widget.model?.item!['eventDescription']),
-                              location:
-                                  widget.model?.item!['eventVenue'] as String,
-                              startDate: startDate,
-                              endDate: endDate,
-                              allDay: false,
-                            );
+                            // final a2c.Event event = a2c.Event(
+                            //   title: widget.model?.item!['eventName'] as String,
+                            //   description: _parseHtmlString(
+                            //       widget.model?.item!['eventDescription']),
+                            //   location:
+                            //       widget.model?.item!['eventVenue'] as String,
+                            //   startDate: startDate,
+                            //   endDate: endDate,
+                            //   allDay: false,
+                            // );
 
-                            a2c.Add2Calendar.addEvent2Cal(event);
+                            // a2c.Add2Calendar.addEvent2Cal(event);
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
