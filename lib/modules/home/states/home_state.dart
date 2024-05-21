@@ -5,6 +5,7 @@ import '../actions/initialize_action.dart';
 import '../actions/initialize_todayis.dart';
 import '../actions/initialize_notification.dart';
 import '../actions/initialize_version.dart';
+import '../actions/initialize_objects.dart';
 import '../actions/select_menu_item_action.dart';
 import '../actions/set_font_size_action.dart';
 import '../actions/set_interest_action.dart';
@@ -81,6 +82,7 @@ class HomeState extends BasePageState<HomeModel> {
             (context) => dispatchAction(InitializeAction(context: context));
         m.initializeTodayIs = () => dispatchAction(InitializeTodayIs());
         m.initializeVersion = () => dispatchAction(InitializeVersion());
+        m.initializeObjects = () => dispatchAction(InitializeObjects());
         m.initializeNotification =
             () => dispatchAction(InitializeNotification());
         m.setSelectedIndex = ({index}) {
