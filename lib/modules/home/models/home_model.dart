@@ -21,6 +21,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
   String bookingErrorMessage;
   Map<dynamic, dynamic>? appVersion;
   Map<dynamic, dynamic>? dbVersion;
+  Map<dynamic, dynamic>? dbOjects;
 
   double? titleFontSize = 20;
   double? contentFontSize = 16;
@@ -32,6 +33,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
   late Future<void> Function() initializeTodayIs;
   late Future<void> Function() initializeNotification;
   late Future<void> Function() initializeVersion;
+  late Future<void> Function() initializeObjects;
   Function({int? index})? setSelectedIndex;
   void Function({
     BuildContext? context,
@@ -74,6 +76,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
     this.contentFontSize,
     this.appVersion,
     this.dbVersion,
+    this.dbOjects,
     this.hasNotif = false,
   });
 
@@ -101,6 +104,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
       contentFontSize: contentFontSize,
       appVersion: appVersion,
       dbVersion: dbVersion,
+      dbOjects: dbOjects,
       hasNotif: hasNotif);
 
   @override
@@ -124,6 +128,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
         contentFontSize,
         appVersion,
         dbVersion,
+        dbOjects,
         hasNotif
       ]);
 
@@ -153,5 +158,6 @@ class HomeModel extends BaseUIModel<HomeModel> {
           contentFontSize == other.contentFontSize &&
           appVersion == other.appVersion &&
           dbVersion == other.dbVersion &&
+          dbOjects == other.dbOjects &&
           hasNotif == other.hasNotif;
 }
