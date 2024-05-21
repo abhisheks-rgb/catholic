@@ -1,14 +1,16 @@
 import 'package:butter/butter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:trcas_catholic/modules/home/pages/home_page.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:io' show Platform;
 import 'package:badges/badges.dart' as badges;
+import '../../home/pages/home_page.dart';
+import '../components/notification_box_view.dart';
 import '../models/welcome_model.dart';
 import '../../home/models/home_model.dart';
+import '../../shared/components/front_banner_view.dart';
+import '../../shared/components/login_prompt_view.dart';
+import '../../shared/components/download_prompt_view.dart';
 import '../../../utils/asset_path.dart';
 import '../../../../utils/page_specs.dart';
 
@@ -30,6 +32,7 @@ class WelcomePage extends BaseStatefulPageView {
 class _WelcomePageState extends State<WelcomePage> {
   final ScrollController _scrollController = ScrollController();
   bool showAll = false;
+  dynamic frontBannerProperties = {};
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +81,35 @@ class _WelcomePageState extends State<WelcomePage> {
       return false;
     }
 
+    bool isFrontBannerEnabled() {
+      // this checks firebase of banner needs to be displayed, then get the parameters
+      final frontBanner = widget.model?.dbOjects?['objects']?['frontbanner'];
+      final isLoggedInRequired = frontBanner?['requirelogin'] ?? false;
+      final isShow = frontBanner?['show'] ?? false;
+
+      bool showBanner = false;
+      if (isLoggedInRequired) {
+        showBanner = FirebaseAuth.instance.currentUser != null && isShow;
+      } else {
+        showBanner = isShow;
+      }
+      return showBanner;
+    }
+
+    String? getRedirectUrl() {
+      // this checks firebase of banner needs to be displayed, then get the parameters
+      dynamic frontBanner = widget.model?.dbOjects?['objects']?['frontbanner'];
+      final String? url = frontBanner?['link'] ?? '';
+      return url;
+    }
+
+    dynamic getFrontBannerProperties() {
+      return widget.model?.dbOjects?['objects']?['frontbanner'];
+    }
+
+    Butter.d('App Version: ${widget.model?.appVersion}');
+    Butter.d('DB Version: ${widget.model?.dbVersion}');
+    // Butter.d('DB Settings: ${widget.model?.dbOjects}');
     return Scaffold(
       body: CustomScrollView(
         physics: const ClampingScrollPhysics(),
@@ -313,117 +345,16 @@ class _WelcomePageState extends State<WelcomePage> {
               ),
             ),
           ),
-          !isDownloadRequired()
-              ? SliverToBoxAdapter(
-                  child: Container(),
-                )
-              : SliverToBoxAdapter(
-                  child: RawMaterialButton(
-                    constraints: const BoxConstraints(),
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    onPressed: () async {
-                      if (Platform.isIOS) {
-                        //do ios link
-                        final Uri url = Uri.parse(
-                            'https://apps.apple.com/sg/app/mycatholicsg-app/id1151027240');
-                        await launchUrl(url,
-                            mode: LaunchMode.externalApplication);
-                      } else {
-                        //do android link
-                        final Uri url = Uri.parse(
-                            'https://play.google.com/store/apps/details?id=com.CSG.CatholicSG');
-                        await launchUrl(url,
-                            mode: LaunchMode.externalNonBrowserApplication);
-                      }
-                    },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: const EdgeInsets.all(20),
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(204, 229, 255, 1),
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            color: Color.fromRGBO(235, 235, 235, 1),
-                            blurRadius: 15,
-                            offset: Offset(0.0, 0.75),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(
-                            Icons.system_update,
-                            color: Color.fromRGBO(4, 26, 82, 1),
-                            size: 18,
-                          ),
-                          SizedBox(width: 4),
-                          Text(
-                            'Download Latest Version',
-                            style: TextStyle(
-                              color: Color.fromRGBO(4, 26, 82, 1),
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-          FirebaseAuth.instance.currentUser == null
-              ? SliverToBoxAdapter(
-                  child: RawMaterialButton(
-                    constraints: const BoxConstraints(),
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    onPressed: () {
-                      widget.model?.showPage('/_/login');
-                    },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: const EdgeInsets.all(20),
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(255, 244, 219, 1),
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            color: Color.fromRGBO(235, 235, 235, 1),
-                            blurRadius: 15,
-                            offset: Offset(0.0, 0.75),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text(
-                            'Log in Now',
-                            style: TextStyle(
-                              color: Color.fromRGBO(99, 69, 4, 1),
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                          SizedBox(width: 4),
-                          Text(
-                            'to make full use of the App!',
-                            style: TextStyle(
-                              color: Color.fromRGBO(99, 69, 4, 1),
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
-              : SliverToBoxAdapter(
-                  child: Container(),
-                ),
+          SliverToBoxAdapter(
+            child: DownloadPrompt(isDownloadRequired: isDownloadRequired()),
+          ),
+          SliverToBoxAdapter(
+              child: LoginPrompt(
+            onPressed: () {
+              widget.model?.showPage('/_/login');
+            },
+            isLoggedIn: FirebaseAuth.instance.currentUser != null,
+          )),
           ValueListenableBuilder(
             valueListenable: objectNotifier,
             builder: (context, value, child) {
@@ -432,162 +363,39 @@ class _WelcomePageState extends State<WelcomePage> {
               final content = value['content'].toString();
 
               return SliverToBoxAdapter(
-                  child: header != 'null'
-                      ? GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              showAll = !showAll;
-                            });
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.fromLTRB(15, 10, 15, 0),
-                            alignment: Alignment.centerLeft,
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 253, 244, 244),
-                              borderRadius: BorderRadius.circular(
-                                  10), // Adjust the radius for rounded corners
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Color(0x142c0807),
-                                  offset: Offset(0, 2),
-                                  blurRadius: 8,
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                ListTile(
-                                  dense: true,
-                                  minLeadingWidth: 10,
-                                  leading: Column(
-                                    children: [
-                                      const SizedBox(height: 14),
-                                      badges.Badge(
-                                        badgeStyle: badges.BadgeStyle(
-                                          badgeColor: Colors.red.shade800,
-                                        ),
-                                        position: badges.BadgePosition.topEnd(
-                                            top: -5, end: -5),
-                                        showBadge: true,
-                                        ignorePointer: false,
-                                        badgeAnimation:
-                                            const badges.BadgeAnimation.scale(
-                                          animationDuration:
-                                              Duration(milliseconds: 200),
-                                          loopAnimation:
-                                              false, // Keep the animation looping
-                                          curve: Curves
-                                              .linear, // Linear curve for a continuous rotation
-                                        ),
-                                        badgeContent: const Icon(
-                                          Octicons.bell_fill,
-                                          color: Colors.white,
-                                          size: 14,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  title: RichText(
-                                    text: TextSpan(
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          height: 1.4,
-                                          color: Color.fromRGBO(4, 26, 82, 1)),
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                          text: header,
-                                          style: const TextStyle(
-                                            height: 1.4,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                showAll == true
-                                    ? Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                            Padding(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        15, 0, 15, 0),
-                                                child: Linkify(
-                                                  onOpen: (link) async {
-                                                    final website = link.url;
-                                                    final uri =
-                                                        Uri.parse(website);
-                                                    urlLauncher(uri, 'web');
-                                                  },
-                                                  text: content,
-                                                  style: const TextStyle(
-                                                    fontSize: 16,
-                                                    color: Color.fromRGBO(
-                                                        4, 26, 82, 1),
-                                                  ),
-                                                )
-
-                                                // Text(
-                                                //   content,
-                                                //   style: const TextStyle(
-                                                //     fontSize: 16,
-                                                //     color: Color.fromRGBO(
-                                                //         4, 26, 82, 1),
-                                                //   ),
-                                                // ),
-                                                ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                RawMaterialButton(
-                                                  enableFeedback: true,
-                                                  elevation: 0,
-                                                  constraints:
-                                                      const BoxConstraints(),
-                                                  materialTapTargetSize:
-                                                      MaterialTapTargetSize
-                                                          .shrinkWrap,
-                                                  onPressed: () {
-                                                    objectNotifier.value = {
-                                                      'header': 'null',
-                                                      'content': 'null'
-                                                    };
-                                                    setState(() {
-                                                      showAll = false;
-                                                    });
-                                                  },
-                                                  shape: const CircleBorder(),
-                                                  child: const SizedBox(
-                                                    width: 24,
-                                                    height: 24,
-                                                    child: Icon(
-                                                      MaterialCommunityIcons
-                                                          .close,
-                                                      color: Color.fromARGB(
-                                                          255, 135, 135, 135),
-                                                      weight: .1,
-                                                    ),
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 15)
-                                              ],
-                                            ),
-                                            const SizedBox(height: 15)
-                                          ])
-                                    : Container(),
-                              ],
-                            ),
-                          ),
-                        )
-                      : Container());
+                  child: NotificationBox(
+                      header: header,
+                      content: content,
+                      showAll: showAll,
+                      onTap: () {
+                        setState(() {
+                          showAll = !showAll;
+                        });
+                      },
+                      urlLauncher: (uri, web) => urlLauncher(uri, web),
+                      onPressed: () {
+                        objectNotifier.value = {
+                          'header': 'null',
+                          'content': 'null'
+                        };
+                        setState(() {
+                          showAll = false;
+                        });
+                      }));
             },
           ),
+          SliverToBoxAdapter(
+              child: FrontBanner(
+            onTap: () {
+              final String? url = getRedirectUrl();
+              final uri = Uri.parse(url!);
+              urlLauncher(uri, 'app');
+            },
+            properties: getFrontBannerProperties(),
+            isFrontBannerEnabled: isFrontBannerEnabled(),
+          )),
           SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
             sliver: SliverGrid(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
