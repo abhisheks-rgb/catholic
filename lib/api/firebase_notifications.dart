@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:trcas_catholic/modules/home/pages/home_page.dart';
 // import 'package:trcas_catholic/modules/welcome/actions/notif_received_action.dart';
 import 'package:trcas_catholic/service/package_info_service.dart';
 
