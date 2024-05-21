@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
+import '../../shared/components/login_prompt_view.dart';
 import '../models/pray_model.dart';
 
 import '../../../utils/asset_path.dart';
@@ -217,53 +218,12 @@ class _PrayPageState extends State<_PrayPage> {
                     ],
                   ),
                 ),
-                FirebaseAuth.instance.currentUser != null
-                    ? Container()
-                    : RawMaterialButton(
-                        constraints: const BoxConstraints(),
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        onPressed: () {
-                          widget.model.showPage('/_/login');
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          padding: const EdgeInsets.all(20),
-                          decoration: const BoxDecoration(
-                            color: Color.fromRGBO(255, 244, 219, 1),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                color: Color.fromRGBO(235, 235, 235, 1),
-                                blurRadius: 15,
-                                offset: Offset(0.0, 0.75),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Text(
-                                'Log in Now',
-                                style: TextStyle(
-                                  color: Color.fromRGBO(99, 69, 4, 1),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
-                              SizedBox(width: 4),
-                              Text(
-                                'to make full use of the App!',
-                                style: TextStyle(
-                                  color: Color.fromRGBO(99, 69, 4, 1),
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                LoginPrompt(
+                  onPressed: () {
+                    widget.model.showPage('/_/login');
+                  },
+                  isLoggedIn: FirebaseAuth.instance.currentUser != null,
+                ),
                 const SizedBox(height: 10),
                 Flexible(
                     child: MasonryGridView.count(
