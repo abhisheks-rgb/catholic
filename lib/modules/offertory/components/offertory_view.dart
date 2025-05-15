@@ -748,11 +748,9 @@ class _OffertoryViewState extends State<OffertoryView> {
               const SizedBox(height: 12),
             ],
           ),
-          content: Container(
-            constraints: const BoxConstraints(
-              maxWidth: 600,
-              maxHeight: 600,
-            ),
+          content: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.7,
+            width: MediaQuery.of(context).size.width * 0.7,
             child: ListView.separated(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
