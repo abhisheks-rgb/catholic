@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../models/priest_info_model.dart';
 import '../../../utils/asset_path.dart';
+import '../../shared/components/select_dialog_view.dart';
 
 class PriestInfoView extends BaseStatefulPageView {
   final PriestInfoModel? model;
@@ -695,182 +696,22 @@ class _PriestInfoViewState extends State<PriestInfoView> {
   }
 
   void showAlert(BuildContext context) => showDialog(
-        context: context,
-        routeSettings:
-            RouteSettings(name: ModalRoute.of(context)?.settings.name),
-        builder: (BuildContext context) => AlertDialog(
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          ),
-          contentPadding: const EdgeInsets.all(0),
-          title: Column(
-            children: [
-              Row(
-                children: [
-                  const Expanded(
-                    child: Text(
-                      'Select Priest',
-                      style: TextStyle(
-                        color: Color.fromRGBO(4, 26, 82, 1),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                  RawMaterialButton(
-                    constraints: const BoxConstraints(),
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    shape: const CircleBorder(),
-                    child: const SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: Icon(
-                        MaterialCommunityIcons.close_circle,
-                        color: Color.fromRGBO(130, 141, 168, 1),
-                        size: 24,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-            ],
-          ),
-          content: Container(
-            constraints: const BoxConstraints(
-              maxWidth: 600,
-              maxHeight: 600,
-            ),
-            child: ListView.separated(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: widget._infos.length,
-                separatorBuilder: (BuildContext context, int index) {
-                  return Container();
-                },
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        InkWell(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 0, horizontal: 24),
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Column(
-                                children: const [
-                                  SizedBox(height: 8),
-                                  Text(
-                                    'All Priests',
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(4, 26, 82, 1),
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                ],
-                              ),
-                            ),
-                          ),
-                          onTap: () {
-                            if (!isAllPriests) {
-                              setState(() {
-                                isAllPriests = true;
-                              });
-                            }
-
-                            Navigator.pop(context);
-                          },
-                        ),
-                        InkWell(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 0, horizontal: 24),
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Column(
-                                children: [
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    '${widget._infos[index]['salutation'] ?? ''} ${widget._infos[index]['name'] ?? ''}${widget._infos[index]['suffix'].isNotEmpty ? ', ${widget._infos[index]['suffix']}' : ''}',
-                                    style: const TextStyle(
-                                      color: Color.fromRGBO(4, 26, 82, 1),
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                ],
-                              ),
-                            ),
-                          ),
-                          onTap: () {
-                            _handleChangePriest(index);
-                          },
-                        ),
-                      ],
-                    );
-                  } else if (index == widget._infos.length - 1) {
-                    return InkWell(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 0, horizontal: 24),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Column(
-                            children: [
-                              const SizedBox(height: 8),
-                              Text(
-                                '${widget._infos[index]['salutation'] ?? ''} ${widget._infos[index]['name'] ?? '---'}${widget._infos[index]['suffix'].isNotEmpty ? ', ${widget._infos[index]['suffix']}' : ''}',
-                                style: const TextStyle(
-                                  color: Color.fromRGBO(4, 26, 82, 1),
-                                  fontSize: 16,
-                                ),
-                              ),
-                              const SizedBox(height: 16),
-                            ],
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        _handleChangePriest(index);
-                      },
-                    );
-                  }
-
-                  return InkWell(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 0, horizontal: 24),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 8),
-                            Text(
-                              '${widget._infos[index]['salutation'] ?? ''} ${widget._infos[index]['name'] ?? ''}${widget._infos[index]['suffix'].isNotEmpty ? ', ${widget._infos[index]['suffix']}' : ''}',
-                              style: const TextStyle(
-                                color: Color.fromRGBO(4, 26, 82, 1),
-                                fontSize: 16,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                          ],
-                        ),
-                      ),
-                    ),
-                    onTap: () {
-                      _handleChangePriest(index);
-                    },
-                  );
-                }),
-          ),
-        ),
-      );
+    context: context,
+    routeSettings:
+        RouteSettings(name: ModalRoute.of(context)?.settings.name),
+    builder: (BuildContext context) => SelectPriestDialog(
+      priestList: widget._infos,
+      onSelected: (index, isAll) {
+        if (isAll) {
+          setState(() {
+            isAllPriests = true;
+          });
+        } else {
+          _handleChangePriest(index);
+        }
+      },
+    )
+  );
 
   void _handleChangePriest(int index) {
     setState(() {
@@ -880,8 +721,6 @@ class _PriestInfoViewState extends State<PriestInfoView> {
         isAllPriests = false;
       }
     });
-
-    Navigator.pop(context);
   }
 
   void urlLauncher(Uri uri, String source) async {
