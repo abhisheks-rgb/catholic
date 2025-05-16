@@ -129,13 +129,15 @@ class SelectChurchDialog extends CustomSelectionDialog {
 }
 
 class SelectPriestDialog extends CustomSelectionDialog {
+  static const String dialogTitle = 'Select Priest';
+
   SelectPriestDialog({
     Key? key,
     required List<Map<dynamic, dynamic>> priestList,
     required SelectPriestHandler onSelected,
   }) : super(
       key: key,
-      title: 'Select Priest',
+      title: dialogTitle,
       itemCount: priestList.length,
       itemBuilder: (context, index) {
         if (index == 0) {
