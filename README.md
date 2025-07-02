@@ -54,3 +54,25 @@ await Firebase.initializeApp(
 6. Open up the command palette `Ctrl + Shift + P`, and enter `Flutter: Select Device`.
 7. Select the Android/IOS device wanted and it wait for it to boot up.
 8. Finally, click the top right hand corner and `Start Debugging` or run `flutter run` (this will take a while and there will be a bunch of warnings due to outdated dependencies).
+
+## Connect to your own Firebase Project
+
+Using your own firebase (Android):
+
+1. Add an android app to your current firebase project
+2. Add Google as an Authentication provider
+3. Get the new generated `google-services.json` and put into `/android/app/`
+4. In the `version` collection, create an `app` document with two fields `android` and `ios`. The values should follow the ones in `/assets/version.json`
+5. Create an `objects` collection with an `app` document; Leave the fields empty
+6. In `settings` collection, create a `web` document, create a `todayis` map object with a `realtime` field with `true`
+
+FROM HERE, YOUR APP SHOULD BE "FUNCTIONAL" AND SHOULDN'T FREEZE ANYMORE. Though, there will still be some missing information due to not having Prod's data
+
+Mass Readings:
+7. In `settings/web/` create a `massreadings` map object with a `realtime` field with `true`
+
+Using your own firebase (ios) following from Android setup - Mac ONLY:
+
+1. Add an ios app to your current Firebase project (via the Firebase console)
+2. Get the new generated `GoogleService-Info.plist` to `/ios/Runner/GoogleService-Info.plist`
+3. Important compilation step: If building for ios, then in `/assets/firebase_config.json`, for the `appId` field, it is in the form of `X:YYY:<DEVICE_TYPE>:ZZZ`. For me the `<DEVICE_TYPE>` is `web`, change it to `ios`.
