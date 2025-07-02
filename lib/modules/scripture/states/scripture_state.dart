@@ -49,7 +49,7 @@ class ScriptureState extends BasePageState<ScriptureModel> {
           }
           return model.items;
         };
-        m.viewHistory = (authorname, data) => dispatchAction(ViewScriptureHistoryAction(authorname, data));
+        m.viewHistory = (authorname, shortname, data) => dispatchAction(ViewScriptureHistoryAction(authorname, shortname, data));
         m.viewScriptureDetails = (scripture) => dispatchAction(ViewScriptureDetailsAction(scripture!));
       });
 }
