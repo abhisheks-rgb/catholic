@@ -33,7 +33,7 @@ class ScriptureView extends BaseStatefulPageView {
               break;
             case 'Stephen Yim':
               item['order'] = 3;
-              item['authorname'] = 'Rev Fr ${item['authorname']}';
+              item['authorname'] = 'Rev Msgr ${item['authorname']}';
               item['shortname'] = 'stephen_yim';
               break;
             default:
