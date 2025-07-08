@@ -263,6 +263,9 @@ class _ScriptureViewState extends State<ScriptureView> {
                                           child: element['shortname'] == 'arch' ?
                                             Image.asset('assets/cardinal-medium.jpg',
                                               width: 40, height: 40) :
+                                            element['shortname'] == 'stephen_yim' ?
+                                            Image.asset('assets/stephen-yim-medium.jpg',
+                                                width: 40, height: 40) :
                                             Image.asset('assets/priest-placeholder-img.png',
                                               width: 40, height: 40),
                                         ),
