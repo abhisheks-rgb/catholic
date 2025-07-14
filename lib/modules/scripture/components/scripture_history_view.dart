@@ -121,6 +121,9 @@ class ScriptureHistoryView extends BaseStatelessPageView {
                                 child: model?.shortName ==  'arch' ?
                                     Image.asset('assets/cardinal-medium.jpg',
                                         width: 40, height: 40) :
+                                    model?.shortName == 'stephen_yim' ?
+                                    Image.asset('assets/stephen-yim-medium.jpg',
+                                        width: 40, height: 40) :
                                     Image.asset('assets/priest-placeholder-img.png',
                                         width: 40, height: 40),
                               ),
