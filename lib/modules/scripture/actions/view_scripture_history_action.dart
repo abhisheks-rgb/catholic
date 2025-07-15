@@ -6,9 +6,10 @@ import '../models/scripture_history_model.dart';
 
 class ViewScriptureHistoryAction extends BaseAction {
   final String authorname;
+  final String shortname;
   final List<Object?> data;
 
-  ViewScriptureHistoryAction(this.authorname, this.data);
+  ViewScriptureHistoryAction(this.authorname, this.shortname, this.data);
 
   // Make sure to strictly follow the guidelines found here:
   // https://pub.dev/packages/async_redux/#async-reducer
@@ -36,6 +37,7 @@ class ViewScriptureHistoryAction extends BaseAction {
       m.error = error;
       m.items = records;
       m.authorName = authorname;
+      m.shortName = shortname;
     });
 
     pushNamed('/_/scripture/history');

@@ -45,7 +45,7 @@ class _WelcomePageState extends State<WelcomePage> {
       {
         'title': 'Scripture Reflection',
         'icon': 'Scripture_Reflections.png',
-        'route': 'scripture/history'
+        'route': 'scripture'
       },
       {
         'title': 'Mass Schedules',

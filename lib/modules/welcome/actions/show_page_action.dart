@@ -7,8 +7,8 @@ import '../../home/models/home_model.dart';
 import '../../offertory/models/offertory_model.dart';
 import '../../profile/models/profile_model.dart';
 import '../../schedules/models/schedules_model.dart';
-import '../actions/list_reflection_action.dart';
-import '../../scripture/models/scripture_history_model.dart';
+import '../../scripture/actions/list_reflection_action.dart';
+import '../../scripture/models/scripture_model.dart';
 
 class ShowPageAction extends BaseAction {
   final String route;
@@ -75,11 +75,11 @@ class ShowPageAction extends BaseAction {
           m.churchLink = churchLink;
         });
         break;
-      case '/_/scripture/history':
+      case '/_/scripture':
         pushNamed(newRoute);
         canRedirect = false;
 
-        await dispatchModel<ScriptureHistoryModel>(ScriptureHistoryModel(),
+        await dispatchModel<ScriptureModel>(ScriptureModel(),
             (m) {
           m.loading = true;
         });
