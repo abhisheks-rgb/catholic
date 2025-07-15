@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../models/church_info_model.dart';
 import '../../../utils/asset_path.dart';
+import '../../shared/components/select_dialog_view.dart';
 
 class ChurchInfoView extends BaseStatefulPageView {
   final ChurchInfoModel? model;
@@ -1021,105 +1022,29 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
         ),
       );
 
-  void showChurchList(BuildContext context) => showDialog(
+  void showChurchList(BuildContext context) {
+    List<dynamic> churchList = [...widget.model!.items!];
+    showDialog(
+      context: context,
+      routeSettings:
+        RouteSettings(name: ModalRoute.of(context)?.settings.name),
+      builder: (BuildContext context) => SelectChurchDialog(
+        churchList: churchList,
         context: context,
-        routeSettings:
-            RouteSettings(name: ModalRoute.of(context)?.settings.name),
-        builder: (BuildContext context) => AlertDialog(
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          ),
-          contentPadding: const EdgeInsets.all(0),
-          title: Column(
-            children: [
-              Row(
-                children: [
-                  const Expanded(
-                    child: Text(
-                      'Select Church',
-                      style: TextStyle(
-                        color: Color.fromRGBO(4, 26, 82, 1),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                  RawMaterialButton(
-                    constraints: const BoxConstraints(),
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    shape: const CircleBorder(),
-                    child: const SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: Icon(
-                        MaterialCommunityIcons.close_circle,
-                        color: Color.fromRGBO(130, 141, 168, 1),
-                        size: 24,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-            ],
-          ),
-          content: Container(
-            constraints: const BoxConstraints(
-              maxWidth: 600,
-              maxHeight: 600,
-            ),
-            child: ListView.separated(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: widget.model!.items!.length,
-              separatorBuilder: (BuildContext context, int index) {
-                return Container();
-              },
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: widget.model!.items == null
-                      ? null
-                      : () {
-                          final orgId = index + 1;
-                          widget.model!.fetchPriestList(orgId: orgId);
-                          widget.model!.fetchChurchInfo(orgId: orgId);
-                          setState(() {
-                            _selectedParishValue =
-                                widget.model!.items![index]['name'].toString();
-                          });
-
-                          Navigator.pop(context);
-
-                          _logChurchInfoEvent(
-                              widget.model!.items![index]['link'], false);
-                        },
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 8),
-                        Text(
-                          widget.model!.items![index]['name'] ?? '',
-                          style: const TextStyle(
-                            color: Color.fromRGBO(4, 26, 82, 1),
-                            fontSize: 16,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-      );
+        onSelected: (index, name, parishlink) {
+          if (index != -1) {
+            final orgId = index + 1;
+            widget.model!.fetchPriestList(orgId: orgId);
+            widget.model!.fetchChurchInfo(orgId: orgId);
+            setState(() {
+              _selectedParishValue = name;
+            });
+            _logChurchInfoEvent(parishlink, false);
+          }
+        },
+      ),
+    );
+  }
 
   void showPriestList(BuildContext context) => showDialog(
         context: context,

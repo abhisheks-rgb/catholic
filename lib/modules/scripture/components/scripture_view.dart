@@ -1,4 +1,5 @@
 import 'package:butter/butter.dart';
+// import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
@@ -32,7 +33,7 @@ class ScriptureView extends BaseStatefulPageView {
               break;
             case 'Stephen Yim':
               item['order'] = 3;
-              item['authorname'] = 'Rev Fr ${item['authorname']}';
+              item['authorname'] = 'Rev Msgr ${item['authorname']}';
               item['shortname'] = 'stephen_yim';
               break;
             default:
@@ -42,6 +43,27 @@ class ScriptureView extends BaseStatefulPageView {
         })
           ..sort((a, b) => a['order'].compareTo(b['order'])),
         super();
+
+  // Future<String?> getImage(String name) async {
+  //   try {
+  //     final instance = await FirebaseFunctions.instanceFor(region: 'asia-east2')
+  //         .httpsCallable('priest')
+  //         .call(
+  //       {
+  //         'type': 'name',
+  //         'arg': name,
+  //       },
+  //     );
+  //
+  //     String? result = instance.data['results']['items']['photo'];
+  //     return Future.value(result);
+  //   } catch (e, stacktrace) {
+  //     Butter.e(e.toString());
+  //     Butter.e(stacktrace.toString());
+  //   }
+  //
+  //   return null;
+  // }
 
   @override
   State<BaseStatefulPageView> createState() => _ScriptureViewState();
@@ -232,13 +254,31 @@ class _ScriptureViewState extends State<ScriptureView> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  '${element['authorname']} (${data.length})',
-                                  style: const TextStyle(
-                                    color: Color.fromRGBO(4, 26, 82, 1),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 18,
-                                  ),
+                                Row(
+                                  children: [
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(10),
+                                          child: element['shortname'] == 'arch' ?
+                                            Image.asset('assets/cardinal-medium.jpg',
+                                              width: 40, height: 40) :
+                                            element['shortname'] == 'stephen_yim' ?
+                                            Image.asset('assets/stephen-yim-medium.jpg',
+                                                width: 40, height: 40) :
+                                            Image.asset('assets/priest-placeholder-img.png',
+                                              width: 40, height: 40),
+                                        ),
+                                      ),
+                                      Text(
+                                        '${element['authorname']} (${data.length})',
+                                        style: const TextStyle(
+                                          color: Color.fromRGBO(4, 26, 82, 1),
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                  ],
                                 ),
                                 const SizedBox(height: 8),
                                 const Divider(
@@ -258,6 +298,7 @@ class _ScriptureViewState extends State<ScriptureView> {
                                         onPressed: () async {
                                           await widget.model?.viewHistory?.call(
                                               element['authorname'],
+                                              element['shortname'],
                                               element['data']);
                                           await FirebaseAnalytics.instance
                                               .logEvent(

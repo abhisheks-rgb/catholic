@@ -2,7 +2,7 @@ import 'package:butter/butter.dart';
 
 import '../models/pray_model.dart';
 import '../../home/models/home_model.dart';
-import '../../welcome/actions/list_reflection_action.dart';
+import '../../scripture/actions/list_reflection_action.dart';
 import '../../scripture/models/scripture_history_model.dart';
 
 class PrayState extends BasePageState<PrayModel> {
@@ -44,7 +44,7 @@ class PrayState extends BasePageState<PrayModel> {
         m.showPage = (route) async {
           bool canRedirect = true;
           switch (route) {
-            case '/_/scripture/history':
+            case '/_/scripture':
               pushNamed(route);
               canRedirect = false;
 
