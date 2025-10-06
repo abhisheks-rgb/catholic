@@ -17,9 +17,7 @@ void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   final firebaseOptions = await DefaultFirebaseOptions().init();
-  await Firebase.initializeApp(
-    options: firebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp();
 
   final persistor = p.Persistor('mycatholicsg');
   AppState? initialState = await persistor.readState();

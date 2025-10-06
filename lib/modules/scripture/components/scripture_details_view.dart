@@ -136,17 +136,18 @@ class ScriptureDetailsView extends BaseStatelessPageView {
                           const SizedBox(height: 24),
                           Html(
                             data: content,
-                            onLinkTap:
-                                (url, context, attributes, element) async {
-                              final uri = Uri.parse(url ?? '');
-                              if (await canLaunchUrl(uri)) {
-                                await launchUrl(
-                                  uri,
-                                  mode: LaunchMode.externalApplication,
-                                );
-                              } else {
-                                throw 'Could not launch $uri';
-                              }
+                            onLinkTap: (url, context, attributes) {
+                              Future.microtask(() async {
+                                final uri = Uri.parse(url ?? '');
+                                if (await canLaunchUrl(uri)) {
+                                  await launchUrl(
+                                    uri,
+                                    mode: LaunchMode.externalApplication,
+                                  );
+                                } else {
+                                  throw 'Could not launch $uri';
+                                }
+                              });
                             },
                             style: {
                               'body': Style(
