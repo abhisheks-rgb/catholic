@@ -389,7 +389,7 @@ class _WelcomePageState extends State<WelcomePage> {
             onTap: () {
               final String? url = getRedirectUrl();
               final uri = Uri.parse(url!);
-              urlLauncher(uri, 'app');
+              urlLauncher(uri, 'web');
             },
             properties: getFrontBannerProperties(),
             isFrontBannerEnabled: isFrontBannerEnabled(),
