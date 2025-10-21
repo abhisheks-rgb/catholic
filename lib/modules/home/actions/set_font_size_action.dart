@@ -8,66 +8,60 @@ import '../../scripture/models/scripture_details_model.dart';
 import '../../confession/models/confession_model.dart';
 import '../../devotion/divine_mercy_prayer/models/divine_mercy_prayer_model.dart';
 import '../../devotion/rosary/models/rosary_model.dart';
+import '../../shared/font_size_manager.dart';
 
 class SetFontSizeAction extends BaseAction {
   SetFontSizeAction();
 
-  // Make sure to strictly follow the guidelines found here:
-  // https://pub.dev/packages/async_redux/#async-reducer
   @override
   Future<AppState?> reduce() async {
     Butter.d('SetFontSizeAction::reduce');
 
-    final m = read<MassReadingsModel>(MassReadingsModel());
+    try {
+      FontSizeManager.cycleToNextSize();
 
-    double defaultTitleFontSize = 20.0;
-    double defaultContentFontSize = 17;
-    double titlefontsize;
-    double contentfontsize;
+      final titlefontsize = FontSizeManager.currentTitleSize;
+      final contentfontsize = FontSizeManager.currentContentSize;
 
-    if (m.titleFontSize == defaultTitleFontSize) {
-      titlefontsize = defaultTitleFontSize * 1.2;
-      contentfontsize = defaultContentFontSize * 1.2;
-    } else if (m.titleFontSize == defaultTitleFontSize * 1.2) {
-      titlefontsize = defaultTitleFontSize * 1.4;
-      contentfontsize = defaultContentFontSize * 1.4;
-    } else if (m.titleFontSize == defaultTitleFontSize * 1.4) {
-      titlefontsize = defaultTitleFontSize * 1.6;
-      contentfontsize = defaultContentFontSize * 1.6;
-    } else {
-      titlefontsize = defaultTitleFontSize;
-      contentfontsize = defaultContentFontSize;
+      dispatchModel<HomeModel>(HomeModel(), (m) {
+        m.titleFontSize = titlefontsize;
+        m.contentFontSize = contentfontsize;
+      });
+
+      dispatchModel<MassReadingsModel>(MassReadingsModel(), (m) {
+        m.titleFontSize = titlefontsize;
+        m.contentFontSize = contentfontsize;
+      });
+
+      dispatchModel<ScriptureDetailsModel>(ScriptureDetailsModel(), (m) {
+        m.titleFontSize = titlefontsize;
+        m.contentFontSize = contentfontsize;
+      });
+
+      dispatchModel<RosaryModel>(RosaryModel(), (m) {
+        m.titleFontSize = titlefontsize;
+        m.contentFontSize = contentfontsize;
+      });
+
+      dispatchModel<ConfessionModel>(ConfessionModel(), (m) {
+        m.titleFontSize = titlefontsize;
+        m.contentFontSize = contentfontsize;
+      });
+
+      dispatchModel<DivineMercyPrayerModel>(DivineMercyPrayerModel(), (m) {
+        m.titleFontSize = titlefontsize;
+        m.contentFontSize = contentfontsize;
+      });
+
+    } catch (e, stackTrace) {
+      print('========== SetFontSizeAction ERROR ==========');
+      print('Error: $e');
+      print('Stack trace:');
+      print(stackTrace);
+      print('========== ERROR END ==========');
+      rethrow;
     }
 
-    dispatchModel<HomeModel>(HomeModel(), (m) {
-      m.titleFontSize = titlefontsize;
-      m.contentFontSize = contentfontsize;
-    });
-
-    dispatchModel<MassReadingsModel>(MassReadingsModel(), (m) {
-      m.titleFontSize = titlefontsize;
-      m.contentFontSize = contentfontsize;
-    });
-
-    dispatchModel<ScriptureDetailsModel>(ScriptureDetailsModel(), (m) {
-      m.titleFontSize = titlefontsize;
-      m.contentFontSize = contentfontsize;
-    });
-
-    dispatchModel<RosaryModel>(RosaryModel(), (m) {
-      m.titleFontSize = titlefontsize;
-      m.contentFontSize = contentfontsize;
-    });
-
-    dispatchModel<ConfessionModel>(ConfessionModel(), (m) {
-      m.titleFontSize = titlefontsize;
-      m.contentFontSize = contentfontsize;
-    });
-
-    dispatchModel<DivineMercyPrayerModel>(DivineMercyPrayerModel(), (m) {
-      m.titleFontSize = titlefontsize;
-      m.contentFontSize = contentfontsize;
-    });
     return null;
   }
 }

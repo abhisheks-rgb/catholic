@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -5,17 +7,63 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../models/scripture_details_model.dart';
 import '../../../utils/asset_path.dart';
+import '../../../../main.dart' as main_store;
+import '../../shared/font_size_manager.dart';
 
-class ScriptureDetailsView extends BaseStatelessPageView {
+class ScriptureDetailsView extends BaseStatefulPageView {
   final ScriptureDetailsModel? model;
-  final Map _item;
 
-  ScriptureDetailsView(this.model, {Key? key})
-      : _item = model?.item as Map,
-        super();
+  ScriptureDetailsView(this.model, {Key? key}) : super();
+
+  @override
+  State<BaseStatefulPageView> createState() => ScriptureDetailsViewState();
+}
+
+class ScriptureDetailsViewState extends State<ScriptureDetailsView> {
+  StreamSubscription? _storeSubscription;
+  int _eventCounter = 0;
+  double _titleFontSize = 20.0;
+  double _contentFontSize = 17.0;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    _titleFontSize = FontSizeManager.currentTitleSize;
+    _contentFontSize = FontSizeManager.currentContentSize;
+    
+    _storeSubscription = main_store.store.onChange?.listen((event) {
+      if (mounted && !FontSizeManager.isProcessing) {
+        _eventCounter++;
+        
+        if (_eventCounter % 6 == 0) {
+          FontSizeManager.isProcessing = true;
+          
+          _eventCounter = 0;
+          
+          widget.model!.titleFontSize = FontSizeManager.currentTitleSize;
+          widget.model!.contentFontSize = FontSizeManager.currentContentSize;
+          
+          setState(() {
+            _titleFontSize = FontSizeManager.currentTitleSize;
+            _contentFontSize = FontSizeManager.currentContentSize;
+          });
+          
+          FontSizeManager.isProcessing = false;
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _storeSubscription?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final _item = widget.model?.item as Map;
     String content = _item['content'] ?? '---';
 
     if (_item.isNotEmpty) {
@@ -26,7 +74,7 @@ class ScriptureDetailsView extends BaseStatelessPageView {
     }
 
     return Scaffold(
-      body: model?.loading == true
+      body: widget.model?.loading == true
           ? Container(
               height: MediaQuery.of(context).size.height * 0.74,
               margin: const EdgeInsets.only(top: 16),
@@ -129,7 +177,7 @@ class ScriptureDetailsView extends BaseStatelessPageView {
                               style: TextStyle(
                                 color: const Color.fromRGBO(4, 26, 82, 1),
                                 fontWeight: FontWeight.w500,
-                                fontSize: model!.titleFontSize ?? 20,
+                                fontSize: _titleFontSize,
                               ),
                             ),
                           ),
@@ -152,25 +200,25 @@ class ScriptureDetailsView extends BaseStatelessPageView {
                             style: {
                               'body': Style(
                                 color: const Color.fromRGBO(4, 26, 82, 1),
-                                fontSize: FontSize(model!.titleFontSize ?? 16),
+                                fontSize: FontSize(_contentFontSize),
                                 textAlign: TextAlign.left,
                                 lineHeight: const LineHeight(1.4),
                               ),
                               'div': Style(
                                 color: const Color.fromRGBO(4, 26, 82, 1),
-                                fontSize: FontSize(model!.titleFontSize ?? 16),
+                                fontSize: FontSize(_contentFontSize),
                                 textAlign: TextAlign.left,
                                 lineHeight: const LineHeight(1.4),
                               ),
                               'p': Style(
                                 color: const Color.fromRGBO(4, 26, 82, 1),
-                                fontSize: FontSize(model!.titleFontSize ?? 16),
+                                fontSize: FontSize(_contentFontSize),
                                 textAlign: TextAlign.left,
                                 lineHeight: const LineHeight(1.4),
                               ),
                               'span': Style(
                                 color: const Color.fromRGBO(4, 26, 82, 1),
-                                fontSize: FontSize(model!.titleFontSize ?? 16),
+                                fontSize: FontSize(_contentFontSize),
                                 textAlign: TextAlign.left,
                                 lineHeight: const LineHeight(1.4),
                               ),
