@@ -6,9 +6,12 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:html/parser.dart';
 
+import '../../home/models/home_model.dart';
 import '../models/mass_readings_model.dart';
 import '../../../utils/asset_path.dart';
 import '../../../../utils/page_specs.dart';
+import '../../shared/font_size_manager.dart'; 
+import '../../../../main.dart' as main_store;
 
 class MassReadingsPage extends BaseStatefulPageView {
   final MassReadingsModel? model;
@@ -45,18 +48,70 @@ class _MassReadingsPage extends StatefulWidget {
   const _MassReadingsPage(this.model);
 
   @override
-  // ignore: no_logic_in_create_state
   State<StatefulWidget> createState() => _MassReadingsPageState(model);
 }
 
 class _MassReadingsPageState extends State<_MassReadingsPage> {
   final MassReadingsModel? model;
   String selectedDate = 'today';
+  StreamSubscription? _storeSubscription;
+  double _titleFontSize = 20.0;
+  double _contentFontSize = 17.0;
+  int _eventCounter = 0;
+  double _lastProcessedSize = -1.0;
+  
+  static bool _isProcessingFontChange = false;
+  static double _globalLastProcessedSize = -1.0;
 
   _MassReadingsPageState(this.model);
 
+@override
+void initState() {
+  super.initState();
+  
+  _titleFontSize = FontSizeManager.currentTitleSize;
+  _contentFontSize = FontSizeManager.currentContentSize;
+  
+  _storeSubscription = main_store.store.onChange?.listen((event) {
+    if (mounted && !FontSizeManager.isProcessing) {
+      _eventCounter++;
+      print('📊 Event counter: $_eventCounter (instance: ${hashCode})');
+      
+      if (_eventCounter % 6 == 0) {
+        FontSizeManager.isProcessing = true;
+        
+        print('🔍 At event 6: currentSize=${FontSizeManager.currentTitleSize} (instance: ${hashCode})');
+        
+        _eventCounter = 0;
+
+        widget.model!.titleFontSize = FontSizeManager.currentTitleSize;
+        widget.model!.contentFontSize = FontSizeManager.currentContentSize;
+        
+        setState(() {
+          _titleFontSize = FontSizeManager.currentTitleSize;
+          _contentFontSize = FontSizeManager.currentContentSize;
+          print('✅ Font sizes updated: title=$_titleFontSize, content=$_contentFontSize');
+        });
+        
+        FontSizeManager.isProcessing = false;
+      }
+    }
+  });
+}
+
+  @override
+  void dispose() {
+    _storeSubscription?.cancel();
+    super.dispose();
+  }
+  
+
   @override
   Widget build(BuildContext context) {
+    final freshModel = widget.model!;
+    
+    print('🎨 Building with titleFontSize=$_titleFontSize, contentFontSize=$_contentFontSize');
+    
     return Scaffold(
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
@@ -374,7 +429,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                           ? const Color.fromRGBO(12, 72, 224, 1)
                                           : const Color.fromRGBO(
                                               4, 26, 82, 0.5),
-                                    ),
+                                        ),
                                   ),
                                 )),
                           ],
@@ -387,9 +442,9 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                     child: Column(
                       children: [
                         const SizedBox(height: 28),
-                        widget.model?.loading == true &&
-                                widget.model?.massReadingList != null &&
-                                widget.model?.massReadingItem != null
+                        freshModel.loading == true &&
+                                freshModel.massReadingList != null &&
+                                freshModel.massReadingItem != null
                             ? Container(
                                 height:
                                     MediaQuery.of(context).size.height * 0.3,
@@ -399,25 +454,25 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                               )
                             : Text(
                                 textAlign: TextAlign.start,
-                                widget.model?.massReadingItem != null
+                                freshModel.massReadingItem != null
                                     ? _parseHtmlString(
-                                        widget.model?.massReadingItem?['day'] ??
+                                        freshModel.massReadingItem?['day'] ??
                                             '')
                                     : '',
                                 style: TextStyle(
                                   color: const Color.fromRGBO(4, 26, 82, 1),
-                                  fontSize: widget.model!.titleFontSize ?? 20,
+                                  fontSize: _titleFontSize,
                                   fontWeight: FontWeight.bold,
                                   fontStyle: FontStyle.normal,
                                 ),
                               ),
                         const SizedBox(height: 8),
-                        widget.model?.loading == true &&
-                                widget.model?.massReadingList != null
+                        freshModel.loading == true &&
+                                freshModel.massReadingList != null
                             ? const SizedBox()
                             : Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: widget.model?.massReadingList
+                                children: freshModel.massReadingList
                                         ?.map((item) {
                                       Map? data = item as Map?;
                                       String key = data?.keys.elementAt(0);
@@ -463,9 +518,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                                   key != 'copyright' ? 16 : 0),
                                           Text(title,
                                               style: TextStyle(
-                                                fontSize: widget.model!
-                                                        .contentFontSize ??
-                                                    17,
+                                                fontSize: _contentFontSize,
                                                 fontWeight: FontWeight.bold,
                                                 color: const Color.fromRGBO(
                                                     8, 51, 158, 1),
@@ -480,10 +533,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                                         Text(
                                                           '${data[key]['source'] ?? ''}',
                                                           style: TextStyle(
-                                                            fontSize: widget
-                                                                    .model!
-                                                                    .contentFontSize ??
-                                                                17,
+                                                            fontSize: _contentFontSize,
                                                             color: const Color
                                                                     .fromRGBO(
                                                                 4, 26, 82, 1),
@@ -495,10 +545,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                                           '${data[key]['heading'] ?? ''}',
                                                           style: TextStyle(
                                                             height: 1.4,
-                                                            fontSize: widget
-                                                                    .model!
-                                                                    .contentFontSize ??
-                                                                17,
+                                                            fontSize: _contentFontSize,
                                                             color: const Color
                                                                     .fromRGBO(
                                                                 4, 26, 82, 1),
@@ -510,11 +557,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                                       ? Text(
                                                           '${data[key]['source']}',
                                                           style: TextStyle(
-                                                            // height: 1.2,
-                                                            fontSize: widget
-                                                                    .model!
-                                                                    .contentFontSize ??
-                                                                17,
+                                                            fontSize: _contentFontSize,
                                                             color: const Color
                                                                     .fromRGBO(
                                                                 4, 26, 82, 1),
@@ -535,9 +578,7 @@ class _MassReadingsPageState extends State<_MassReadingsPage> {
                                                 color: const Color.fromRGBO(
                                                     4, 26, 82, 1),
                                                 fontSize: FontSize(
-                                                  widget.model!
-                                                          .contentFontSize ??
-                                                      17,
+                                                  _contentFontSize,
                                                 ),
                                               ),
                                             },

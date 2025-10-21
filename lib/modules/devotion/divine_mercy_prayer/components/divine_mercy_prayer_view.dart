@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import '../models/divine_mercy_prayer_model.dart';
 import '../../../../utils/asset_path.dart';
+import '../../../../main.dart' as main_store;
+import '../../../shared/font_size_manager.dart';
 
 class DivineMercyPrayerView extends BaseStatefulPageView {
   final DivineMercyPrayerModel? model;
@@ -15,6 +18,46 @@ class DivineMercyPrayerView extends BaseStatefulPageView {
 }
 
 class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
+  StreamSubscription? _storeSubscription;
+  int _eventCounter = 0;
+  double _titleFontSize = 20.0;
+  double _contentFontSize = 17.0;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    _titleFontSize = FontSizeManager.currentTitleSize;
+    _contentFontSize = FontSizeManager.currentContentSize;
+    
+    _storeSubscription = main_store.store.onChange?.listen((event) {
+      if (mounted && !FontSizeManager.isProcessing) {
+        _eventCounter++;
+        
+        if (_eventCounter % 6 == 0) {
+          FontSizeManager.isProcessing = true;
+          _eventCounter = 0;
+          
+          widget.model!.titleFontSize = FontSizeManager.currentTitleSize;
+          widget.model!.contentFontSize = FontSizeManager.currentContentSize;
+          
+          setState(() {
+            _titleFontSize = FontSizeManager.currentTitleSize;
+            _contentFontSize = FontSizeManager.currentContentSize;
+          });
+          
+          FontSizeManager.isProcessing = false;
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _storeSubscription?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,7 +163,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
                   fontWeight: FontWeight.w500,
-                  fontSize: widget.model!.contentFontSize ?? 17,
+                  fontSize: _contentFontSize,
                   height: 1.4,
                 ),
               ),
@@ -130,7 +173,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                   style: TextStyle(
                     color: const Color.fromRGBO(4, 26, 82, 1),
                     fontWeight: FontWeight.w500,
-                    fontSize: widget.model!.contentFontSize ?? 17,
+                    fontSize: _contentFontSize,
                     height: 1.4,
                   ),
                 ),
@@ -141,7 +184,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             'In the name of the Father, and of the Son, and of the Holy Spirit. Amen.',
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
-              fontSize: widget.model!.contentFontSize ?? 17,
+              fontSize: _contentFontSize,
               height: 1.4,
             ),
           ),
@@ -154,7 +197,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
                   fontWeight: FontWeight.w500,
-                  fontSize: widget.model!.contentFontSize ?? 17,
+                  fontSize: _contentFontSize,
                   height: 1.4,
                 ),
               ),
@@ -164,7 +207,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                   style: TextStyle(
                     color: const Color.fromRGBO(4, 26, 82, 1),
                     fontWeight: FontWeight.w500,
-                    fontSize: widget.model!.contentFontSize ?? 17,
+                    fontSize: _contentFontSize,
                     height: 1.4,
                   ),
                 ),
@@ -175,7 +218,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             'You expired, Jesus, but the source of life gushed forth for souls, and the ocean of mercy opened up for the whole world. O Fount of Life, unfathomable Divine Mercy, envelop the whole world and empty Yourself out upon us.',
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
-              fontSize: widget.model!.contentFontSize ?? 17,
+              fontSize: _contentFontSize,
               height: 1.4,
             ),
           ),
@@ -184,7 +227,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             'O Blood and Water, which gushed forth from the Heart of Jesus as a fount of mercy for us, I trust in You! (Repeat three times)',
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
-              fontSize: widget.model!.contentFontSize ?? 17,
+              fontSize: _contentFontSize,
               height: 1.4,
             ),
           ),
@@ -197,7 +240,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
                   fontWeight: FontWeight.w500,
-                  fontSize: widget.model!.contentFontSize ?? 17,
+                  fontSize: _contentFontSize,
                   height: 1.4,
                 ),
               ),
@@ -207,7 +250,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                   style: TextStyle(
                     color: const Color.fromRGBO(4, 26, 82, 1),
                     fontWeight: FontWeight.w500,
-                    fontSize: widget.model!.contentFontSize ?? 17,
+                    fontSize: _contentFontSize,
                     height: 1.4,
                   ),
                 ),
@@ -218,7 +261,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             'Our Father, Who art in heaven, hallowed be Thy name; Thy kingdom come; Thy will be done on earth as it is in heaven. Give us this day our daily bread; and forgive us our trespasses as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil, Amen.',
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
-              fontSize: widget.model!.contentFontSize ?? 17,
+              fontSize: _contentFontSize,
               height: 1.4,
             ),
           ),
@@ -231,7 +274,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
                   fontWeight: FontWeight.w500,
-                  fontSize: widget.model!.contentFontSize ?? 17,
+                  fontSize: _contentFontSize,
                   height: 1.4,
                 ),
               ),
@@ -241,7 +284,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                   style: TextStyle(
                     color: const Color.fromRGBO(4, 26, 82, 1),
                     fontWeight: FontWeight.w500,
-                    fontSize: widget.model!.contentFontSize ?? 17,
+                    fontSize: _contentFontSize,
                     height: 1.4,
                   ),
                 ),
@@ -252,7 +295,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             'Hail Mary, full of grace. The Lord is with thee. Blessed art thou amongst women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death, Amen.',
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
-              fontSize: widget.model!.contentFontSize ?? 17,
+              fontSize: _contentFontSize,
               height: 1.4,
             ),
           ),
@@ -265,17 +308,17 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
                   fontWeight: FontWeight.w500,
-                  fontSize: widget.model!.contentFontSize ?? 17,
+                  fontSize: _contentFontSize,
                   height: 1.4,
                 ),
               ),
               Expanded(
                 child: Text(
-                  'The Apostles’ Creed',
+                  'The Apostles\' Creed',
                   style: TextStyle(
                     color: const Color.fromRGBO(4, 26, 82, 1),
                     fontWeight: FontWeight.w500,
-                    fontSize: widget.model!.contentFontSize ?? 17,
+                    fontSize: _contentFontSize,
                     height: 1.4,
                   ),
                 ),
@@ -286,7 +329,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             'I believe in God, the Father almighty, Creator of heaven and earth, and in Jesus Christ, His only Son, our Lord, who was conceived by the Holy Spirit, born of the Virgin Mary, suffered under Pontius Pilate, was crucified, died and was buried; He descended into hell; on the third day He rose again from the dead; He ascended into heaven, and is seated at the right hand of God the Father almighty; from there He will come to judge the living and the dead. I believe in the Holy Spirit, the holy catholic Church, the communion of saints, the forgiveness of sins, the resurrection of the body, and life everlasting. Amen.',
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
-              fontSize: widget.model!.contentFontSize ?? 17,
+              fontSize: _contentFontSize,
               height: 1.4,
             ),
           ),
@@ -299,7 +342,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
                   fontWeight: FontWeight.w500,
-                  fontSize: widget.model!.contentFontSize ?? 17,
+                  fontSize: _contentFontSize,
                   height: 1.4,
                 ),
               ),
@@ -309,7 +352,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                   style: TextStyle(
                     color: const Color.fromRGBO(4, 26, 82, 1),
                     fontWeight: FontWeight.w500,
-                    fontSize: widget.model!.contentFontSize ?? 17,
+                    fontSize: _contentFontSize,
                     height: 1.4,
                   ),
                 ),
@@ -320,7 +363,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             'On each "Our Father" bead of the rosary, pray:V. Eternal Father, I offer you the Body and Blood, soul and divinity of your dearly beloved Son, our Lord Jesus Christ,R. in atonement for our sins and those of the whole world.',
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
-              fontSize: widget.model!.contentFontSize ?? 17,
+              fontSize: _contentFontSize,
               height: 1.4,
             ),
           ),
@@ -329,7 +372,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             'On each of the 10 "Hail Mary" beads, pray:',
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
-              fontSize: widget.model!.contentFontSize ?? 17,
+              fontSize: _contentFontSize,
               height: 1.4,
             ),
           ),
@@ -337,7 +380,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             'V. For the sake of his sorrowful Passion,',
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
-              fontSize: widget.model!.contentFontSize ?? 17,
+              fontSize: _contentFontSize,
               height: 1.4,
             ),
           ),
@@ -345,7 +388,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             'R. have mercy on us and on the whole world.',
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
-              fontSize: widget.model!.contentFontSize ?? 17,
+              fontSize: _contentFontSize,
               height: 1.4,
             ),
           ),
@@ -358,7 +401,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
                   fontWeight: FontWeight.w500,
-                  fontSize: widget.model!.contentFontSize ?? 17,
+                  fontSize: _contentFontSize,
                   height: 1.4,
                 ),
               ),
@@ -368,7 +411,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                   style: TextStyle(
                     color: const Color.fromRGBO(4, 26, 82, 1),
                     fontWeight: FontWeight.w500,
-                    fontSize: widget.model!.contentFontSize ?? 17,
+                    fontSize: _contentFontSize,
                     height: 1.4,
                   ),
                 ),
@@ -379,7 +422,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             'Holy God, Holy Mighty One, Holy Immortal One, have mercy on us and on the whole world.',
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
-              fontSize: widget.model!.contentFontSize ?? 17,
+              fontSize: _contentFontSize,
               height: 1.4,
             ),
           ),
@@ -387,7 +430,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             '(Repeat three times)',
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
-              fontSize: widget.model!.contentFontSize ?? 17,
+              fontSize: _contentFontSize,
               height: 1.4,
             ),
           ),
@@ -400,7 +443,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
                   fontWeight: FontWeight.w500,
-                  fontSize: widget.model!.contentFontSize ?? 17,
+                  fontSize: _contentFontSize,
                   height: 1.4,
                 ),
               ),
@@ -410,7 +453,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
                   style: TextStyle(
                     color: const Color.fromRGBO(4, 26, 82, 1),
                     fontWeight: FontWeight.w500,
-                    fontSize: widget.model!.contentFontSize ?? 17,
+                    fontSize: _contentFontSize,
                     height: 1.4,
                   ),
                 ),
@@ -421,7 +464,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             'Closing Prayer (optional)',
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
-              fontSize: widget.model!.contentFontSize ?? 17,
+              fontSize: _contentFontSize,
               height: 1.4,
             ),
           ),
@@ -429,7 +472,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             'Eternal God, in whom mercy is endless and the treasury of compassion inexhaustible, look kindly upon us and increase your mercy in us, that in difficult moments we might not despair nor become despondent, but with great confidence submit ourselves to your holy will, which is Love and Mercy itself. Amen.',
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
-              fontSize: widget.model!.contentFontSize ?? 17,
+              fontSize: _contentFontSize,
               height: 1.4,
             ),
           ),
@@ -438,7 +481,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             'Or:',
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
-              fontSize: widget.model!.contentFontSize ?? 17,
+              fontSize: _contentFontSize,
               height: 1.4,
             ),
           ),
@@ -446,7 +489,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             '(Roman Missal, Votive Mass of the Mercy of God)',
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
-              fontSize: widget.model!.contentFontSize ?? 17,
+              fontSize: _contentFontSize,
               height: 1.4,
             ),
           ),
@@ -454,7 +497,7 @@ class DivineMercyPrayerViewState extends State<DivineMercyPrayerView> {
             'O God, whose mercies are without number and whose treasure of goodness is infinite, graciously increase the faith of the people consecrated to you, that all may grasp and rightly understand by whose love they have been created, through whose Blood they have been redeemed, and by whose Spirit they have been reborn. Through Christ our Lord. Amen.',
             style: TextStyle(
               color: const Color.fromRGBO(4, 26, 82, 1),
-              fontSize: widget.model!.contentFontSize ?? 17,
+              fontSize: _contentFontSize,
               height: 1.4,
             ),
           ),

@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import '../models/confession_model.dart';
 import '../../../../utils/asset_path.dart';
+import '../../../../main.dart' as main_store;
+import '../../shared/font_size_manager.dart';
 
 class ConfessionView extends BaseStatefulPageView {
   final ConfessionModel? model;
@@ -15,6 +19,47 @@ class ConfessionView extends BaseStatefulPageView {
 }
 
 class ConfessionViewState extends State<ConfessionView> {
+  StreamSubscription? _storeSubscription;
+  int _eventCounter = 0;
+  double _titleFontSize = 20.0;
+  double _contentFontSize = 17.0;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    _titleFontSize = FontSizeManager.currentTitleSize;
+    _contentFontSize = FontSizeManager.currentContentSize;
+    
+    _storeSubscription = main_store.store.onChange?.listen((event) {
+      if (mounted && !FontSizeManager.isProcessing) {
+        _eventCounter++;
+        
+        if (_eventCounter % 6 == 0) {
+          FontSizeManager.isProcessing = true;
+          
+          _eventCounter = 0;
+          
+          widget.model!.titleFontSize = FontSizeManager.currentTitleSize;
+          widget.model!.contentFontSize = FontSizeManager.currentContentSize;
+          
+          setState(() {
+            _titleFontSize = FontSizeManager.currentTitleSize;
+            _contentFontSize = FontSizeManager.currentContentSize;
+          });
+          
+          FontSizeManager.isProcessing = false;
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _storeSubscription?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,7 +164,7 @@ class ConfessionViewState extends State<ConfessionView> {
                 '1. ',
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: widget.model!.contentFontSize ?? 17,
+                  fontSize: _contentFontSize,
                 ),
               ),
               Expanded(
@@ -127,7 +172,7 @@ class ConfessionViewState extends State<ConfessionView> {
                   'Bless yourself with the Sign of the Cross.',
                   style: TextStyle(
                     color: const Color.fromRGBO(4, 26, 82, 1),
-                    fontSize: widget.model!.contentFontSize ?? 17,
+                    fontSize: _contentFontSize, 
                   ),
                 ),
               ),
@@ -141,15 +186,15 @@ class ConfessionViewState extends State<ConfessionView> {
                 '2. ',
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: widget.model!.contentFontSize ?? 17,
+                  fontSize: _contentFontSize,
                 ),
               ),
               Expanded(
                 child: Text(
-                  'Say  “Bless me, Father, for I have sinned. It\'s been [however many days/months/years] since my last confession.”',
+                  'Say  "Bless me, Father, for I have sinned. It\'s been [however many days/months/years] since my last confession."',
                   style: TextStyle(
                     color: const Color.fromRGBO(4, 26, 82, 1),
-                    fontSize: widget.model!.contentFontSize ?? 17,
+                    fontSize: _contentFontSize,
                   ),
                 ),
               ),
@@ -163,7 +208,7 @@ class ConfessionViewState extends State<ConfessionView> {
                 '3. ',
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: widget.model!.contentFontSize ?? 17,
+                  fontSize: _contentFontSize,
                 ),
               ),
               Expanded(
@@ -174,7 +219,7 @@ class ConfessionViewState extends State<ConfessionView> {
                       text: TextSpan(
                         style: TextStyle(
                           color: const Color.fromRGBO(4, 26, 82, 1),
-                          fontSize: widget.model!.contentFontSize ?? 17,
+                          fontSize: _contentFontSize,
                         ),
                         children: const <TextSpan>[
                           TextSpan(text: 'Say '),
@@ -192,7 +237,7 @@ class ConfessionViewState extends State<ConfessionView> {
                       '[Tell the priest your sins]',
                       style: TextStyle(
                         color: const Color.fromRGBO(4, 26, 82, 1),
-                        fontSize: widget.model!.contentFontSize ?? 17,
+                        fontSize: _contentFontSize,
                       ),
                     ),
                   ],
@@ -208,7 +253,7 @@ class ConfessionViewState extends State<ConfessionView> {
                 '4. ',
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: widget.model!.contentFontSize ?? 17,
+                  fontSize: _contentFontSize,
                 ),
               ),
               Flexible(
@@ -219,13 +264,13 @@ class ConfessionViewState extends State<ConfessionView> {
                       text: TextSpan(
                         style: TextStyle(
                           color: const Color.fromRGBO(4, 26, 82, 1),
-                          fontSize: widget.model!.contentFontSize ?? 17,
+                          fontSize: _contentFontSize,
                         ),
                         children: const <TextSpan>[
                           TextSpan(text: 'Say '),
                           TextSpan(
                             text:
-                                '“I will try not to do these things that are wrong anymore. For these and all of my sins, I am truly sorry”',
+                                '"I will try not to do these things that are wrong anymore. For these and all of my sins, I am truly sorry"',
                             style: TextStyle(
                               color: Color.fromRGBO(4, 26, 82, 1),
                               fontWeight: FontWeight.w500,
@@ -247,7 +292,7 @@ class ConfessionViewState extends State<ConfessionView> {
                 '5. ',
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: widget.model!.contentFontSize ?? 17,
+                  fontSize: _contentFontSize,
                 ),
               ),
               Expanded(
@@ -255,7 +300,7 @@ class ConfessionViewState extends State<ConfessionView> {
                   'Listen to the penance and advice that the priest accords to you.',
                   style: TextStyle(
                     color: const Color.fromRGBO(4, 26, 82, 1),
-                    fontSize: widget.model!.contentFontSize ?? 17,
+                    fontSize: _contentFontSize,
                   ),
                 ),
               ),
@@ -269,7 +314,7 @@ class ConfessionViewState extends State<ConfessionView> {
                 '6. ',
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: widget.model!.contentFontSize ?? 17,
+                  fontSize: _contentFontSize,
                 ),
               ),
               Flexible(
@@ -280,7 +325,7 @@ class ConfessionViewState extends State<ConfessionView> {
                       text: TextSpan(
                         style: TextStyle(
                           color: const Color.fromRGBO(4, 26, 82, 1),
-                          fontSize: widget.model!.contentFontSize ?? 17,
+                          fontSize: _contentFontSize,
                         ),
                         children: const <TextSpan>[
                           TextSpan(
@@ -288,7 +333,7 @@ class ConfessionViewState extends State<ConfessionView> {
                                   'When invited by the priest, say Act of Contrition: '),
                           TextSpan(
                             text:
-                                '“Oh my God, I am very sorry that I have sinned against you. Because you are so good, and with your help and grace. I will not sin again.”',
+                                '"Oh my God, I am very sorry that I have sinned against you. Because you are so good, and with your help and grace. I will not sin again."',
                             style: TextStyle(
                               color: Color.fromRGBO(4, 26, 82, 1),
                               fontWeight: FontWeight.w500,
@@ -310,7 +355,7 @@ class ConfessionViewState extends State<ConfessionView> {
                 '7. ',
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: widget.model!.contentFontSize ?? 17,
+                  fontSize: _contentFontSize,
                 ),
               ),
               Expanded(
@@ -318,7 +363,7 @@ class ConfessionViewState extends State<ConfessionView> {
                   'The priest will then give an Absolution and Final Blessing',
                   style: TextStyle(
                     color: const Color.fromRGBO(4, 26, 82, 1),
-                    fontSize: widget.model!.contentFontSize ?? 17,
+                    fontSize: _contentFontSize,
                   ),
                 ),
               ),
@@ -332,7 +377,7 @@ class ConfessionViewState extends State<ConfessionView> {
                 '8. ',
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: widget.model!.contentFontSize ?? 17,
+                  fontSize: _contentFontSize,
                 ),
               ),
               Flexible(
@@ -343,12 +388,12 @@ class ConfessionViewState extends State<ConfessionView> {
                       text: TextSpan(
                         style: TextStyle(
                           color: const Color.fromRGBO(4, 26, 82, 1),
-                          fontSize: widget.model!.contentFontSize ?? 17,
+                          fontSize: _contentFontSize,
                         ),
                         children: const <TextSpan>[
                           TextSpan(text: 'Say '),
                           TextSpan(
-                            text: '“Amen”',
+                            text: '"Amen"',
                             style: TextStyle(
                               color: Color.fromRGBO(4, 26, 82, 1),
                               fontWeight: FontWeight.w500,
@@ -371,7 +416,7 @@ class ConfessionViewState extends State<ConfessionView> {
                 '9. ',
                 style: TextStyle(
                   color: const Color.fromRGBO(4, 26, 82, 1),
-                  fontSize: widget.model!.contentFontSize ?? 17,
+                  fontSize: _contentFontSize,
                 ),
               ),
               Expanded(
@@ -379,7 +424,7 @@ class ConfessionViewState extends State<ConfessionView> {
                   'Return to the pew to do the assigned Penance and final prayers. Resolve to receive Sacramental Confession often.',
                   style: TextStyle(
                     color: const Color.fromRGBO(4, 26, 82, 1),
-                    fontSize: widget.model!.contentFontSize ?? 17,
+                    fontSize: _contentFontSize,
                   ),
                 ),
               ),
