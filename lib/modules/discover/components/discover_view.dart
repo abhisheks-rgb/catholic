@@ -91,7 +91,7 @@ class _DiscoverViewState extends State<DiscoverView> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -150,10 +150,13 @@ class _DiscoverViewState extends State<DiscoverView> {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [color.withOpacity(isSelected ? 1.0 : 0.8), color],
+          colors: [
+            color.withValues(alpha: isSelected ? 1.0 : 0.8),
+            color,
+          ],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: isSelected ? Border.all(color: Colors.white, width: 3) : null,
+        border: isSelected ? Border.all(color: Colors.black, width: 3) : null,
       ),
       child: Material(
         color: Colors.transparent,
@@ -236,7 +239,7 @@ class _DiscoverViewState extends State<DiscoverView> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -261,7 +264,7 @@ class _DiscoverViewState extends State<DiscoverView> {
                   decoration: BoxDecoration(
                     color: Theme.of(
                       context,
-                    ).colorScheme.primary.withOpacity(0.3),
+                    ).colorScheme.primary.withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
