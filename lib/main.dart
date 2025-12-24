@@ -16,7 +16,7 @@ final navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  final firebaseOptions = await DefaultFirebaseOptions().init();
+  // final firebaseOptions = await DefaultFirebaseOptions().init();
   await Firebase.initializeApp();
 
   final persistor = p.Persistor('mycatholicsg');

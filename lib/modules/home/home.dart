@@ -1,4 +1,5 @@
 import 'package:butter/butter.dart';
+import 'package:trcas_catholic/modules/discover/discover.dart';
 
 import 'pages/home_page.dart';
 import 'states/home_state.dart';
@@ -34,6 +35,7 @@ class Home extends BaseModule {
           modules: {
             '/_/info': Info(),
             '/_/pray': Pray(),
+            '/_/discover': Discover(),
             '/_/welcome': Welcome(),
             '/_/schedules': Schedules(),
             '/_/church_bulletin': ChurchBulletin(),

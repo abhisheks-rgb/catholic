@@ -4,7 +4,7 @@ publish_to: "none"
 version: 2.1.61+1
 
 environment:
-  sdk: ">=3.2.0 <4.0.0"
+  sdk: ^3.8.1
 
 dependencies:
   # add_2_calendar: ^2.2.3

@@ -63,6 +63,25 @@ class _NavbarState extends State<Navbar> {
             icon: Padding(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Image.asset(
+                  assetPath('pray.png'),
+                  color: const Color.fromRGBO(4, 26, 82, 0.4),
+                  height: 22,
+                  width: 22,
+                )),
+            activeIcon: Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Image.asset(
+                  assetPath('pray.png'),
+                  color: const Color.fromRGBO(4, 26, 82, 1),
+                  height: 22,
+                  width: 22,
+                )),
+            label: 'Discover',
+          ),
+          BottomNavigationBarItem(
+            icon: Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Image.asset(
                   assetPath('book.png'),
                   color: const Color.fromRGBO(4, 26, 82, 0.4),
                   height: 22,
@@ -119,10 +138,16 @@ class _NavbarState extends State<Navbar> {
       case 2:
         widget.model!.selectMenuItem!(
           context: context,
-          route: '/_/info',
+          route: '/_/discover',
         );
         break;
       case 3:
+        widget.model!.selectMenuItem!(
+          context: context,
+          route: '/_/info',
+        );
+        break;
+      case 4:
         widget.model!.selectMenuItem!(
           context: context,
           route: '/_/events',

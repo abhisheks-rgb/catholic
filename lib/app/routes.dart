@@ -1,4 +1,5 @@
 import 'package:butter/butter.dart';
+import 'package:trcas_catholic/modules/discover/discover.dart';
 
 import '../modules/home/home.dart';
 import '../modules/info/info.dart';
@@ -31,6 +32,7 @@ class Routes extends BaseRoutes {
             MassReadings(),
             Login(),
             Profile(),
+            Discover(),
           ],
         );
 }

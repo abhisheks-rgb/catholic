@@ -65,10 +65,10 @@ android {
 
     signingConfigs {
         release {
-             storeFile file(localProperties.getProperty('RELEASE_KEYSTORE_PATH'))
-             storePassword localProperties.getProperty('RELEASE_KEYSTORE_PASSWORD')
-             keyAlias localProperties.getProperty('RELEASE_KEY_ALIAS')
-             keyPassword localProperties.getProperty('RELEASE_KEY_PASSWORD')
+            //  storeFile file(localProperties.getProperty('RELEASE_KEYSTORE_PATH'))
+            //  storePassword localProperties.getProperty('RELEASE_KEYSTORE_PASSWORD')
+            //  keyAlias localProperties.getProperty('RELEASE_KEY_ALIAS')
+            //  keyPassword localProperties.getProperty('RELEASE_KEY_PASSWORD')
         }
     }
 
