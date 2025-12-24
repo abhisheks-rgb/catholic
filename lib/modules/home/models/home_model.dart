@@ -56,6 +56,19 @@ class HomeModel extends BaseUIModel<HomeModel> {
   Future<void> Function(BaseAction action)? dispatch;
   T? Function<T extends BaseUIModel>(T m)? read;
 
+  //
+  List<dynamic>? continueListening;
+  List<dynamic>? recentlyPlayed;
+  List<dynamic>? featuredSeries;
+  Map<String, dynamic>? currentlyPlaying;
+
+  late Function() loadHomeData;
+  late Future<List<Object>?> Function() fetchContinueListening;
+  late Future<List<Object>?> Function() fetchFeaturedSeries;
+  late Function(String videoId, int position, int duration) updateProgress;
+  late Function(String videoId) resumeVideo;
+  late Function(String seriesId) navigateToSeries;
+
   HomeModel({
     this.error,
     this.initialized = false,
@@ -78,7 +91,18 @@ class HomeModel extends BaseUIModel<HomeModel> {
     this.dbVersion,
     this.dbOjects,
     this.hasNotif = false,
+    this.continueListening,
+    this.recentlyPlayed,
+    this.featuredSeries,
+    this.currentlyPlaying,
   });
+
+  List<dynamic> get continueWatchingVideos {
+    if (continueListening == null) return [];
+    return continueListening!
+        .where((v) => v['progress'] != null && v['progress'] > 0 && v['progress'] < 95)
+        .toList();
+  }
 
   @override
   String get $key => '/_';
@@ -105,7 +129,7 @@ class HomeModel extends BaseUIModel<HomeModel> {
       appVersion: appVersion,
       dbVersion: dbVersion,
       dbOjects: dbOjects,
-      hasNotif: hasNotif);
+      hasNotif: hasNotif,);
 
   @override
   int get hashCode => Object.hashAll([
@@ -129,7 +153,11 @@ class HomeModel extends BaseUIModel<HomeModel> {
         appVersion,
         dbVersion,
         dbOjects,
-        hasNotif
+        hasNotif,
+        continueListening,
+        recentlyPlayed,
+        featuredSeries,
+        currentlyPlaying,
       ]);
 
   //
@@ -159,5 +187,9 @@ class HomeModel extends BaseUIModel<HomeModel> {
           appVersion == other.appVersion &&
           dbVersion == other.dbVersion &&
           dbOjects == other.dbOjects &&
-          hasNotif == other.hasNotif;
+          hasNotif == other.hasNotif &&
+          continueListening == other.continueListening &&
+          recentlyPlayed == other.recentlyPlayed &&
+          featuredSeries == other.featuredSeries &&
+          currentlyPlaying == other.currentlyPlaying;
 }

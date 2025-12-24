@@ -245,5 +245,32 @@ class HomeState extends BasePageState<HomeModel> {
         };
         m.setInterestEvent = (parentEventId, eventId) => dispatchAction(
             SetInterestAction(eventId: eventId, parentEventId: parentEventId));
+        m.loadHomeData = () {
+      dispatchAction(LoadHomeDataAction());
+    };
+
+    m.fetchContinueListening = () async {
+      return dispatchAction(FetchContinueListeningAction());
+    };
+
+    m.fetchFeaturedSeries = () async {
+      return dispatchAction(FetchFeaturedSeriesAction());
+    };
+
+    m.updateProgress = (videoId, position, duration) {
+      dispatchAction(UpdateVideoProgressAction(
+        videoId: videoId,
+        position: position,
+        duration: duration,
+      ));
+    };
+
+    m.resumeVideo = (videoId) {
+      dispatchAction(ResumeVideoAction(videoId: videoId));
+    };
+
+    m.navigateToSeries = (seriesId) {
+      dispatchAction(NavigateToSeriesAction(seriesId: seriesId));
+    };
       });
 }
