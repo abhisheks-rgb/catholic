@@ -15,9 +15,11 @@ class ChurchInfoView extends BaseStatefulPageView {
   final List<Map> _infos;
 
   ChurchInfoView(this.model, {Key? key})
-      : _infos = List.generate(model?.churchInfos?.length ?? 0,
-            (index) => model?.churchInfos![index] as Map),
-        super();
+    : _infos = List.generate(
+        model?.churchInfos?.length ?? 0,
+        (index) => model?.churchInfos![index] as Map,
+      ),
+      super();
 
   @override
   State<BaseStatefulPageView> createState() => _ChurchInfoViewState();
@@ -59,12 +61,12 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
       {
         'title': 'Schedules',
         'icon': 'Mass_Schedules.png',
-        'route': 'schedules'
+        'route': 'schedules',
       },
       {
         'title': 'Offertory & Giving',
         'icon': 'Offertory_Giving.png',
-        'route': 'offertory'
+        'route': 'offertory',
       },
     ];
     if (widget._infos.isNotEmpty) {
@@ -80,9 +82,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
               height: MediaQuery.of(context).size.height * 0.33,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(
-                    assetPath('page-bg.png'),
-                  ),
+                  image: AssetImage(assetPath('page-bg.png')),
                   alignment: Alignment.topCenter,
                   fit: BoxFit.cover,
                 ),
@@ -117,7 +117,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                         end: const Alignment(0.515, 1),
                         colors: <Color>[
                           const Color(0x51ffffff),
-                          const Color(0xffffffff).withOpacity(0.9)
+                          const Color(0xffffffff).withOpacity(0.9),
                         ],
                         stops: const <double>[0, 1],
                       ),
@@ -168,10 +168,14 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                 const SizedBox(height: 16),
                 Container(
                   width: double.infinity,
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 0,
+                    horizontal: 24,
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12,
+                    horizontal: 20,
+                  ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.white,
@@ -239,23 +243,28 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                 ),
                                 const SizedBox(height: 16),
                                 SizedBox(
-                                    height: 120,
-                                    child: widget
-                                            ._infos[0]['orgPhotoUrl'].isNotEmpty
-                                        ? ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            child: Image.network(widget
-                                                ._infos[0]['orgPhotoUrl']),
-                                          )
-                                        : ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            child: Image.asset(
-                                              assetPath(
-                                                  'church-placeholder-img.png'),
+                                  height: 120,
+                                  child:
+                                      widget._infos[0]['orgPhotoUrl'].isNotEmpty
+                                      ? ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
+                                          child: Image.network(
+                                            widget._infos[0]['orgPhotoUrl'],
+                                          ),
+                                        )
+                                      : ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
+                                          child: Image.asset(
+                                            assetPath(
+                                              'church-placeholder-img.png',
                                             ),
-                                          )),
+                                          ),
+                                        ),
+                                ),
                                 const SizedBox(height: 8),
                                 widget._infos[0]['address'].isEmpty
                                     ? Container()
@@ -265,8 +274,8 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                             MaterialTapTargetSize.shrinkWrap,
                                         onPressed: () async {
                                           if (widget._infos.isNotEmpty) {
-                                            final query = widget._infos[0]
-                                                    ['address']
+                                            final query = widget
+                                                ._infos[0]['address']
                                                 .trim();
 
                                             _redirectToMaps(query);
@@ -286,7 +295,11 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                     MaterialCommunityIcons
                                                         .map_marker,
                                                     color: Color.fromRGBO(
-                                                        130, 141, 168, 1),
+                                                      130,
+                                                      141,
+                                                      168,
+                                                      1,
+                                                    ),
                                                     size: 20,
                                                   ),
                                                 ),
@@ -294,12 +307,16 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                 Expanded(
                                                   child: Text(
                                                     widget._infos.isNotEmpty
-                                                        ? widget._infos[0]
-                                                            ['address']
+                                                        ? widget
+                                                              ._infos[0]['address']
                                                         : '',
                                                     style: const TextStyle(
                                                       color: Color.fromRGBO(
-                                                          12, 72, 224, 1),
+                                                        12,
+                                                        72,
+                                                        224,
+                                                        1,
+                                                      ),
                                                       fontWeight:
                                                           FontWeight.w500,
                                                       fontSize: 16,
@@ -314,7 +331,11 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                     MaterialCommunityIcons
                                                         .directions,
                                                     color: Color.fromRGBO(
-                                                        12, 72, 224, 1),
+                                                      12,
+                                                      72,
+                                                      224,
+                                                      1,
+                                                    ),
                                                     size: 24,
                                                   ),
                                                 ),
@@ -333,8 +354,8 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                         onPressed: () {
                                           final orgTel =
                                               widget._infos.isNotEmpty
-                                                  ? widget._infos[0]['orgTel1']
-                                                  : '';
+                                              ? widget._infos[0]['orgTel1']
+                                              : '';
                                           final uri = Uri.parse('tel:$orgTel');
                                           urlLauncher(uri, 'tel');
                                         },
@@ -351,7 +372,11 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                   child: Icon(
                                                     FontAwesome.phone,
                                                     color: Color.fromRGBO(
-                                                        130, 141, 168, 1),
+                                                      130,
+                                                      141,
+                                                      168,
+                                                      1,
+                                                    ),
                                                     size: 20,
                                                   ),
                                                 ),
@@ -359,12 +384,16 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                 Expanded(
                                                   child: Text(
                                                     widget._infos.isNotEmpty
-                                                        ? widget._infos[0]
-                                                            ['orgTel1']
+                                                        ? widget
+                                                              ._infos[0]['orgTel1']
                                                         : '',
                                                     style: const TextStyle(
                                                       color: Color.fromRGBO(
-                                                          12, 72, 224, 1),
+                                                        12,
+                                                        72,
+                                                        224,
+                                                        1,
+                                                      ),
                                                       fontWeight:
                                                           FontWeight.w500,
                                                       fontSize: 16,
@@ -422,7 +451,11 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                       assetPath('priest.png'),
                                                       color:
                                                           const Color.fromRGBO(
-                                                              4, 26, 82, 0.5),
+                                                            4,
+                                                            26,
+                                                            82,
+                                                            0.5,
+                                                          ),
                                                     ),
                                                   ),
                                                 ),
@@ -440,36 +473,40 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                             .shrinkWrap,
                                                     onPressed: () {
                                                       widget.model?.showPage(
-                                                          '/_/priest_info',
-                                                          widget._infos[0]
-                                                              ['priestname'],
-                                                          null,
-                                                          null);
+                                                        '/_/priest_info',
+                                                        widget
+                                                            ._infos[0]['priestname'],
+                                                        null,
+                                                        null,
+                                                      );
                                                     },
                                                     child: Column(
                                                       children: [
                                                         const SizedBox(
-                                                            height: 4),
+                                                          height: 4,
+                                                        ),
                                                         Text(
-                                                          widget._infos
+                                                          widget
+                                                                  ._infos
                                                                   .isNotEmpty
                                                               ? '${widget._infos[0]['priestsalutation']} ${widget._infos[0]['priestname']}'
                                                               : '',
-                                                          style:
-                                                              const TextStyle(
+                                                          style: const TextStyle(
                                                             color:
                                                                 Color.fromRGBO(
-                                                                    12,
-                                                                    72,
-                                                                    224,
-                                                                    1),
+                                                                  12,
+                                                                  72,
+                                                                  224,
+                                                                  1,
+                                                                ),
                                                             fontWeight:
                                                                 FontWeight.w500,
                                                             fontSize: 16,
                                                           ),
                                                         ),
                                                         const SizedBox(
-                                                            height: 4),
+                                                          height: 4,
+                                                        ),
                                                       ],
                                                     ),
                                                   ),
@@ -480,7 +517,9 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                         MaterialTapTargetSize
                                                             .shrinkWrap,
                                                     onPressed: () {
-                                                      if (widget.model!.priests!
+                                                      if (widget
+                                                          .model!
+                                                          .priests!
                                                           .isNotEmpty) {
                                                         showPriestList(context);
                                                       }
@@ -493,10 +532,11 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                           style: TextStyle(
                                                             color:
                                                                 Color.fromRGBO(
-                                                                    12,
-                                                                    72,
-                                                                    224,
-                                                                    1),
+                                                                  12,
+                                                                  72,
+                                                                  224,
+                                                                  1,
+                                                                ),
                                                             fontSize: 14,
                                                           ),
                                                         ),
@@ -520,10 +560,11 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                         onPressed: () {
                                           final orgEmail =
                                               widget._infos.isNotEmpty
-                                                  ? widget._infos[0]['orgEmail']
-                                                  : '';
-                                          final uri =
-                                              Uri.parse('mailTo:$orgEmail');
+                                              ? widget._infos[0]['orgEmail']
+                                              : '';
+                                          final uri = Uri.parse(
+                                            'mailTo:$orgEmail',
+                                          );
                                           urlLauncher(uri, 'email');
                                         },
                                         child: Column(
@@ -539,7 +580,11 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                   child: Icon(
                                                     FontAwesome.envelope,
                                                     color: Color.fromRGBO(
-                                                        130, 141, 168, 1),
+                                                      130,
+                                                      141,
+                                                      168,
+                                                      1,
+                                                    ),
                                                     size: 20,
                                                   ),
                                                 ),
@@ -547,12 +592,16 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                 Expanded(
                                                   child: Text(
                                                     widget._infos.isNotEmpty
-                                                        ? widget._infos[0]
-                                                            ['orgEmail']
+                                                        ? widget
+                                                              ._infos[0]['orgEmail']
                                                         : '',
                                                     style: const TextStyle(
                                                       color: Color.fromRGBO(
-                                                          12, 72, 224, 1),
+                                                        12,
+                                                        72,
+                                                        224,
+                                                        1,
+                                                      ),
                                                       fontWeight:
                                                           FontWeight.w500,
                                                       fontSize: 16,
@@ -572,8 +621,8 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                         materialTapTargetSize:
                                             MaterialTapTargetSize.shrinkWrap,
                                         onPressed: () {
-                                          final orgWebsite = widget
-                                                  ._infos.isNotEmpty
+                                          final orgWebsite =
+                                              widget._infos.isNotEmpty
                                               ? widget._infos[0]['orgWebsite']
                                               : '';
                                           final uri = Uri.parse('$orgWebsite');
@@ -597,12 +646,16 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                                 Expanded(
                                                   child: Text(
                                                     widget._infos.isNotEmpty
-                                                        ? widget._infos[0]
-                                                            ['orgWebsite']
+                                                        ? widget
+                                                              ._infos[0]['orgWebsite']
                                                         : '',
                                                     style: const TextStyle(
                                                       color: Color.fromRGBO(
-                                                          12, 72, 224, 1),
+                                                        12,
+                                                        72,
+                                                        224,
+                                                        1,
+                                                      ),
                                                       fontWeight:
                                                           FontWeight.w500,
                                                       fontSize: 16,
@@ -625,8 +678,12 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                             thickness: 1,
                                             indent: 0,
                                             endIndent: 0,
-                                            color:
-                                                Color.fromRGBO(4, 26, 82, 0.1),
+                                            color: Color.fromRGBO(
+                                              4,
+                                              26,
+                                              82,
+                                              0.1,
+                                            ),
                                           ),
                                           SizedBox(height: 16),
                                         ],
@@ -657,22 +714,26 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                                 materialTapTargetSize:
                                     MaterialTapTargetSize.shrinkWrap,
                                 onPressed: () {
-                                  var parish = widget.model!.items
-                                      ?.firstWhere((element) {
+                                  var parish = widget.model!.items?.firstWhere((
+                                    element,
+                                  ) {
                                     return element['name'] ==
                                         _selectedParishValue;
                                   });
 
                                   widget.model?.showPage(
-                                      '/_/${e['route']}',
-                                      _selectedParishValue,
-                                      parish['link'],
-                                      parish['_id'] - 1);
+                                    '/_/${e['route']}',
+                                    _selectedParishValue,
+                                    parish['link'],
+                                    parish['_id'] - 1,
+                                  );
                                 },
                                 child: Container(
                                   width: double.infinity,
                                   margin: const EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 24),
+                                    vertical: 0,
+                                    horizontal: 24,
+                                  ),
                                   padding: const EdgeInsets.all(16),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -785,9 +846,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
         'icon': SizedBox(
           width: 24,
           height: 24,
-          child: Image.asset(
-            assetPath('images/instagram-alt.png'),
-          ),
+          child: Image.asset(assetPath('images/instagram-alt.png')),
         ),
       });
     }
@@ -943,10 +1002,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                             ),
                           ),
                         ),
-                        Expanded(
-                          flex: 2,
-                          child: _renderLinkButton(links[4]),
-                        ),
+                        Expanded(flex: 2, child: _renderLinkButton(links[4])),
                         Expanded(
                           flex: 3,
                           child: Container(
@@ -954,7 +1010,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
                               color: Colors.black,
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
             ],
@@ -997,37 +1053,37 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
   }
 
   Widget _renderLinkButton(item) => RawMaterialButton(
-        constraints: const BoxConstraints(),
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        onPressed: () {
-          final link =
-              widget._infos.isNotEmpty ? widget._infos[0][item['name']] : '';
-          final uri = Uri.parse('$link');
-          urlLauncher(uri, 'web');
-        },
-        child: Center(
-          child: Column(
-            children: [
-              item['icon'],
-              const SizedBox(height: 8),
-              Text(
-                item['title'],
-                style: const TextStyle(
-                  color: Color.fromRGBO(4, 26, 82, 0.5),
-                  fontSize: 12,
-                ),
-              ),
-            ],
+    constraints: const BoxConstraints(),
+    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+    onPressed: () {
+      final link = widget._infos.isNotEmpty
+          ? widget._infos[0][item['name']]
+          : '';
+      final uri = Uri.parse('$link');
+      urlLauncher(uri, 'web');
+    },
+    child: Center(
+      child: Column(
+        children: [
+          item['icon'],
+          const SizedBox(height: 8),
+          Text(
+            item['title'],
+            style: const TextStyle(
+              color: Color.fromRGBO(4, 26, 82, 0.5),
+              fontSize: 12,
+            ),
           ),
-        ),
-      );
+        ],
+      ),
+    ),
+  );
 
   void showChurchList(BuildContext context) {
     List<dynamic> churchList = [...widget.model!.items!];
     showDialog(
       context: context,
-      routeSettings:
-        RouteSettings(name: ModalRoute.of(context)?.settings.name),
+      routeSettings: RouteSettings(name: ModalRoute.of(context)?.settings.name),
       builder: (BuildContext context) => SelectChurchDialog(
         churchList: churchList,
         context: context,
@@ -1047,162 +1103,170 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
   }
 
   void showPriestList(BuildContext context) => showDialog(
-        context: context,
-        routeSettings:
-            RouteSettings(name: ModalRoute.of(context)?.settings.name),
-        builder: (BuildContext context) => Dialog(
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          ),
-          insetPadding: const EdgeInsets.all(12),
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+    context: context,
+    routeSettings: RouteSettings(name: ModalRoute.of(context)?.settings.name),
+    builder: (BuildContext context) => Dialog(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      ),
+      insetPadding: const EdgeInsets.all(12),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 12),
+            Row(
               children: [
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    const SizedBox(width: 24),
-                    Expanded(
-                      child: Text(
-                        '${_selectedParishValue ?? ''} Priests',
-                        style: const TextStyle(
-                          color: Color.fromRGBO(4, 26, 82, 1),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18,
-                        ),
-                      ),
+                const SizedBox(width: 24),
+                Expanded(
+                  child: Text(
+                    '${_selectedParishValue ?? ''} Priests',
+                    style: const TextStyle(
+                      color: Color.fromRGBO(4, 26, 82, 1),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18,
                     ),
-                    RawMaterialButton(
-                      constraints: const BoxConstraints(),
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      shape: const CircleBorder(),
-                      child: const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: Icon(
-                          MaterialCommunityIcons.close_circle,
-                          color: Color.fromRGBO(130, 141, 168, 1),
-                          size: 24,
-                        ),
-                      ),
+                  ),
+                ),
+                RawMaterialButton(
+                  constraints: const BoxConstraints(),
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  shape: const CircleBorder(),
+                  child: const SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: Icon(
+                      MaterialCommunityIcons.close_circle,
+                      color: Color.fromRGBO(130, 141, 168, 1),
+                      size: 24,
                     ),
-                    const SizedBox(width: 24),
-                  ],
+                  ),
                 ),
-                const SizedBox(height: 12),
-                ListView.separated(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: widget.model!.priests!.length,
-                  separatorBuilder: (BuildContext context, int index) {
-                    return Container();
-                  },
-                  itemBuilder: (context, index) {
-                    final priestInfo = widget.model!.priests![index] as Map;
-                    return InkWell(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 0, horizontal: 24),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 12),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 48,
-                                  height: 48,
-                                  decoration: const BoxDecoration(
-                                    color: Color.fromRGBO(219, 228, 251, 1),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  // child: Center(
-                                  //   child: Image.asset(
-                                  //     assetPath('priest.png'),
-                                  //     color:
-                                  //         const Color.fromRGBO(4, 26, 82, 0.5),
-                                  //     width: 23,
-                                  //     height: 23,
-                                  //   ),
-                                  // )
-                                  child: Container(
-                                    width: 48,
-                                    height: 48,
-                                    decoration: BoxDecoration(
-                                        color: const Color.fromRGBO(
-                                            219, 228, 251, 1),
-                                        shape: BoxShape.rectangle,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Center(
-                                      child: priestInfo['photo'].isEmpty
-                                          ? Image.asset(
-                                              assetPath('priest.png'),
-                                              color: const Color.fromRGBO(
-                                                  4, 26, 82, 0.5),
-                                              width: 23,
-                                              height: 23,
-                                            )
-                                          : ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              child: Image.network(
-                                                priestInfo['photo'],
-                                              ),
-                                            ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Flexible(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '${priestInfo['salutation'] ?? ''} ${priestInfo['name'] ?? ''}${priestInfo['suffix'].isNotEmpty ? ', ${priestInfo['suffix']}' : ''}',
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          color: Color.fromRGBO(4, 26, 82, 1),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 18,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        priestInfo['churchrole'] ?? '',
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          color: Color.fromRGBO(4, 26, 82, 1),
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 12),
-                          ],
-                        ),
-                      ),
-                      onTap: () {
-                        widget.model?.showPage(
-                            '/_/priest_info', priestInfo['name'], null, null);
-                      },
-                    );
-                  },
-                ),
+                const SizedBox(width: 24),
               ],
             ),
-          ),
+            const SizedBox(height: 12),
+            ListView.separated(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: widget.model!.priests!.length,
+              separatorBuilder: (BuildContext context, int index) {
+                return Container();
+              },
+              itemBuilder: (context, index) {
+                final priestInfo = widget.model!.priests![index] as Map;
+                return InkWell(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 0,
+                      horizontal: 24,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 12),
+                        Row(
+                          children: [
+                            Container(
+                              width: 48,
+                              height: 48,
+                              decoration: const BoxDecoration(
+                                color: Color.fromRGBO(219, 228, 251, 1),
+                                shape: BoxShape.circle,
+                              ),
+                              // child: Center(
+                              //   child: Image.asset(
+                              //     assetPath('priest.png'),
+                              //     color:
+                              //         const Color.fromRGBO(4, 26, 82, 0.5),
+                              //     width: 23,
+                              //     height: 23,
+                              //   ),
+                              // )
+                              child: Container(
+                                width: 48,
+                                height: 48,
+                                decoration: BoxDecoration(
+                                  color: const Color.fromRGBO(219, 228, 251, 1),
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Center(
+                                  child: priestInfo['photo'].isEmpty
+                                      ? Image.asset(
+                                          assetPath('priest.png'),
+                                          color: const Color.fromRGBO(
+                                            4,
+                                            26,
+                                            82,
+                                            0.5,
+                                          ),
+                                          width: 23,
+                                          height: 23,
+                                        )
+                                      : ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
+                                          child: Image.network(
+                                            priestInfo['photo'],
+                                          ),
+                                        ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${priestInfo['salutation'] ?? ''} ${priestInfo['name'] ?? ''}${priestInfo['suffix'].isNotEmpty ? ', ${priestInfo['suffix']}' : ''}',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      color: Color.fromRGBO(4, 26, 82, 1),
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    priestInfo['churchrole'] ?? '',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      color: Color.fromRGBO(4, 26, 82, 1),
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    widget.model?.showPage(
+                      '/_/priest_info',
+                      priestInfo['name'],
+                      null,
+                      null,
+                    );
+                  },
+                );
+              },
+            ),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 
   void _logChurchInfoEvent(String parishlink, bool isDirection) async {
     await FirebaseAnalytics.instance.logEvent(
@@ -1224,10 +1288,7 @@ class _ChurchInfoViewState extends State<ChurchInfoView> {
     if (canLaunch) {
       switch (source) {
         case 'web':
-          await launchUrl(
-            uri,
-            mode: LaunchMode.externalApplication,
-          );
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
           break;
         default:
           await launchUrl(uri);

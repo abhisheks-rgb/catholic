@@ -10,14 +10,18 @@ class FetchSeriesAction extends BaseAction {
       m.error = null;
     });
 
+    String? error;
+    List<Map<String, Object>> series = [];
+
     try {
-      await Future.delayed(const Duration(milliseconds: 500));
+      // await Future.delayed(const Duration(milliseconds: 500));
 
       final mockSeries = [
         {
           'id': '1',
           'title': 'Advent',
-          'description': 'Prepare your heart for Christmas with daily reflections',
+          'description':
+              'Prepare your heart for Christmas with daily reflections',
           'category': 'Advent',
           'episodeCount': 24,
           'isFavourite': false,
@@ -56,24 +60,31 @@ class FetchSeriesAction extends BaseAction {
         },
       ];
 
-      await dispatchModel<DiscoverModel>(DiscoverModel(), (m) {
-        m.series = mockSeries;
-        m.loading = false;
-      });
+      // await dispatchModel<DiscoverModel>(DiscoverModel(), (m) {
+      //   m.series = mockSeries;
+      //   m.loading = false;
+      // });
+      series = List<Map<String, Object>>.from(mockSeries);
     } catch (e, st) {
       Butter.e(e.toString());
       Butter.e(st.toString());
 
-      await dispatchModel<DiscoverModel>(DiscoverModel(), (m) {
-        m.loading = false;
-        m.error = 'Failed to load series';
-      });
+      // await dispatchModel<DiscoverModel>(DiscoverModel(), (m) {
+      //   m.loading = false;
+      //   m.error = 'Failed to load series';
+      // });
+      error = 'Failed to load series';
     }
-
+    await Future.delayed(const Duration(seconds: 1), () async {
+      await dispatchModel<DiscoverModel>(DiscoverModel(), (m) {
+        m.error = error;
+        m.series = series;
+        m.loading = false;
+      });
+    });
     return null;
   }
 }
-
 
 // Update search query
 class UpdateSearchQueryAction extends BaseAction {
@@ -104,7 +115,8 @@ class ToggleFavouriteAction extends BaseAction {
           final updatedSeries = List.from(m.series!);
           updatedSeries[index] = {
             ...updatedSeries[index],
-            'isFavourite': !(updatedSeries[index]['isFavourite'] as bool? ?? false),
+            'isFavourite':
+                !(updatedSeries[index]['isFavourite'] as bool? ?? false),
           };
           m.series = updatedSeries;
         }

@@ -14,7 +14,7 @@ class MassReadingsState extends BasePageState<MassReadingsModel> {
   // properly fillup your models with valid function handlers after being read
   // from the store and before it is being fed to the page.
   MassReadingsState.build(this.model, void Function(MassReadingsModel m) f)
-      : super.build(model!, f);
+    : super.build(model!, f);
 
   // Make sure to properly define this function. Otherwise, your reducers
   // will not trigger view updates... and you will end up pulling all your hair.
@@ -27,22 +27,22 @@ class MassReadingsState extends BasePageState<MassReadingsModel> {
   }
 
   @override
-  int get hashCode => Object.hashAll([
-        runtimeType,
-        model,
-      ]);
+  int get hashCode => Object.hashAll([runtimeType, model]);
 
   @override
   MassReadingsState fromStore() => MassReadingsState.build(
-          read<MassReadingsModel>(
-            MassReadingsModel(
-                // Initialize your models here in case it is not available in the store yet
-                ),
-          ), (m) {
-        // Load all your model's handlers here
-        m.loadMassReading = (massReadingDate) async {
-          await dispatchAction(
-              ListMassReadingAction(massReadingDate: massReadingDate));
-        };
-      });
+    read<MassReadingsModel>(
+      MassReadingsModel(
+        // Initialize your models here in case it is not available in the store yet
+      ),
+    ),
+    (m) {
+      // Load all your model's handlers here
+      m.loadMassReading = (massReadingDate) async {
+        await dispatchAction(
+          ListMassReadingAction(massReadingDate: massReadingDate),
+        );
+      };
+    },
+  );
 }

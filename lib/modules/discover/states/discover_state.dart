@@ -1,37 +1,47 @@
 import 'package:butter/butter.dart';
 import '../models/discover_model.dart';
 import '../actions/discover_actions.dart';
+
 class DiscoverState extends BasePageState<DiscoverModel> {
   DiscoverState();
 
   DiscoverModel? model;
 
   DiscoverState.build(this.model, void Function(DiscoverModel m) f)
-      : super.build(model!, f);
+    : super.build(model!, f);
 
   @override
-  DiscoverState fromStore() => DiscoverState.build(
-        read<DiscoverModel>(DiscoverModel()),
-        (m) {
-          m.fetchSeries = () {
-            dispatchAction(FetchSeriesAction());
-          };
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is DiscoverState &&
+            runtimeType == other.runtimeType &&
+            model == other.model;
+  }
 
-          m.updateSearchQuery = (query) {
-            dispatchAction(UpdateSearchQueryAction(query: query));
-          };
+  @override
+  int get hashCode => Object.hashAll([runtimeType, model]);
 
-          m.selectCategory = (category) {
-            dispatchAction(SelectCategoryAction(category: category));
-          };
+  @override
+  DiscoverState fromStore() =>
+      DiscoverState.build(read<DiscoverModel>(DiscoverModel()), (m) {
+        m.fetchSeries = () async {
+          await dispatchAction(FetchSeriesAction());
+        };
 
-          m.toggleFavourite = (id) {
-            dispatchAction(ToggleFavouriteAction(seriesId: id));
-          };
+        m.updateSearchQuery = (query) async {
+          await dispatchAction(UpdateSearchQueryAction(query: query));
+        };
 
-          m.showPage = (route) {
-            dispatchAction(NavigateToPageAction(route: route));
-          };
-        },
-      );
+        m.selectCategory = (category) async {
+          await dispatchAction(SelectCategoryAction(category: category));
+        };
+
+        m.toggleFavourite = (id) async {
+          await dispatchAction(ToggleFavouriteAction(seriesId: id));
+        };
+
+        m.showPage = (route) async {
+          await dispatchAction(NavigateToPageAction(route: route));
+        };
+      });
 }

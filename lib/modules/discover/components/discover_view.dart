@@ -1,30 +1,38 @@
+import 'package:butter/butter.dart';
 import 'package:flutter/material.dart';
 import '../models/discover_model.dart';
 
-class DiscoverView extends StatelessWidget {
+class DiscoverView extends BaseStatefulPageView {
   final DiscoverModel model;
 
-  const DiscoverView(this.model, {Key? key}) : super(key: key);
+  DiscoverView(this.model, {Key? key});
 
+  @override
+  State<BaseStatefulPageView> createState() => _DiscoverViewState();
+}
+
+class _DiscoverViewState extends State<DiscoverView> {
   @override
   Widget build(BuildContext context) {
     // Loading state
-    if (model.loading == true && (model.series == null || model.series!.isEmpty)) {
+    if (widget.model.loading == true &&
+        (widget.model.series == null || widget.model.series!.isEmpty)) {
       return const Center(child: CircularProgressIndicator());
     }
 
     // Error state
-    if (model.error != null && (model.series == null || model.series!.isEmpty)) {
+    if (widget.model.error != null &&
+        (widget.model.series == null || widget.model.series!.isEmpty)) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Icon(Icons.error_outline, size: 48, color: Colors.red),
             const SizedBox(height: 16),
-            Text(model.error!),
+            Text(widget.model.error!),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () => model.fetchSeries!(),
+              onPressed: () => widget.model.fetchSeries!(),
               child: const Text('Retry'),
             ),
           ],
@@ -48,10 +56,7 @@ class DiscoverView extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
             child: Text(
               'Categories',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
           ),
         ),
@@ -65,10 +70,7 @@ class DiscoverView extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(20, 24, 20, 12),
             child: Text(
               'All Series',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
           ),
         ),
@@ -96,16 +98,13 @@ class DiscoverView extends StatelessWidget {
         ],
       ),
       child: TextField(
-        onChanged: (query) => model.updateSearchQuery(query),
+        onChanged: (query) => widget.model.updateSearchQuery(query),
         decoration: const InputDecoration(
           hintText: 'Prayers, Categories, Bible and More',
           hintStyle: TextStyle(fontSize: 13),
           prefixIcon: Icon(Icons.search, size: 22),
           border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 14,
-          ),
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         ),
       ),
     );
@@ -131,33 +130,27 @@ class DiscoverView extends StatelessWidget {
           crossAxisSpacing: 16,
           childAspectRatio: 1.5,
         ),
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            final category = categories[index];
-            return _buildCategoryCard(
-              context,
-              category['title'] as String,
-              Color(category['color'] as int),
-            );
-          },
-          childCount: categories.length,
-        ),
+        delegate: SliverChildBuilderDelegate((context, index) {
+          final category = categories[index];
+          return _buildCategoryCard(
+            context,
+            category['title'] as String,
+            Color(category['color'] as int),
+          );
+        }, childCount: categories.length),
       ),
     );
   }
 
   Widget _buildCategoryCard(BuildContext context, String title, Color color) {
-    final isSelected = model.selectedCategory == title;
+    final isSelected = widget.model.selectedCategory == title;
 
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            color.withOpacity(isSelected ? 1.0 : 0.8),
-            color,
-          ],
+          colors: [color.withOpacity(isSelected ? 1.0 : 0.8), color],
         ),
         borderRadius: BorderRadius.circular(16),
         border: isSelected ? Border.all(color: Colors.white, width: 3) : null,
@@ -165,7 +158,7 @@ class DiscoverView extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () => model.selectCategory(title),
+          onTap: () => widget.model.selectCategory(title),
           borderRadius: BorderRadius.circular(16),
           child: Padding(
             padding: const EdgeInsets.all(14),
@@ -173,11 +166,7 @@ class DiscoverView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Icon(
-                  _getCategoryIcon(title),
-                  color: Colors.white,
-                  size: 28,
-                ),
+                Icon(_getCategoryIcon(title), color: Colors.white, size: 28),
                 Flexible(
                   child: Text(
                     title,
@@ -218,29 +207,24 @@ class DiscoverView extends StatelessWidget {
   }
 
   Widget _buildSeriesList(BuildContext context) {
-    final filteredSeries = model.filteredSeries;
+    final filteredSeries = widget.model.filteredSeries;
 
     if (filteredSeries.isEmpty) {
       return const SliverFillRemaining(
-        child: Center(
-          child: Text('No series found'),
-        ),
+        child: Center(child: Text('No series found')),
       );
     }
 
     return SliverPadding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       sliver: SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            final series = filteredSeries[index];
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: _buildSeriesListItem(context, series),
-            );
-          },
-          childCount: filteredSeries.length,
-        ),
+        delegate: SliverChildBuilderDelegate((context, index) {
+          final series = filteredSeries[index];
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: _buildSeriesListItem(context, series),
+          );
+        }, childCount: filteredSeries.length),
       ),
     );
   }
@@ -263,7 +247,7 @@ class DiscoverView extends StatelessWidget {
         child: InkWell(
           onTap: () {
             // Navigate to series detail
-            model.showPage('/_/series/${series['id']}');
+            widget.model.showPage('/_/series/${series['id']}');
           },
           borderRadius: BorderRadius.circular(16),
           child: Padding(
@@ -275,10 +259,9 @@ class DiscoverView extends StatelessWidget {
                   width: 70,
                   height: 70,
                   decoration: BoxDecoration(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .primary
-                        .withOpacity(0.3),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primary.withOpacity(0.3),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Icon(
@@ -304,18 +287,18 @@ class DiscoverView extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         series['description'] as String,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              fontSize: 12,
-                            ),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodyMedium?.copyWith(fontSize: 12),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 6),
                       Text(
                         '${series['episodeCount']} episodes',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              fontSize: 11,
-                            ),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodyMedium?.copyWith(fontSize: 11),
                       ),
                     ],
                   ),
@@ -324,7 +307,7 @@ class DiscoverView extends StatelessWidget {
                 // Favorite button
                 IconButton(
                   onPressed: () {
-                    model.toggleFavourite(series['id'] as String);
+                    widget.model.toggleFavourite(series['id'] as String);
                   },
                   icon: Icon(
                     series['isFavourite'] == true

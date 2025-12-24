@@ -9,9 +9,7 @@ import '../models/mass_readings_model.dart';
 class ListMassReadingAction extends BaseAction {
   final String? massReadingDate;
 
-  ListMassReadingAction({
-    this.massReadingDate,
-  });
+  ListMassReadingAction({this.massReadingDate});
 
   // Make sure to strictly follow the guidelines found here:
   // https://pub.dev/packages/async_redux/#async-reducer
@@ -28,13 +26,9 @@ class ListMassReadingAction extends BaseAction {
     List<String> keyList = [];
 
     try {
-      final instance = await FirebaseFunctions.instanceFor(region: 'asia-east2')
-          .httpsCallable('massreading')
-          .call(
-        {
-          'input': massReadingDate,
-        },
-      );
+      final instance = await FirebaseFunctions.instanceFor(
+        region: 'asia-east2',
+      ).httpsCallable('massreading').call({'input': massReadingDate});
 
       record = json.decode(instance.data['results']['items']);
 
