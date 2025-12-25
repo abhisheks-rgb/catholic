@@ -41,7 +41,8 @@ class HomeModel extends BaseUIModel<HomeModel> {
     String? route,
     String? selectedId,
     bool? allowSameId,
-  })? selectMenuItem;
+  })?
+  selectMenuItem;
 
   void Function()? discardBooking;
   void Function()? setBookingFormView;
@@ -63,8 +64,9 @@ class HomeModel extends BaseUIModel<HomeModel> {
   Map<String, dynamic>? currentlyPlaying;
 
   late Function() loadHomeData;
-  late Future<List<Object>?> Function() fetchContinueListening;
-  late Future<List<Object>?> Function() fetchFeaturedSeries;
+  late void Function() fetchContinueListening;
+  late void Function() fetchFeaturedSeries;
+
   late Function(String videoId, int position, int duration) updateProgress;
   late Function(String videoId) resumeVideo;
   late Function(String seriesId) navigateToSeries;
@@ -100,7 +102,10 @@ class HomeModel extends BaseUIModel<HomeModel> {
   List<dynamic> get continueWatchingVideos {
     if (continueListening == null) return [];
     return continueListening!
-        .where((v) => v['progress'] != null && v['progress'] > 0 && v['progress'] < 95)
+        .where(
+          (v) =>
+              v['progress'] != null && v['progress'] > 0 && v['progress'] < 95,
+        )
         .toList();
   }
 
@@ -109,56 +114,61 @@ class HomeModel extends BaseUIModel<HomeModel> {
 
   @override
   HomeModel clone() => HomeModel(
-      error: error,
-      initialized: initialized,
-      loading: loading,
-      title: title,
-      user: user,
-      isFullScreen: isFullScreen,
-      selectedIndex: selectedIndex,
-      todayIsLastUpdate: todayIsLastUpdate,
-      isEventDetails: isEventDetails,
-      isEventRegister: isEventRegister,
-      selectedEventDetail: selectedEventDetail,
-      formObj: formObj,
-      bookingFormView: bookingFormView,
-      submitBookingLoading: submitBookingLoading,
-      bookingErrorMessage: bookingErrorMessage,
-      titleFontSize: titleFontSize,
-      contentFontSize: contentFontSize,
-      appVersion: appVersion,
-      dbVersion: dbVersion,
-      dbOjects: dbOjects,
-      hasNotif: hasNotif,);
+    error: error,
+    initialized: initialized,
+    loading: loading,
+    title: title,
+    user: user,
+    isFullScreen: isFullScreen,
+    selectedIndex: selectedIndex,
+    todayIsLastUpdate: todayIsLastUpdate,
+    isEventDetails: isEventDetails,
+    isEventRegister: isEventRegister,
+    selectedEventDetail: selectedEventDetail,
+    formObj: formObj,
+    bookingFormView: bookingFormView,
+    submitBookingLoading: submitBookingLoading,
+    bookingErrorMessage: bookingErrorMessage,
+    titleFontSize: titleFontSize,
+    contentFontSize: contentFontSize,
+    appVersion: appVersion,
+    dbVersion: dbVersion,
+    dbOjects: dbOjects,
+    hasNotif: hasNotif,
+    continueListening: continueListening,
+    recentlyPlayed: recentlyPlayed,
+    featuredSeries: featuredSeries,
+    currentlyPlaying: currentlyPlaying,
+  );
 
   @override
   int get hashCode => Object.hashAll([
-        error,
-        initialized,
-        loading,
-        title,
-        user,
-        isFullScreen,
-        selectedIndex,
-        todayIsLastUpdate,
-        isEventDetails,
-        isEventRegister,
-        selectedEventDetail,
-        formObj,
-        bookingFormView,
-        submitBookingLoading,
-        bookingErrorMessage,
-        titleFontSize,
-        contentFontSize,
-        appVersion,
-        dbVersion,
-        dbOjects,
-        hasNotif,
-        continueListening,
-        recentlyPlayed,
-        featuredSeries,
-        currentlyPlaying,
-      ]);
+    error,
+    initialized,
+    loading,
+    title,
+    user,
+    isFullScreen,
+    selectedIndex,
+    todayIsLastUpdate,
+    isEventDetails,
+    isEventRegister,
+    selectedEventDetail,
+    formObj,
+    bookingFormView,
+    submitBookingLoading,
+    bookingErrorMessage,
+    titleFontSize,
+    contentFontSize,
+    appVersion,
+    dbVersion,
+    dbOjects,
+    hasNotif,
+    continueListening,
+    recentlyPlayed,
+    featuredSeries,
+    currentlyPlaying,
+  ]);
 
   //
   // [initialized] and [selectedId] should not affect the model changes
