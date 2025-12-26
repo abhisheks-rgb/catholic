@@ -41,7 +41,8 @@ class HomeModel extends BaseUIModel<HomeModel> {
     String? route,
     String? selectedId,
     bool? allowSameId,
-  })? selectMenuItem;
+  })?
+  selectMenuItem;
 
   void Function()? discardBooking;
   void Function()? setBookingFormView;
@@ -55,6 +56,20 @@ class HomeModel extends BaseUIModel<HomeModel> {
 
   Future<void> Function(BaseAction action)? dispatch;
   T? Function<T extends BaseUIModel>(T m)? read;
+
+  //
+  List<dynamic>? continueListening;
+  List<dynamic>? recentlyPlayed;
+  List<dynamic>? featuredSeries;
+  Map<String, dynamic>? currentlyPlaying;
+
+  late Function() loadHomeData;
+  late void Function() fetchContinueListening;
+  late void Function() fetchFeaturedSeries;
+
+  late Function(String videoId, int position, int duration) updateProgress;
+  late Function(String videoId) resumeVideo;
+  late Function(String seriesId) navigateToSeries;
 
   HomeModel({
     this.error,
@@ -78,59 +93,82 @@ class HomeModel extends BaseUIModel<HomeModel> {
     this.dbVersion,
     this.dbOjects,
     this.hasNotif = false,
+    this.continueListening,
+    this.recentlyPlayed,
+    this.featuredSeries,
+    this.currentlyPlaying,
   });
+
+  List<dynamic> get continueWatchingVideos {
+    if (continueListening == null) return [];
+    return continueListening!
+        .where(
+          (v) =>
+              v['progress'] != null && v['progress'] > 0 && v['progress'] < 95,
+        )
+        .toList();
+  }
 
   @override
   String get $key => '/_';
 
   @override
   HomeModel clone() => HomeModel(
-      error: error,
-      initialized: initialized,
-      loading: loading,
-      title: title,
-      user: user,
-      isFullScreen: isFullScreen,
-      selectedIndex: selectedIndex,
-      todayIsLastUpdate: todayIsLastUpdate,
-      isEventDetails: isEventDetails,
-      isEventRegister: isEventRegister,
-      selectedEventDetail: selectedEventDetail,
-      formObj: formObj,
-      bookingFormView: bookingFormView,
-      submitBookingLoading: submitBookingLoading,
-      bookingErrorMessage: bookingErrorMessage,
-      titleFontSize: titleFontSize,
-      contentFontSize: contentFontSize,
-      appVersion: appVersion,
-      dbVersion: dbVersion,
-      dbOjects: dbOjects,
-      hasNotif: hasNotif);
+    error: error,
+    initialized: initialized,
+    loading: loading,
+    title: title,
+    user: user,
+    isFullScreen: isFullScreen,
+    selectedIndex: selectedIndex,
+    todayIsLastUpdate: todayIsLastUpdate,
+    isEventDetails: isEventDetails,
+    isEventRegister: isEventRegister,
+    selectedEventDetail: selectedEventDetail,
+    formObj: formObj,
+    bookingFormView: bookingFormView,
+    submitBookingLoading: submitBookingLoading,
+    bookingErrorMessage: bookingErrorMessage,
+    titleFontSize: titleFontSize,
+    contentFontSize: contentFontSize,
+    appVersion: appVersion,
+    dbVersion: dbVersion,
+    dbOjects: dbOjects,
+    hasNotif: hasNotif,
+    continueListening: continueListening,
+    recentlyPlayed: recentlyPlayed,
+    featuredSeries: featuredSeries,
+    currentlyPlaying: currentlyPlaying,
+  );
 
   @override
   int get hashCode => Object.hashAll([
-        error,
-        initialized,
-        loading,
-        title,
-        user,
-        isFullScreen,
-        selectedIndex,
-        todayIsLastUpdate,
-        isEventDetails,
-        isEventRegister,
-        selectedEventDetail,
-        formObj,
-        bookingFormView,
-        submitBookingLoading,
-        bookingErrorMessage,
-        titleFontSize,
-        contentFontSize,
-        appVersion,
-        dbVersion,
-        dbOjects,
-        hasNotif
-      ]);
+    error,
+    initialized,
+    loading,
+    title,
+    user,
+    isFullScreen,
+    selectedIndex,
+    todayIsLastUpdate,
+    isEventDetails,
+    isEventRegister,
+    selectedEventDetail,
+    formObj,
+    bookingFormView,
+    submitBookingLoading,
+    bookingErrorMessage,
+    titleFontSize,
+    contentFontSize,
+    appVersion,
+    dbVersion,
+    dbOjects,
+    hasNotif,
+    continueListening,
+    recentlyPlayed,
+    featuredSeries,
+    currentlyPlaying,
+  ]);
 
   //
   // [initialized] and [selectedId] should not affect the model changes
@@ -159,5 +197,9 @@ class HomeModel extends BaseUIModel<HomeModel> {
           appVersion == other.appVersion &&
           dbVersion == other.dbVersion &&
           dbOjects == other.dbOjects &&
-          hasNotif == other.hasNotif;
+          hasNotif == other.hasNotif &&
+          continueListening == other.continueListening &&
+          recentlyPlayed == other.recentlyPlayed &&
+          featuredSeries == other.featuredSeries &&
+          currentlyPlaying == other.currentlyPlaying;
 }

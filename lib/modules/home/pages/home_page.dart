@@ -10,17 +10,15 @@ import 'package:trcas_catholic/api/firebase_notifications.dart';
 import '../../../app/app.dart';
 import '../../../app/splash_screen.dart';
 import '../../../config/app_config.dart';
-import '../../../utils/page_specs.dart';
 import '../../../utils/asset_path.dart';
-
+import '../../../utils/page_specs.dart';
 import '../../confession/components/confession_view.dart' as confession;
-import '../../devotion/rosary/components/rosary_view.dart' as rosary;
 import '../../devotion/divine_mercy_prayer/components/divine_mercy_prayer_view.dart'
     as divine;
-
-import '../models/home_model.dart';
+import '../../devotion/rosary/components/rosary_view.dart' as rosary;
 import '../components/events_footer.dart';
 import '../components/navbar.dart';
+import '../models/home_model.dart';
 
 String? mToken = ' ';
 // late final ValueNotifier<Object>? objectNotifier;
@@ -48,6 +46,9 @@ class HomePage extends BaseStatefulPageView {
     }
 
     model!.initializeNotification();
+    model!.loadHomeData();
+    model!.fetchContinueListening();
+    model!.fetchFeaturedSeries();
     // EasyDebounce.debounce('debounce-rosary', const Duration(seconds: 1), () {
     //   requestPermission();
     //   getToken();
@@ -95,44 +96,48 @@ class HomePage extends BaseStatefulPageView {
     return true;
   }
 
-//   void _handleMessage(RemoteMessage? message) {
-//     if (message == null) return;
+  //   void _handleMessage(RemoteMessage? message) {
+  //     if (message == null) return;
 
-//     String? title = message.notification!.title;
-//     String? body = message.notification!.body;
+  //     String? title = message.notification!.title;
+  //     String? body = message.notification!.body;
 
-//     Butter.d('**************$title');
-//     Butter.d('**************$body');
-// //   // navigatorKey.currentState?.pushNamed(NotificationPage.route,
-// //   //     arguments: {'title': title, 'body': body});
-// //   // navigatorKey.currentState?.pushNamed('/_/notification', arguments: 'notif');
-// //   // NavigateAction.pushNamed('/_/notification');
+  //     Butter.d('**************$title');
+  //     Butter.d('**************$body');
+  // //   // navigatorKey.currentState?.pushNamed(NotificationPage.route,
+  // //   //     arguments: {'title': title, 'body': body});
+  // //   // navigatorKey.currentState?.pushNamed('/_/notification', arguments: 'notif');
+  // //   // NavigateAction.pushNamed('/_/notification');
 
-// //   // FirebaseService._store.dispatch(NotifReceivedAction());
-//   }
+  // //   // FirebaseService._store.dispatch(NotifReceivedAction());
+  //   }
 
   initInfo() {
-    var androidInitialize =
-        const AndroidInitializationSettings('@mipmap/mycatholicsg_white.png');
+    var androidInitialize = const AndroidInitializationSettings(
+      '@mipmap/mycatholicsg_white.png',
+    );
     var iOSInitialize = const DarwinInitializationSettings();
     var initializationSettings = InitializationSettings(
       android: androidInitialize,
       iOS: iOSInitialize,
     );
 
-    FlutterLocalNotificationsPlugin().initialize(initializationSettings,
-        onDidReceiveNotificationResponse: (NotificationResponse payload) async {
-      try {
-        if (payload.toString().isNotEmpty) {}
-      } catch (e) {
-        Butter.d(e);
-      }
-    });
+    FlutterLocalNotificationsPlugin().initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: (NotificationResponse payload) async {
+        try {
+          if (payload.toString().isNotEmpty) {}
+        } catch (e) {
+          Butter.d(e);
+        }
+      },
+    );
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       Butter.d('.....onMessage.....');
       Butter.d(
-          'onMessage: ${message.notification?.title}/${message.notification?.body}');
+        'onMessage: ${message.notification?.title}/${message.notification?.body}',
+      );
 
       BigTextStyleInformation bigTextStyleInformation = BigTextStyleInformation(
         message.notification!.body.toString(),
@@ -143,13 +148,13 @@ class HomePage extends BaseStatefulPageView {
 
       AndroidNotificationDetails androidNotificationDetails =
           AndroidNotificationDetails(
-        'trcas',
-        'trcas',
-        importance: Importance.high,
-        styleInformation: bigTextStyleInformation,
-        priority: Priority.high,
-        playSound: true,
-      );
+            'trcas',
+            'trcas',
+            importance: Importance.high,
+            styleInformation: bigTextStyleInformation,
+            priority: Priority.high,
+            playSound: true,
+          );
 
       NotificationDetails platformChannelSpecifics = NotificationDetails(
         android: androidNotificationDetails,
@@ -226,7 +231,8 @@ class HomePage extends BaseStatefulPageView {
     var specs = baseSpecs ?? PageSpecs();
 
     if (baseSpecs?.builder != null) {
-      specs = baseSpecs?.builder!(
+      specs =
+          baseSpecs?.builder!(
             context,
             dispatch: model!.dispatch,
             read: model!.read,
@@ -238,8 +244,11 @@ class HomePage extends BaseStatefulPageView {
       specs.title = model!.title;
     }
 
+    final currentRoute = ModalRoute.of(context)?.settings.name;
+    final showContinueListening = currentRoute == '/_/welcome';
+
     return MediaQuery(
-      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+      data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1.0)),
       child: SafeArea(
         child: Scaffold(
           appBar: specs.hasAppBar! && !model!.isFullScreen
@@ -258,9 +267,7 @@ class HomePage extends BaseStatefulPageView {
                           child: SizedBox(
                             width: 36,
                             height: 36,
-                            child: Image.asset(
-                              assetPath('icon-small.png'),
-                            ),
+                            child: Image.asset(assetPath('icon-small.png')),
                           ),
                         )
                       : IconButton(
@@ -273,16 +280,19 @@ class HomePage extends BaseStatefulPageView {
                             if (ModalRoute.of(context)!.settings.name ==
                                     '/_/events/register' &&
                                 model?.bookingFormView == 'bookingFormReview' &&
-                                model?.selectedEventDetail?['eventFormContent']
+                                model
+                                    ?.selectedEventDetail?['eventFormContent']
                                     .isNotEmpty) {
                               model?.discardBooking!();
                             } else {
-                              final result =
-                                  await Navigator.of(context).maybePop();
+                              final result = await Navigator.of(
+                                context,
+                              ).maybePop();
                               if (!result && context.mounted) {
                                 // ignore: use_build_context_synchronously
-                                Navigator.of(context)
-                                    .popAndPushNamed('/_/welcome');
+                                Navigator.of(
+                                  context,
+                                ).popAndPushNamed('/_/welcome');
                               }
                             }
                           },
@@ -428,23 +438,198 @@ class HomePage extends BaseStatefulPageView {
                   preferredSize: const Size(0.0, 0.0),
                   child: Container(),
                 ),
-          body: Container(child: module),
+          body: showContinueListening
+              ? _buildBodyWithContinueListening(module)
+              : Container(child: module),
           bottomNavigationBar: SizedBox(
             height: model!.isFullScreen ? 0 : 82,
             child: model!.isFullScreen
-                ? Container(
-                    width: MediaQuery.of(context).size.width,
-                  )
+                ? Container(width: MediaQuery.of(context).size.width)
                 : ModalRoute.of(context)!.settings.name ==
-                            '/_/events/details' ||
-                        ModalRoute.of(context)!.settings.name ==
-                            '/_/events/register'
-                    ? EventDetailsFooter(
-                        model: model,
-                      )
-                    : Navbar(
-                        model: model,
+                          '/_/events/details' ||
+                      ModalRoute.of(context)!.settings.name ==
+                          '/_/events/register'
+                ? EventDetailsFooter(model: model)
+                : Navbar(model: model),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBodyWithContinueListening(Widget? module) {
+    return CustomScrollView(
+      slivers: [
+        // Continue Listening Section
+        if (model!.continueListening != null &&
+            model!.continueListening!.isNotEmpty) ...[
+          const SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 16),
+              child: Text(
+                'Continue Listening',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: SizedBox(height: 220, child: _buildContinueListeningList()),
+          ),
+          const SliverToBoxAdapter(child: SizedBox(height: 24)),
+        ],
+
+        // Original module content
+        SliverFillRemaining(hasScrollBody: false, child: module ?? Container()),
+      ],
+    );
+  }
+
+  Widget _buildContinueListeningList() {
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      itemCount: model!.continueWatchingVideos.length,
+      itemBuilder: (context, index) {
+        final video = model!.continueWatchingVideos[index];
+        return _buildContinueCard(video);
+      },
+    );
+  }
+
+  Widget _buildContinueCard(dynamic video) {
+    final progress = video['progress'] as int;
+
+    return Container(
+      width: 320,
+      margin: const EdgeInsets.symmetric(horizontal: 4),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(12),
+        child: InkWell(
+          onTap: () => model!.resumeVideo(video['videoId']),
+          borderRadius: BorderRadius.circular(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Thumbnail with progress
+              Stack(
+                children: [
+                  Container(
+                    height: 140,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      gradient: const LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Color(0xFF6B5B8C), Color(0xFF9B7B9E)],
                       ),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.play_circle_filled,
+                        size: 56,
+                        color: Colors.white.withOpacity(0.9),
+                      ),
+                    ),
+                  ),
+
+                  // Progress bar
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      height: 4,
+                      decoration: const BoxDecoration(
+                        color: Colors.black26,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(12),
+                          bottomRight: Radius.circular(12),
+                        ),
+                      ),
+                      child: FractionallySizedBox(
+                        alignment: Alignment.centerLeft,
+                        widthFactor: progress / 100,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFD4A574),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(12),
+                              bottomRight: Radius.circular(12),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // Time badge
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.7),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        '${video['position'] ~/ 60}:${(video['position'] % 60).toString().padLeft(2, '0')}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 12),
+
+              // Title
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      video['title'] as String,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      video['seriesTitle'] as String,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.grey.shade600,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
