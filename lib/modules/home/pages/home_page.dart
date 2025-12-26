@@ -428,7 +428,7 @@ class HomePage extends BaseStatefulPageView {
                             ),
                           )
                         : Container(),
-                    // ...?specs.actions,
+                    ...?specs.actions,
                   ],
                 )
               : PreferredSize(

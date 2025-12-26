@@ -19,7 +19,8 @@ class PageSpecs extends BasePageSpecs {
     BuildContext context, {
     Future<void> Function(BaseAction action)? dispatch,
     T? Function<T extends BaseUIModel>(T m)? read,
-  })? builder;
+  })?
+  builder;
 
   PageSpecs({
     this.centerTitle = true,
@@ -37,4 +38,34 @@ class PageSpecs extends BasePageSpecs {
   });
 
   PageSpecs.build(this.builder);
+
+  PageSpecs copyWith({
+    bool? centerTitle,
+    bool? inSafeArea,
+    bool? hasAppBar,
+    bool? showProfile,
+    bool? showNotification,
+    bool? showFontSetting,
+    bool? showInfo,
+    bool? leadingLogo,
+    String? title,
+    String? shortTitle,
+    Widget? leading,
+    List<Widget>? actions,
+  }) {
+    return PageSpecs(
+      centerTitle: centerTitle ?? this.centerTitle,
+      inSafeArea: inSafeArea ?? this.inSafeArea,
+      hasAppBar: hasAppBar ?? this.hasAppBar,
+      showProfile: showProfile ?? this.showProfile,
+      showNotification: showNotification ?? this.showNotification,
+      showFontSetting: showFontSetting ?? this.showFontSetting,
+      showInfo: showInfo ?? this.showInfo,
+      leadingLogo: leadingLogo ?? this.leadingLogo,
+      title: title ?? this.title,
+      shortTitle: shortTitle ?? this.shortTitle,
+      leading: leading ?? this.leading,
+      actions: actions ?? this.actions,
+    );
+  }
 }
