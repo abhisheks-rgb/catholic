@@ -33,6 +33,16 @@ class _WelcomePageState extends State<WelcomePage> {
   final ScrollController _scrollController = ScrollController();
   bool showAll = false;
   dynamic frontBannerProperties = {};
+  final ValueNotifier<bool> _continueListeningExpanded = ValueNotifier<bool>(
+    true,
+  );
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _continueListeningExpanded.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,20 +125,93 @@ class _WelcomePageState extends State<WelcomePage> {
         physics: const ClampingScrollPhysics(),
         controller: _scrollController,
         slivers: [
-          SliverToBoxAdapter(
-            child: Container(
-              height: 275,
-              decoration: const BoxDecoration(
-                color: Color(0xffffffff),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(0x192c0807),
-                    offset: Offset(0, 8),
-                    blurRadius: 32,
-                  ),
-                ],
+          // Replace the welcome banner SliverToBoxAdapter with SliverAppBar
+          SliverAppBar(
+            expandedHeight: 275,
+            floating: false,
+            pinned: true,
+            elevation: 0,
+            backgroundColor: Colors.white,
+            leading: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.asset(
+                assetPath('icon-small.png'),
+                width: 36,
+                height: 36,
               ),
-              child: Stack(
+            ),
+            actions: [
+              RawMaterialButton(
+                constraints: const BoxConstraints(),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                onPressed: widget.model!.showNotifs,
+                child: Container(
+                  width: 32,
+                  height: 32,
+                  margin: const EdgeInsets.only(right: 8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                  ),
+                  child: Center(
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: widget.model!.hasNotif
+                          ? badges.Badge(
+                              position: badges.BadgePosition.topEnd(
+                                top: -4,
+                                end: -2,
+                              ),
+                              badgeStyle: badges.BadgeStyle(
+                                badgeColor: Colors.red.shade700,
+                                elevation: 0,
+                              ),
+                              child: const Icon(
+                                Octicons.bell_fill,
+                                color: Color.fromRGBO(130, 141, 168, 1),
+                                size: 20,
+                              ),
+                            )
+                          : const Icon(
+                              Octicons.bell_fill,
+                              color: Color.fromRGBO(130, 141, 168, 1),
+                              size: 20,
+                            ),
+                    ),
+                  ),
+                ),
+              ),
+              RawMaterialButton(
+                constraints: const BoxConstraints(),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                onPressed: () {
+                  widget.model?.showPage('/_/profile');
+                },
+                child: Container(
+                  width: 32,
+                  height: 32,
+                  margin: const EdgeInsets.only(right: 16),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                  ),
+                  child: Center(
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: Image.asset(
+                        assetPath('user-solid.png'),
+                        width: 20,
+                        height: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+            flexibleSpace: FlexibleSpaceBar(
+              background: Stack(
                 children: [
                   Positioned(
                     left: 0,
@@ -238,7 +321,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       width: MediaQuery.of(context).size.width - 48,
                       height: 38,
                       child: const Text(
-                        '“The steadfast love of the LORD never ceases...” ~ Lam 3: 22',
+                        '"The steadfast love of the LORD never ceases..." ~ Lam 3: 22',
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -247,112 +330,6 @@ class _WelcomePageState extends State<WelcomePage> {
                           color: Color(0xff041a51),
                         ),
                       ),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 14,
-                      horizontal: 16,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: 36,
-                          height: 36,
-                          child: Image.asset(
-                            assetPath('icon-small.png'),
-                            width: 36,
-                            height: 36,
-                          ),
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            RawMaterialButton(
-                              constraints: const BoxConstraints(),
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              onPressed: widget.model!.showNotifs,
-                              child: Container(
-                                width: 32,
-                                height: 32,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.white,
-                                ),
-                                child: Center(
-                                  child: SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: widget.model!.hasNotif
-                                        ? badges.Badge(
-                                            position:
-                                                badges.BadgePosition.topEnd(
-                                                  top: -4,
-                                                  end: -2,
-                                                ),
-                                            badgeStyle: badges.BadgeStyle(
-                                              badgeColor: Colors.red.shade700,
-                                              elevation: 0,
-                                            ),
-                                            child: const Icon(
-                                              Octicons.bell_fill,
-                                              color: Color.fromRGBO(
-                                                130,
-                                                141,
-                                                168,
-                                                1,
-                                              ),
-                                              size: 20,
-                                            ),
-                                          )
-                                        : const Icon(
-                                            Octicons.bell_fill,
-                                            color: Color.fromRGBO(
-                                              130,
-                                              141,
-                                              168,
-                                              1,
-                                            ),
-                                            size: 20,
-                                          ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            RawMaterialButton(
-                              constraints: const BoxConstraints(),
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              onPressed: () {
-                                widget.model?.showPage('/_/profile');
-                              },
-                              child: Container(
-                                width: 32,
-                                height: 32,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.white,
-                                ),
-                                child: Center(
-                                  child: SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: Image.asset(
-                                      assetPath('user-solid.png'),
-                                      width: 20,
-                                      height: 20,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
                     ),
                   ),
                 ],
@@ -417,6 +394,10 @@ class _WelcomePageState extends State<WelcomePage> {
               items: widget.model!.continueWatchingVideos,
               onItemTap: (video) {
                 widget.model!.resumeVideo(video['videoId']);
+              },
+              isExpandedNotifier: _continueListeningExpanded,
+              onViewAll: () {
+                widget.model?.showPage('/_/continue_listening');
               },
             ),
           SliverPadding(
