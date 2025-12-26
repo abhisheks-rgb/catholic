@@ -1,4 +1,5 @@
 import 'package:butter/butter.dart';
+import 'package:collection/collection.dart';
 // import 'package:new_version_plus/new_version_plus.dart';
 
 class WelcomeModel extends BaseUIModel<WelcomeModel> {
@@ -17,6 +18,8 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
   bool hasNotif = false;
   String notifId = '';
   Object? notificationObject;
+  List<dynamic> continueWatchingVideos;
+  late Function(String videoId) resumeVideo;
 
   WelcomeModel({
     this.loading = false,
@@ -28,6 +31,7 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
     this.notificationObject,
     this.notifId = '',
     this.canUpdate = false,
+    this.continueWatchingVideos = const [],
     // this.versionPlus
   });
 
@@ -36,25 +40,26 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
 
   @override
   WelcomeModel clone() => WelcomeModel(
-        loading: loading,
-        user: user,
-        appVersion: appVersion,
-        dbVersion: dbVersion,
-        dbOjects: dbOjects,
-        hasNotif: hasNotif,
-        notificationObject: notificationObject,
-        notifId: notifId,
-        canUpdate: canUpdate,
-        // versionPlus: versionPlus
-      );
+    loading: loading,
+    user: user,
+    appVersion: appVersion,
+    dbVersion: dbVersion,
+    dbOjects: dbOjects,
+    hasNotif: hasNotif,
+    notificationObject: notificationObject,
+    notifId: notifId,
+    canUpdate: canUpdate,
+    continueWatchingVideos: List.from(continueWatchingVideos),
+  );
 
   @override
   int get hashCode => Object.hashAll([
-        loading, user, appVersion, dbVersion, dbOjects, hasNotif,
-        notificationObject,
-        notifId, canUpdate,
-        //  versionPlus
-      ]);
+    loading, user, appVersion, dbVersion, dbOjects, hasNotif,
+    notificationObject,
+    notifId, canUpdate,
+    continueWatchingVideos,
+    //  versionPlus
+  ]);
 
   @override
   bool operator ==(Object other) =>
@@ -69,8 +74,12 @@ class WelcomeModel extends BaseUIModel<WelcomeModel> {
           hasNotif == other.hasNotif &&
           notificationObject == other.notificationObject &&
           notifId == other.notifId &&
-          canUpdate == other.canUpdate
-      //  &&
-      // versionPlus == other.versionPlus
-      ;
+          canUpdate == other.canUpdate &&
+          const DeepCollectionEquality().equals(
+            continueWatchingVideos,
+            other.continueWatchingVideos,
+          )
+  //  &&
+  // versionPlus == other.versionPlus
+  ;
 }

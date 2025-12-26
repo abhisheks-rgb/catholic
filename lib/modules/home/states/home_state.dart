@@ -84,10 +84,11 @@ class HomeState extends BasePageState<HomeModel> {
       m.initializeObjects = () => dispatchAction(InitializeObjects());
       m.initializeNotification = () => dispatchAction(InitializeNotification());
       m.setSelectedIndex = ({index}) {
-        dispatchModel<HomeModel>(HomeModel(), (m) {
+        dispatchModel<HomeModel>(m, (model) {
           m.selectedIndex = index!;
         });
       };
+
       m.setPageFontSize = () {
         dispatchAction(SetFontSizeAction());
       };

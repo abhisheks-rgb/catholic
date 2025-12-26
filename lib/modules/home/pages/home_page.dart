@@ -244,9 +244,6 @@ class HomePage extends BaseStatefulPageView {
       specs.title = model!.title;
     }
 
-    final currentRoute = ModalRoute.of(context)?.settings.name;
-    final showContinueListening = currentRoute == '/_/welcome';
-
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1.0)),
       child: SafeArea(
@@ -438,9 +435,7 @@ class HomePage extends BaseStatefulPageView {
                   preferredSize: const Size(0.0, 0.0),
                   child: Container(),
                 ),
-          body: showContinueListening
-              ? _buildBodyWithContinueListening(module)
-              : Container(child: module),
+          body: module,
           bottomNavigationBar: SizedBox(
             height: model!.isFullScreen ? 0 : 82,
             child: model!.isFullScreen
@@ -451,185 +446,6 @@ class HomePage extends BaseStatefulPageView {
                           '/_/events/register'
                 ? EventDetailsFooter(model: model)
                 : Navbar(model: model),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBodyWithContinueListening(Widget? module) {
-    return CustomScrollView(
-      slivers: [
-        // Continue Listening Section
-        if (model!.continueListening != null &&
-            model!.continueListening!.isNotEmpty) ...[
-          const SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 16),
-              child: Text(
-                'Continue Listening',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: SizedBox(height: 220, child: _buildContinueListeningList()),
-          ),
-          const SliverToBoxAdapter(child: SizedBox(height: 24)),
-        ],
-
-        // Original module content
-        SliverFillRemaining(hasScrollBody: false, child: module ?? Container()),
-      ],
-    );
-  }
-
-  Widget _buildContinueListeningList() {
-    return ListView.builder(
-      scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      itemCount: model!.continueWatchingVideos.length,
-      itemBuilder: (context, index) {
-        final video = model!.continueWatchingVideos[index];
-        return _buildContinueCard(video);
-      },
-    );
-  }
-
-  Widget _buildContinueCard(dynamic video) {
-    final progress = video['progress'] as int;
-
-    return Container(
-      width: 320,
-      margin: const EdgeInsets.symmetric(horizontal: 4),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(12),
-        child: InkWell(
-          onTap: () => model!.resumeVideo(video['videoId']),
-          borderRadius: BorderRadius.circular(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Thumbnail with progress
-              Stack(
-                children: [
-                  Container(
-                    height: 140,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      gradient: const LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [Color(0xFF6B5B8C), Color(0xFF9B7B9E)],
-                      ),
-                    ),
-                    child: Center(
-                      child: Icon(
-                        Icons.play_circle_filled,
-                        size: 56,
-                        color: Colors.white.withOpacity(0.9),
-                      ),
-                    ),
-                  ),
-
-                  // Progress bar
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      height: 4,
-                      decoration: const BoxDecoration(
-                        color: Colors.black26,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(12),
-                          bottomRight: Radius.circular(12),
-                        ),
-                      ),
-                      child: FractionallySizedBox(
-                        alignment: Alignment.centerLeft,
-                        widthFactor: progress / 100,
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFD4A574),
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(12),
-                              bottomRight: Radius.circular(12),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  // Time badge
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.7),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        '${video['position'] ~/ 60}:${(video['position'] % 60).toString().padLeft(2, '0')}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 12),
-
-              // Title
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      video['title'] as String,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      video['seriesTitle'] as String,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey.shade600,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-            ],
           ),
         ),
       ),

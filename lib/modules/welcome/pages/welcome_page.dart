@@ -1,29 +1,29 @@
+import 'package:badges/badges.dart' as badges;
 import 'package:butter/butter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:trcas_catholic/core/components/continue_listening_section.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:badges/badges.dart' as badges;
+
+import '../../../../utils/page_specs.dart';
+import '../../../utils/asset_path.dart';
 import '../../home/pages/home_page.dart';
-import '../components/notification_box_view.dart';
-import '../models/welcome_model.dart';
-import '../../home/models/home_model.dart';
+import '../../shared/components/download_prompt_view.dart';
 import '../../shared/components/front_banner_view.dart';
 import '../../shared/components/login_prompt_view.dart';
-import '../../shared/components/download_prompt_view.dart';
-import '../../../utils/asset_path.dart';
-import '../../../../utils/page_specs.dart';
+import '../components/notification_box_view.dart';
+import '../models/welcome_model.dart';
 
 class WelcomePage extends BaseStatefulPageView {
   final WelcomeModel? model;
-  final HomeModel? homeModel;
 
-  WelcomePage({Key? key, this.model, this.homeModel}) : super();
+  WelcomePage({Key? key, this.model}) : super();
 
   @override
-  get specs => PageSpecs.build((context, {dispatch, read}) => PageSpecs(
-        hasAppBar: false,
-      ));
+  get specs => PageSpecs.build(
+    (context, {dispatch, read}) => PageSpecs(hasAppBar: false),
+  );
 
   @override
   State<BaseStatefulPageView> createState() => _WelcomePageState();
@@ -38,19 +38,19 @@ class _WelcomePageState extends State<WelcomePage> {
   Widget build(BuildContext context) {
     List<dynamic> exploreItems = <dynamic>[
       {
-        'title': 'Mass Readings',
+        'title': 'Mass Readings1',
         'icon': 'Mass_Reading.png',
-        'route': 'mass_readings'
+        'route': 'mass_readings',
       },
       {
         'title': 'Scripture Reflection',
         'icon': 'Scripture_Reflections.png',
-        'route': 'scripture'
+        'route': 'scripture',
       },
       {
         'title': 'Mass Schedules',
         'icon': 'Mass_Schedules.png',
-        'route': 'schedules'
+        'route': 'schedules',
       },
       {
         'title': 'Church Bulletin',
@@ -65,7 +65,7 @@ class _WelcomePageState extends State<WelcomePage> {
       {
         'title': 'Offertory & Giving',
         'icon': 'Offertory_Giving.png',
-        'route': 'offertory'
+        'route': 'offertory',
       },
     ];
 
@@ -158,7 +158,7 @@ class _WelcomePageState extends State<WelcomePage> {
                               end: const Alignment(0.515, 1),
                               colors: <Color>[
                                 const Color(0x51ffffff),
-                                const Color(0xffffffff).withOpacity(0.9)
+                                const Color(0xffffffff).withOpacity(0.9),
                               ],
                               stops: const <double>[0, 1],
                             ),
@@ -181,7 +181,7 @@ class _WelcomePageState extends State<WelcomePage> {
                               end: Alignment(-1, 1),
                               colors: <Color>[
                                 Color.fromRGBO(24, 77, 212, 0.5),
-                                Color.fromRGBO(255, 255, 255, 0)
+                                Color.fromRGBO(255, 255, 255, 0),
                               ],
                               stops: <double>[0, 1],
                             ),
@@ -194,46 +194,47 @@ class _WelcomePageState extends State<WelcomePage> {
                     left: 0,
                     bottom: 79,
                     child: Container(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                        ),
-                        width: MediaQuery.of(context).size.width - 48,
-                        height: 68,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              widget.model?.user != null
-                                  ? 'Peace,'
-                                  : 'Peace be with you!',
-                              style: const TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.w500,
-                                color: Color.fromRGBO(4, 26, 82, 1),
-                              ),
-                            ),
+                      margin: const EdgeInsets.symmetric(horizontal: 24),
+                      width: MediaQuery.of(context).size.width - 48,
+                      height: 68,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
                             widget.model?.user != null
-                                ? Text(
-                                    widget.model!.user?['fullname'],
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      fontSize: 28,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color.fromRGBO(4, 26, 82, 1),
-                                    ),
-                                  )
-                                : const SizedBox(),
-                          ],
-                        )),
+                                ? 'Peace,'
+                                : 'Peace be with you!',
+                            style: const TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.w500,
+                              color: Color.fromRGBO(4, 26, 82, 1),
+                            ),
+                          ),
+                          widget.model?.user != null
+                              ? Text(
+                                  widget.model!.user?['fullname'],
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromRGBO(4, 26, 82, 1),
+                                  ),
+                                )
+                              : const SizedBox(),
+                        ],
+                      ),
+                    ),
                   ),
                   Positioned(
                     left: 0,
                     bottom: 0,
                     child: Container(
                       margin: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 20),
+                        horizontal: 24,
+                        vertical: 20,
+                      ),
                       width: MediaQuery.of(context).size.width - 48,
                       height: 38,
                       child: const Text(
@@ -250,7 +251,9 @@ class _WelcomePageState extends State<WelcomePage> {
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(
-                        vertical: 14, horizontal: 16),
+                      vertical: 14,
+                      horizontal: 16,
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -281,30 +284,41 @@ class _WelcomePageState extends State<WelcomePage> {
                                 ),
                                 child: Center(
                                   child: SizedBox(
-                                      width: 20,
-                                      height: 20,
-                                      child: widget.model!.hasNotif
-                                          ? badges.Badge(
-                                              position:
-                                                  badges.BadgePosition.topEnd(
-                                                      top: -4, end: -2),
-                                              badgeStyle: badges.BadgeStyle(
-                                                badgeColor: Colors.red.shade700,
-                                                elevation: 0,
-                                              ),
-                                              child: const Icon(
-                                                Octicons.bell_fill,
-                                                color: Color.fromRGBO(
-                                                    130, 141, 168, 1),
-                                                size: 20,
-                                              ),
-                                            )
-                                          : const Icon(
+                                    width: 20,
+                                    height: 20,
+                                    child: widget.model!.hasNotif
+                                        ? badges.Badge(
+                                            position:
+                                                badges.BadgePosition.topEnd(
+                                                  top: -4,
+                                                  end: -2,
+                                                ),
+                                            badgeStyle: badges.BadgeStyle(
+                                              badgeColor: Colors.red.shade700,
+                                              elevation: 0,
+                                            ),
+                                            child: const Icon(
                                               Octicons.bell_fill,
                                               color: Color.fromRGBO(
-                                                  130, 141, 168, 1),
+                                                130,
+                                                141,
+                                                168,
+                                                1,
+                                              ),
                                               size: 20,
-                                            )),
+                                            ),
+                                          )
+                                        : const Icon(
+                                            Octicons.bell_fill,
+                                            color: Color.fromRGBO(
+                                              130,
+                                              141,
+                                              168,
+                                              1,
+                                            ),
+                                            size: 20,
+                                          ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -349,51 +363,62 @@ class _WelcomePageState extends State<WelcomePage> {
             child: DownloadPrompt(isDownloadRequired: isDownloadRequired()),
           ),
           SliverToBoxAdapter(
-              child: LoginPrompt(
-            onPressed: () {
-              widget.model?.showPage('/_/login');
-            },
-            isLoggedIn: FirebaseAuth.instance.currentUser != null,
-          )),
+            child: LoginPrompt(
+              onPressed: () {
+                widget.model?.showPage('/_/login');
+              },
+              isLoggedIn: FirebaseAuth.instance.currentUser != null,
+            ),
+          ),
           ValueListenableBuilder(
             valueListenable: objectNotifier,
             builder: (context, value, child) {
-              final header =
-                  (value as Map<dynamic, dynamic>)['header'].toString();
+              final header = (value as Map<dynamic, dynamic>)['header']
+                  .toString();
               final content = value['content'].toString();
 
               return SliverToBoxAdapter(
-                  child: NotificationBox(
-                      header: header,
-                      content: content,
-                      showAll: showAll,
-                      onTap: () {
-                        setState(() {
-                          showAll = !showAll;
-                        });
-                      },
-                      urlLauncher: (uri, web) => urlLauncher(uri, web),
-                      onPressed: () {
-                        objectNotifier.value = {
-                          'header': 'null',
-                          'content': 'null'
-                        };
-                        setState(() {
-                          showAll = false;
-                        });
-                      }));
+                child: NotificationBox(
+                  header: header,
+                  content: content,
+                  showAll: showAll,
+                  onTap: () {
+                    setState(() {
+                      showAll = !showAll;
+                    });
+                  },
+                  urlLauncher: (uri, web) => urlLauncher(uri, web),
+                  onPressed: () {
+                    objectNotifier.value = {
+                      'header': 'null',
+                      'content': 'null',
+                    };
+                    setState(() {
+                      showAll = false;
+                    });
+                  },
+                ),
+              );
             },
           ),
           SliverToBoxAdapter(
-              child: FrontBanner(
-            onTap: () {
-              final String? url = getRedirectUrl();
-              final uri = Uri.parse(url!);
-              urlLauncher(uri, 'web');
-            },
-            properties: getFrontBannerProperties(),
-            isFrontBannerEnabled: isFrontBannerEnabled(),
-          )),
+            child: FrontBanner(
+              onTap: () {
+                final String? url = getRedirectUrl();
+                final uri = Uri.parse(url!);
+                urlLauncher(uri, 'web');
+              },
+              properties: getFrontBannerProperties(),
+              isFrontBannerEnabled: isFrontBannerEnabled(),
+            ),
+          ),
+          if (widget.model!.continueWatchingVideos.isNotEmpty)
+            ...ContinueListeningSection.slivers(
+              items: widget.model!.continueWatchingVideos,
+              onItemTap: (video) {
+                widget.model!.resumeVideo(video['videoId']);
+              },
+            ),
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
             sliver: SliverGrid(
@@ -406,8 +431,9 @@ class _WelcomePageState extends State<WelcomePage> {
               delegate: SliverChildBuilderDelegate((_, int index) {
                 return InkWell(
                   onTap: () {
-                    widget.model
-                        ?.showPage('/_/${exploreItems[index]['route']}');
+                    widget.model?.showPage(
+                      '/_/${exploreItems[index]['route']}',
+                    );
                   },
                   child: Container(
                     padding: const EdgeInsets.all(16),
@@ -431,7 +457,8 @@ class _WelcomePageState extends State<WelcomePage> {
                           margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
                           child: Image.asset(
                             assetPath(
-                                'menu_item/${exploreItems[index]['icon']}'),
+                              'menu_item/${exploreItems[index]['icon']}',
+                            ),
                             excludeFromSemantics: true,
                             cacheWidth: 72,
                             cacheHeight: 100,
@@ -466,9 +493,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     offset: Offset(0.0, 0.75),
                   ),
                 ],
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
             ),
           ),
@@ -489,10 +514,7 @@ class _WelcomePageState extends State<WelcomePage> {
     if (canLaunch) {
       switch (source) {
         case 'web':
-          await launchUrl(
-            uri,
-            mode: LaunchMode.externalApplication,
-          );
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
           break;
         default:
           await launchUrl(uri);
